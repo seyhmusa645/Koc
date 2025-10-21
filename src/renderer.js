@@ -10885,6 +10885,7 @@ let currentClass = '';
 let currentStudents = [];
 let currentPerformanceData = {};
 let currentDers = 'Türkçe';
+let currentKazanimCount = 0; // Dinamik kazanım sayısı (3, 4 veya 5)
 
 // Performans panosu sayfasını yükle
 async function loadPerformanceOverview() {
@@ -10930,15 +10931,27 @@ function setupPerformanceEventListeners() {
     });
   }
 
-  // Şube seçici
+  // Şube seçici - OTOMATİK YÜKLEME
   const branchSelect = document.getElementById('branch-select');
   console.log('Şube seçici bulundu:', !!branchSelect);
   if (branchSelect) {
-    branchSelect.addEventListener('change', (e) => {
+    branchSelect.addEventListener('change', async (e) => {
       currentBranch = e.target.value;
       currentClass = currentGrade + currentBranch; // 5A, 6B gibi
       updateLoadButton();
       console.log('Şube seçildi:', currentBranch, 'Tam sınıf:', currentClass);
+
+      // OTOMATİK YÜKLEME: Sınıf ve şube seçiliyse öğrencileri yükle
+      if (currentGrade && currentBranch) {
+        console.log('🚀 Otomatik öğrenci yükleme başlatıldı...');
+        await loadClassStudents();
+
+        // Kazanım seçiciyi göster
+        const kazanimSelector = document.getElementById('kazanim-selector');
+        if (kazanimSelector) {
+          kazanimSelector.style.display = 'block';
+        }
+      }
     });
   }
 
@@ -10957,6 +10970,41 @@ function setupPerformanceEventListeners() {
       switchDers(e.target.dataset.ders);
     });
   });
+
+  // Kazanım sayısı seçici
+  const kazanimCountSelect = document.getElementById('kazanim-count');
+  console.log('Kazanım sayısı seçici bulundu:', !!kazanimCountSelect);
+  if (kazanimCountSelect) {
+    kazanimCountSelect.addEventListener('change', (e) => {
+      currentKazanimCount = parseInt(e.target.value);
+      const loadTableBtn = document.getElementById('load-table-btn');
+      if (loadTableBtn) {
+        loadTableBtn.disabled = !currentKazanimCount;
+      }
+      console.log('Kazanım sayısı seçildi:', currentKazanimCount);
+    });
+  }
+
+  // Tabloyu yükle butonu
+  const loadTableBtn = document.getElementById('load-table-btn');
+  console.log('Tabloyu yükle butonu bulundu:', !!loadTableBtn);
+  if (loadTableBtn) {
+    loadTableBtn.addEventListener('click', async () => {
+      console.log('📊 Tablo yükleniyor, kazanım sayısı:', currentKazanimCount);
+
+      // Tablo başlıklarını oluştur
+      renderDynamicTableHeaders(currentKazanimCount);
+
+      // Eğer öğrenciler zaten yüklüyse tabloyu render et
+      if (currentStudents.length > 0) {
+        await loadAutomaticExamAverages();
+        renderPerformanceTable();
+        showToast(`${currentKazanimCount} kazanımlı tablo yüklendi`, 'success');
+      } else {
+        showToast('Önce sınıf seçip öğrenci listesini yükleyin', 'warning');
+      }
+    });
+  }
 
   // Kaydet butonu
   const saveBtn = document.getElementById('save-performance-btn');
@@ -11051,15 +11099,30 @@ async function loadClassStudents() {
       console.log('Öğrenci veri alanları:', Object.keys(students[0]));
     }
     
-    // Sınıfa göre filtrele
+    // Sınıfa göre filtrele (Grade + Branch)
     currentStudents = students.filter(student => {
-      const studentClass = student.class || student.sinif || '';
-      // Mevcut verilerde sadece A/B var, sınıf seviyesi bilgisi yok
-      // Bu yüzden şube eşleştirmesi yapıyoruz
-      const matches = studentClass === currentBranch;
+      // Farklı veri formatlarını destekle
+      const studentGrade = student.grade || student.sinif?.charAt(0) || '';
+      const studentBranch = student.class || student.sinif?.charAt(1) || student.sinif || '';
+
+      // Grade ve Branch eşleşmesi kontrolü
+      let matches = false;
+
+      if (studentGrade && studentBranch) {
+        // Hem grade hem branch var
+        matches = (studentGrade === currentGrade || studentGrade === currentGrade.toString())
+               && (studentBranch === currentBranch);
+      } else if (studentBranch) {
+        // Sadece branch var (geriye dönük uyumluluk)
+        matches = studentBranch === currentBranch;
+      } else if (student.sinif) {
+        // sinif formatı: "5A", "6B" gibi
+        matches = student.sinif === currentClass;
+      }
+
       // Sadece ilk 5 öğrenci için debug bilgisi göster
       if (students.indexOf(student) < 5) {
-        console.log(`Öğrenci: ${student.name}, Sınıf: ${studentClass}, Hedef Şube: ${currentBranch}, Eşleşme: ${matches}`);
+        console.log(`Öğrenci: ${student.name}, Grade: ${studentGrade}, Branch: ${studentBranch}, Hedef: ${currentGrade}${currentBranch}, Eşleşme: ${matches}`);
       }
       return matches;
     });
@@ -11128,37 +11191,46 @@ function createInputCell(fieldName, value, placeholder) {
     return td;
 }
 
-// Yardımcı fonksiyon - Tablo satırı oluştur
+// Yardımcı fonksiyon - Tablo satırı oluştur (DİNAMİK)
 function createTableRow(student, studentData) {
     const tr = document.createElement('tr');
     tr.dataset.studentId = String(student.id || student.name);
-    
+
     // Öğrenci Adı
     const nameTd = document.createElement('td');
     nameTd.className = 'student-name';
     nameTd.textContent = student.name;
     tr.appendChild(nameTd);
-    
-    // Input alanları
-    tr.appendChild(createInputCell('temaBasari', studentData.temaBasari, '0-100'));
-    tr.appendChild(createInputCell('yazili', studentData.yazili, '0-100'));
-    
+
+    // DİNAMİK Kazanım sütunları (3, 4 veya 5 adet)
+    for (let i = 1; i <= currentKazanimCount; i++) {
+        const fieldName = `kazanim${i}`;
+        const value = studentData[fieldName] || '';
+        tr.appendChild(createInputCell(fieldName, value, '0-100'));
+    }
+
+    // Yazılı 1 ve 2
+    tr.appendChild(createInputCell('yazili1', studentData.yazili1, '0-100'));
+    tr.appendChild(createInputCell('yazili2', studentData.yazili2, '0-100'));
+
     // Deneme Ort (yeşil arka plan) - Ders bazında placeholder
     let denemePlaceholder = '0-20';
     if (currentDers === 'Sosyal' || currentDers === 'Din Kültürü' || currentDers === 'İngilizce') {
         denemePlaceholder = '0-10';
     }
-    
+
     const denemeCell = createInputCell('denemeOrt', studentData.denemeOrt, denemePlaceholder);
     if (studentData.denemeOrt) {
         denemeCell.querySelector('input').style.backgroundColor = '#e8f5e8';
         denemeCell.querySelector('input').style.fontWeight = 'bold';
+        denemeCell.querySelector('input').readOnly = true; // Otomatik geldiği için düzenlenemez
     }
     tr.appendChild(denemeCell);
-    
+
+    // Etüt ve Ödev
     tr.appendChild(createInputCell('etutSayisi', studentData.etutSayisi, '0-50'));
     tr.appendChild(createInputCell('odevTamamlama', studentData.odevTamamlama, '0-100'));
-    
+
     // Genel Başarı
     const genelTd = document.createElement('td');
     genelTd.className = 'calculated-cell';
@@ -11168,7 +11240,14 @@ function createTableRow(student, studentData) {
     else if (studentData.genelBasari >= 60) genelTd.classList.add('basari-orta');
     else if (studentData.genelBasari > 0) genelTd.classList.add('basari-dusuk');
     tr.appendChild(genelTd);
-    
+
+    // Durum Sütunu (YENİ)
+    const durumTd = document.createElement('td');
+    durumTd.className = 'durum-cell';
+    durumTd.dataset.field = 'durum';
+    durumTd.textContent = '-'; // İlk render'da boş, calculateGenelBasari çağrılınca dolar
+    tr.appendChild(durumTd);
+
     return tr;
 }
 
@@ -11317,38 +11396,61 @@ function renderStudentList() {
   });
 }
 
-// Performans tablosunu render et
-// Performans tablosunu render et
+// Performans tablosunu render et (DİNAMİK)
 function renderPerformanceTable() {
     console.log('=== RENDER DEBUG START ===');
     console.log('Ders:', currentDers);
+    console.log('Kazanım Sayısı:', currentKazanimCount);
     console.log('Veri:', currentPerformanceData[currentDers]?.length || 0);
-    
+
     const tbody = document.getElementById('performance-table-body');
     tbody.innerHTML = ''; // TEMİZLE
-    
+
+    // Kontroller
     if (!currentStudents.length) {
         const tr = document.createElement('tr');
         tr.className = 'no-data';
-        tr.innerHTML = '<td colspan="7">Önce sınıf seçip öğrenci listesini yükleyin</td>';
+        tr.innerHTML = '<td colspan="10">Önce sınıf seçip öğrenci listesini yükleyin</td>';
         tbody.appendChild(tr);
         return;
     }
-    
+
+    if (!currentKazanimCount || currentKazanimCount === 0) {
+        const tr = document.createElement('tr');
+        tr.className = 'no-data';
+        tr.innerHTML = '<td colspan="10">Kazanım sayısını seçip tabloyu yükleyin</td>';
+        tbody.appendChild(tr);
+        return;
+    }
+
+    // Öğrenci satırlarını oluştur
     currentStudents.forEach((student, i) => {
-        const studentData = currentPerformanceData[currentDers]?.find(s => 
+        const studentData = currentPerformanceData[currentDers]?.find(s =>
             s.ogrenciId === String(student.id) || s.ad === student.name
         ) || {
             ogrenciId: String(student.id || student.name),
             ad: student.name,
-            temaBasari: '', yazili: '', denemeOrt: '',
-            etutSayisi: '', odevTamamlama: '', genelBasari: 0
+            denemeOrt: '',
+            etutSayisi: '',
+            odevTamamlama: '',
+            genelBasari: 0
         };
-        
+
+        // Dinamik kazanım verileri ekle
+        for (let k = 1; k <= currentKazanimCount; k++) {
+            if (!studentData[`kazanim${k}`]) {
+                studentData[`kazanim${k}`] = '';
+            }
+        }
+
+        // Yazılı verileri ekle
+        if (!studentData.yazili1) studentData.yazili1 = '';
+        if (!studentData.yazili2) studentData.yazili2 = '';
+
         console.log(`[${i+1}] ${student.name}: denemeOrt=${studentData.denemeOrt || 'YOK'}`);
         tbody.appendChild(createTableRow(student, studentData));
     });
-    
+
     console.log(`✅ ${currentStudents.length} satır oluşturuldu`);
     console.log('=== RENDER DEBUG END ===');
 }
@@ -11373,60 +11475,92 @@ function setupTableInputListeners() {
   });
 }
 
-// Öğrenci verisini güncelle
+// Öğrenci verisini güncelle (DİNAMİK)
 function updateStudentData(studentId, field, value) {
   if (!currentPerformanceData[currentDers]) {
     currentPerformanceData[currentDers] = [];
   }
 
   let studentData = currentPerformanceData[currentDers].find(s => s.ogrenciId === studentId);
-  
+
   if (!studentData) {
-    const student = currentStudents.find(s => s.id === studentId);
+    const student = currentStudents.find(s => String(s.id || s.name) === studentId);
     studentData = {
       ogrenciId: studentId,
-      ad: student.name,
-      temaBasari: '',
-      yazili: '',
+      ad: student?.name || studentId,
+      kazanimSayisi: currentKazanimCount,
       denemeOrt: '',
       etutSayisi: '',
       odevTamamlama: '',
       genelBasari: 0
     };
+
+    // Dinamik kazanım field'ları ekle
+    for (let i = 1; i <= currentKazanimCount; i++) {
+      studentData[`kazanim${i}`] = '';
+    }
+
+    // Yazılı field'ları ekle
+    studentData.yazili1 = '';
+    studentData.yazili2 = '';
+
     currentPerformanceData[currentDers].push(studentData);
   }
 
   studentData[field] = value;
 }
 
-// Genel başarıyı hesapla
+// Genel başarıyı hesapla - YENİ FORMÜL (35-35-20-5-5)
 function calculateGenelBasari(row) {
   const inputs = row.querySelectorAll('input');
-  const temaBasari = parseFloat(inputs[0].value) || 0;        // Tema Başarı (100 üzerinden)
-  const yazili = parseFloat(inputs[1].value) || 0;            // Yazılı (100 üzerinden)
-  const denemeOrt = parseFloat(inputs[2].value) || 0;          // Deneme Ortalaması
-  const etutSayisi = parseFloat(inputs[3].value) || 0;         // Etüt Sayısı (0-50)
-  const odevTamamlama = parseFloat(inputs[4].value) || 0;     // Ödev Tamamlama (100 üzerinden)
 
-  // Deneme ortalamasını ders bazında 100'e çevir
+  // DİNAMİK KAZANIM ORTALAMASINI HESAPLA
+  const kazanimlar = [];
+  for (let i = 0; i < currentKazanimCount; i++) {
+    const kazanimInput = row.querySelector(`input[data-field="kazanim${i + 1}"]`);
+    const value = parseFloat(kazanimInput?.value) || 0;
+    kazanimlar.push(value);
+  }
+  const kazanimOrt = kazanimlar.length > 0 ? kazanimlar.reduce((sum, k) => sum + k, 0) / kazanimlar.length : 0;
+
+  // YAZILI ORTALAMASI
+  const yazili1Input = row.querySelector('input[data-field="yazili1"]');
+  const yazili2Input = row.querySelector('input[data-field="yazili2"]');
+  const yazili1 = parseFloat(yazili1Input?.value) || 0;
+  const yazili2 = parseFloat(yazili2Input?.value) || 0;
+  const yaziliOrt = (yazili1 + yazili2) / 2;
+
+  // DENEME ORTALAMASINI 100'e ÇEVİR
+  const denemeOrtInput = row.querySelector('input[data-field="denemeOrt"]');
+  const denemeOrt = parseFloat(denemeOrtInput?.value) || 0;
+
   let denemePuan = 0;
   if (currentDers === 'Türkçe' || currentDers === 'Matematik' || currentDers === 'Fen') {
-    // 20 üzerinden 100'e çevir
-    denemePuan = (denemeOrt / 20) * 100;
+    denemePuan = (denemeOrt / 20) * 100; // 20 üzerinden 100'e
   } else if (currentDers === 'Sosyal' || currentDers === 'Din Kültürü' || currentDers === 'İngilizce') {
-    // 10 üzerinden 100'e çevir
-    denemePuan = (denemeOrt / 10) * 100;
+    denemePuan = (denemeOrt / 10) * 100; // 10 üzerinden 100'e
   }
-  
-  // Etüt sayısını 100'e çevir (0-50 → 0-100)
-  const etutPuan = (etutSayisi / 50) * 100;
 
-  // Yeni formül: (Tema*0.3 + Yazılı*0.3 + Deneme*0.3 + Ödev*0.1)
-  const genelBasari = (temaBasari * 0.3) + (yazili * 0.3) + (denemePuan * 0.3) + (odevTamamlama * 0.1);
-  
+  // ETÜT VE ÖDEV
+  const etutInput = row.querySelector('input[data-field="etutSayisi"]');
+  const odevInput = row.querySelector('input[data-field="odevTamamlama"]');
+  const etutSayisi = parseFloat(etutInput?.value) || 0;
+  const odevTamamlama = parseFloat(odevInput?.value) || 0;
+  const etutPuan = (etutSayisi / 50) * 100; // 0-50 → 0-100
+
+  // =====================================
+  // YENİ FORMÜL: 35-35-20-5-5
+  // =====================================
+  const genelBasari = (kazanimOrt * 0.35)       // %35 Kazanım Ortalaması
+                    + (denemePuan * 0.35)       // %35 Deneme
+                    + (yaziliOrt * 0.20)        // %20 Yazılı Ortalaması
+                    + (odevTamamlama * 0.05)    // %5 Ödev
+                    + (etutPuan * 0.05);        // %5 Etüt
+
+  // GENEL BAŞARI HÜCRE GÜNCELLEME
   const genelBasariCell = row.querySelector('[data-field="genelBasari"]');
   genelBasariCell.textContent = genelBasari.toFixed(1);
-  
+
   // Renk kodlaması
   genelBasariCell.className = 'calculated-cell';
   if (genelBasari >= 80) {
@@ -11437,28 +11571,274 @@ function calculateGenelBasari(row) {
     genelBasariCell.classList.add('basari-dusuk');
   }
 
-  // Veriyi güncelle
+  // VERİYİ GÜNCELLE
   const studentId = row.dataset.studentId;
   updateStudentData(studentId, 'genelBasari', genelBasari);
-  
-  console.log(`[HESAP] ${studentId}: Tema=${temaBasari}, Yazılı=${yazili}, Deneme=${denemeOrt}→${denemePuan.toFixed(1)}, Etüt=${etutSayisi}→${etutPuan.toFixed(1)}, Ödev=${odevTamamlama} = ${genelBasari.toFixed(1)}`);
+
+  // DEBUG LOG
+  console.log(`[HESAP] ${studentId}: Kazanım Ort=${kazanimOrt.toFixed(1)}, Yazılı Ort=${yaziliOrt.toFixed(1)}, Deneme=${denemeOrt}→${denemePuan.toFixed(1)}, Etüt=${etutPuan.toFixed(1)}, Ödev=${odevTamamlama} = ${genelBasari.toFixed(1)}`);
+
+  // TUTARLILIK ANALİZİ
+  analyzeDurum(row, kazanimOrt, denemePuan, yaziliOrt, genelBasari, etutSayisi, odevTamamlama);
+
+  return {
+    genelBasari,
+    kazanimOrt,
+    yaziliOrt,
+    denemePuan
+  };
 }
+
+// TUTARLILIK ANALİZ ALGORITMASI
+function analyzeDurum(row, kazanimOrt, denemePuan, yaziliOrt, genelBasari, etutSayisi, odevTamamlama) {
+  const problems = [];
+  let durumSkoru = 100; // Başlangıç: Mükemmel
+
+  // ========================================
+  // KURAL 1: Kazanım - Deneme Tutarsızlığı (EN ÖNEMLİ)
+  // ========================================
+  const kazanimDenemeFark = Math.abs(kazanimOrt - denemePuan);
+
+  if (kazanimOrt >= 80 && denemePuan < 60) {
+    // DURUM: Kazanımlar çok yüksek ama deneme düşük → CİDDİ SORUN!
+    problems.push('🔴 Kazanımlar yüksek (%' + kazanimOrt.toFixed(0) + ') ama deneme düşük (%' + denemePuan.toFixed(0) + ')! Sınav kaygısı veya test tekniği eksikliği olabilir.');
+    durumSkoru -= 35;
+  } else if (kazanimOrt < 60 && denemePuan >= 80) {
+    // DURUM: Deneme yüksek ama kazanımlar düşük → ŞANS veya TEST TEKNİĞİ
+    problems.push('🟡 Deneme yüksek (%' + denemePuan.toFixed(0) + ') ama kazanımlar düşük (%' + kazanimOrt.toFixed(0) + '). Test tekniği güçlü ama temel eksik.');
+    durumSkoru -= 25;
+  } else if (kazanimDenemeFark > 30) {
+    // DURUM: Genel tutarsızlık (30+ puan fark)
+    problems.push('⚠️ Kazanım-Deneme farkı yüksek: ' + kazanimDenemeFark.toFixed(1) + ' puan');
+    durumSkoru -= 20;
+  } else if (kazanimDenemeFark > 20) {
+    problems.push('🟠 Kazanım-Deneme arasında fark var: ' + kazanimDenemeFark.toFixed(1) + ' puan');
+    durumSkoru -= 10;
+  }
+
+  // ========================================
+  // KURAL 2: Yazılı - Deneme Tutarsızlığı
+  // ========================================
+  const yaziliDenemeFark = Math.abs(yaziliOrt - denemePuan);
+
+  if (yaziliOrt >= 80 && denemePuan < 60) {
+    problems.push('🟠 Yazılı yüksek (%' + yaziliOrt.toFixed(0) + ') ama deneme düşük (%' + denemePuan.toFixed(0) + '). Deneme stresi olabilir.');
+    durumSkoru -= 20;
+  } else if (yaziliDenemeFark > 30) {
+    problems.push('⚠️ Yazılı-Deneme farkı yüksek: ' + yaziliDenemeFark.toFixed(1) + ' puan');
+    durumSkoru -= 12;
+  }
+
+  // ========================================
+  // KURAL 3: Kazanım - Yazılı Tutarsızlığı
+  // ========================================
+  const kazanimYaziliFark = Math.abs(kazanimOrt - yaziliOrt);
+
+  if (kazanimYaziliFark > 25) {
+    problems.push('⚠️ Kazanım-Yazılı farkı yüksek: ' + kazanimYaziliFark.toFixed(1) + ' puan');
+    durumSkoru -= 10;
+  }
+
+  // ========================================
+  // KURAL 4: Düşük Performans + Destek Eksikliği
+  // ========================================
+  if (genelBasari < 60 && etutSayisi < 5) {
+    problems.push('📖 Düşük performans + Az etüt (' + etutSayisi + ' adet). Destek gerekli!');
+    durumSkoru -= 15;
+  }
+
+  if (genelBasari < 60 && odevTamamlama < 70) {
+    problems.push('📝 Düşük performans + Ödev eksikliği (%' + odevTamamlama.toFixed(0) + '). Disiplin sorunu olabilir.');
+    durumSkoru -= 15;
+  }
+
+  // ========================================
+  // KURAL 5: Mükemmel Uyum (Ödüllendirme)
+  // ========================================
+  let durumMesaj = '';
+  let durumIcon = '';
+  let durumClass = '';
+
+  if (kazanimDenemeFark < 10 && yaziliDenemeFark < 10 && kazanimYaziliFark < 10) {
+    if (genelBasari >= 85) {
+      durumMesaj = '🌟 Mükemmel';
+      durumIcon = '✅';
+      durumClass = 'durum-mukemmel';
+      durumSkoru = 100;
+      problems.length = 0; // Sorunları temizle
+      problems.push('Tüm değerlendirmeler uyumlu ve çok başarılı!');
+    } else if (genelBasari >= 70) {
+      durumMesaj = '✅ Uyumlu';
+      durumIcon = '✅';
+      durumClass = 'durum-uyumlu';
+      durumSkoru = Math.max(durumSkoru, 85);
+    }
+  }
+
+  // ========================================
+  // DURUM SKORU BELİRLEME
+  // ========================================
+  if (!durumMesaj) {
+    if (durumSkoru >= 85) {
+      durumMesaj = '✅ Uyumlu';
+      durumIcon = '✅';
+      durumClass = 'durum-uyumlu';
+    } else if (durumSkoru >= 70) {
+      durumMesaj = '🟡 Kabul Edilebilir';
+      durumIcon = '🟡';
+      durumClass = 'durum-kabul';
+    } else if (durumSkoru >= 50) {
+      durumMesaj = '🟠 DİKKAT!';
+      durumIcon = '⚠️';
+      durumClass = 'durum-dikkat';
+    } else {
+      durumMesaj = '🔴 CİDDİ SORUN!';
+      durumIcon = '🔴';
+      durumClass = 'durum-sorun';
+    }
+  }
+
+  // ========================================
+  // DURUM HÜCRE GÜNCELLEME
+  // ========================================
+  const durumCell = row.querySelector('[data-field="durum"]');
+  if (durumCell) {
+    durumCell.textContent = durumIcon + ' ' + durumMesaj;
+    durumCell.className = 'durum-cell ' + durumClass;
+
+    // Detay tooltip oluştur
+    const detayHTML = generateDurumDetayHTML(problems, durumSkoru);
+    durumCell.title = problems.join('\n'); // Basit tooltip
+
+    // Detay butonu ekle
+    durumCell.innerHTML = `
+      <span class="durum-icon">${durumIcon}</span>
+      <span class="durum-text">${durumMesaj}</span>
+      <button class="durum-detay-btn" onclick="showDurumDetay('${row.dataset.studentId}', ${JSON.stringify(problems).replace(/"/g, '&quot;')}, ${durumSkoru})">ℹ️</button>
+    `;
+  }
+}
+
+// Durum detay HTML oluştur
+function generateDurumDetayHTML(problems, skoru) {
+  if (problems.length === 0) {
+    return '<p>✅ Hiçbir tutarsızlık tespit edilmedi.</p>';
+  }
+
+  let html = '<div class="durum-detay-content">';
+  html += '<h4>Tespit Edilen Durumlar (Skor: ' + skoru + '/100)</h4>';
+  html += '<ul>';
+
+  problems.forEach(problem => {
+    html += '<li>' + problem + '</li>';
+  });
+
+  html += '</ul></div>';
+  return html;
+}
+
+// Durum detayını modal olarak göster
+function showDurumDetay(studentId, problems, skoru) {
+  const student = currentStudents.find(s => String(s.id || s.name) === studentId);
+  const studentName = student ? student.name : studentId;
+
+  let html = '<div style="padding: 20px; max-width: 500px;">';
+  html += '<h3>📊 Detaylı Durum Analizi</h3>';
+  html += '<p><strong>Öğrenci:</strong> ' + studentName + '</p>';
+  html += '<p><strong>Ders:</strong> ' + currentDers + '</p>';
+  html += '<p><strong>Durum Skoru:</strong> ' + skoru + '/100</p>';
+  html += '<hr>';
+
+  if (problems.length === 0) {
+    html += '<p style="color: green;">✅ Hiçbir tutarsızlık tespit edilmedi. Tüm performans göstergeleri uyumlu.</p>';
+  } else {
+    html += '<h4>Tespit Edilen Durumlar:</h4>';
+    html += '<ul style="line-height: 1.8;">';
+    problems.forEach(problem => {
+      html += '<li>' + problem + '</li>';
+    });
+    html += '</ul>';
+
+    // Öneriler ekle
+    html += '<hr>';
+    html += '<h4>💡 Öneriler:</h4>';
+    html += '<ul style="line-height: 1.8;">';
+
+    if (skoru < 50) {
+      html += '<li>🚨 Acil müdahale gerekli - Bireysel destek planı oluşturulmalı</li>';
+      html += '<li>Haftalık 2-3 etüt önerilir</li>';
+      html += '<li>Aileden destek alınmalı</li>';
+    } else if (skoru < 70) {
+      html += '<li>⚠️ Dikkat - Eksik konular tamamlanmalı</li>';
+      html += '<li>Haftalık 1-2 etüt önerilir</li>';
+      html += '<li>Test çözüm teknikleri geliştirilmeli</li>';
+    } else {
+      html += '<li>✅ Genel olarak iyi durumda</li>';
+      html += '<li>Mevcut performans devam ettirilebilir</li>';
+    }
+
+    html += '</ul>';
+  }
+
+  html += '</div>';
+
+  // Toast olarak göster (daha iyi bir modal sistemi de eklenebilir)
+  showToast('Durum Analizi', html, 'info', 10000);
+}
+
+// Global fonksiyon tanımla
+window.showDurumDetay = showDurumDetay;
 
 // Ders değiştir
 function switchDers(ders) {
   currentDers = ders;
-  
+
   // Tab'ları güncelle
   document.querySelectorAll('.ders-tab').forEach(tab => {
     tab.classList.remove('active');
   });
   document.querySelector(`[data-ders="${ders}"]`).classList.add('active');
-  
+
   // Başlığı güncelle
   document.getElementById('current-ders-title').textContent = `${ders} Performans Değerlendirmesi`;
-  
-  // Tabloyu yeniden render et
-  renderPerformanceTable();
+
+  // Kazanım seçiciyi göster
+  const kazanimSelector = document.getElementById('kazanim-selector');
+  if (kazanimSelector && currentStudents.length > 0) {
+    kazanimSelector.style.display = 'block';
+  }
+
+  // Eğer kazanım sayısı zaten seçilmişse tabloyu yeniden render et
+  if (currentKazanimCount > 0) {
+    renderPerformanceTable();
+  }
+}
+
+// Dinamik tablo başlıklarını oluştur
+function renderDynamicTableHeaders(kazanimCount) {
+  const thead = document.getElementById('performance-table-head');
+  if (!thead) return;
+
+  let headersHTML = '<tr>';
+  headersHTML += '<th>Öğrenci Adı</th>';
+
+  // Kazanım sütunları
+  for (let i = 1; i <= kazanimCount; i++) {
+    headersHTML += `<th>Kazanım ${i} (%)</th>`;
+  }
+
+  // Diğer sütunlar
+  headersHTML += '<th>Yazılı 1</th>';
+  headersHTML += '<th>Yazılı 2</th>';
+  headersHTML += '<th>Deneme Ort.</th>';
+  headersHTML += '<th>Etüt Sayısı</th>';
+  headersHTML += '<th>Ödev (%)</th>';
+  headersHTML += '<th>Genel Başarı</th>';
+  headersHTML += '<th>Durum</th>';
+  headersHTML += '</tr>';
+
+  thead.innerHTML = headersHTML;
+  console.log(`✅ Tablo başlıkları oluşturuldu: ${kazanimCount} kazanım`);
 }
 
 // Mevcut performans verilerini yükle

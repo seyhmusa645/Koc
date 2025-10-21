@@ -1314,6 +1314,22 @@
                         <button class="ders-tab" data-ders="Din Kültürü">Din Kültürü</button>
                     </div>
 
+                    <!-- Kazanım Sayısı Seçici -->
+                    <div class="kazanim-selector" id="kazanim-selector" style="display: none;">
+                        <div class="kazanim-selector-content">
+                            <label for="kazanim-count">Bu derste kaç kazanım değerlendirilecek?</label>
+                            <select id="kazanim-count" class="class-dropdown">
+                                <option value="">Kazanım sayısını seçin...</option>
+                                <option value="3">3 Kazanım</option>
+                                <option value="4">4 Kazanım</option>
+                                <option value="5">5 Kazanım</option>
+                            </select>
+                            <button id="load-table-btn" class="btn-primary" disabled>
+                                Tabloyu Yükle
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="performance-table-container">
                         <div class="table-header">
                             <h3 id="current-ders-title">Türkçe Performans Değerlendirmesi</h3>
@@ -1325,20 +1341,16 @@
                         
                         <div class="performance-table-wrapper">
                             <table id="performance-table" class="performance-table">
-                                <thead>
+                                <thead id="performance-table-head">
+                                    <!-- Dinamik olarak JavaScript ile doldurulacak -->
                                     <tr>
                                         <th>Öğrenci Adı</th>
-                                        <th>Tema Başarı (%)</th>
-                                        <th>Yazılı</th>
-                                        <th>Deneme Ort.</th>
-                                        <th>Etüt Sayısı</th>
-                                        <th>Ödev Tamamlama (%)</th>
-                                        <th>Genel Başarı</th>
+                                        <th colspan="8">Kazanım sayısını seçip tabloyu yükleyin</th>
                                     </tr>
                                 </thead>
                                 <tbody id="performance-table-body">
                                     <tr class="no-data">
-                                        <td colspan="7">Önce sınıf seçip öğrenci listesini yükleyin</td>
+                                        <td colspan="9">Önce sınıf seçip öğrenci listesini yükleyin</td>
                                     </tr>
                                 </tbody>
                             </table>
