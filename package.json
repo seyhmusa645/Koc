@@ -1,0 +1,123 @@
+{
+  "name": "kapsul-kocluk-programi",
+  "version": "1.0.0",
+  "description": "Öğrenci kazanım analizi ve gelişim takip programı.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --win --mac --linux",
+    "dist": "electron-builder --publish=never",
+    "pack": "electron-builder --dir"
+  },
+  "keywords": [
+    "education",
+    "student",
+    "analysis",
+    "coaching",
+    "learning",
+    "ai",
+    "gemini"
+  ],
+  "author": "Kapsul Koçluk Programı",
+  "license": "MIT",
+  "homepage": "https://github.com/kullaniciadi/kapsul-kocluk-programi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kullaniciadi/kapsul-kocluk-programi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kullaniciadi/kapsul-kocluk-programi/issues"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "bcryptjs": "^3.0.2",
+    "chart.js": "^4.5.0",
+    "dotenv": "^17.2.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "electron": "^37.3.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.kapsul.kocluk-programi",
+    "productName": "Kapsul Koçluk Programı",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{o,h,obj,py,rb,sh,swp,cs,sln,suo,xcode,svn,git,vscode,md}",
+      "!dist/**/*",
+      "!build/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "icon": "Kapsül-Photoroom.png"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "Kapsül-Photoroom.png",
+      "category": "public.app-category.education"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "Kapsül-Photoroom.png",
+      "category": "Education"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Kapsul Koçluk Programı"
+    }
+  }
+}

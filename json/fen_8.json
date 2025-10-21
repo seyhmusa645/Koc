@@ -1,0 +1,21 @@
+[
+  {
+    "id": "fen_8_1",
+    "pdf_name": "fen_8",
+    "page": 1,
+    "question_number": "1",
+    "question_text": "8. sınıf Fen Bilimleri sorusu örneği",
+    "options": {
+      "A": "A) Seçenek A",
+      "B": "B) Seçenek B",
+      "C": "C) Seçenek C",
+      "D": "D) Seçenek D"
+    },
+    "answer": null,
+    "kazanim": null,
+    "subject": "Fen Bilimleri",
+    "outcome": "F.8.1.1",
+    "outcome_text": "Mevsimlerin oluşumunu açıklar",
+    "matching_score": 0.6
+  }
+]

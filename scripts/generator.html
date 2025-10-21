@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Lisans Üretici</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; color: #333; padding: 20px; }
+        .container { max-width: 700px; margin: 40px auto; padding: 30px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #4a90e2; text-align: center; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+        button { font-family: inherit; background-color: #4a90e2; color: white; padding: 12px 20px; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; transition: background-color 0.3s ease; }
+        button:hover { background-color: #357abd; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; margin-top: 10px; font-family: monospace; }
+        .result-area { margin-top: 30px; }
+        #license-key { background-color: #e9ecef; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lisans Anahtarı Üretici</h1>
+        <form id="generator-form">
+            <div class="form-group">
+                <label for="request-code">Kurulum Kodu (Request Code)</label>
+                <input type="text" id="request-code" name="requestCode" required>
+            </div>
+            <div class="form-group">
+                <label for="school-name">Okul Adı (İsteğe Bağlı)</label>
+                <input type="text" id="school-name" name="schoolName">
+            </div>
+            <div class="form-group">
+                <label for="plan">Lisans Planı</label>
+                <select id="plan" name="plan" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px;">
+                    <option value="standard" selected>Standard</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="expires-at">Son Kullanma Tarihi</label>
+                <input type="date" id="expires-at" name="expiresAt" required>
+            </div>
+            <button type="submit">Lisans Anahtarı Üret</button>
+        </form>
+        <div class="result-area" id="result-area" style="display: none;">
+            <h2>Üretilen Lisans Anahtarı</h2>
+            <textarea id="license-key" rows="5" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generator-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (result.licenseKey) {
+                document.getElementById('result-area').style.display = 'block';
+                document.getElementById('license-key').value = result.licenseKey;
+            } else {
+                alert('Hata: ' + result.error);
+            }
+        });
+    </script>
+</body>
+</html>

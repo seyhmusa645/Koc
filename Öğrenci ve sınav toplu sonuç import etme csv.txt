@@ -1,0 +1,3 @@
+csv ile öğrenci import edildiğinde users altına import edecek mi?
+öğrenci sonuçlarının tamamını inceleyen ve değerlendiren sisteme ekleyen import etme yönetimi ve yapay zeka geliştirmesi
+sınav sonuçları import etme öğrenci import olarak algılanıyor o mekanizmanın değişmesi.

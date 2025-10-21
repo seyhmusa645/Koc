@@ -1,0 +1,306 @@
+[
+  {
+    "student_no": "97",
+    "name": "ARDA KAYA",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "84",
+    "name": "MEHMET ANIL AY",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "256",
+    "name": "YUSUF TİMUÇİN ŞEYHANLI",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "1",
+    "name": "AHMET YİĞİT YILDIZ",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "149",
+    "name": "ECRİN SU KARACA",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "447",
+    "name": "İHSAN İSMET KAYA",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "388",
+    "name": "SARPER EGE SÜNBER",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "56",
+    "name": "ALİ RIZA YALMAN",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "11",
+    "name": "YİĞİT BALCI",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "70",
+    "name": "EYLÜL NEVA ÖZBOLAT",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "181",
+    "name": "MUSTAFA BUĞRA YILMAZ",
+    "grade": "8",
+    "class": "A",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "184",
+    "name": "CEMRE AŞIKOĞLU",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "435",
+    "name": "METE LEVENT",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "143",
+    "name": "EZGİ BORAN",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "445",
+    "name": "MEHMET SATUK BUĞRA KULU",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "8",
+    "name": "MAHMUT MUSTAFA GÜLDÜR",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 0,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "174",
+    "name": "DMITRII NOVIKOV",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "406",
+    "name": "CENNET AZRA ARSLAN",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  },
+  {
+    "student_no": "185",
+    "name": "BERİL ADA SEKİTMEZ",
+    "grade": "8",
+    "class": "B",
+    "intelligence_types": {
+      "verbal": 1,
+      "logical": 1,
+      "visual": 1,
+      "musical": 1,
+      "kinesthetic": 1,
+      "interpersonal": 1,
+      "intrapersonal": 1,
+      "naturalist": 1
+    }
+  }
+]

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kimlik Doğrulama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tab-container">
+            <button class="tab-link active" onclick="openTab(event, 'License')">Lisans</button>
+            <button class="tab-link" onclick="openTab(event, 'Login')">Giriş Yap</button>
+            <button class="tab-link" onclick="openTab(event, 'Register')">Kayıt Ol</button>
+        </div>
+
+        <div id="License" class="tab-content active">
+            <h3>Lisans Yönetimi</h3>
+            <p>Lütfen lisans anahtarınızı girin veya lisans dosyanızı yükleyin.</p>
+            <div>
+                <h4>Kurulum Kodu (Request Code)</h4>
+                <pre id="request-code">Yükleniyor...</pre>
+                <button id="copy-request-code" class="btn-secondary">Kodu Kopyala</button>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            <div>
+                <textarea id="license-key-input" placeholder="Lisans anahtarını buraya yapıştırın..." rows="4"></textarea>
+                <button id="import-license-key">Lisansı Aktar</button>
+            </div>
+            <p id="license-status">Durum: Lisans bilgisi bekleniyor.</p>
+        </div>
+
+        <div id="Login" class="tab-content">
+            <h3>Giriş Yap</h3>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="E-posta" required>
+                <input type="password" id="login-password" placeholder="Şifre" required>
+                <button type="submit">Giriş Yap</button>
+            </form>
+        </div>
+
+        <div id="Register" class="tab-content">
+            <h3>Kayıt Ol</h3>
+            <form id="register-form">
+                <input type="text" id="register-name" placeholder="Ad Soyad (İsteğe Bağlı)">
+                <input type="email" id="register-email" placeholder="E-posta" required>
+                <input type="password" id="register-password" placeholder="Şifre" required>
+                <input type="password" id="register-password-confirm" placeholder="Şifre Tekrar" required>
+                
+                <div class="role-selection">
+                    <label>Rol Seçimi:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="manager" required>
+                            <span class="radio-text">Müdür</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="teacher" required>
+                            <span class="radio-text">Öğretmen</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit">Kayıt Ol</button>
+            </form>
+            <p>Not: Kayıt olabilmek için geçerli bir lisansın aktif olması gerekmektedir.</p>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

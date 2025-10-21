@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Detayları - Kapsül Koçluk Programı</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="student-detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img id="app-icon" src="../Kapsül-Photoroom.png" alt="Program Simgesi">
+            <h1 class="title"></h1>
+            <button id="theme-toggle" class="theme-toggle" title="Tema Değiştir">
+                🌙
+            </button>
+        </div>
+        <div id="license-display" class="license-display"></div>
+        <div id="user-display" class="user-display"></div>
+        
+        <div class="student-manager">
+            <label for="student-search">Öğrenci Arama</label>
+            <div class="student-search-container">
+                <div class="search-input-container">
+                    <input type="text" id="student-search" placeholder="Öğrenci ara..." autocomplete="off">
+                    <button id="search-clear-btn" class="search-clear" title="Temizle">×</button>
+                </div>
+                <div class="search-filters">
+                    <select id="grade-filter" class="filter-select">
+                        <option value="">Tüm Sınıflar</option>
+                        <option value="5">5. Sınıf</option>
+                        <option value="6">6. Sınıf</option>
+                        <option value="7">7. Sınıf</option>
+                        <option value="8">8. Sınıf</option>
+                    </select>
+                    <select id="style-filter" class="filter-select">
+                        <option value="">Tüm Stiller</option>
+                        <option value="AYRIŞTIRAN">Ayrıştıran</option>
+                        <option value="ÖZÜMSEYEN">Özümseyen</option>
+                        <option value="YERLEŞTİREN">Yerleştiren</option>
+                        <option value="DEĞİŞTİREN">Değiştiren</option>
+                    </select>
+                </div>
+                <div class="student-results" id="student-results">
+                    <div class="no-students">Öğrenci aramak için yazmaya başlayın...</div>
+                </div>
+                <div class="profile-actions">
+                    <button id="btn-add-profile" class="btn-profile add" title="Yeni Öğrenci Ekle">
+                        <span class="icon">👤</span> Ekle
+                    </button>
+                    <button id="btn-delete-profile" class="btn-profile delete" title="Seçili Öğrenciyi Sil">
+                        <span class="icon">🗑️</span> Sil
+                    </button>
+                    <button id="btn-import-students" class="btn-profile import" title="Öğrenci Verilerini İçe Aktar">
+                        <span class="icon">📥</span> İçe
+                    </button>
+                    <button id="btn-export-students" class="btn-profile export" title="Öğrenci Verilerini Dışa Aktar">
+                        <span class="icon">📤</span> Dışa
+                    </button>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <li><button id="nav-dashboard" class="nav-btn active" data-page="dashboard-section">Genel Durum</button></li>
+            <li><button id="nav-question-bank" class="nav-btn" data-page="question-bank-section">Soru Hazırla</button></li>
+            <li><button id="nav-add-exam" class="nav-btn" data-page="add-exam-section">Yeni Sınav Ekle</button></li>
+            <li><button id="nav-reports" class="nav-btn" data-page="reports-section">Raporlar</button></li>
+            <li><button id="nav-planner" class="nav-btn" data-page="planner-section" data-premium="true">Ders Programı</button></li>
+            <li><button id="nav-etutler" class="nav-btn" data-page="etutler-section">Etütler</button></li>
+            <li><button id="nav-evaluation" class="nav-btn" data-page="evaluation-section">Öğrenci Değerlendir</button></li>
+            <li><button id="nav-class-analysis" class="nav-btn" data-page="class-analysis-section">Sınıf Analizi</button></li>
+            <li><button id="nav-about" class="nav-btn" data-page="about-section">Hakkında</button></li>
+        </ul>
+    </nav>
+
+    <button id="sidebar-toggle" class="sidebar-toggle" title="Sidebar'ı Aç/Kapat">
+        <span class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <!-- Header -->
+    <header class="student-detail-header">
+        <div class="header-content">
+            <button id="back-to-dashboard" class="back-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Geri Dön
+            </button>
+            <h1 class="page-title">Öğrenci Detayları</h1>
+            <div class="header-actions">
+                <button id="export-student-report" class="action-button primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10,9 9,9 8,9"/>
+                    </svg>
+                    Rapor Oluştur
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="student-detail-main">
+        <!-- Student Profile Card -->
+        <section class="student-profile-section">
+            <div class="student-profile-card">
+                <div class="student-avatar">
+                    <div id="student-avatar" class="avatar-circle">
+                        <!-- Student initials will be inserted here -->
+                    </div>
+                </div>
+                <div class="student-info">
+                    <h2 id="student-name" class="student-name">Öğrenci Adı</h2>
+                    <div class="student-meta">
+                        <span id="student-grade" class="grade-info">Sınıf Bilgisi</span>
+                        <span id="student-class" class="class-info">Sınıf</span>
+                    </div>
+                    <div id="learning-style-info" class="learning-style-card">
+                        <div class="learning-style-label">Öğrenme Stili</div>
+                        <div id="learning-style-value" class="learning-style-value">Belirlenmemiş</div>
+                    </div>
+                </div>
+                <div class="student-actions">
+                    <button id="edit-student" class="action-button secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Düzenle
+                    </button>
+                    <button id="delete-student" class="action-button danger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3,6 5,6 21,6"/>
+                            <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                        </svg>
+                        Sil
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ability Analysis Section -->
+        <section class="ability-analysis-section">
+            <div class="section-header">
+                <h3>Kabiliyet Analizi</h3>
+                <div class="section-subtitle">Öğrencinin güçlü ve geliştirilmesi gereken alanları</div>
+            </div>
+            
+            <div class="ability-badges-container">
+                <div id="ability-badges" class="ability-badges-grid">
+                    <!-- Ability badges will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="ability-summary">
+                <div class="summary-card strongest">
+                    <div class="summary-header">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                        </div>
+                        <h4>En Güçlü Kabiliyetler</h4>
+                    </div>
+                    <div id="strongest-abilities" class="summary-content">
+                        <!-- Strongest abilities will be inserted here -->
+                    </div>
+                </div>
+                
+                <div class="summary-card weakest">
+                    <div class="summary-header">
+                        <div class="summary-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <h4>Geliştirilmesi Gerekenler</h4>
+                    </div>
+                    <div id="weakest-abilities" class="summary-content">
+                        <!-- Weakest abilities will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Section -->
+        <section class="performance-section">
+            <div class="section-header">
+                <h3>Performans Geçmişi</h3>
+                <div class="section-subtitle">Sınav sonuçları ve gelişim trendi</div>
+            </div>
+            
+            <div class="performance-cards">
+                <div class="performance-card">
+                    <div class="card-header">
+                        <h4>Son Sınav</h4>
+                        <span class="card-date" id="last-exam-date">-</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="score-display">
+                            <span id="last-exam-score" class="score-value">-</span>
+                            <span class="score-label">Puan</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-card">
+                    <div class="card-header">
+                        <h4>Ortalama Puan</h4>
+                        <span class="card-trend" id="score-trend">-</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="score-display">
+                            <span id="average-score" class="score-value">-</span>
+                            <span class="score-label">Puan</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-card">
+                    <div class="card-header">
+                        <h4>Toplam Sınav</h4>
+                        <span class="card-count" id="exam-count">-</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="score-display">
+                            <span id="total-exams" class="score-value">-</span>
+                            <span class="score-label">Sınav</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exam History Section -->
+        <section class="exam-history-section">
+            <div class="section-header">
+                <h3>Sınav Geçmişi</h3>
+                <div class="section-subtitle">Detaylı sınav sonuçları ve analiz</div>
+            </div>
+            
+            <div id="exam-history-list" class="exam-history-list">
+                <!-- Exam history items will be inserted here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="student-detail.js"></script>
+</body>
+</html>

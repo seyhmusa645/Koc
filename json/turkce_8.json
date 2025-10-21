@@ -1,0 +1,21 @@
+[
+  {
+    "id": "turkce_8_1",
+    "pdf_name": "turkce_8",
+    "page": 1,
+    "question_number": "1",
+    "question_text": "8. sınıf Türkçe sorusu örneği",
+    "options": {
+      "A": "A) Seçenek A",
+      "B": "B) Seçenek B",
+      "C": "C) Seçenek C", 
+      "D": "D) Seçenek D"
+    },
+    "answer": null,
+    "kazanim": null,
+    "subject": "Türkçe",
+    "outcome": "T.8.1.1",
+    "outcome_text": "Metin türlerini ayırt eder",
+    "matching_score": 0.7
+  }
+]

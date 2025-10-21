@@ -1,0 +1,266 @@
+[
+  {
+    "student_no": "158",
+    "name": "MUHAMMED KEREM SULTANOĞLU",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "97",
+    "name": "ARDA KAYA",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN"
+  },
+  {
+    "student_no": "164",
+    "name": "ALİ ÇAĞAN ÖNAL",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN/AYR IŞTIRAN"
+  },
+  {
+    "student_no": "151",
+    "name": "MEHMET EMİR ŞİMŞEK",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜM SEYEN"
+  },
+  {
+    "student_no": "84",
+    "name": "MEHMET ANIL AY",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "6",
+    "name": "LORİN ASMİN VARIŞLI",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜMSE YEN"
+  },
+  {
+    "student_no": "256",
+    "name": "YUSUF TİMUÇİN ŞEYHANLI",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "1",
+    "name": "AHMET YİĞİT YILDIZ",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "381",
+    "name": "BEKİR KEREM TOPAL",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN"
+  },
+  {
+    "student_no": "79",
+    "name": "YUNUS EMRE YILMAZ",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "447",
+    "name": "İHSAN İSMET KAYA",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "388",
+    "name": "SARPER EGE SÜNBER",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "56",
+    "name": "ALİ RIZA YALMAN",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "46",
+    "name": "GAMZE MELTEM EKER",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMS EYEN"
+  },
+  {
+    "student_no": "70",
+    "name": "EYLÜL NEVA ÖZBOLAT",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "171",
+    "name": "ÖMER FARUK TÜZEL",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN/AYRIŞTIRAN"
+  },
+  {
+    "student_no": "181",
+    "name": "MUSTAFA BUĞRA YILMAZ",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "389",
+    "name": "SENA KIRIŞ",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "72",
+    "name": "TABASSOM SEIFI DIZAJ",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/AYRI ŞTIRAN"
+  },
+  {
+    "student_no": "178",
+    "name": "EREN ÇELİK",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "150",
+    "name": "MERT YAHNİ",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/AYR IŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "405",
+    "name": "FURKAN HALİL ÇELEBİ",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "435",
+    "name": "METE LEVENT",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "431",
+    "name": "MISS YASOTHARA SUWANNAWISUT",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "404",
+    "name": "MUHAMMED EMİR BALKAYA",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "143",
+    "name": "EZGİ BORAN",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "17",
+    "name": "MUSTAFA KEMAL DİLER",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "445",
+    "name": "MEHMET SATUK BUĞRA KULU",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN"
+  },
+  {
+    "student_no": "2",
+    "name": "DURU SU KALE",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN"
+  },
+  {
+    "student_no": "8",
+    "name": "MAHMUT MUSTAFA GÜLDÜR",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "student_no": "174",
+    "name": "DMITRII NOVIKOV",
+    "gender": "ERKEK",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "student_no": "119",
+    "name": "DINARA GUSEINOVA",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/DEĞİŞTİREN"
+  },
+  {
+    "student_no": "185",
+    "name": "BERİL ADA SEKİTMEZ",
+    "gender": "KIZ",
+    "grade": "8",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  }
+]

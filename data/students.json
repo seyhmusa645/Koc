@@ -1,0 +1,4374 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2025-09-23T11:06:03.808932",
+  "students": [
+    {
+      "id": "student_001",
+      "name": "TUĞÇE FATMA GÖKTAŞ",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.712525",
+      "updatedAt": "2025-09-23T11:06:03.712525",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_002",
+      "name": "TOPRAK TARIM",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.712525",
+      "updatedAt": "2025-09-23T11:06:03.712525",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_003",
+      "name": "CEYLİN MİRA GÖLGELİ",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.712525",
+      "updatedAt": "2025-09-23T11:06:03.712525",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_004",
+      "name": "KAAN DEMİR TÜRKDAY",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_005",
+      "name": "METE YAKUP KAYA",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_006",
+      "name": "MİRAÇ ALEMDAROĞULLARI",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_007",
+      "name": "İBRAHİM YAVUZ GÜLEGE",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_008",
+      "name": "UMUTHAN DOĞAN",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_009",
+      "name": "BEREN ZEHRA AK",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_010",
+      "name": "ÖYKÜ ELA ARAS",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_011",
+      "name": "HASAN EFE ÖZER",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_012",
+      "name": "YAŞARCAN ÇETİN",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_013",
+      "name": "EYLÜL ECE BİÇMEN",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_014",
+      "name": "ELİF DUDU VAR",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_015",
+      "name": "MUSTAFA COŞAR",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_016",
+      "name": "ESRA MERVE YILMAZ",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_017",
+      "name": "FATMA NUR ALBAYRAK",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_018",
+      "name": "ELİSA ÖYKÜ KAPLAN",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_019",
+      "name": "ELİF SENA ÇEVİK",
+      "grade": "6",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_020",
+      "name": "ASMİN MİRA ŞAHİN",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_021",
+      "name": "ASYA SAY",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_022",
+      "name": "MERYEM TURNA",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_023",
+      "name": "ÖZGÜR METEHAN KÜLTÜR",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_024",
+      "name": "ALPEREN VAR",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_025",
+      "name": "RÜZGAR BAYRAKTAR",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_026",
+      "name": "ZEYNEP DİLEK ÖZDEMİR",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_027",
+      "name": "NUH DENİZ ABAKAY",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_028",
+      "name": "NAĞME UÇAR",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_029",
+      "name": "AZRA TAŞDELEN",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_030",
+      "name": "HATİCE ASEL SAPMAZOĞLU",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_031",
+      "name": "HATİCE SENA KESKİN",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_032",
+      "name": "ELMIRA GUSEINOVA",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_033",
+      "name": "BATUHAN GÖÇER",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_034",
+      "name": "ZAFER MERT İPCİ",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_035",
+      "name": "ALYA MİRAY YILMAZ",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.728150",
+      "updatedAt": "2025-09-23T11:06:03.728150",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_036",
+      "name": "CEMİLE HÜMEYRA TUTUŞ",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_037",
+      "name": "EREN NADİR ATMACA",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_038",
+      "name": "HASAN YÜKSEL",
+      "grade": "6",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_039",
+      "name": "EMİR BARAN ÇETİN",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_040",
+      "name": "TUNA ERSAN KARACA",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_041",
+      "name": "AZRA NEHİR ÇAKAR",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_042",
+      "name": "MEHMET EFE POLAT",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_043",
+      "name": "ASIM BERA ATA",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_044",
+      "name": "CEYLİN RAHŞAN GÜRGAH",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_045",
+      "name": "ZEYNEP SARE KAVŞUT",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_046",
+      "name": "AHSEN ECE BİLGEN",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_047",
+      "name": "DEMİR SERBES",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_048",
+      "name": "YAĞMUR UYSAL",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_049",
+      "name": "AHMET ÇAĞRI ÖZTÜRK",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.743773",
+      "updatedAt": "2025-09-23T11:06:03.743773",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_050",
+      "name": "GÜL FİDAN BARAN",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_051",
+      "name": "HATİCE HÜMANUR YEŞİLYURT",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 1,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_052",
+      "name": "ÖZGÜR ÇİÇEKLİ",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_053",
+      "name": "MUSTAFA POYRAZ İSPİR",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_054",
+      "name": "AFİFE AYBÜKE GÜL",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_055",
+      "name": "FATMA CEREN ALDEMİR",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_056",
+      "name": "AHMET EFE BORAN",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_057",
+      "name": "KEREM GÜVEN",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_058",
+      "name": "DERİN SEYREK",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_059",
+      "name": "GÜLŞEN BETÜL GÜNDÜZ",
+      "grade": "7",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_060",
+      "name": "ÖYKÜ ERDEM",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_061",
+      "name": "SANİYE ÖZBEK",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_062",
+      "name": "MUHAMMED ARAS YILDIRIM",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_063",
+      "name": "MUHAMMET FURKAN SERİN",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_064",
+      "name": "MERT BULGURCU",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_065",
+      "name": "RAMAZAN TUĞRA KULA",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_066",
+      "name": "MUHAMMET GÜNDÜZ",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_067",
+      "name": "RABİA ALİM",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_068",
+      "name": "MEHMET EYMEN GÜR",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_069",
+      "name": "YAĞIZ ÖZYURT",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_070",
+      "name": "FATİH AHMET AÇIKGÖZ",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_071",
+      "name": "ESMA MELEK ÜLGÜRALP",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_072",
+      "name": "AHMET KEREM KASAP",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_073",
+      "name": "HAYRİYE AZRA ARSLAN",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_074",
+      "name": "EMİR ALİ ARGÜN",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_075",
+      "name": "YİĞİT ÖZYURT",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_076",
+      "name": "FESLİKAN ELA MAVİ",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_077",
+      "name": "UTKU TOPAL",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_078",
+      "name": "FURKAN EMİR ÇELİK",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.748127",
+      "updatedAt": "2025-09-23T11:06:03.748127",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_079",
+      "name": "ASYA GÖK",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.763753",
+      "updatedAt": "2025-09-23T11:06:03.763753",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_080",
+      "name": "DORUKHAN CANPOLAT",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.767041",
+      "updatedAt": "2025-09-23T11:06:03.767041",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_081",
+      "name": "MEHMET EMİR SELVİ",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.767041",
+      "updatedAt": "2025-09-23T11:06:03.767041",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_082",
+      "name": "CEMRE KAÇAR",
+      "grade": "7",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.770053",
+      "updatedAt": "2025-09-23T11:06:03.770053",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_083",
+      "name": "ELA ÇELİK",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.771036",
+      "updatedAt": "2025-09-23T11:06:03.771036",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_084",
+      "name": "ÖMÜR ECRİN YILDIZ",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.771036",
+      "updatedAt": "2025-09-23T11:06:03.771036",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_085",
+      "name": "DURU SEYREK",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.772034",
+      "updatedAt": "2025-09-23T11:06:03.772034",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_086",
+      "name": "ZEYNEP AYKAÇ",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.773043",
+      "updatedAt": "2025-09-23T11:06:03.773043",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_087",
+      "name": "YİĞİT KAYA",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.774047",
+      "updatedAt": "2025-09-23T11:06:03.774047",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_088",
+      "name": "YİĞİT EGE ŞEREN",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.774636",
+      "updatedAt": "2025-09-23T11:06:03.774636",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_089",
+      "name": "AYŞE NUR YEŞİLYURT",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.774636",
+      "updatedAt": "2025-09-23T11:06:03.774636",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_090",
+      "name": "DERİN ÖZKAN",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.775637",
+      "updatedAt": "2025-09-23T11:06:03.775637",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_091",
+      "name": "ZEYNEP KEKİK",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.776637",
+      "updatedAt": "2025-09-23T11:06:03.776637",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_092",
+      "name": "FATMA DURU COŞKUN",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.776637",
+      "updatedAt": "2025-09-23T11:06:03.776637",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_093",
+      "name": "RABİA YILDIRIM",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.776637",
+      "updatedAt": "2025-09-23T11:06:03.776637",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_094",
+      "name": "BAKİ BURAK TAŞ",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_095",
+      "name": "ALİ EGEMEN METİK",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_096",
+      "name": "MELİKE HANDE HANÇER",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "DEĞİŞTİREN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_097",
+      "name": "HAKAN ARTUÇ",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_098",
+      "name": "ATA UĞUZ",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_099",
+      "name": "KAAN KIZILASLAN",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_100",
+      "name": "SÜLEYMAN YİĞİT",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_101",
+      "name": "AYBÜKE BERRA KÖKSALAN",
+      "grade": "8",
+      "class": "A",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_102",
+      "name": "NİSA ÖZFİŞAN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_103",
+      "name": "ALİ ENES SOPALI",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_104",
+      "name": "MEHMET ASIM ARSLAN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_105",
+      "name": "YILDIRIM EFE DUMAN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "Belirlenmemiş",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "Belirlenmemiş",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_106",
+      "name": "ELİFNAZ ÖZGÜLER",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_107",
+      "name": "HİDAYET DOĞAN ARSLAN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_108",
+      "name": "EMİN FEVZİ ÖZEL",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 0,
+        "musical": 0,
+        "kinesthetic": 0,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_109",
+      "name": "HATİCE ÖZDEMİR",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN/ÖZÜMSEYEN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN/ÖZÜMSEYEN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 1,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 1
+      }
+    },
+    {
+      "id": "student_110",
+      "name": "HAKAN METİN ŞAHİN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN/AYRIŞTIRAN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN/AYRIŞTIRAN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 1,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 0,
+        "intrapersonal": 1,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_111",
+      "name": "AHMET FAZIL TOKER",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "YERLEŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "YERLEŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 1,
+        "logical": 0,
+        "visual": 1,
+        "musical": 0,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 0
+      }
+    },
+    {
+      "id": "student_112",
+      "name": "HASAN ASAF ASLAN",
+      "grade": "8",
+      "class": "B",
+      "learningStyle": "DEĞİŞTİREN",
+      "personalizedSettings": {
+        "studyDuration": 30,
+        "breakInterval": 5,
+        "preferredActivities": [],
+        "motivationLevel": "medium"
+      },
+      "academicData": {
+        "weaknesses": [],
+        "strengths": [],
+        "lastExamDate": null,
+        "averageScore": null,
+        "examHistory": []
+      },
+      "learningStyleData": {
+        "style": "DEĞİŞTİREN",
+        "confidence": 0.9,
+        "characteristics": [],
+        "recommendedTechniques": []
+      },
+      "createdAt": "2025-09-23T11:06:03.777682",
+      "updatedAt": "2025-09-23T11:06:03.777682",
+      "surname": "",
+      "intelligenceTypes": {
+        "verbal": 0,
+        "logical": 0,
+        "visual": 1,
+        "musical": 1,
+        "kinesthetic": 1,
+        "interpersonal": 1,
+        "intrapersonal": 0,
+        "naturalist": 1
+      }
+    }
+  ]
+}

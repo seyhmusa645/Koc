@@ -1,0 +1,157 @@
+﻿student_no,name,learning_style,birthdate,class,page_start,"Görsel Uzamsal Düşünme, Zihinsel Çevirme, Küp ve Modeller","Görsel Uzamsal Düşünme, Zihinsel Çevirme, Küp ve Modeller (score)",Kodlama,Kodlama (score),"Analojiler, Diziler ve Sayısal Akıl Yürütme","Analojiler, Diziler ve Sayısal Akıl Yürütme (score)","Parça-Bütün, Görsel Akıl Yürütme","Parça-Bütün, Görsel Akıl Yürütme (score)",Sözel Akıl Yürütme,Sözel Akıl Yürütme (score),İlişkisel Düşünme,İlişkisel Düşünme (score)
+36,AYŞEGÜL YALMAN,AYRIŞTIRAN,19/06/2015,5/A,1,yellow,2,green,3,yellow,2,yellow,2,green,3,red,1
+49,ALMİRA ÖZKAN,YERLEŞTİREN/DEĞİŞTİREN,17/09/2015,5/A,3,red,1,green,3,red,1,yellow,2,green,3,red,1
+44,MEHMET SELİM SOLAK,ÖZÜMSEYEN,13/10/2015,5/A,6,red,1,yellow,2,green,3,red,1,yellow,2,red,1
+57,İDİL GÜLER,YERLEŞTİREN/AYRIŞTIRAN,4/7/2015,5/A,8,red,1,red,1,red,1,red,1,yellow,2,red,1
+46,HANİFE ÖYKÜ TEKİN,AYRIŞTIRAN,18/11/2015,5/A,11,red,1,red,1,red,1,red,1,green,3,red,1
+53,MAHİR MERT KEKİK,YERLEŞTİREN/AYRIŞTIRAN,10/11/2015,5/A,13,yellow,2,yellow,2,green,3,yellow,2,red,1,red,1
+22,İREM SENA YANAL,AYRIŞTIRAN,28/07/2015,5/A,16,red,1,green,3,red,1,green,3,green,3,red,1
+59,HATİCE GÜVEN,YERLEŞTİREN,23/01/2015,5/A,18,red,1,red,1,yellow,2,red,1,yellow,2,red,1
+35,EREN KÜÇÜKKURT,AYRIŞTIRAN,27/01/2015,5/A,20,green,3,yellow,2,green,3,yellow,2,yellow,2,red,1
+81,DERİN MİMAN,AYRIŞTIRAN,1/2/2016,5/A,22,green,3,yellow,2,yellow,2,yellow,2,green,3,red,1
+37,ELİF DURU YALMAN,YERLEŞTİREN/AYRIŞTIRAN,19/06/2015,5/A,24,yellow,2,yellow,2,green,3,green,3,green,3,red,1
+39,SARA ÖZBEK,YERLEŞTİREN,7/6/2015,5/A,27,green,3,green,3,red,1,green,3,green,3,red,1
+47,ELİF NAZ TEKELİ,,11/3/2014,5/A,29,green,3,yellow,2,red,1,yellow,2,green,3,red,1
+38,ELİFNUR SERİN,AYRIŞTIRAN,12/9/2014,5/A,31,green,3,green,3,yellow,2,green,3,yellow,2,yellow,2
+25,BERAT GÜMÜŞ,YERLEŞTİREN,19/05/2015,5/A,33,yellow,2,yellow,2,green,3,yellow,2,green,3,red,1
+54,TALHA YUSUF TIRAŞ,YERLEŞTİREN/DEĞİŞTİREN,13/11/2014,5/A,35,yellow,2,yellow,2,green,3,yellow,2,yellow,2,yellow,2
+26,ELA DURMAZ,YERLEŞTİREN,17/03/2015,5/A,38,green,3,green,3,yellow,2,yellow,2,red,1,red,1
+64,EMİR CAN ÇELEBİ,DEĞİŞTİREN/ÖZÜMSEYEN,23/09/2014,5/A,40,red,1,red,1,red,1,yellow,2,red,1,red,1
+31,ŞEYMA BURAKGAZİ,AYRIŞTIRAN,25/11/2014,5/B,42,green,3,green,3,yellow,2,green,3,green,3,red,1
+74,SÜLEYMAN TAHA TUTUŞ,AYRIŞTIRAN,19/02/2015,5/B,44,green,3,green,3,yellow,2,green,3,yellow,2,red,1
+48,ASEL ARGÜN,ÖZÜMSEYEN,18/03/2015,5/B,46,green,3,red,1,red,1,green,3,yellow,2,red,1
+33,ENES KALAY,DEĞİŞTİREN,18/11/2014,5/B,48,red,1,yellow,2,green,3,yellow,2,green,3,yellow,2
+63,YAĞMUR METİK,AYRIŞTIRAN,14/02/2015,5/B,50,red,1,red,1,red,1,red,1,yellow,2,red,1
+28,ELVİN BİÇER,YERLEŞTİREN,15/03/2015,5/B,52,green,3,green,3,yellow,2,green,3,green,3,red,1
+60,YİĞİT KAYIKÇI,,2/2/2015,5/B,54,yellow,2,yellow,2,red,1,yellow,2,yellow,2,yellow,2
+55,YUSUF BERAT ŞİMŞEK,AYRIŞTIRAN,6/2/2015,5/B,56,yellow,2,green,3,yellow,2,red,1,red,1,red,1
+66,YUSUF KAĞAN ŞAHİN,YERLEŞTİREN/AYRIŞTIRAN,23/12/2014,5/B,58,red,1,red,1,red,1,red,1,green,3,red,1
+34,AHMET TALHA SÖYLEMEZ,AYRIŞTIRAN,11/10/2015,5/B,61,yellow,2,green,3,red,1,red,1,green,3,red,1
+24,YUSUF TUNA ALDEMİR,AYRIŞTIRAN/ÖZÜMSEYEN,12/3/2014,5/B,63,green,3,yellow,2,green,3,green,3,green,3,red,1
+13,ELİF İKRA YILMAZ,ÖZÜMSEYEN,25/07/2014,5/B,65,green,3,red,1,yellow,2,yellow,2,yellow,2,red,1
+29,MİNA ÇETİNEL,YERLEŞTİREN,31/10/2014,5/B,67,green,3,green,3,yellow,2,yellow,2,green,3,red,1
+40,MEYRA KARABOĞA,AYRIŞTIRAN,24/10/2014,5/B,69,green,3,yellow,2,yellow,2,red,1,green,3,red,1
+45,METEHAN KARS,YERLEŞTİREN/AYRIŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN,14/03/2015,5/B,71,red,1,red,1,red,1,red,1,green,3,yellow,2
+27,ATAHAN YILMAZ,AYRIŞTIRAN,2/4/2015,5/B,74,green,3,yellow,2,red,1,yellow,2,red,1,red,1
+71,BEREN GÖKSU ERCAN,AYRIŞTIRAN/ÖZÜMSEYEN,1/5/2015,5/B,76,red,1,red,1,red,1,yellow,2,red,1,red,1
+61,ZEYNEP SÜZER,ÖZÜMSEYEN,19/12/2014,5/B,78,yellow,2,yellow,2,yellow,2,red,1,yellow,2,yellow,2
+51,BİGEM DENLİ,AYRIŞTIRAN,4/3/2015,5/B,80,green,3,green,3,yellow,2,green,3,red,1,red,1
+42,BUĞLEM UYAR,YERLEŞTİREN/DEĞİŞTİREN,20/11/2014,5/B,82,green,3,green,3,yellow,2,yellow,2,red,1,red,1
+52,OLCAY YAMAN YILMAZ,ÖZÜMSEYEN,19/07/2014,5/B,85,yellow,2,yellow,2,green,3,green,3,green,3,yellow,2
+78,UMUT ŞABAN GÜVEN,YERLEŞTİREN,11/11/2014,5/B,87,red,1,red,1,red,1,yellow,2,yellow,2,red,1
+30,AYLİS ATASEVER,YERLEŞTİREN/AYRIŞTIRAN,11/3/2014,5/B,89,yellow,2,green,3,green,3,green,3,green,3,yellow,2
+68,ÇINAR ÖZKAYA,AYRIŞTIRAN,5/11/2015,5/B,92,yellow,2,red,1,red,1,yellow,2,yellow,2,red,1
+186,MUSTAFA COŞAR,AYRIŞTIRAN/ÖZÜMSEYEN,18/09/2014,6/A,94,green,3,green,3,yellow,2,yellow,2,yellow,2,red,1
+192,METE YAKUP KAYA,AYRIŞTIRAN,5/9/2014,6/A,96,yellow,2,green,3,yellow,2,green,3,green,3,green,3
+188,BEREN ZEHRA AK,AYRIŞTIRAN,28/05/2014,6/A,98,yellow,2,yellow,2,yellow,2,green,3,green,3,red,1
+213,ELİF SENA ÇEVİK,YERLEŞTİREN,17/07/2014,6/A,100,red,1,yellow,2,yellow,2,yellow,2,green,3,yellow,2
+193,ELİSA ÖYKÜ KAPLAN,,14/04/2014,6/A,102,yellow,2,red,1,yellow,2,yellow,2,yellow,2,red,1
+75,AYZADE ÇEKEN,YERLEŞTİREN,4/9/2014,6/A,104,green,3,yellow,2,red,1,green,3,red,1,red,1
+65,ÇAĞAN TÜRKMEN,YERLEŞTİREN,8/11/2014,6/A,106,green,3,green,3,green,3,yellow,2,green,3,yellow,2
+202,YAŞARCAN ÇETİN,,13/01/2014,6/A,108,yellow,2,red,1,yellow,2,red,1,yellow,2,red,1
+200,TOPRAK TARIM,YERLEŞTİREN,28/06/2014,6/A,110,red,1,yellow,2,red,1,yellow,2,green,3,yellow,2
+80,AYAZ TORAMAN,AYRIŞTIRAN/ÖZÜMSEYEN,7/7/2014,6/A,112,red,1,yellow,2,red,1,red,1,yellow,2,yellow,2
+196,EYLÜL ECE BİÇMEN,ÖZÜMSEYEN,21/09/2014,6/A,115,red,1,green,3,red,1,red,1,red,1,red,1
+177,ESRA MERVE YILMAZ,YERLEŞTİREN,20/03/2014,6/A,117,green,3,green,3,yellow,2,green,3,yellow,2,yellow,2
+380,UMUTHAN DOĞAN,YERLEŞTİREN,15/03/2013,6/A,119,red,1,red,1,red,1,red,1,green,3,yellow,2
+221,İBRAHİM YAVUZ GÜLEGE,AYRIŞTIRAN,12/4/2013,6/A,121,yellow,2,green,3,green,3,yellow,2,green,3,yellow,2
+195,ELİF DUDU VAR,YERLEŞTİREN,19/12/2013,6/A,123,yellow,2,green,3,yellow,2,red,1,green,3,red,1
+220,HATİCE ASEL SAPMAZOĞLU,DEĞİŞTİREN,25/11/2013,6/B,125,red,1,red,1,red,1,yellow,2,red,1,red,1
+189,ASYA SAY,AYRIŞTIRAN,2/6/2014,6/B,127,green,3,green,3,green,3,green,3,yellow,2,red,1
+14,MERYEM TURNA,ÖZÜMSEYEN,20/09/2013,6/B,129,red,1,red,1,red,1,red,1,green,3,red,1
+205,ÖZGÜR METEHAN KÜLTÜR,ÖZÜMSEYEN,17/11/2013,6/B,131,green,3,yellow,2,green,3,green,3,green,3,red,1
+217,ASMİN MİRA ŞAHİN,AYRIŞTIRAN,5/6/2014,6/B,133,red,1,yellow,2,red,1,green,3,green,3,red,1
+190,AZRA TAŞDELEN,DEĞİŞTİREN,18/08/2014,6/B,135,green,3,green,3,green,3,green,3,green,3,red,1
+218,ALYA MİRAY YILMAZ,YERLEŞTİREN,17/02/2014,6/B,137,red,1,yellow,2,green,3,green,3,yellow,2,yellow,2
+23,MİRAÇ ALEMDAROĞULLARI,DEĞİŞTİREN/ÖZÜMSEYEN,16/05/2014,6/B,139,red,1,green,3,yellow,2,green,3,yellow,2,red,1
+206,HASAN YÜKSEL,AYRIŞTIRAN,31/03/2014,6/B,141,red,1,yellow,2,yellow,2,green,3,green,3,red,1
+214,ZEYNEP DİLEK ÖZDEMİR,AYRIŞTIRAN,30/01/2014,6/B,143,yellow,2,yellow,2,green,3,green,3,yellow,2,red,1
+187,ALPEREN VAR,YERLEŞTİREN/AYRIŞTIRAN,21/10/2013,6/B,145,red,1,yellow,2,yellow,2,yellow,2,red,1,red,1
+15,RÜZGAR BAYRAKTAR,AYRIŞTIRAN,30/05/2014,6/B,148,yellow,2,red,1,red,1,green,3,green,3,red,1
+204,ZAFER MERT İPCİ,AYRIŞTIRAN,11/7/2013,6/B,150,yellow,2,yellow,2,green,3,yellow,2,green,3,red,1
+384,NUH DENİZ ABAKAY,DEĞİŞTİREN,28/05/2014,6/B,152,yellow,2,red,1,red,1,yellow,2,green,3,red,1
+176,EREN NADİR ATMACA,AYRIŞTIRAN,22/01/2014,6/B,154,yellow,2,yellow,2,yellow,2,yellow,2,yellow,2,yellow,2
+203,ELMIRA GUSEINOVA,YERLEŞTİREN/AYRIŞTIRAN,15/10/2014,6/B,156,green,3,green,3,green,3,yellow,2,red,1,yellow,2
+197,CEMİLE HÜMEYRA TUTUŞ,DEĞİŞTİREN,8/12/2014,6/B,159,yellow,2,yellow,2,yellow,2,green,3,yellow,2,red,1
+210,NAĞME UÇAR,,1/8/2014,6/B,161,yellow,2,green,3,red,1,yellow,2,green,3,yellow,2
+5,TESLİME ÜNVER,AYRIŞTIRAN/ÖZÜMSEYEN,31/08/2013,7/A,163,red,1,red,1,yellow,2,yellow,2,yellow,2,red,1
+135,ZEYNEP SARE KAVŞUT,ÖZÜMSEYEN,26/03/2013,7/A,165,red,1,yellow,2,red,1,green,3,red,1,yellow,2
+134,YAĞMUR UYSAL,YERLEŞTİREN/AYRIŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN,10/1/2013,7/A,167,yellow,2,yellow,2,green,3,green,3,yellow,2,red,1
+12,MİRAY FEYZA HIZ,ÖZÜMSEYEN,18/03/2013,7/A,170,green,3,yellow,2,green,3,yellow,2,green,3,green,3
+127,MUSTAFA POYRAZ İSPİR,ÖZÜMSEYEN,9/2/2013,7/A,172,red,1,red,1,yellow,2,red,1,yellow,2,yellow,2
+152,ÖZGÜR ÇİÇEKLİ,YERLEŞTİREN/AYRIŞTIRAN,15/12/2012,7/A,174,yellow,2,green,3,green,3,red,1,yellow,2,yellow,2
+117,GÜLŞEN BETÜL GÜNDÜZ,ÖZÜMSEYEN,28/10/2013,7/A,177,green,3,yellow,2,green,3,yellow,2,red,1,red,1
+58,DENİZ AY,DEĞİŞTİREN,24/05/2013,7/A,179,green,3,yellow,2,yellow,2,yellow,2,yellow,2,green,3
+160,FATMA CEREN ALDEMİR,AYRIŞTIRAN,17/04/2013,7/A,181,green,3,green,3,green,3,green,3,green,3,red,1
+72,ELİS NİL ÇİFTÇİOĞLU,YERLEŞTİREN,12/5/2012,7/A,183,green,3,yellow,2,yellow,2,yellow,2,red,1,red,1
+103,AHMET EFE BORAN,ÖZÜMSEYEN,28/02/2013,7/A,185,red,1,yellow,2,red,1,red,1,yellow,2,red,1
+7,ELİF USLU,ÖZÜMSEYEN,22/07/2013,7/A,187,green,3,yellow,2,yellow,2,green,3,yellow,2,yellow,2
+179,GÜL FİDAN BARAN,YERLEŞTİREN/DEĞİŞTİREN,8/5/2013,7/A,189,green,3,red,1,yellow,2,red,1,green,3,red,1
+102,AHMET ÇAĞRI ÖZTÜRK,,9/2/2013,7/A,192,green,3,green,3,green,3,yellow,2,yellow,2,red,1
+112,DERİN SEYREK,AYRIŞTIRAN/ÖZÜMSEYEN,10/11/2013,7/A,194,yellow,2,yellow,2,green,3,yellow,2,yellow,2,green,3
+120,HATİCE HÜMANUR YEŞİLYURT,ÖZÜMSEYEN,4/1/2013,7/A,196,green,3,yellow,2,red,1,green,3,yellow,2,red,1
+111,CEYLİN RAHŞAN GÜRGAH,AYRIŞTIRAN,8/2/2013,7/A,198,yellow,2,green,3,green,3,green,3,yellow,2,red,1
+107,AZRA NEHİR ÇAKAR,YERLEŞTİREN/AYRIŞTIRAN,30/08/2013,7/A,200,green,3,green,3,green,3,yellow,2,green,3,green,3
+122,KEREM GÜVEN,DEĞİŞTİREN,20/06/2013,7/A,203,green,3,green,3,green,3,green,3,green,3,green,3
+106,ASIM BERA ATA,ÖZÜMSEYEN,11/5/2012,7/A,205,yellow,2,green,3,green,3,yellow,2,yellow,2,yellow,2
+115,EMİR BARAN ÇETİN,AYRIŞTIRAN,30/01/2013,7/A,207,green,3,yellow,2,green,3,green,3,yellow,2,yellow,2
+373,AHSEN ECE BİLGEN,YERLEŞTİREN/AYRIŞTIRAN,25/10/2013,7/A,209,yellow,2,green,3,green,3,green,3,green,3,yellow,2
+101,AFİFE AYBÜKE GÜL,ÖZÜMSEYEN,1/10/2013,7/A,212,yellow,2,yellow,2,green,3,yellow,2,green,3,green,3
+168,MEHMET EFE POLAT,YERLEŞTİREN,8/12/2013,7/A,214,green,3,green,3,green,3,red,1,yellow,2,yellow,2
+140,MUHAMMET GÜNDÜZ,DEĞİŞTİREN/ÖZÜMSEYEN,8/5/2013,7/B,216,green,3,red,1,red,1,yellow,2,yellow,2,red,1
+114,EMİR ALİ ARGÜN,YERLEŞTİREN,21/08/2013,7/B,218,green,3,green,3,green,3,green,3,yellow,2,yellow,2
+41,FATİH AHMET AÇIKGÖZ,AYRIŞTIRAN,24/03/2013,7/B,220,green,3,yellow,2,green,3,yellow,2,green,3,green,3
+182,ÖYKÜ ERDEM,ÖZÜMSEYEN,22/10/2012,7/B,222,yellow,2,yellow,2,yellow,2,red,1,yellow,2,yellow,2
+128,RABİA ALİM,YERLEŞTİREN/AYRIŞTIRAN,10/3/2013,7/B,224,red,1,red,1,red,1,green,3,green,3,red,1
+82,YUSUF AKÇA,DEĞİŞTİREN/ÖZÜMSEYEN,15/11/2012,7/B,227,red,1,green,3,yellow,2,yellow,2,yellow,2,red,1
+19,YİĞİT ÖZYURT,AYRIŞTIRAN,14/10/2013,7/B,229,yellow,2,yellow,2,red,1,red,1,yellow,2,red,1
+116,FESLİKAN ELA MAVİ,YERLEŞTİREN,26/09/2013,7/B,231,yellow,2,green,3,red,1,yellow,2,green,3,red,1
+154,FURKAN EMİR ÇELİK,AYRIŞTIRAN,29/07/2013,7/B,233,yellow,2,yellow,2,yellow,2,yellow,2,green,3,yellow,2
+222,MEHMET EYMEN GÜR,ÖZÜMSEYEN,4/10/2013,7/B,235,yellow,2,yellow,2,yellow,2,yellow,2,green,3,yellow,2
+130,SANİYE ÖZBEK,ÖZÜMSEYEN,9/11/2013,7/B,237,green,3,green,3,green,3,green,3,yellow,2,red,1
+374,DORUKHAN CANPOLAT,ÖZÜMSEYEN,25/07/2012,7/B,239,green,3,green,3,red,1,green,3,red,1,red,1
+161,MERT BULGURCU,AYRIŞTIRAN,14/10/2013,7/B,241,green,3,green,3,green,3,red,1,yellow,2,yellow,2
+123,MEHMET EMİR SELVİ,AYRIŞTIRAN,19/12/2012,7/B,243,yellow,2,green,3,yellow,2,green,3,green,3,yellow,2
+20,YAĞIZ ÖZYURT,ÖZÜMSEYEN,14/10/2013,7/B,245,green,3,green,3,green,3,green,3,yellow,2,yellow,2
+165,ASYA GÖK,DEĞİŞTİREN,6/9/2013,7/B,247,green,3,yellow,2,green,3,yellow,2,green,3,red,1
+126,MUHAMMET FURKAN SERİN,YERLEŞTİREN/AYRIŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN,9/5/2013,7/B,249,yellow,2,green,3,green,3,green,3,yellow,2,yellow,2
+131,UTKU TOPAL,ÖZÜMSEYEN,8/12/2013,7/B,252,green,3,green,3,yellow,2,yellow,2,yellow,2,red,1
+125,MUHAMMED ARAS YILDIRIM,ÖZÜMSEYEN,1/1/2013,7/B,254,yellow,2,red,1,yellow,2,yellow,2,yellow,2,green,3
+156,CEMRE KAÇAR,DEĞİŞTİREN,6/2/2013,7/B,256,red,1,red,1,red,1,green,3,green,3,red,1
+104,AHMET KEREM KASAP,AYRIŞTIRAN,24/01/2013,7/B,258,yellow,2,red,1,green,3,red,1,yellow,2,red,1
+9,ESMA MELEK ÜLGÜRLAP,AYRIŞTIRAN,23/08/2013,7/B,260,red,1,green,3,yellow,2,yellow,2,yellow,2,red,1
+121,HAYRİYE AZRA ARSLAN,AYRIŞTIRAN,13/10/2012,7/B,262,red,1,yellow,2,red,1,red,1,green,3,red,1
+,DURU SEYREK  ,YERLEŞTİREN/AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,ZEYNEP AYKAÇ  ,AYRIŞTIRAN/ÖZÜM,,8/A,,,,,,,,,,,,,
+,YİĞİT KAYA  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,YİĞİT EGE ŞEREN  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,AYŞE NUR YEŞİLYURT  ,YERLEŞTİREN,,8/A,,,,,,,,,,,,,
+,DERİN ÖZKAN  ,ÖZÜMSEYEN,,8/A,,,,,,,,,,,,,
+,ZEYNEP KEKİK  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,FATMA DURU COŞKUN  ,ÖZÜMSEYEN,,8/A,,,,,,,,,,,,,
+,RABİA YILDIRIM  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,ESAD AY,YERLEŞTİREN/AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,ALİ EGEMEN METİK  ,ÖZÜMSEYEN,,8/A,,,,,,,,,,,,,
+,MELİKE HANDE HANÇER  ,DEĞİŞTİREN/ÖZÜMSEYEN,,8/B,,,,,,,,,,,,,
+,HAKAN ARTUÇ  ,ÖZÜMSEYEN,,8/A,,,,,,,,,,,,,
+,ATA UĞUZ  ,YERLEŞTİREN,,8/B,,,,,,,,,,,,,
+,KAAN KIZILASLAN  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,SÜLEYMAN YİĞİT  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,AYBÜKE BERRA KÖKSALAN  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,NİSA ÖZFİŞAN  ,AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,ALİ ENES SOPALI  ,DEĞİŞTİREN/ÖZÜMSEYEN,,8/B,,,,,,,,,,,,,
+,MEHMET ASIM ARSLAN  ,DEĞİŞTİREN,,8/B,,,,,,,,,,,,,
+,YILDIRIM EFE DUMAN  ,YERLEŞTİREN,,8/B,,,,,,,,,,,,,
+,HİDAYET DOĞAN ARSLAN  ,AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,EMİN FEVZİ ÖZEL  ,AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,HATİCE ÖZDEMİR  ,DEĞİŞTİREN/ÖZÜM,,8/B,,,,,,,,,,,,,
+,HAKAN METİN ŞAHİN  ,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,AHMET FAZIL TOKER  ,YERLEŞTİREN,,8/B,,,,,,,,,,,,,
+,HASAN ASAF ASLAN  ,DEĞİŞTİREN,,8/B,,,,,,,,,,,,,
+,MAHMUT EMİN KAYA,YERLEŞTİREN/AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,ALİ TUNA ESKİTÜRK,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,ASU SENA TAŞDELEN,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,CEYLİN DURU KIRMIZITAŞ,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,YAVUZ SULTAN ASLAN,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,
+,ÖMÜR ECRİN YILDIZ,YERLEŞTİREN/AYRIŞTIRAN,,8/A,,,,,,,,,,,,,
+,ELİF NAZ ÖZGÜLER,YERLEŞTİREN/AYRIŞTIRAN,,8/B,,,,,,,,,,,,,

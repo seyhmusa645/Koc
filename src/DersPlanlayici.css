@@ -1,0 +1,432 @@
+/* DersPlanlayici.css */
+
+.ders-planlayici-container {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: #f0f2f5;
+  min-height: 80vh;
+}
+
+.ayarlar-paneli {
+  flex: 0 0 300px; /* Sabit genişlik, küçülmez/büyümez */
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.ayarlar-paneli h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-grup {
+  margin-bottom: 1.25rem;
+}
+
+.form-grup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-grup input,
+.form-grup select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.plan-olustur-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745; /* Yeşil renk */
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.plan-olustur-btn:hover {
+  background-color: #218838;
+}
+
+.takvim-alani {
+  flex-grow: 1;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.takvim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.takvim-header h2 {
+  margin: 0;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.export-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.export-button:hover {
+  background-color: #218838;
+}
+
+.takvim-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr); /* Saatler sütunu + 7 gün */
+  gap: 2px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+}
+
+.gun-basligi, .saat-basligi {
+  background-color: #f9f9f9;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.saat-basligi {
+  font-size: 0.7rem;
+}
+
+.zaman-dilimi {
+  background-color: #fff;
+  min-height: 40px;
+  border: 1px solid #f0f0f0;
+  padding: 4px;
+  font-size: 0.75rem;
+}
+
+.ders-blogu {
+  border-radius: 4px;
+  padding: 4px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 2px;
+  cursor: grab;
+}
+
+/* Derslere özel renkler */
+.ders-turkce { background-color: #007bff; }
+.ders-matematik { background-color: #dc3545; }
+.ders-fen { background-color: #28a745; }
+.ders-sosyal { background-color: #ffc107; color: #333; }
+.ders-ingilizce { background-color: #17a2b8; }
+.ders-din { background-color: #6f42c1; }
+.ders-mola { background-color: #6c757d; }
+.ders-tekrar { background-color: #fd7e14; }
+
+/* Tip'e özel stiller */
+.tip-konu-calisma {
+  /* Konu Çalışma blokları için genel stil */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.tip-tekrar {
+  /* Tekrar blokları için stil */
+  background-color: #20c997; /* Daha canlı bir yeşil */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.tip-soru-cozumu {
+  /* Soru Çözümü blokları için stil */
+  background-color: #6610f2; /* Mor */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.tip-mola {
+  /* Mola blokları için stil */
+  background-color: #6c757d; /* Gri */
+  font-style: italic;
+  opacity: 0.8;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+/* Advanced Schedule Styles */
+.advanced-schedule {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.schedule-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+}
+
+.schedule-header h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.schedule-header p {
+  margin: 5px 0;
+  opacity: 0.9;
+}
+
+.daily-schedule {
+  margin-bottom: 25px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.day-header {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.day-header h4 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 18px;
+}
+
+.day-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+}
+
+.study-time {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.break-time {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.day-blocks {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-block {
+  padding: 12px 15px;
+  border-radius: 6px;
+  border-left: 4px solid #ddd;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.study-block {
+  background: #f8f9ff;
+  border-left-color: #3498db;
+}
+
+.study-block.priority-high {
+  background: #fff5f5;
+  border-left-color: #e74c3c;
+}
+
+.study-block.priority-normal {
+  background: #f8fff8;
+  border-left-color: #27ae60;
+}
+
+.break-block {
+  background: #fefefe;
+  border-left-color: #95a5a6;
+  opacity: 0.7;
+}
+
+.block-time {
+  font-size: 12px;
+  color: #7f8c8d;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.block-title {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 3px;
+}
+
+.block-topic {
+  font-size: 14px;
+  color: #34495e;
+  margin-bottom: 2px;
+}
+
+.block-description {
+  font-size: 12px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.priority-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+}
+
+.priorities-section, .recommendations-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.priorities-section h4, .recommendations-section h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+}
+
+.priority-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.priority-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #e74c3c;
+}
+
+.priority-subject {
+  font-weight: 600;
+  color: #e74c3c;
+  min-width: 80px;
+}
+
+.priority-topic {
+  flex: 1;
+  color: #2c3e50;
+  margin: 0 10px;
+}
+
+.priority-score {
+  font-size: 12px;
+  color: #7f8c8d;
+  background: #ecf0f1;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.recommendation-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendation-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ecf0f1;
+  color: #2c3e50;
+}
+
+.recommendation-list li:last-child {
+  border-bottom: none;
+}
+
+.recommendation-list li:before {
+  content: "💡 ";
+  margin-right: 8px;
+}
+
+/* Analysis Summary Styles */
+.analiz-ozeti {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid #e1e5e9;
+}
+
+.analysis-summary h4 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.analysis-summary p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #34495e;
+}
+
+.weak-item {
+  font-size: 12px;
+  color: #e74c3c;
+  margin: 2px 0;
+  padding: 2px 0;
+}
+
+/* Subject-specific colors */
+.time-block[data-subject="turkce"] {
+  border-left-color: #3498db !important;
+}
+
+.time-block[data-subject="matematik"] {
+  border-left-color: #e74c3c !important;
+}
+
+.time-block[data-subject="fen"] {
+  border-left-color: #27ae60 !important;
+}
+
+.time-block[data-subject="inkilap"] {
+  border-left-color: #f39c12 !important;
+}
+
+.time-block[data-subject="din"] {
+  border-left-color: #9b59b6 !important;
+}
+
+.time-block[data-subject="ingilizce"] {
+  border-left-color: #1abc9c !important;
+}
+
+.time-block[data-subject="paragraf"] {
+  border-left-color: #fd79a8 !important;
+}

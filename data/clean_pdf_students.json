@@ -1,0 +1,373 @@
+[
+  {
+    "name": "CEYLİN MİRA GÖLGELİ  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "YAŞARCAN ÇETİN  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "EYLÜL ECE BİÇMEN  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "MUSTAFA COŞAR  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "HATİCE ASEL SAPMAZOĞLU  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "HATİCE SENA KESKİN  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "ZAFER MERT İPCİ  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "CEMİLE HÜMEYRA TUTUŞ  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "EREN NADİR ATMACA  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "TUNA ERSAN KARACA  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "CEYLİN RAHŞAN GÜRGAH  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "AHSEN ECE BİLGEN  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "HATİCE HÜMANUR YEŞİLYURT  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "FATMA CEREN ALDEMİR  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "MERT BULGURCU  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "DORUKHAN CANPOLAT  Cinsiyeti:  ERKEK",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "CEMRE KAÇAR  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "ÖMÜR ECRİN YILDIZ  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "FATMA DURU COŞKUN  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "HATİCE ÖZDEMİR  Cinsiyeti:  KIZ",
+    "gender": "",
+    "grade": "",
+    "class": null,
+    "learning_style": ""
+  },
+  {
+    "name": "MUHAMMED KEREM SULTANOĞLU",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜMSEYEN"
+  },
+  {
+    "name": "ARDA KAYA",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN"
+  },
+  {
+    "name": "ALİ ÇAĞAN ÖNAL",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN/AYR IŞTIRAN"
+  },
+  {
+    "name": "MEHMET EMİR ŞİMŞEK",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜM SEYEN"
+  },
+  {
+    "name": "MEHMET ANIL AY",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "LORİN ASMİN VARIŞLI",
+    "gender": "KIZ",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN/ÖZÜMSE YEN"
+  },
+  {
+    "name": "YUSUF TİMUÇİN ŞEYHANLI",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "AHMET YİĞİT YILDIZ",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "BEKİR KEREM TOPAL",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN"
+  },
+  {
+    "name": "YUNUS EMRE YILMAZ",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "name": "İHSAN İSMET KAYA",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "SARPER EGE SÜNBER",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "ALİ RIZA YALMAN",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "GAMZE MELTEM EKER",
+    "gender": "KIZ",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMS EYEN"
+  },
+  {
+    "name": "EYLÜL NEVA ÖZBOLAT",
+    "gender": "KIZ",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "ÖMER FARUK TÜZEL",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "YERLEŞTİREN/AYRIŞTIRAN"
+  },
+  {
+    "name": "MUSTAFA BUĞRA YILMAZ",
+    "gender": "ERKEK",
+    "grade": "8/A",
+    "class": "A",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "SENA KIRIŞ",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "TABASSOM SEIFI DIZAJ",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/AYRI ŞTIRAN"
+  },
+  {
+    "name": "EREN ÇELİK",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "name": "MERT YAHNİ",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/AYR IŞTIRAN/DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "name": "FURKAN HALİL ÇELEBİ",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "METE LEVENT",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "MISS YASOTHARA SUWANNAWISUT",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "MUHAMMED EMİR BALKAYA",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "EZGİ BORAN",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "MUSTAFA KEMAL DİLER",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN/ÖZÜMSEYEN"
+  },
+  {
+    "name": "MEHMET SATUK BUĞRA KULU",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "DEĞİŞTİREN"
+  },
+  {
+    "name": "DURU SU KALE",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN"
+  },
+  {
+    "name": "MAHMUT MUSTAFA GÜLDÜR",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "ÖZÜMSEYEN"
+  },
+  {
+    "name": "DMITRII NOVIKOV",
+    "gender": "ERKEK",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  },
+  {
+    "name": "DINARA GUSEINOVA",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "YERLEŞTİREN/DEĞİŞTİREN"
+  },
+  {
+    "name": "BERİL ADA SEKİTMEZ",
+    "gender": "KIZ",
+    "grade": "8/B",
+    "class": "B",
+    "learning_style": "AYRIŞTIRAN"
+  }
+]

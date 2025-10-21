@@ -1,0 +1,52 @@
+> Özel Öğrenci Deposu Planı
+
+  - Ortak-soru / kullanıcı-özel ayrımı
+      - Sorular src/data/questions.json ve benzeri paylaşılan dosyalarda kalır; sadece okuma için kullanılacak.
+      - Öğrenci verisi her kullanıcıya ait ayrı bir JSON’da saklanacak; konum için app.getPath('userData')
+  altında users/<userId>/students.json yapısı (örnek: C:\Users\...\AppData\Roaming\kapsul-kocluk-
+  programi\users\user_123\students.json).
+      - Aktif kullanıcıya ait dosya yolu merkezden yönetilecek; diğer bileşenler doğrudan students.json yoluna
+  erişmeyecek.
+  - Oturum ve kullanıcı bağlamı (src/main.js civarı 292)
+      - Başarılı giriş sonrası activeUser benzeri bir değişkende {id,email,name} tut.
+      - createMainWindow çalışmadan önce bu değişken set edilmeli; handleLogout sıfırlamalı.
+      - mainWindow.webContents.send('user-session', activeUser) ile renderer’a kullanıcı bilgisi iletilmeli; preload.js
+  yeni onUserSession API’si açmalı.
+  - Dosya yolu yardımcıları
+      - main.js içinde getUserStudentsFilePath(userId) fonksiyonu ekle (varsa yol döndür, yoksa dizin oluştur).
+      - Kayıt sırasında (ipcMain.handle('user:register') yeni kullanıcı için dizini aç ve içine boş students.json
+  (varsayılan şema) yaz.
+      - Girişte kullanıcıya ait dosya yoksa, ilk sürümden göç amaçlı mevcut ortak students.json’ı kopyalamayı veya
+  boş dosya üretmeyi seç (karar: ilk kullanıcı için otomatik taşı, sonraki girişlerde sadece o kullanıcıya ait dosya
+  kullan).
+  - Öğrenci IPC’leri (load/save/update/delete)
+      - Her handler önce activeUser var mı kontrol etmeli; yoksa { error: 'Oturum yok' }.
+      - Dosya yolunu getUserStudentsFilePath(activeUser.id) üzerinden al.
+      - Yazma/okuma try-catch bloklarında değişiklik gerekecek; log çıktıları kullanıcı kimliğini de içermeli (ör.
+  console.log('students-save', activeUser.email, ...)).
+      - students-load içinde eski profiles.json migrasyonu sadece kullanıcı özel dosya yoksa ve ortak eski dosya
+  bulunursa çalışmalı.
+  - Renderer tarafı (preload.js, src/renderer.js)
+      - preload.js’e onUserSession dinleyicisi ekle; renderer’da uygulama açılışında kullanıcı bağlamı gelene kadar
+  loadStudents çağrısını beklet.
+      - renderer.js’te hâlâ fetch('./data/students.json') çağrıları varsa (ör. satırlar 1x), bunları kaldır; tek kaynak
+  electronAPI.loadStudents olsun.
+      - UI’da aktif kullanıcı adı gösterilecekse onUserSession verisini kullan.
+      - Oturum kapanınca (örn. menüden çıkış) renderer state resetlenmeli; bu olayı tetiklemek için handleLogout
+  sırasında authWindow açmaya ek olarak renderer’a user-session-cleared mesajı gönder.
+  - Ek işlemler ve testler
+      - Çok kullanıcı senaryosu:
+          1. Kullanıcı A kayıt + 2 öğrenci ekle, çıkış.
+          2. Kullanıcı B kayıt + 1 öğrenci ekle.
+          3. A tekrar giriş yaptığında sadece kendi 2 öğrencisini görmeli.
+      - Lisans kısıtı: lisans kontrolü ortak kaldığı için değişiklik gerekmiyor fakat hata mesajlarının kullanıcı bazlı
+  dosya oluşturmayı engellemediğinden emin ol.
+      - Windows paketleme/builder scriptleri kullanıcı dizininde yeni klasörü otomatik oluşturacağı için ekstra ayara
+  gerek yok; ama harici Python betikleri (scripts/*.py) ortak students.json peşinde ise, ihtiyaç halinde kullanıcı
+  kimliği parametresiyle güncellenecek şekilde planla.
+  - Geçiş ve bakım
+      - Üretimde mevcut tek dosyadaki öğrenci verisini kaybetmemek için “ilk girişte taşı” stratejisi veya ayrı bir
+  migrasyon komutu hazırlayın.
+      - Dokümantasyona (örn. docs/) yeni veri yapısını ve skript çağırılarını ekle.
+      - Gerekiyorsa gelecek adımda kullanıcı bazlı yedekleme/export fonksiyonu eklenebilir (ör. menüde “Öğrencilerimi
+  dışa aktar”).

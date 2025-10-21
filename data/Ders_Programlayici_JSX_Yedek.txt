@@ -1,0 +1,237 @@
+import { useState, useEffect } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import './DersPlanlayici.css';
+
+// --- Sabitler ve Tipler ---
+const ItemTypes = { DERS_BLOGU: 'dersBlogu' };
+const TUM_DERSLER = ["Türkçe", "Matematik", "Fen Bilimleri", "Sosyal Bilgiler", "İngilizce", "Din Kültürü"];
+const HAFTA_GUNLERI = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+
+// --- Yardımcı Fonksiyonlar ---
+const saatiDakikayaCevir = (saatStr) => {
+  if (!saatStr || typeof saatStr !== 'string') return 0;
+  const [saat, dakika] = saatStr.split(':').map(Number);
+  return (saat || 0) * 60 + (dakika || 0);
+};
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+// --- Sürükle-Bırak Bileşenleri ---
+
+const DraggableDersBlogu = ({ dersBlogu, slotKey, moveDersBlogu }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.DERS_BLOGU,
+    item: { ...dersBlogu, originalSlotKey: slotKey },
+    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+  }));
+
+  return (
+    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }} className={`ders-blogu ders-${dersBlogu.ders.toLowerCase().replace(/ /g, '-')}`}>
+      {dersBlogu.ders}
+      {dersBlogu.konu && <div style={{ fontSize: '0.7em', fontWeight: 'normal' }}>{dersBlogu.konu}</div>}
+    </div>
+  );
+};
+
+const DroppableZamanDilimi = ({ children, slotKey, moveDersBlogu }) => {
+  const [, drop] = useDrop(() => ({
+    accept: ItemTypes.DERS_BLOGU,
+    drop: (item) => {
+      if (item.originalSlotKey !== slotKey) {
+        moveDersBlogu(item.originalSlotKey, slotKey);
+      }
+    },
+  }));
+
+  return (
+    <div ref={drop} className="zaman-dilimi">
+      {children}
+    </div>
+  );
+};
+
+// --- Ana Bileşenler ---
+
+const HaftalikTakvim = ({ baslangicSaati, bitisSaati, schedule, moveDersBlogu }) => {
+  const saatleriOlustur = () => {
+    const saatler = [];
+    for (let i = baslangicSaati; i < bitisSaati; i++) {
+      saatler.push(`${i.toString().padStart(2, '0')}:00`);
+      saatler.push(`${i.toString().padStart(2, '0')}:30`);
+    }
+    return saatler;
+  };
+  const saatler = saatleriOlustur();
+
+  return (
+    <div className="takvim-grid">
+      <div className="gun-basligi"></div>
+      {HAFTA_GUNLERI.map(gun => <div key={gun} className="gun-basligi">{gun}</div>)}
+      {saatler.map(saat => (
+        <>
+          <div key={saat} className="saat-basligi">{saat}</div>
+          {HAFTA_GUNLERI.map(gun => {
+            const slotKey = `${gun}-${saat}`;
+            const dersBlogu = schedule[slotKey];
+            return (
+              <DroppableZamanDilimi key={slotKey} slotKey={slotKey} moveDersBlogu={moveDersBlogu}>
+                {dersBlogu && <DraggableDersBlogu dersBlogu={dersBlogu} slotKey={slotKey} moveDersBlogu={moveDersBlogu} />}
+              </DroppableZamanDilimi>
+            );
+          })}
+        </>
+      ))}
+    </div>
+  );
+};
+
+const DersPlanlayici = () => {
+  const [okuldanCikis, setOkuldanCikis] = useState("16:00");
+  const [uyumaSaati, setUyumaSaati] = useState("22:00");
+  const [calismaBaslangic, setCalismaBaslangic] = useState("17:00");
+  const [profiles, setProfiles] = useState([]);
+  const [selectedProfileId, setSelectedProfileId] = useState('');
+  const [allExamsData, setAllExamsData] = useState([]);
+  const [studentWeaknesses, setStudentWeaknesses] = useState({});
+  const [schedule, setSchedule] = useState({});
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const loadedProfiles = await window.electronAPI.profilesLoad();
+        const allData = await window.electronAPI.loadData();
+        setProfiles(loadedProfiles || []);
+        setAllExamsData(allData || []);
+      } catch (error) {
+        console.error("Veri yüklenirken hata:", error);
+      }
+    };
+    fetchInitialData();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProfileId || allExamsData.length === 0) {
+      setStudentWeaknesses({});
+      return;
+    }
+    const studentExams = allExamsData.filter(exam => exam.profileId === selectedProfileId);
+    if (studentExams.length === 0) {
+      setStudentWeaknesses({});
+      return;
+    }
+    const latestExam = studentExams.reduce((latest, current) => new Date(current.date) > new Date(latest.date) ? current : latest);
+    const weaknesses = {};
+    TUM_DERSLER.forEach(ders => {
+      const courseKey = Object.keys(latestExam.courses).find(k => k.toLowerCase() === ders.toLowerCase().replace(/ /g, ''));
+      const courseData = latestExam.courses[courseKey];
+      if (courseData && courseData.missingOutcomes && courseData.missingOutcomes.length > 0) {
+        weaknesses[ders] = courseData.missingOutcomes.map(o => (o.split(':')[1] || o).trim());
+      }
+    });
+    setStudentWeaknesses(weaknesses);
+  }, [selectedProfileId, allExamsData]);
+
+  const moveDersBlogu = (fromSlot, toSlot) => {
+    setSchedule(prevSchedule => {
+      const newSchedule = { ...prevSchedule };
+      const fromBlog = newSchedule[fromSlot];
+      const toBlog = newSchedule[toSlot];
+
+      // Swap logic
+      if (toBlog) {
+        newSchedule[fromSlot] = toBlog;
+      } else {
+        delete newSchedule[fromSlot];
+      }
+      newSchedule[toSlot] = fromBlog;
+
+      return newSchedule;
+    });
+  };
+
+  const handlePlanOlustur = () => {
+    if (!selectedProfileId) {
+      alert("Lütfen bir öğrenci seçin.");
+      return;
+    }
+    let calismaBloklari = [];
+    TUM_DERSLER.forEach(ders => {
+      const eksikKonular = studentWeaknesses[ders] || [];
+      const tekrarSayisi = eksikKonular.length > 0 ? 4 : 2;
+      for (let i = 0; i < tekrarSayisi; i++) {
+        calismaBloklari.push({ ders: ders, konu: eksikKonular[i % eksikKonular.length] || "Genel Tekrar" });
+      }
+    });
+    const molaSayisi = Math.floor(calismaBloklari.length / 2);
+    for (let i = 0; i < molaSayisi; i++) {
+      calismaBloklari.push({ ders: "Mola", konu: "Dinlenme" });
+    }
+    calismaBloklari = shuffleArray(calismaBloklari);
+    const uygunZamanlar = [];
+    const baslangicDakika = saatiDakikayaCevir(calismaBaslangic);
+    const bitisDakika = saatiDakikayaCevir(uyumaSaati);
+    HAFTA_GUNLERI.forEach(gun => {
+      const gunBaslangic = (gun === "Cumartesi" || gun === "Pazar") ? saatiDakikayaCevir("10:00") : baslangicDakika;
+      for (let dakika = gunBaslangic; dakika < bitisDakika; dakika += 30) {
+        const saat = Math.floor(dakika / 60).toString().padStart(2, '0');
+        const dak = (dakika % 60).toString().padStart(2, '0');
+        uygunZamanlar.push(`${gun}-${saat}:${dak}`);
+      }
+    });
+    const yeniProgram = {};
+    let blokIndex = 0;
+    uygunZamanlar.forEach(zaman => {
+      if (blokIndex < calismaBloklari.length) {
+        yeniProgram[zaman] = calismaBloklari[blokIndex];
+        blokIndex++;
+      }
+    });
+    setSchedule(yeniProgram);
+  };
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="ders-planlayici-container">
+        <aside className="ayarlar-paneli">
+          <h3>Ders Programı Ayarları</h3>
+          <div className="form-grup">
+            <label htmlFor="ogrenci-sec">Öğrenci Seç</label>
+            <select id="ogrenci-sec" value={selectedProfileId} onChange={e => setSelectedProfileId(e.target.value)}>
+              <option value="">-- Bir Öğrenci Seçin --</option>
+              {profiles.map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}
+            </select>
+          </div>
+          <div className="form-grup">
+            <label htmlFor="okuldan-cikis">Hafta İçi Okuldan Çıkış</label>
+            <input type="time" id="okuldan-cikis" value={okuldanCikis} onChange={e => setOkuldanCikis(e.target.value)} />
+          </div>
+          <div className="form-grup">
+            <label htmlFor="uyuma-saati">Akşam Uyuma Saati</label>
+            <input type="time" id="uyuma-saati" value={uyumaSaati} onChange={e => setUyumaSaati(e.target.value)} />
+          </div>
+          <div className="form-grup">
+            <label htmlFor="calisma-baslangic">Hafta İçi Çalışmaya Başlama</label>
+            <input type="time" id="calisma-baslangic" value={calismaBaslangic} onChange={e => setCalismaBaslangic(e.target.value)} />
+          </div>
+          <button onClick={handlePlanOlustur} className="plan-olustur-btn">Haftalık Plan Oluştur</button>
+        </aside>
+        <section className="takvim-alani">
+          <div className="takvim-header">
+            <h2>Haftalık Ders Programı</h2>
+            <button className="export-button" onClick={() => window.print()}>Yazdır</button>
+          </div>
+          <HaftalikTakvim baslangicSaati={10} bitisSaati={22} schedule={schedule} moveDersBlogu={moveDersBlogu} />
+        </section>
+      </div>
+    </DndProvider>
+  );
+};
+
+export default DersPlanlayici;

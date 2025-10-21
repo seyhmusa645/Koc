@@ -1,0 +1,12 @@
+💡 ÖNERİLERİM VE GELECEK FİKİRLER
+Bu algoritma çok güçlü ve eğitim bilimsel temellere dayalı. Ancak daha da geliştirilebilir:
+Kısa Vadeli İyileştirmeler:
+Soru bankası entegrasyonu - Konulara özel soru önerileri
+İlerleme takibi - Haftalık plan ne kadar uygulandı?
+Esnek plan - Günlük değişiklik imkanı
+PDF çıktısı - Programı yazdırabilme
+Uzun Vadeli Fikirler:
+AI destekli konu önerisi - Makine öğrenmesi ile
+Sosyal özellikler - Arkadaşlarla karşılaştırma
+Gamification - Puanlama ve rozet sistemi
+Öğretmen paneli - Sınıf bazında toplu analiz

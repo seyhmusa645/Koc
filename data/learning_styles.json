@@ -1,0 +1,113 @@
+{
+  "AYRIŞTIRAN": {
+    "name": "Ayrıştıran (Diverger)",
+    "description": "Soyut olarak verilen içeriklerde aktif olmayı çok seviyor. Yorumlama, analiz etme, sentezleme yönleri güçlü.",
+    "characteristics": [
+      "Mantıksal beceri gerektiren, ilişkisel yapılar gerektiren bütüncül yaklaşımlar",
+      "Çok yönlü içerikler gerektiren durumlarda aktif olmayı çok seviyor",
+      "İçerik yazabilir, çözümleyebilir, özetleme yapabilir",
+      "Probleme dayalı öğrenme yaklaşımı ile aktif analiz yapabilir"
+    ],
+    "strengths": [
+      "Kompozisyon çalışmaları",
+      "Projeyi başlı başına kendisi yürütebilir",
+      "Probleme dayalı öğrenme ile araştırma raporu",
+      "Analiz, sentez ve yorumlama becerileri güçlü"
+    ],
+    "weaknesses": [
+      "Somut içeriklerde rehberlik gerekebilir",
+      "Pratik uygulamaya geçmekte yavaş olabilir"
+    ],
+    "recommendations": [
+      "Kompozisyon çalışmaları yaptır",
+      "Probleme dayalı öğrenme projeleri ver",
+      "Araştırma raporu görevleri ver",
+      "Analiz ve sentez gerektiren etkinlikler tasarla",
+      "Öğrencinin kendisinin aktif olduğu çalışmalar tercih et"
+    ]
+  },
+  "ÖZÜMSEYEN": {
+    "name": "Özümseyen (Assimilator)",
+    "description": "Soyut olarak verilen içeriklerde aktif olmak yerine soyut içeriği öğretmenden izlemeyi daha çok seviyor ve soyut içeriklerde daha başarılı.",
+    "characteristics": [
+      "Soyut içerikleri izleyerek öğrenmeyi sever",
+      "Öğretmenin aktif olduğu sunuş yoluyla öğrenme tercih eder",
+      "Rehberlik ve yönlendirmeye ihtiyaç duyar",
+      "Teorik ve soyut konularda başarılı"
+    ],
+    "strengths": [
+      "Öğretmen merkezli sunuş yoluyla öğrenme",
+      "Soyut içerikleri anlama",
+      "Teorik bilgiyi özümseme",
+      "Sistematik ve organize çalışma"
+    ],
+    "weaknesses": [
+      "Bağımsız proje yürütmekte zorlanabilir",
+      "Pratik uygulamada rehberlik gerekebilir",
+      "Aktif katılım gerektiren durumlarda çekingen olabilir"
+    ],
+    "recommendations": [
+      "Öğretmenin aktif olduğu sunuş yoluyla soyut içerikler ver",
+      "Rehberlik ve yönlendirme sağla",
+      "Adım adım açıklamalar yap",
+      "Teorik bilgiyi örneklerle destekle",
+      "Düzenli geri bildirim ver"
+    ]
+  },
+  "YERLEŞTİREN": {
+    "name": "Yerleştiren (Converger)",
+    "description": "Somutlaştırılmış olarak yapılan konu anlatımlarında aktif olmayı çok seviyor ve bu tarz somut içeriklerde kendisini gerçekleştirmek istiyor.",
+    "characteristics": [
+      "Yaparak, yaşayarak öğrenmeyi sever",
+      "Gösterip yaptırma yönteminde başarılı",
+      "Öğrencinin kendisinin aktif olduğu proje çalışmaları",
+      "Buluş yoluyla öğrenme tercih eder"
+    ],
+    "strengths": [
+      "Somut içeriklerle çalışma",
+      "Yaparak yaşayarak öğrenme",
+      "Proje çalışmaları (aktif rol)",
+      "Buluş yoluyla öğrenme etkinlikleri"
+    ],
+    "weaknesses": [
+      "Soyut teorik konularda zorlanabilir",
+      "Pasif dinleme gerektiren durumlarda dikkat dağınıklığı",
+      "Uzun süreli teorik açıklamalarda sıkılabilir"
+    ],
+    "recommendations": [
+      "Yaparak yaşayarak öğrenme etkinlikleri tasarla",
+      "Gösterip yaptırma yöntemini kullan",
+      "Somut içeriklerle proje çalışmaları ver",
+      "Buluş yoluyla öğrenme fırsatları sun",
+      "Öğrencinin aktif olduğu deneyler yaptır"
+    ]
+  },
+  "DEĞİŞTİREN": {
+    "name": "Değiştiren (Accommodator)",
+    "description": "Somutlaştırılmış olarak sunulan içerikleri seviyor fakat yorumları ve mantıksal içeriklere ilgi duymuyor.",
+    "characteristics": [
+      "Örnek olaylar gibi somut içerikleri seviyor",
+      "Kendisi aktif olmak yerine rehberlik bekliyor",
+      "Somut içeriği gösteren/yansıtan bir öğretmen/koç gerekli",
+      "Grup çalışmalarında başarılı"
+    ],
+    "strengths": [
+      "Örnek olay yöntemi",
+      "Grup çalışmaları",
+      "Bilgisayar destekli öğretim",
+      "Öğretmenin aktif olduğu sunuş yoluyla somut içerikler"
+    ],
+    "weaknesses": [
+      "Mantıksal ve yorumlama içeriklerinde zorlanır",
+      "Bağımsız proje yürütmekte rehberlik gerekir",
+      "Soyut teorik konularda ilgisiz kalabilir"
+    ],
+    "recommendations": [
+      "Örnek olay yöntemi kullan",
+      "Grup çalışmaları organize et",
+      "Bilgisayar destekli öğretim materyalleri kullan",
+      "Somut içeriklerde öğretmen rehberliği sağla",
+      "Proje çalışmalarında sürekli yönlendirme yap"
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "Görsel Uzamsal Düşünme": {
+    "description": "Üç boyutlu nesne farkındalığı, mekânsal yönelim, simetri ve görsel dönüşüm algısı",
+    "activities": [
+      "Lego veya bloklarla basit şekiller yapıp çevirerek farklı açılardan inceleme",
+      "Evdeki nesneleri (kupa, kitap, kutu) 90°/180° döndürüp farkı tahmin etme",
+      "Aynanın önünde bir kağıttaki şeklin yansımasını gözlemleme",
+      "Basit tangram parçalarını döndürerek eşleştirme",
+      "Tablet veya telefon üzerinden 2D görsel döndürme oyunları oynama"
+    ],
+    "benefits": "Mekânsal yönelim becerisini, simetri algısını ve zihinsel çevirme hızını güçlendirir"
+  },
+  "Kodlama": {
+    "description": "Algoritmik düşünme, koşullu düşünme yapısı, yön takibi ve problem çözme",
+    "activities": [
+      "\"Eğer–ise\" mantığıyla ev kuralları listesi hazırlamak",
+      "Çizgiler üzerinde yön oklarıyla robot yürütme oyunu oynamak",
+      "Kendi kodlu mesajını aile bireylerine gönderme (renk-kelime eşleştirme)",
+      "Scratch Junior uygulaması ile basit kodlama hikâyeleri tasarlamak",
+      "Dizi kartları (A-B-A-B gibi) oluşturup devamını bulma"
+    ],
+    "benefits": "Sembol ve anlam ilişkisini kurmasını, dijital üretkenliğini ve algoritmik becerisini artırır"
+  },
+  "Analojiler ve Sayısal Akıl Yürütme": {
+    "description": "Sınıflama, analoji kurma, sayı ilişkileri, mantıksal tamamlama",
+    "activities": [
+      "Meyve-sebze kartlarıyla \"hangisi farklı?\" oyunu oynamak",
+      "Sayı kartlarıyla artış-azalış bulma etkinliği yapmak",
+      "Evdeki düğmeler veya boncuklarla \"küçükten büyüğe dizme\" çalışmaları",
+      "Ailece eksik sayıyı tamamlama bulmacaları çözmek",
+      "Domino taşlarıyla sayı örüntüsü bulma oyunu oynamak"
+    ],
+    "benefits": "Sıralama becerisini, mantıksal tamamlama becerisini ve örüntü farkındalığını destekler"
+  },
+  "Parça-Bütün ve Görsel Akıl Yürütme": {
+    "description": "Görsel bütünleme, dikkat, yönlendirme, şekil bütünleme ve detay farkındalığı",
+    "activities": [
+      "20–30 parçalık puzzle çözmek",
+      "Resimli labirent bulmacaları çözmek",
+      "Tangram çalışmaları yapmak",
+      "Resimde yanlış bulma oyunları oynamak",
+      "Evdeki nesnelerin yarım resimlerini tamamlama çalışmaları"
+    ],
+    "benefits": "Görsel bütünleme kapasitesini, detay farkındalığını ve problem çözme becerisini güçlendirir"
+  },
+  "Sözel Akıl Yürütme": {
+    "description": "Kavram kümeleri oluşturma, sözcük bilgisi, mantıksal akıl yürütme, analiz ve ifade gücü",
+    "activities": [
+      "Kelime grupları oluşturma (hayvanlar, meslekler) etkinliği",
+      "Çapraz bulmaca çözmek",
+      "Basit kelime oyunları (isim-şehir) oynamak",
+      "Ailece \"benzer kelime bul\" oyunu oynamak",
+      "Kitap okuma sonrası karakter karşılaştırma çalışmaları"
+    ],
+    "benefits": "Sözcük bilgisini, hızlı düşünme ve kavramsal ilişki kurma becerisini geliştirir"
+  },
+  "İlişkisel Düşünme": {
+    "description": "Mekânsal farkındalık, yön kavramı, doğa ile ilişki kurma, yönlendirme ve karar verme",
+    "activities": [
+      "Evde yön bulma oyunları (sağ–sol) oynamak",
+      "Basit harita üzerinde \"ev–okul yolu\" gösterme çalışmaları",
+      "Ailece gölge yönünü gözlemlemek",
+      "Yön kartlarıyla \"git–dur\" oyunu oynamak",
+      "Ev içinde basit labirent çalışmaları"
+    ],
+    "benefits": "Temel mekânsal farkındalığını, yön kavramını ve karar verme becerisini pekiştirir"
+  }
+}

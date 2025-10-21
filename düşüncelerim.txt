@@ -1,0 +1,7 @@
+  1. Güvenlik – API anahtarını renderer tarafına taşımak, orada tutmak veya UI’dan okunabilir hale getirmek XSS/Debug
+  vb. senaryolarda anahtarın ele geçirilmesine yol açar. Bu yüzden anahtar yalnızca ana (main) proseste tutulmalı,
+  renderer ile iletişim anonim IPC kanalları üzerinden yapılmalı.
+  2. Sürdürülebilirlik – Gemini çağrı mantığının parçalanmış olması (bir kısmı renderer.js, bir kısmı DersPlanlayici.js,
+  test betikleri vb.) ileride model/generasyon ayarları değiştiğinde karışıklığa neden olur. API istekleri tek bir
+  modülde (ör. src/services/geminiService.js ya da main.js içinde clear bir helper) toplanmalı; UI sadece bu katmana
+  istek yapan IPC çağrılarını tetiklemeli.

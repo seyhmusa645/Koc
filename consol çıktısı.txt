@@ -1,0 +1,107 @@
+renderer.js:3765 ? Kazanımlar veritabanı yüklendi: 140 kazanım, 96 benzersiz
+renderer.js:3766 ?? Dersler: Array(6)
+renderer.js:2479 🔍 DEBUG: Sidebar butonları: Object
+renderer.js:231 🔍 DEBUG: setActivePage çağrıldı: dashboard
+renderer.js:235 🔍 DEBUG: Sayfalar: Array(7)
+renderer.js:236 🔍 DEBUG: Butonlar: Array(7)
+renderer.js:1650 🔍 DEBUG: Renderer - Öğrenciler yükleniyor...
+renderer.js:8415 Button check: Object
+renderer.js:9093 ?? DEBUG: isPremiumPlan çağrıldı, currentLicenseInfo: Object
+renderer.js:9095 ?? DEBUG: Premium durumu: false
+renderer.js:9133 Kullanıcı planı: standard, Premium erişim: false
+renderer.js:9139 ?? DEBUG: Sidebar butonu güncellendi: Öğrenci Değerlendir
+renderer.js:9180 ?? DEBUG: AI Analysis card gizli yapıldı
+renderer.js:9187 ?? DEBUG: Sayfa başlığı güncellendi: ?? Öğrenci Değerlendirme
+renderer.js:2771 Haftalık plan verisi yüklendi: Array(4)
+renderer.js:9378 ?? DEBUG: Lisans bilgisi alındı: Object
+renderer.js:9384 ?? DEBUG: currentLicenseInfo set edildi: Object
+renderer.js:9093 ?? DEBUG: isPremiumPlan çağrıldı, currentLicenseInfo: Object
+renderer.js:9095 ?? DEBUG: Premium durumu: true
+renderer.js:9093 ?? DEBUG: isPremiumPlan çağrıldı, currentLicenseInfo: Object
+renderer.js:9095 ?? DEBUG: Premium durumu: true
+renderer.js:9133 Kullanıcı planı: premium, Premium erişim: true
+renderer.js:9139 ?? DEBUG: Sidebar butonu güncellendi: AI Öğrenci Değerlendir
+renderer.js:9180 ?? DEBUG: AI Analysis card görünür yapıldı
+renderer.js:9187 ?? DEBUG: Sayfa başlığı güncellendi: ?? AI Öğrenci Değerlendirme ve Tavsiyeleri
+renderer.js:1653 🔍 DEBUG: Backend'den gelen veri: Object
+renderer.js:1677 ✅ Renderer: 155 öğrenci yüklendi
+renderer.js:1754 🔍 DEBUG: renderStudentResults çağrıldı
+renderer.js:1755 🔍 DEBUG: studentResults elementi: true
+renderer.js:1756 🔍 DEBUG: allStudents sayısı: 155
+renderer.js:1757 🔍 DEBUG: filteredStudents sayısı: 155
+renderer.js:1770 🔍 DEBUG: hasFilter: 
+renderer.js:1771 🔍 DEBUG: studentsToShow sayısı: 155
+renderer.js:231 🔍 DEBUG: setActivePage çağrıldı: dashboard
+renderer.js:235 🔍 DEBUG: Sayfalar: Array(7)
+renderer.js:236 🔍 DEBUG: Butonlar: Array(7)
+renderer.js:9458 ?? DEBUG: onUserSession event alındı: Object
+renderer.js:9466 ?? DEBUG: Kullanıcı rolü ayarlandı: manager
+renderer.js:9394 ?? DEBUG: applyRolePermissions çağrıldı, rol: manager
+renderer.js:9472 ?? DEBUG: Kullanıcı girişi sonrası öğrenci verileri yeniden yükleniyor...
+renderer.js:2754 Kazanımlar yüklendi: Object
+renderer.js:1434 En başarılı dersler hesaplanıyor...
+renderer.js:1435 lastExam.courses: Object
+renderer.js:1436 questionCounts: Object
+renderer.js:1452 turkce (turkce): correct=6, total=20
+renderer.js:1456 turkce başarı oranı: 30.00%
+renderer.js:1452 matematik (matematik): correct=8, total=20
+renderer.js:1456 matematik başarı oranı: 40.00%
+renderer.js:1452 fen (fen): correct=7, total=20
+renderer.js:1456 fen başarı oranı: 35.00%
+renderer.js:1452 inkilap (inkilap): correct=6, total=10
+renderer.js:1456 inkilap başarı oranı: 60.00%
+renderer.js:1452 ingilizce (ingilizce): correct=8, total=10
+renderer.js:1456 ingilizce başarı oranı: 80.00%
+renderer.js:1460 ingilizce başarılı ders olarak eklendi
+renderer.js:1452 din (din): correct=6, total=10
+renderer.js:1456 din başarı oranı: 60.00%
+renderer.js:1465 En başarılı dersler: Array(1)
+renderer.js:1274 turkce incorrectOutcomes: Array(7) object
+renderer.js:1274 matematik incorrectOutcomes: Array(3) object
+renderer.js:1274 fen incorrectOutcomes: Array(8) object
+renderer.js:1274 inkilap incorrectOutcomes: Array(1) object
+renderer.js:1274 ingilizce incorrectOutcomes: Array(1) object
+renderer.js:1274 din incorrectOutcomes: Array(2) object
+renderer.js:9501 ✅ html2canvas yüklendi
+renderer.js:9537 ✅ jsPDF yüklendi
+renderer.js:1650 🔍 DEBUG: Renderer - Öğrenciler yükleniyor...
+renderer.js:1653 🔍 DEBUG: Backend'den gelen veri: Object
+renderer.js:1677 ✅ Renderer: 155 öğrenci yüklendi
+renderer.js:1754 🔍 DEBUG: renderStudentResults çağrıldı
+renderer.js:1755 🔍 DEBUG: studentResults elementi: true
+renderer.js:1756 🔍 DEBUG: allStudents sayısı: 155
+renderer.js:1757 🔍 DEBUG: filteredStudents sayısı: 155
+renderer.js:1770 🔍 DEBUG: hasFilter: 
+renderer.js:1771 🔍 DEBUG: studentsToShow sayısı: 155
+renderer.js:231 🔍 DEBUG: setActivePage çağrıldı: dashboard
+renderer.js:235 🔍 DEBUG: Sayfalar: Array(7)
+renderer.js:236 🔍 DEBUG: Butonlar: Array(7)
+renderer.js:2504 ?? DEBUG: Reports butonuna tıklandı
+renderer.js:231 🔍 DEBUG: setActivePage çağrıldı: reports
+renderer.js:235 🔍 DEBUG: Sayfalar: Array(7)
+renderer.js:236 🔍 DEBUG: Butonlar: Array(7)
+renderer.js:10230 🚀 Modal açılıyor...
+renderer.js:10234 ✅ Modal görünür hale getirildi
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10238 🔍 Modal için öğrenci sayısı: 155
+renderer.js:10346 📚 Bulunan sınıflar: (8) ['5/A', '5/B', '6/A', '6/B', '7/A', '7/B', '8/A', '8/B']
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10375 🔍 Modal öğrenci yükleme - Toplam öğrenci: 155
+renderer.js:10381 📋 Filtrelenmiş öğrenci sayısı: 0 Sınıf filtresi: (155) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10375 🔍 Modal öğrenci yükleme - Toplam öğrenci: 155
+renderer.js:10381 📋 Filtrelenmiş öğrenci sayısı: 23 Sınıf filtresi: 7/B
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10375 🔍 Modal öğrenci yükleme - Toplam öğrenci: 155
+renderer.js:10381 📋 Filtrelenmiş öğrenci sayısı: 18 Sınıf filtresi: 8/A
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10810 📊 DURU SEYREK için chart'lar güncelleniyor...
+renderer.js:10788 📊 Chart animasyonları devre dışı bırakıldı
+renderer.js:10821 ✅ DURU SEYREK için chart'lar hazır
+renderer.js:10302 🔄 Tab aktif edildi: tab-subjects Chart: performance-comparison-section
+renderer.js:10324 🔄 Orijinal tab geri yüklendi
+renderer.js:6211 🔍 getStudents: allStudents'dan 155 öğrenci döndürülüyor
+renderer.js:10810 📊 ZEYNEP AYKAÇ için chart'lar güncelleniyor...
+renderer.js:10788 📊 Chart animasyonları devre dışı bırakıldı
+renderer.js:10821 ✅ ZEYNEP AYKAÇ için chart'lar hazır
+renderer.js:10302 🔄 Tab aktif edildi: tab-subjects Chart: performance-comparison-section

@@ -1,0 +1,36 @@
+{
+  "sosyal_bilgiler": {
+    "7": "../json/sosyal_7.json",
+    "8": "../json/inkılap.json"
+  },
+  "matematik": {
+    "5": "../json/matematik_5.json",
+    "6": "../json/matematik_6.json", 
+    "7": "../json/matematik_7.json",
+    "8": "../json/matematik_8.json"
+  },
+  "turkce": {
+    "5": "../json/turkce_5.json",
+    "6": "../json/turkce_6.json",
+    "7": "../json/turkce_7.json", 
+    "8": "../json/turkce_8.json"
+  },
+  "fen_bilimleri": {
+    "5": "../json/fen_5.json",
+    "6": "../json/fen_6.json",
+    "7": "../json/fen_7.json",
+    "8": "../json/fen_8.json"
+  },
+  "din_kulturu": {
+    "5": "../json/din_5.json",
+    "6": "../json/din_6.json",
+    "7": "../json/din_7.json",
+    "8": "../json/din_8.json"
+  },
+  "ingilizce": {
+    "5": "../json/ingilizce_5.json",
+    "6": "../json/ingilizce_6.json",
+    "7": "../json/ingilizce_7.json",
+    "8": "../json/ingilizce_8.json"
+  }
+}

@@ -1,0 +1,19 @@
+Premium kilidi artık uçtan uca uygulanıyor; Standart kullanıcılar AI planlama/analiz adımlarına girmeden durduruluyor,
+  Premium sahipleri ise ek bilgilere ulaşıyor.
+
+  - src/main.js:862 plan:generate adında yeni IPC handler’ı ekledim; lisans planını kontrol ediyor, Premium değilse hata
+  mesajı döndürüyor, onaylı çağrılarda örnek bir haftalık plan içeriklerini sağlıyor.
+  - src/preload.js:46 generatePlan ve getAiEvaluation çağrılarını renderer’a açtım; böylece arayüz IPC katmanını
+  kullanabiliyor.
+  - src/renderer.js:6599 lisans bilgisini tek kaynaktan yöneten currentLicenseInfo yapısı, plan/AI düğmeleri için
+  kilitli durum göstergesi ve Premium olmayan kullanıcılara toast mesajları eklendi; planner sekmesi hem üstte
+  (renderer.js:1098) hem eski gezinme setinde (renderer.js:3953) Premium kontrolünden geçiyor, AI değerlendirme butonu
+  handleAiEvaluationClick (6679) ile IPC çağrısını yapıp sonucu gösteriyor.
+  - src/DersPlanlayici.js:899 plan oluşturma butonunu async hale getirdim; önce plan:generate çağrısıyla Premium
+  erişimini doğruluyor, hata mesajında kullanıcıyı durduruyor, başarılı durumda mevcut algoritmayı çalıştırıp
+  backend’den gelen özetleri uyarı mesajına ekliyor.
+  - src/index.html:81 planner sekmesini data-premium="true" ile işaretledim; renderer’daki kilit/gösterge mantığı bu
+  etiketi kullanıyor.
+
+  Test çalıştırmadım; Premium ve Standart lisanslarla arayüzü gezip yeni toast/alert mesajlarının beklenen şekilde
+  geldiğini doğrulamanızı öneririm.

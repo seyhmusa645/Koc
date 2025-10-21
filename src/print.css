@@ -1,0 +1,948 @@
+﻿/* ========================================
+   HAFTALIK DERS PROGRAMI PDF EXPORT
+   Her GÃ¼n AyrÄ± Sayfa YaklaÅŸÄ±mÄ±
+   ======================================== */
+
+/* 1. GENEL SAYFA AYARLARI */
+@page {
+    size: A4 landscape;           /* TÃ¼m sayfalar yatay A4 formatÄ±nda */
+    margin: 1.5cm;               /* Sayfa kenar boÅŸluklarÄ± */
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+}
+
+@media print {
+    /* Temel yazdÄ±rma ayarlarÄ± */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
+    }
+
+    body {
+        margin: 0 !important;
+        padding: 20px !important;
+        font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif !important;
+        background-color: white !important;
+        color: black !important;
+        font-size: 12pt !important;
+        line-height: 1.4 !important;
+        text-rendering: optimizeLegibility !important;
+        font-encoding: utf-8 !important;
+    }
+    /* Print scope helpers */
+    body.print-single * {
+        visibility: hidden !important;
+    }
+
+    body.print-single .print-target,
+    body.print-single .print-target * {
+        visibility: visible !important;
+    }
+
+    body.print-single .print-target {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+    }
+
+    body.print-section section.page,
+    body.print-section .tab-panel {
+        display: none !important;
+    }
+
+    body.print-section .print-target,
+    body.print-section .print-target * {
+        display: revert !important;
+    }
+
+    body.print-section .print-target {
+        position: relative !important;
+        width: 100% !important;
+    }
+
+    body.print-all section.page {
+        display: none !important;
+    }
+
+    body.print-all #reports-section.print-target,
+    body.print-all #reports-section.print-target * {
+        display: revert !important;
+    }
+
+    body.print-all #reports-section.print-target {
+        position: relative !important;
+        width: 100% !important;
+    }
+
+
+    /* 2. GEREKSIZ TÃœM ELEMENTLERÄ° GÄ°ZLE */
+    
+    /* Ana UI elementleri */
+    .sidebar,
+    nav.sidebar,
+    .nav-btn,
+    .profile-manager,
+    .student-search-container,
+    .selected-student-display,
+    .tabs,
+    #theme-toggle,
+    .modal,
+    .toast-container,
+    .section-divider,
+    .csv-import-section,
+    .manual-exam-section,
+    #add-exam-section,
+    #dashboard-section,
+    .exam-list-container,
+    .dashboard-summary,
+    .form-actions,
+    .weak-topics-popup {
+        display: none !important;
+    }
+
+    /* TÃ¼m butonlarÄ± ve form elementlerini gizle */
+    button,
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    input[type="button"],
+    input[type="submit"],
+    .reports-header,
+    .etut-groups-header,
+    .takvim-header,
+    .export-buttons,
+    .planner-options,
+    .ayarlar-paneli,
+    .ders-planlayici-container > aside,
+    .form-grup,
+    label,
+    input,
+    select,
+    .plan-olustur-btn,
+    .export-button {
+        display: none !important;
+    }
+
+    /* DiÄŸer sayfa iÃ§eriklerini gizle - sadece planner-section aktif olsun */
+    .page:not(.active) {
+        display: none !important;
+    }
+
+    /* Ana iÃ§erik alanÄ±nÄ± optimize et */
+    .content,
+    main.content,
+    .main-content {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        margin-left: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* 3. PLANNER SECTION DÃœZENLEMELERÄ° */
+    
+    #planner-section {
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: white !important;
+    }
+
+    /* Takvim konteynerini tam ekran yap */
+    #takvimGridContainer,
+    .takvim-grid-container {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        background: white !important;
+    }
+
+    /* 4. GERÃ‡EK DERS PROGRAMI YAPISINI PDF'E AKTAR */
+    
+    /* Advanced Schedule Container - Ana program yapÄ±sÄ± */
+    #planner-section .advanced-schedule {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    /* Schedule Header - Program baÅŸlÄ±ÄŸÄ± ve bilgileri */
+    #planner-section .schedule-header {
+        display: none !important; /* BaÅŸlÄ±k bilgilerini gizle, sadece gÃ¼nleri gÃ¶ster */
+    }
+
+    /* 5. HER GÃœNÃœ AYRI SAYFAYA BÃ–L */
+    
+    /* Daily Schedule - Her gÃ¼n ayrÄ± sayfa */
+    #planner-section .daily-schedule {
+        /* Her gÃ¼nden sonra sayfa sonu ekle */
+        page-break-after: always !important;
+        
+        /* GÃ¼nÃ¼n kendi iÃ§inde bÃ¶lÃ¼nmesini engelle */
+        page-break-inside: avoid !important;
+        
+        /* Her gÃ¼n sayfasÄ±nÄ± tam ekran kullan */
+        width: 100% !important;
+        height: auto !important;
+        min-height: 80vh !important;
+        margin: 0 !important;
+        padding: 25px !important;
+        background: white !important;
+        border: none !important;
+        border-radius: 0 !important;
+    }
+
+    /* Son gÃ¼n iÃ§in Ã¶zel kural */
+    #planner-section .daily-schedule:last-child {
+        page-break-after: auto !important;
+    }
+
+    /* 6. GÃœN BAÅLIKLARINI BÄ°Ã‡Ä°MLENDÄ°R */
+    
+    #planner-section .day-header {
+        /* GÃ¼n adÄ±nÄ± bÃ¼yÃ¼k ve belirgin yap */
+        background: white !important;
+        padding: 0 0 25px 0 !important;
+        border-bottom: 3px solid #3498db !important;
+        margin-bottom: 30px !important;
+        display: block !important;
+        text-align: center !important;
+        
+        /* BaÅŸlÄ±ÄŸÄ±n bÃ¶lÃ¼nmesini engelle */
+        page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+    }
+
+    #planner-section .day-header h4 {
+        font-size: 32pt !important;
+        font-weight: bold !important;
+        color: #2c3e50 !important;
+        margin: 0 !important;
+        text-align: center !important;
+    }
+
+    /* GÃ¼n istatistiklerini gizle */
+    #planner-section .day-stats {
+        display: none !important;
+    }
+
+    /* 7. DERS BLOKLARI KONTEYNERÄ° */
+    
+    #planner-section .day-blocks {
+        /* BloklarÄ± esnek dÃ¼zen ile yerleÅŸtir */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+        padding: 0 !important;
+        
+        /* Konteyner bÃ¶lÃ¼nmesini engelle */
+        page-break-inside: avoid !important;
+    }
+
+    /* 8. DERS BLOKLARINI BÄ°Ã‡Ä°MLENDÄ°R (PROGRAMDAKI GÄ°BÄ° RENKLÄ°) */
+    
+    /* YATAY DÄ°KDÃ–RTGEN - study-block stili */
+    #planner-section .study-block {
+        /* YATAY DÄ°KDÃ–RTGEN boyutlarÄ± */
+        width: 100% !important;
+        height: 80px !important;
+        
+        /* Blok gÃ¶rÃ¼nÃ¼mÃ¼ - programdaki gibi */
+        background: #f8f9ff !important;
+        border: 1px solid #dee2e6 !important;
+        border-left: 5px solid #3498db !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        margin: 5px 0 !important;
+        
+        /* GÃ¶lge efekti */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        
+        /* YATAY FLEX DÃœZENÄ° - TÃœM Ä°Ã‡ERÄ°K SOLA YASLI */
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        
+        /* Ä°Ã§erik gÃ¶rÃ¼nÃ¼rlÃ¼ÄŸÃ¼ */
+        overflow: visible !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        
+        /* BloÄŸun bÃ¶lÃ¼nmesini kesinlikle engelle */
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        
+        /* Renk ayarlarÄ± */
+        color: #2c3e50 !important;
+        
+        /* Ä°Ã§ elementlerin kontrolÃ¼ */
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* YÃ¼ksek Ã¶ncelik - KÄ±rmÄ±zÄ± */
+    #planner-section .study-block.priority-high {
+        background: #fff5f5 !important;
+        border-left-color: #e74c3c !important;
+    }
+
+    /* Normal Ã¶ncelik - YeÅŸil */
+    #planner-section .study-block.priority-normal {
+        background: #f8fff8 !important;
+        border-left-color: #27ae60 !important;
+    }
+
+    /* Mola bloklarÄ± - Turuncu (Yatay dikdÃ¶rtgen) */
+    #planner-section .break-block {
+        background: #fffaf0 !important;
+        border-left-color: #f39c12 !important;
+        /* AynÄ± yatay dikdÃ¶rtgen sistemi */
+        width: 100% !important;
+        height: 80px !important;
+        margin: 5px 0 !important;
+        
+        /* YATAY FLEX DÃœZENÄ° - MOLA BLOKLARI DA SOLA YASLI */
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+    }
+
+    /* 9. BLOK Ä°Ã‡ERÄ°KLERÄ°NÄ° BÄ°Ã‡Ä°MLENDÄ°R - OTOMATÄ°K YAZĞ˜ BOYUTU */
+    
+    /* Saat bilgisi - SAÄ TARAF (20%) */
+    #planner-section .block-time {
+        width: 20% !important;
+        font-size: 12pt !important;
+        font-weight: bold !important;
+        color: #e74c3c !important; /* KÄ±rmÄ±zÄ± */
+        background-color: transparent !important;
+        text-align: right !important;
+        line-height: 1.2 !important;
+        overflow: visible !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 999 !important;
+        position: relative !important;
+        padding-left: 8px !important;
+        
+        /* Beyaz arka plan sorunu iÃ§in */
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.8) !important;
+        border: none !important;
+        outline: none !important;
+    }
+
+    /* Ders adÄ± - SOL TARAF (20%) */
+    #planner-section .block-subject {
+        width: 20% !important;
+        font-size: clamp(10pt, 2.5vw, 14pt) !important;
+        font-weight: bold !important;
+        color: #2c3e50 !important;
+        text-align: left !important;
+        line-height: 1.2 !important;
+        
+        /* ESNEKLÄ°K - Ä°htiyaÃ§ halinde wrap olabilsin */
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        
+        /* FLEX DÃœZENÄ° - SOLA YASLI */
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding-right: 8px !important;
+        
+        /* GÃ¶rÃ¼nÃ¼rlÃ¼k */
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* KazanÄ±m/Ä°Ã§erik - ORTA KISIM (60%) */
+    #planner-section .block-content {
+        width: 60% !important;
+        font-size: clamp(6pt, 1.8vw, 9pt) !important;
+        color: #7f8c8d !important;
+        text-align: left !important;
+        line-height: 1.1 !important;
+        
+        /* ESNEKLÄ°K - GerektiÄŸinde geniÅŸleyebilsin */
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        
+        /* FLEX DÃœZENÄ° - SOLA YASLI */
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding: 0 5px !important;
+        
+        /* GÃ¶rÃ¼nÃ¼rlÃ¼k */
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* 10. Ã‡OK UZUN METÄ°NLER Ä°Ã‡Ä°N EK KURALLAR */
+    
+    /* Ã‡ok uzun ders adlarÄ± iÃ§in */
+    #planner-section .study-block:has(.block-subject:is([data-length="long"])) .block-subject {
+        font-size: 12pt !important;
+    }
+
+    /* Ã‡ok uzun detaylar iÃ§in */
+    #planner-section .study-block:has(.block-content:is([data-length="long"])) .block-content {
+        font-size: 9pt !important;
+    }
+
+    /* Genel uzun metin tespiti */
+    #planner-section .study-block {
+        /* EÄŸer iÃ§erik 100 karakterden fazlaysa kÃ¼Ã§Ã¼k font uygula */
+        container-type: inline-size !important;
+    }
+
+    @container (max-width: 200px) {
+        #planner-section .block-subject {
+            font-size: 13pt !important;
+        }
+        #planner-section .block-content {
+            font-size: 10pt !important;
+        }
+    }
+
+    /* 11. KUTUCUK DÃœZENÄ° - YATAY DÄ°KDÃ–RTGEN SÄ°STEMÄ° */
+    
+    /* Dikey liste dÃ¼zeni - yatay dikdÃ¶rtgenler */
+    #planner-section .day-blocks {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        padding: 15px !important;
+        width: 100% !important;
+        
+        /* Konteyner Ã¶zellikleri */
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+    }
+
+    /* TÃ¼m study-block ve break-block elementleri tam geniÅŸlik */
+    #planner-section .study-block,
+    #planner-section .break-block {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+
+    /* 12. TÃœM METÄ°N ELEMENTLERÄ°NÄ°N GÃ–RÃœNÃœRLÃœÄÃœNÄ° SAÄLA */
+    
+    /* TÃ¼m metin elementleri iÃ§in genel kurallar */
+    #planner-section .study-block *,
+    #planner-section .break-block * {
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+        position: relative !important;
+        z-index: 1 !important;
+        color: inherit !important;
+        background: transparent !important;
+    }
+
+    /* Ã–zel olarak saat iÃ§in gÃ¶rÃ¼nÃ¼rlÃ¼k */
+    #planner-section .block-time {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 999 !important;
+        overflow: visible !important;
+        white-space: normal !important;
+    }
+
+    /* Ä°Ã§erik ve baÅŸlÄ±k iÃ§in taÅŸma kontrolÃ¼ ile birlikte gÃ¶rÃ¼nÃ¼rlÃ¼k */
+    #planner-section .block-subject,
+    #planner-section .block-content {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        /* overflow ve text-overflow yukarÄ±da tanÄ±mlandÄ± */
+    }
+
+    /* DiÄŸer elementler iÃ§in genel gÃ¶rÃ¼nÃ¼rlÃ¼k */
+    #planner-section .study-block > *:not(.block-time):not(.block-subject):not(.block-content),
+    #planner-section .break-block > * {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        overflow: hidden !important;
+        max-width: 100% !important;
+    }
+
+    /* 13. Ã–ZEL DURUMLAR */
+    
+    /* BoÅŸ gÃ¼nler iÃ§in mesaj */
+    #planner-section .day-blocks:empty::after {
+        content: "Bu gÃ¼n iÃ§in henÃ¼z ders programÄ± oluÅŸturulmamÄ±ÅŸ." !important;
+        display: block !important;
+        text-align: center !important;
+        font-size: 16pt !important;
+        color: #95a5a6 !important;
+        font-style: italic !important;
+        margin-top: 50px !important;
+        width: 100% !important;
+        grid-column: 1 / -1 !important; /* TÃ¼m sÃ¼tunlarÄ± kapla */
+    }
+
+    /* Az kutucuk varsa ortalama */
+    #planner-section .day-blocks:has(.study-block:nth-child(-n+2):last-child) {
+        justify-content: center !important;
+        grid-template-columns: repeat(2, 300px) !important;
+    }
+
+    #planner-section .day-blocks:has(.study-block:nth-child(1):last-child) {
+        justify-content: center !important;
+        grid-template-columns: 300px !important;
+    }
+}
+
+/* ===========================================
+   Ã–ÄRENCÄ° DEÄERLENDÄ°RME PDF STÄ°LLERÄ°
+   =========================================== */
+
+/* Ã–ÄŸrenci deÄŸerlendirme bÃ¶lÃ¼mÃ¼ */
+#evaluation-section {
+    page-break-after: always !important;
+}
+
+/* DeÄŸerlendirme kartlarÄ± */
+.analysis-card {
+    page-break-inside: avoid !important;
+    margin-bottom: 20px !important;
+    padding: 20px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    background: white !important;
+    box-shadow: none !important;
+}
+
+/* Kart baÅŸlÄ±klarÄ± */
+.analysis-card h3 {
+    color: #2c3e50 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 2px solid #3498db !important;
+}
+
+/* Performans analizi kartÄ± */
+.performance-analysis {
+    border-left: 5px solid #e74c3c !important;
+}
+
+/* Ã–ÄŸrenme stili analizi kartÄ± */
+.learning-style-analysis {
+    border-left: 5px solid #74b9ff !important;
+    background: #f8f9fa !important;
+}
+
+/* AI analiz kartÄ± - YazÄ± odaklÄ± */
+.ai-analysis {
+    border-left: 5px solid #9b59b6 !important;
+    background: white !important;
+    color: #2c3e50 !important;
+    border: 1px solid #9b59b6 !important;
+}
+
+/* Etkinlik Ã¶nerileri kartÄ± */
+.activity-suggestions {
+    border-left: 5px solid #f39c12 !important;
+}
+
+/* Performans metrikleri - Tablo benzeri dÃ¼zen */
+.performance-summary {
+    display: table !important;
+    width: 100% !important;
+    margin-bottom: 15px !important;
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 3px !important;
+}
+
+.performance-metric {
+    display: table-cell !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 12px 8px !important;
+    border-right: 1px solid #dee2e6 !important;
+    background: white !important;
+}
+
+.performance-metric:last-child {
+    border-right: none !important;
+}
+
+.performance-metric h4 {
+    margin: 0 0 8px 0 !important;
+    font-size: 14px !important;
+    color: #6c757d !important;
+    font-weight: normal !important;
+}
+
+.performance-metric .metric-value {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: #2c3e50 !important;
+}
+
+/* BaÅŸarÄ± seviyesi renkleri */
+.metric-value[style*="MÃ¼kemmel"] { color: #27ae60 !important; }
+.metric-value[style*="Ä°yi"] { color: #2ecc71 !important; }
+.metric-value[style*="BaÅŸarÄ±lÄ±"] { color: #f39c12 !important; }
+.metric-value[style*="GeliÅŸmekte"] { color: #e67e22 !important; }
+.metric-value[style*="Ã‡ok ZayÄ±f"] { color: #e74c3c !important; }
+
+/* GÃ¼Ã§lÃ¼/zayÄ±f alanlar - Tablo benzeri dÃ¼zen */
+.strengths-weaknesses {
+    display: table !important;
+    width: 100% !important;
+    margin-top: 12px !important;
+}
+
+.strengths, .weaknesses {
+    display: table-cell !important;
+    width: 50% !important;
+    vertical-align: top !important;
+    background: #f8f9fa !important;
+    padding: 12px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 3px !important;
+}
+
+.strengths {
+    margin-right: 8px !important;
+}
+
+.weaknesses {
+    margin-left: 8px !important;
+}
+
+.strengths h4, .weaknesses h4 {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+    font-size: 16px !important;
+    color: #2c3e50 !important;
+}
+
+.strength-item, .weakness-item {
+    padding: 8px 12px !important;
+    border-radius: 5px !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.strength-item {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.weakness-item {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+/* AI analiz bÃ¶lÃ¼mleri - YazÄ± odaklÄ± */
+.ai-section {
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    background: #f8f9fa !important;
+    border-radius: 3px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.ai-section h5 {
+    color: #2c3e50 !important;
+    margin-bottom: 8px !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+}
+
+.ai-section p, .ai-section li {
+    color: #495057 !important;
+    line-height: 1.4 !important;
+    font-size: 11px !important;
+    margin-bottom: 4px !important;
+}
+
+.ai-section ul {
+    margin: 8px 0 !important;
+    padding-left: 20px !important;
+}
+
+.ai-section li {
+    margin-bottom: 6px !important;
+}
+
+/* Ders bazÄ±nda AI tavsiyeleri - YazÄ± odaklÄ± */
+.subject-ai-advice {
+    display: block !important;
+    margin-top: 10px !important;
+}
+
+.subject-advice-item {
+    background: #f8f9fa !important;
+    padding: 10px !important;
+    border-radius: 3px !important;
+    border-left: 4px solid #9b59b6 !important;
+    margin-bottom: 8px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.subject-advice-item strong {
+    color: #2c3e50 !important;
+    display: block !important;
+    margin-bottom: 5px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+
+/* Etkinlik kartlarÄ± - Kompakt dÃ¼zen */
+.activity-card {
+    background: #f8f9fa !important;
+    padding: 12px !important;
+    border-radius: 3px !important;
+    margin-bottom: 8px !important;
+    border: 1px solid #dee2e6 !important;
+    page-break-inside: avoid !important;
+}
+
+.activity-card h4 {
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
+    color: #2c3e50 !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
+
+.activity-card p {
+    margin-bottom: 6px !important;
+    font-size: 11px !important;
+    color: #495057 !important;
+    line-height: 1.4 !important;
+}
+
+.activity-dersler, .activity-uygunluk {
+    margin: 4px 0 !important;
+    padding: 6px !important;
+    border-radius: 2px !important;
+    font-size: 10px !important;
+}
+
+.activity-dersler {
+    background-color: #e9ecef !important;
+    color: #495057 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.activity-uygunluk {
+    background-color: #d1ecf1 !important;
+    color: #0c5460 !important;
+    border-left: 3px solid #17a2b8 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Ã–ÄŸrenme stili bilgileri - Kompakt dÃ¼zen */
+.learning-style-info {
+    text-align: center !important;
+    margin-bottom: 12px !important;
+}
+
+.style-badge {
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    border-radius: 15px !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+    background: #74b9ff !important;
+}
+
+.confidence-level {
+    font-size: 11px !important;
+    color: #6c757d !important;
+}
+
+.style-recommendations h4 {
+    color: #2c3e50 !important;
+    margin-top: 12px !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+}
+
+.style-recommendations ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.style-recommendations li {
+    background: #f8f9fa !important;
+    padding: 6px 10px !important;
+    border-radius: 2px !important;
+    margin-bottom: 4px !important;
+    font-size: 11px !important;
+    color: #495057 !important;
+    border-left: 3px solid #74b9ff !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Sayfa dÃ¼zeni */
+@page {
+    size: A4 !important;
+    margin: 2cm !important;
+}
+
+/* ========================================
+   TEST PDF EXPORT STÄ°LLERÄ°
+   TÃ¼rkÃ§e karakter desteÄŸi ve dÃ¼zen
+   ======================================== */
+
+/* Test iÃ§eriÄŸi iÃ§in Ã¶zel stiller */
+.test-preview {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Test baÅŸlÄ±k stilleri */
+.test-header {
+    text-align: center;
+    margin-bottom: 30px;
+    page-break-after: avoid;
+}
+
+.test-header h1 {
+    font-size: 18pt;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.test-header h2 {
+    font-size: 14pt;
+    font-weight: normal;
+    margin: 0;
+    color: #34495e;
+}
+
+/* Ã–ÄŸrenci bilgileri */
+.student-info {
+    background: #f5f5f5;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    page-break-after: avoid;
+}
+
+.student-info h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.student-info p {
+    margin: 5px 0;
+    font-size: 11pt;
+    color: #34495e;
+}
+
+/* Soru stilleri */
+.question {
+    margin-bottom: 25px;
+    page-break-inside: avoid;
+}
+
+.question-number {
+    font-weight: bold;
+    font-size: 12pt;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.question-text {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #34495e;
+}
+
+.options {
+    margin-left: 20px;
+}
+
+.option {
+    margin-bottom: 6px;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #2c3e50;
+}
+
+.option-letter {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #e74c3c;
+}
+
+/* Test soru konteynerÄ± */
+.test-question-container {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background: #fafafa;
+}
+
+.question-options {
+    margin-top: 10px;
+}
+
+.option-item {
+    display: block;
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+/* TÃ¼rkÃ§e karakter desteÄŸi */
+.turkish-text {
+    font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif !important;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* 11. PRINT DIALOG AÃ‡ILDIÄINDA UYARI (OPSIYONEL) */
+@media screen {
+    /* Ekranda gÃ¶rÃ¼ntÃ¼lenirken normal gÃ¶rÃ¼nÃ¼m korunur */
+    /* Bu kurallar sadece print edilirken geÃ§erli olur */
+}
+
+

@@ -1,0 +1,3168 @@
+{
+  "Sosyal Bilgiler": {
+    "5": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "SB.5.1.1. Dâhil olduğu gruplar ve bu gruplardaki rolleri arasındaki ilişkileri çözümleyebilme"
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "SB.5.1.2. Kültürel özelliklere saygı duymanın birlikte yaşamaya etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "SB.5.1.2. Kültürel özelliklere saygı duymanın birlikte yaşamaya etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "SB.5.1.3. Toplumsal birliği sürdürmeye yönelik yardımlaşma ve dayanışma faaliyetlerine katkı sağlayabilme"
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "SB.5.1.3. Toplumsal birliği sürdürmeye yönelik yardımlaşma ve dayanışma faaliyetlerine katkı sağlayabilme"
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "SB.5.1.3. Toplumsal birliği sürdürmeye yönelik yardımlaşma ve dayanışma faaliyetlerine katkı sağlayabilme SB.5.2.1. Yaşadığı ilin göreceli konum özelliklerini belirleyebilme"
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "SB.5.2.1. Yaşadığı ilin göreceli konum özelliklerini belirleyebilme"
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "SB.5.2.2. Yaşadığı ilde doğal ve beşerî çevredeki değişimi neden ve sonuçlarıyla yorumlayabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "SB.5.2.2. Yaşadığı ilde doğal ve beşerî çevredeki değişimi neden ve sonuçlarıyla yorumlayabilme"
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "SB.5.2.3. Yaşadığı ilde meydana gelebilecek afetlerin etkilerini azaltmaya yönelik farkındalık etkinlikleri düzenleyebilme"
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "SB.5.2.3. Yaşadığı ilde meydana gelebilecek afetlerin etkilerini azaltmaya yönelik farkındalık etkinlikleri düzenleyebilme"
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "SB.5.2.4. Ülkemize komşu devletler hakkında bilgi toplayabilme"
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "SB.5.2.4. Ülkemize komşu devletler hakkında bilgi toplayabilme"
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "SB.5.3.1. Yaşadığı ildeki ortak kültürel miras ögelerine ilişkin oluşturduğu ürünü paylaşabilme"
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "SB.5.3.1. Yaşadığı ildeki ortak kültürel miras ögelerine ilişkin oluşturduğu ürünü paylaşabilme"
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "SB.5.3.2. Anadolu’da ilk yerleşimleri kuran toplumların sosyal hayatlarına yönelik bakış açısı geliştirebilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "SB.5.3.2. Anadolu’da ilk yerleşimleri kuran toplumların sosyal hayatlarına yönelik bakış açısı geliştirebilme"
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "SB.5.3.3. Mezopotamya ve Anadolu medeniyetlerinin ortak mirasa katkılarını karşılaştırabilme"
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "SB.5.3.3. Mezopotamya ve Anadolu medeniyetlerinin ortak mirasa katkılarını karşılaştırabilme"
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "SB.5.3.3. Mezopotamya ve Anadolu medeniyetlerinin ortak mirasa katkılarını karşılaştırabilme SB.5.4.1. Demokrasi ve cumhuriyet kavramları arasındaki ilişkiyi çözümleyebilme"
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "SB.5.4.1. Demokrasi ve cumhuriyet kavramları arasındaki ilişkiyi çözümleyebilme"
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "SB.5.4.2. Toplum düzenine etkisi bakımından etkin vatandaş olmanın önemine yönelik çıkarımda bulunabilme"
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "SB.5.4.2. Toplum düzenine etkisi bakımından etkin vatandaş olmanın önemine yönelik çıkarımda bulunabilme"
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "SB.5.4.3. Temel insan hak ve sorumluluklarının önemini sorgulayabilme"
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "SB.5.4.3. Temel insan hak ve sorumluluklarının önemini sorgulayabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "SB.5.4.4. Bir ihtiyaç hâlinde veya sorun karşısında başvuru yapılabilecek kurumlar hakkında bilgi toplayabilme"
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "SB.5.4.4. Bir ihtiyaç hâlinde veya sorun karşısında başvuru yapılabilecek kurumlar hakkında bilgi toplayabilme"
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "SB.5.4.4. Bir ihtiyaç hâlinde veya sorun karşısında başvuru yapılabilecek kurumlar hakkında bilgi toplayabilme SB.5.5.1. Kaynakları verimli kullanmanın doğa ve insanlar üzerindeki etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "SB.5.5.1. Kaynakları verimli kullanmanın doğa ve insanlar üzerindeki etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "SB.5.5.2. İhtiyaç ve isteklerini karşılamak için gerekli bütçeyi planlayabilme"
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "SB.5.5.2. İhtiyaç ve isteklerini karşılamak için gerekli bütçeyi planlayabilme"
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "SB.5.5.3. Yaşadığı ildeki ekonomik faaliyetleri özetleyebilme"
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "SB.5.5.3. Yaşadığı ildeki ekonomik faaliyetleri özetleyebilme"
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "SB.5.5.3. Yaşadığı ildeki ekonomik faaliyetleri özetleyebilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "SB.5.6.1.Teknolojik gelişmelerin toplum hayatına etkilerini tartışabilme"
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "SB.5.6.2. Teknolojik ürünlerin bilinçli kullanımının önemine ilişkin ürün oluşturabilme"
+      }
+    ],
+    "6": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "SB.6.1.1. Dâhil olduğu grupların ve bu gruplardaki rollerinin zaman içerisinde değişebileceğine ilişkin çıkarım yapabilme"
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "SB.6.1.2. Kültürel bağlarımızın ve millî değerlerimizin toplumsal birliğe etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "SB.6.1.2. Kültürel bağlarımızın ve millî değerlerimizin toplumsal birliğe etkisini yorumlayabilme"
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "SB.6.1.3. Toplumsal hayatta karşılaşılan sorunlara yönelik çözüm önerilerini müzakere edebilme"
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "SB.6.1.3. Toplumsal hayatta karşılaşılan sorunlara yönelik çözüm önerilerini müzakere edebilme"
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "SB.6.1.3. Toplumsal hayatta karşılaşılan sorunlara yönelik çözüm önerilerini müzakere edebilme SB.6.2.1. Ülkemizin, kıtaların ve okyanusların konum özelliklerini belirleyebilme"
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "SB.6.2.1. Ülkemizin, kıtaların ve okyanusların konum özelliklerini belirleyebilme"
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "SB.6.2.1. Ülkemizin, kıtaların ve okyanusların konum özelliklerini belirleyebilme SB.6.2.2. Ülkemizin doğal ve beşerî çevre özellikleri arasındaki ilişkiyi çözümleyebilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "SB.6.2.2. Ülkemizin doğal ve beşerî çevre özellikleri arasındaki ilişkiyi çözümleyebilme"
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "SB.6.2.2. Ülkemizin doğal ve beşerî çevre özellikleri arasındaki ilişkiyi çözümleyebilme SB.6.2.3. Ülkemizin Türk dünyasıyla kültürel iş birliklerini yorumlayabilme"
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "SB.6.2.3. Ülkemizin Türk dünyasıyla kültürel iş birliklerini yorumlayabilme"
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "SB.6.2.3. Ülkemizin Türk dünyasıyla kültürel iş birliklerini yorumlayabilme SB.6.3.1. Türkistan’da kurulan ilk Türk devletlerinin medeniyetimize katkılarını sorgulayabilme"
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "SB.6.3.1. Türkistan’da kurulan ilk Türk devletlerinin medeniyetimize katkılarını sorgulayabilme"
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "SB.6.3.1. Türkistan’da kurulan ilk Türk devletlerinin medeniyetimize katkılarını sorgulayabilme SB.6.3.2. VII-XIII. yüzyıllar arasında İslam medeniyetinin eğitim, bilim, hukuk, kültür, sanat ve mimari alanlarında insanlığın ortak mirasına katkılarına dair akıl yürütebilme"
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "SB.6.3.2. VII-XIII. yüzyıllar arasında İslam medeniyetinin eğitim, bilim, hukuk, kültür, sanat ve mimari alanlarında insanlığın ortak mirasına katkılarına dair akıl yürütebilme"
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "SB.6.3.2. VII-XIII. yüzyıllar arasında İslam medeniyetinin eğitim, bilim, hukuk, kültür, sanat ve mimari alanlarında insanlığın ortak mirasına katkılarına dair akıl yürütebilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "SB.6.3.3. İslamiyet’in kabulüyle Türklerin sosyal ve kültürel hayatlarında meydana gelen değişimi dönemin bakış açısıyla değerlendirebilme"
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "SB.6.3.3. İslamiyet’in kabulüyle Türklerin sosyal ve kültürel hayatlarında meydana gelen değişimi dönemin bakış açısıyla değerlendirebilme"
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "SB.6.3.4. XI-XIII. yüzyıllar arasında meydana gelen siyasi faaliyetler ve askerî mücadelelerin Anadolu’nun Türkleşmesi ve İslamlaşmasına etkisini özetleyebilme"
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "SB.6.3.4. XI-XIII. yüzyıllar arasında meydana gelen siyasi faaliyetler ve askerî mücadelelerin Anadolu’nun Türkleşmesi ve İslamlaşmasına etkisini özetleyebilme SB.6.4.1. Yönetimin karar alma sürecini etkileyen unsurları çözümleyebilme"
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "SB.6.4.1. Yönetimin karar alma sürecini etkileyen unsurları çözümleyebilme"
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "SB.6.4.1. Yönetimin karar alma sürecini etkileyen unsurları çözümleyebilme SB.6.4.2. Toplumsal düzenin sürdürülmesinde temel hak ve sorumlulukların önemini yorumlayabilme"
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "SB.6.4.2. Toplumsal düzenin sürdürülmesinde temel hak ve sorumlulukların önemini yorumlayabilme"
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "SB.6.4.2. Toplumsal düzenin sürdürülmesinde temel hak ve sorumlulukların önemini yorumlayabilme SB.6.4.3. Vatandaşlık haklarının kullanımında dijitalleşme ve teknolojik gelişmelerin etkilerini sorgulayabilme"
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "SB.6.4.3. Vatandaşlık haklarının kullanımında dijitalleşme ve teknolojik gelişmelerin etkilerini sorgulayabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "SB.6.4.3. Vatandaşlık haklarının kullanımında dijitalleşme ve teknolojik gelişmelerin etkilerini sorgulayabilme SB.6.5.1. Ülkemizin kaynakları ile ekonomik faaliyetler arasındaki ilişkiyi çözümleyebilme"
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "SB.6.5.1. Ülkemizin kaynakları ile ekonomik faaliyetler arasındaki ilişkiyi çözümleyebilme"
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "SB.6.5.1. Ülkemizin kaynakları ile ekonomik faaliyetler arasındaki ilişkiyi çözümleyebilme SB.6.5.2. Ekonomik faaliyetler ve meslekler arasındaki ilişki hakkında çıkarımda bulunabilme"
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "SB.6.5.2. Ekonomik faaliyetler ve meslekler arasındaki ilişki hakkında çıkarımda bulunabilme"
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "SB.6.5.2. Ekonomik faaliyetler ve meslekler arasındaki ilişki hakkında çıkarımda bulunabilme SB.6.5.3. Tasarladığı bir ürün için yatırım ve pazarlama proje önerisi hazırlayabilme"
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "SB.6.5.3. Tasarladığı bir ürün için yatırım ve pazarlama proje önerisi hazırlayabilme"
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "SB.6.5.3. Tasarladığı bir ürün için yatırım ve pazarlama proje önerisi hazırlayabilme SB.6.6.1. Ulaşım ve iletişim teknolojilerindeki gelişmelerin kültürel etkileşimdeki rolünü yapılandırabilme"
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "SB.6.6.1. Ulaşım ve iletişim teknolojilerindeki gelişmelerin kültürel etkileşimdeki rolünü yapılandırabilme"
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "SB.6.6.1. Ulaşım ve iletişim teknolojilerindeki gelişmelerin kültürel etkileşimdeki rolünü yapılandırabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "SB.6.6.2. Bir ürün veya fikrin telif ve patent süreçleriyle ilgili bilgi toplayabilme"
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "SB.6.6.2. Bir ürün veya fikrin telif ve patent süreçleriyle ilgili bilgi toplayabilme"
+      }
+    ],
+    "7": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "SB.7.1.1. İletişimi etkileyen tutum ve davranışları analiz ederek kendi tutum ve davranışlarını sorgular."
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "SB.7.1.2. Bireysel ve toplumsal ilişkilerde olumlu iletişim yollarını kullanır."
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "SB.7.1.3. Medyanın sosyal değişim ve etkileşimdeki rolünü tartışır."
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "SB.7.1.4. İletişim araçlarından yararlanırken haklarını kullanır ve sorumluluklarını yerine getirir."
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "SB.7.2.1. Osmanlı Devleti’nin siyasi güç olarak ortaya çıkış sürecini ve bu süreci etkileyen faktörleri açıklar."
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "SB.7.2.1. Osmanlı Devleti’nin siyasi güç olarak ortaya çıkış sürecini ve bu süreci etkileyen faktörleri açıklar."
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "SB.7.2.2. Osmanlı Devleti’nin fetih siyasetini örnekler üzerinden analiz eder."
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "SB.7.2.2. Osmanlı Devleti’nin fetih siyasetini örnekler üzerinden analiz eder."
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "SB.7.2.3. Avrupa’daki gelişmelerle bağlantılı olarak Osmanlı Devleti’ni değişime zorlayan süreçleri kavrar."
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "SB.7.2.3. Avrupa’daki gelişmelerle bağlantılı olarak Osmanlı Devleti’ni değişime zorlayan süreçleri kavrar."
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "SB.7.2.4. Osmanlı Devleti’nde ıslahat hareketleri sonucu ortaya çıkan kurumlardan hareketle toplumsal ve ekonomik değişim hakkında çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "SB.7.2.4. Osmanlı Devleti’nde ıslahat hareketleri sonucu ortaya çıkan kurumlardan hareketle toplumsal ve ekonomik değişim hakkında çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "SB.7.2.5. Osmanlı kültür, sanat ve estetik anlayışına örnekler verir."
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "SB.7.2.5. Osmanlı kültür, sanat ve estetik anlayışına örnekler verir."
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "SB.7.3.1. Örnek incelemeler yoluyla geçmişten günümüze, yerleşmeyi etkileyen faktörler hakkında çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "SB.7.3.2. Türkiye’de nüfusun dağılışını etkileyen faktörlerden hareketle Türkiye’nin demografik özelliklerini yorumlar."
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "SB.7.3.2. Türkiye’de nüfusun dağılışını etkileyen faktörlerden hareketle Türkiye’nin demografik özelliklerini yorumlar."
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "SB.7.3.3. Örnek incelemeler yoluyla göçün neden ve sonuçlarını tartışır."
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "SB.7.3.4. Temel haklardan yerleşme ve seyahat özgürlüğünün kısıtlanması halinde ortaya çıkacak olumsuz durumlara örnekler gösterir."
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "SB.7.4.1. Bilginin korunması, yaygınlaştırılması ve aktarılmasında değişim ve sürekliliği inceler."
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "SB.7.4.2. Türk-İslam medeniyetinde yetişen bilginlerin bilimsel gelişme sürecine katkılarını tartışır."
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "SB.7.4.3. XV-XX. yüzyıllar arasında Avrupa’da yaşanan gelişmelerin günümüz bilimsel birikiminin oluşmasına etkisini analiz eder."
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "SB.7.4.4. Özgür düşüncenin bilimsel gelişmelere katkısını değerlendirir."
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "SB.7.5.1. Üretimde ve yönetimde toprağın önemini geçmişten ve günümüzden örneklerle açıklar."
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "SB.7.5.3. Kurumların ve sivil toplum kuruluşlarının çalışmalarına ve sosyal yaşamdaki rollerine örnekler verir."
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "SB.7.5.4. Tarih boyunca Türklerde meslek edindirme ve meslek etiği kazandırmada rol oynayan kurumları tanır."
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "SB.7.5.5. Dünyadaki gelişmelere bağlı olarak ortaya çıkan yeni meslekleri dikkate alarak mesleki tercihlerine yönelik planlama yapar."
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "SB.7.5.6. Dijital teknolojilerin üretim, dağıtım ve tüketim ağında meydana getirdiği değişimleri analiz eder."
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "SB.7.6.1. Demokrasinin ortaya çıkışını, gelişim evrelerini ve günümüzde ifade ettiği anlamları açıklar."
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "SB.7.6.2. Atatürk’ün Türk demokrasisinin gelişimine katkılarını açıklar."
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "SB.7.6.3. Türkiye Cumhuriyeti Devleti’nin temel niteliklerini toplumsal hayattaki uygulamalarla ilişkilendirir."
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "SB.7.6.4. Demokrasinin uygulanma süreçlerinde karşılaşılan sorunları analiz eder."
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "SB.7.7.1. Türkiye’nin üyesi olduğu uluslararası kuruluşlara örnekler verir."
+      },
+      {
+        "hafta": "34. Hafta",
+        "kazanim": "SB.7.7.2. Türkiye’nin ilişkide olduğu ekonomik bölge ve kuruluşları tanır."
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "SB.7.7.3. Çeşitli kültürlere yönelik kalıp yargıları sorgular."
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "SB.7.7.4. Arkadaşlarıyla birlikte küresel sorunların çözümüne yönelik fİkir önerileri geliştirir."
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "SB.7.7.4. Arkadaşlarıyla birlikte küresel sorunların çözümüne yönelik fİkir önerileri geliştirir."
+      }
+    ],
+    "8": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "İTA.8.1.1. Avrupa’daki gelişmelerin yansımaları bağlamında Osmanlı Devleti’nin yirminci yüzyılın başlarındaki siyasi ve sosyal durumunu kavrar."
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "İTA.8.1.2. Mustafa Kemal’in çocukluk ve öğrenim hayatından hareketle onun kişilik özelliklerinin oluşumu hakkında çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "İTA.8.1.3. Gençlik döneminde Mustafa Kemal’in fikir hayatını etkileyen önemli kişileri ve olayları kavrar."
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "İTA.8.1.4. Mustafa Kemal’in askerlik hayatı ile ilgili olayları ve olguları onun kişilik özellikleri ile ilişkilendirir."
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "İTA.8.2.1. Birinci Dünya Savaşı’nın sebeplerini ve savaşın başlamasına yol açan gelişmeleri kavrar."
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "İTA.8.2.2. Birinci Dünya Savaşı’nda Osmanlı Devleti’nin durumu hakkında çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "İTA.8.2.3. Mondros Ateşkes Antlaşması’nın imzalanması ve uygulanması karşısında Osmanlı yönetiminin, halkın ve Mustafa Kemal’in tutumunu analiz eder."
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "İTA.8.2.4. Kuvâ-yı Millîye’nin oluşum sürecini ve sonrasında meydana gelen gelişmeleri kavrar."
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "İTA.8.2.5. Millî Mücadele’nin hazırlık döneminde Mustafa Kemal’in yaptığı çalışmaları analiz eder."
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "İTA.8.2.5. Millî Mücadele’nin hazırlık döneminde Mustafa Kemal’in yaptığı çalışmaları analiz eder."
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "İTA.8.2.6. Misakımilli’nin kabulünü ve Büyük Millet Meclisinin açılışını vatanın bütünlüğü esası ile “ulusal egemenlik” ve “tam bağımsızlık” ilkeleri ile ilişkilendirir."
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "İTA.8.2.7. Büyük Millet Meclisine karşı ayaklanmalar ile ayaklanmaların bastırılması için alınan tedbirleri analiz eder."
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "İTA.8.2.8. Mustafa Kemal’in ve Türk milletinin Sevr Antlaşması’na karşı tepkilerini değerlendirir."
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "İTA.8.3.1. Millî Mücadele Dönemi’nde Doğu Cephesi ve Güney Cephesi’nde meydana gelen gelişmeleri kavrar."
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "İTA.8.3.2. Millî Mücadele Dönemi’nde Batı Cephesi’nde meydana gelen gelişmeleri kavrar"
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "İTA.8.3.2. Millî Mücadele Dönemi’nde Batı Cephesi’nde meydana gelen gelişmeleri kavrar"
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "İTA.8.3.3. Millî Mücadele’nin zor bir döneminde Maarif Kongresi yapan Atatürk’ün, millî ve çağdaş eğitime verdiği önemi kavrar."
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "İTA.8.3.5. Sakarya Meydan Savaşı’nın kazanılmasında ve Büyük Taarruz’un başarılı olmasında Mustafa Kemal’in rolüne ilişkin çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "İTA.8.3.6. Lozan Antlaşması’nın sağladığı kazanımları analiz eder."
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "İTA.8.3.7. Millî Mücadele Dönemi’nin siyasi, sosyal ve kültürel olaylarının sanat ve edebiyat ürünlerine yansımalarına kanıtlar gösterir."
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "İTA.8.4.1. Çağdaşlaşan Türkiye’nin temeli olan Atatürk ilkelerini açıklar."
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "İTA.8.4.2. Siyasi alanda meydana gelen gelişmeleri kavrar."
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "İTA.8.4.4. Eğitim ve kültür alanında yapılan inkılapları ve gelişmeleri kavrar."
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "İTA.8.4.6. Ekonomi alanında meydana gelen gelişmeleri kavrar."
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "İTA.8.4.8. Cumhuriyet’in sağladığı kazanımları ve Atatürk’ün Türk milleti için gösterdiği hedeﬂeri analiz eder."
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "İTA.8.4.9. Atatürk ilke ve inkılaplarını oluşturan temel esasları kavrar."
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "İTA.8.5.1. Atatürk Dönemi’ndeki demokratikleşme yolunda atılan adımları açıklar."
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "İTA.8.5.2. Mustafa Kemal’e suikast girişimini analiz eder."
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "İTA.8.5.3. Cumhuriyetin ilk yıllarında Türkiye Cumhuriyeti'ne yönelik tehditleri analiz eder."
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "İTA.8.6.1. Atatürk Dönemi Türk dış politikasının temel ilkelerini ve amaçlarını açıklar."
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "İTA.8.6.2. Atatürk Dönemi Türk dış politikasında yaşanan gelişmeleri analiz eder."
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "İTA.8.6.3. Atatürk’ün Hatay’ı ülkemize katmak konusunda yaptıklarına ve bu uğurda gösterdiği özveriye kanıtlar gösterir."
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "İTA.8.7.1. Atatürk’ün ölümüne ilişkin yansıma ve değerlendirmelerden hareketle onun fikir ve eserlerinin evrensel değerine ilişkin çıkarımlarda bulunur."
+      },
+      {
+        "hafta": "34. Hafta",
+        "kazanim": "İTA.8.7.2. Atatürk’ün Türk Milleti’ne bıraktığı eserlerinden örnekler verir."
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "İTA.8.7.3. Atatürk’ün İkinci Dünya Savaşı öncesi tespitleri ve girişimleri Türkiye’nin savaşta izlediği denge siyaseti ile ilişkilendirilir."
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "İTA.8.7.5. Türkiye’de çok partili siyasi hayata geçişi hızlandıran gelişmeleri, demokrasinin gerekleri açısından analiz eder."
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "İTA.8.7.5. Türkiye’de çok partili siyasi hayata geçişi hızlandıran gelişmeleri, demokrasinin gerekleri açısından analiz eder."
+      }
+    ]
+  },
+  "Matematik": {
+    "5": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "MAT.5.3.1. Temel geometrik çizimler için matematiksel araç ve teknolojiden yararlanabilme"
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "MAT.5.3.2. Temel geometrik çizimlere dayalı deneyimlerini yansıtabilme"
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "MAT.5.3.3. Açıları ölçmek için matematiksel araç ve teknolojiden yararlanabilme"
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "MAT.5.3.4. Düzlemde iki veya üç doğrunun birbirine göre durumuna bağlı olarak oluşabilecek açılara dair çıkarım yapabilme"
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "MAT.5.3.5. Çokgenleri düzlemde ardışık olarak kesişen doğruların oluşturduğu kapalı şekiller olarak yorumlayabilme"
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "MAT.5.3.6. Çokgenlerin özellikleri ile ilgili edindiği deneyimleri yansıtabilme"
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "MAT.5.3.7. Matematiksel araç ve teknoloji yardımıyla düzlemde iki noktada kesişen çember çiftinin merkezleri ve kesişim noktalarından biri ile inşa edilen üçgenlerin kenar özelliklerine yönelik muhakeme yapabilme"
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "MAT.5.3.7. Matematiksel araç ve teknoloji yardımıyla düzlemde iki noktada kesişen çember çiftinin merkezleri ve kesişim noktalarından biri ile inşa edilen üçgenlerin kenar özelliklerine yönelik muhakeme yapabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "MAT.5.1.1. Altı basamaklı sayıları okuma ve yazmayı çok basamaklı sayılara genelleyebilme"
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "MAT.5.1.1. Altı basamaklı sayıları okuma ve yazmayı çok basamaklı sayılara genelleyebilme"
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "MAT.5.1.2. Doğal sayılar ve işlemler içeren gerçek yaşam problemlerini çözebilme"
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "MAT.5.1.2. Doğal sayılar ve işlemler içeren gerçek yaşam problemlerini çözebilme"
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "MAT.5.1.2. Doğal sayılar ve işlemler içeren gerçek yaşam problemlerini çözebilme"
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "MAT.5.1.2. Doğal sayılar ve işlemler içeren gerçek yaşam problemlerini çözebilme MAT.5.4.1. Kenar uzunlukları doğal sayı olan bir dikdörtgenin çevre uzunluğu verildiğinde kenar uzunluklarını yorumlayabilme"
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "MAT.5.4.1. Kenar uzunlukları doğal sayı olan bir dikdörtgenin çevre uzunluğu verildiğinde kenar uzunluklarını yorumlayabilme MAT.5.4.2. Birim karelerden yola çıkarak bir şeklin alanını değerlendirebilme"
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "MAT.5.4.3. Kenar uzunlukları doğal sayı olan bir dikdörtgenin alanının ölçüsü verildiğinde çevre uzunluğunu, çevre uzunluğu verildiğinde alanını yorumlayabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "MAT.5.4.4. Dikdörtgenin çevre uzunluğu ve alanı ile ilgili problemleri çözebilme"
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "MAT.5.4.4. Dikdörtgenin çevre uzunluğu ve alanı ile ilgili problemleri çözebilme"
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "MAT.5.1.3. Gerçek yaşam durumlarına karşılık gelen kesirleri farklı biçimlerde temsil edebilme"
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "MAT.5.1.3. Gerçek yaşam durumlarına karşılık gelen kesirleri farklı biçimlerde temsil edebilme"
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "MAT.5.1.3. Gerçek yaşam durumlarına karşılık gelen kesirleri farklı biçimlerde temsil edebilme"
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "MAT.5.1.3. Gerçek yaşam durumlarına karşılık gelen kesirleri farklı biçimlerde temsil edebilme MAT.5.1.4. Farklı gösterimlerle ifade edilen kesirlerin karşılaştırılmasına yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "MAT.5.1.4. Farklı gösterimlerle ifade edilen kesirlerin karşılaştırılmasına yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "MAT.5.1.4. Farklı gösterimlerle ifade edilen kesirlerin karşılaştırılmasına yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "MAT.5.1.4. Farklı gösterimlerle ifade edilen kesirlerin karşılaştırılmasına yönelik çıkarım yapabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "MAT.5.5.1. Kategorik veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "MAT.5.5.1. Kategorik veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "MAT.5.5.1. Kategorik veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "MAT.5.5.1. Kategorik veri ile çalışabilme ve veriye dayalı karar verebilme MAT.5.5.2. Başkaları tarafından oluşturulan kategorik veriye dayalı istatistiksel sonuç veya yorumları tartışabilme"
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "MAT.5.5.2. Başkaları tarafından oluşturulan kategorik veriye dayalı istatistiksel sonuç veya yorumları tartışabilme MAT.5.2.1. Eşitliğin korunumuna ve işlem özelliklerine yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "MAT.5.2.1. Eşitliğin korunumuna ve işlem özelliklerine yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "MAT.5.2.2. Karşılaştığı günlük hayat ya da matematiksel durumlarda işlem önceliğini yorumlayabilme MAT.5.2.3. Sayı ve şekil örüntülerinin kuralına ilişkin muhakeme yapabilme"
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "MAT.5.2.3. Sayı ve şekil örüntülerinin kuralına ilişkin muhakeme yapabilme"
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "MAT.5.2.4. Temel aritmetik işlem içeren durumlardaki algoritmaları yorumlayabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "MAT.5.2.4. Temel aritmetik işlem içeren durumlardaki algoritmaları yorumlayabilme MAT.5.6.1. Herhangi bir olayın olasılığının 0 (imkânsız) ile 1 (kesin) arasında (0 ve 1 dâhil)"
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "MAT.5.6.2. Olayları az ya da çok olasılıklı şeklinde yapılandırabilme"
+      }
+    ],
+    "6": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "MAT.6.1.1. Karşılaştığı problem durumlarında bir doğal sayının çarpan ve katlarına yönelik muhakeme yapabilme"
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "MAT.6.1.2. Bir doğal sayının 2, 3, 4, 5, 6, 9 ve 10 ile tam bölünebilme kriterlerine ilişkin çıkarım yapabilme"
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "MAT.6.1.3. Bir doğal sayının asal olma durumunu ve asal çarpanlarını çözümleyebilme MAT.6.1.4. Günlük hayat problemleri ya da matematiksel durumlar üzerinden ortak kat ve ortak böleni yorumlayabilme"
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "MAT.6.5.1. Kategorik veya nicel (kesikli) veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "MAT.6.5.1. Kategorik veya nicel (kesikli) veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "MAT.6.5.1. Kategorik veya nicel (kesikli) veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "MAT.6.5.1. Kategorik veya nicel (kesikli) veri ile çalışabilme ve veriye dayalı karar verebilme"
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "MAT.6.5.2. Başkaları tarafından oluşturulan kategorik veya nicel (kesikli) veriye dayalı istatistiksel sonuç veya yorumları tartışabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "MAT.6.5.2. Başkaları tarafından oluşturulan kategorik veya nicel (kesikli) veriye dayalı istatistiksel sonuç veya yorumları tartışabilme MAT.6.1.5. Gerçek yaşam durumlarında ondalık gösterimlerin basamak değerlerini kesirlerden yararlanarak yorumlayabilme"
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "MAT.6.1.6. Kesir ve bölme işlemi arasındaki ilişkiye yönelik tümevarımsal akıl yürütebilme"
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "MAT.6.1.7. Karşılaştığı günlük hayat ya da matematiksel durumlarda standart uzunluk ölçme birimlerini değerlendirebilme"
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme"
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme"
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme"
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme"
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "MAT.6.1.8. Gerçek yaşam durumlarında karşılaşılan kesir, ondalık ve yüzde gösterimleri ile ilgili dört işlem gerektiren problemleri çözebilme MAT.6.6.1. Bir olayın olasılığını gözleme dayalı tahmin edebilme"
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "MAT.6.6.1. Bir olayın olasılığını gözleme dayalı tahmin edebilme"
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "MAT.6.3.1. Düzlemde iki paralel doğru ve bir kesen ile oluşan açıları sınıflandırabilme"
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "MAT.6.3.2. Matematiksel araç ve teknolojiden yararlanarak iki paralel doğrunun iki kesenle oluşturduğu şekillerin özelliklerine dair çıkarım yapabilme"
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "MAT.6.3.3. Matematiksel araç ve teknolojiden yararlanarak birbirlerini ortalayan doğru parçalarını köşegen kabul eden dörtgenlere yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "MAT.6.3.4. Üçgen, yamuk, paralelkenar, eşkenar dörtgen, dikdörtgen ve karenin açıları ile ilgili problemleri çözebilme"
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "MAT.6.2.1. Gerçek yaşam durumlarında bilinen niceliklerden bilinmeyen niceliklere ilişkin muhakeme yapabilme"
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "MAT.6.2.1. Gerçek yaşam durumlarında bilinen niceliklerden bilinmeyen niceliklere ilişkin muhakeme yapabilme"
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "MAT.6.2.1. Gerçek yaşam durumlarında bilinen niceliklerden bilinmeyen niceliklere ilişkin muhakeme yapabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "MAT.6.2.2. Sayı ve şekil örüntülerini yorumlayabilme"
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "MAT.6.2.2. Sayı ve şekil örüntülerini yorumlayabilme"
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "MAT.6.2.3. Cebirsel ifadeler içeren durumlardaki algoritmaları yorumlayabilme"
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "MAT.6.2.3. Cebirsel ifadeler içeren durumlardaki algoritmaları yorumlayabilme"
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "MAT.6.4.1. Uzunluk ve alan ölçme birimleri arasındaki ilişkilerle ilgili analojik akıl yürüte_x0002_bilme"
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "MAT.6.4.2. Dikdörtgenin alan bağıntısına yönelik deneyimlerini paralelkenar ve üçgenin alan bağıntılarına yansıtabilme"
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "MAT.6.4.3. Geometrik şekillerin alanları ile modellenen gerçek yaşam durumlarına yönelik problem çözebilme"
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "MAT.6.4.3. Geometrik şekillerin alanları ile modellenen gerçek yaşam durumlarına yönelik problem çözebilme"
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "MAT.6.4.4. Çemberin uzunluğu ile çap uzunluğu arasındaki ilişkiye yönelik çıkarım yapabilme *Okul Temelli Planlama"
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "MAT.6.4.4. Çemberin uzunluğu ile çap uzunluğu arasındaki ilişkiye yönelik çıkarım yapabilme"
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "MAT.6.4.5. Çap veya yarıçap uzunluğu verilen bir çemberin uzunluğu ile ilgili problemleri çözebilme"
+      }
+    ],
+    "7": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "M.7.1.1.1. Tam sayılarla toplama ve çıkarma işlemlerini yapar, ilgili problemleri çözer."
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "M.7.1.1.2. Toplama işleminin özelliklerini akıcı işlem yapmak için birer strateji olarak kullanır."
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "M.7.1.1.3. Tam sayılarla çarpma ve bölme işlemlerini yapar."
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "M.7.1.1.4. Tam sayıların kendileri ile tekrarlı çarpımını üslü nicelik olarak ifade eder."
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "M.7.1.1.5. Tam sayılarla işlemler yapmayı gerektiren problemleri çözer."
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "M.7.1.1.5. Tam sayılarla işlemler yapmayı gerektiren problemleri çözer."
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "M.7.1.2.1. Rasyonel sayıları tanır ve sayı doğrusunda gösterir."
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "M.7.1.2.3. Devirli olan ve olmayan ondalık gösterimleri rasyonel sayı olarak ifade eder."
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "M.7.1.3.1. Rasyonel sayılarla toplama ve çıkarma işlemlerini yapar."
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "M.7.1.3.2. Rasyonel sayılarla çarpma ve bölme işlemlerini yapar."
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "M.7.1.3.3. Rasyonel sayılarla çok adımlı işlemleri yapar."
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "M.7.1.3.4. Rasyonel sayıların kare ve küplerini hesaplar."
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "M.7.1.3.5. Rasyonel sayılarla işlem yapmayı gerektiren problemleri çözer."
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "M.7.2.1.2. Bir doğal sayı ile bir cebirsel ifadeyi çarpar."
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "M.7.2.1.3. Sayı örüntülerinin kuralını harfle ifade eder, kuralı harfle ifade edilen örüntünün istenilen terimini bulur."
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "M.7.2.2.2. Birinci dereceden bir bilinmeyenli denklemi tanır ve verilen gerçek hayat durumlarına uygun birinci dereceden bir bilinmeyenli denklem kurar."
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "M.7.2.2.2. Birinci dereceden bir bilinmeyenli denklemi tanır ve verilen gerçek hayat durumlarına uygun birinci dereceden bir bilinmeyenli denklem kurar."
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "M.7.2.2.3. Birinci dereceden bir bilinmeyenli denklemleri çözer."
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "M.7.2.2.4. Birinci dereceden bir bilinmeyenli denklem kurmayı gerektiren problemleri çözer."
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "M.7.1.4.1. Oranda çokluklardan birinin 1 olması durumunda diğerinin alacağı değeri belirler."
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "M.7.1.4.3. Gerçek hayat durumlarını inceleyerek iki çokluğun orantılı olup olmadığına karar verir."
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "M.7.1.4.6. Gerçek hayat durumlarını inceleyerek iki çokluğun ters orantılı olup olmadığına karar verir."
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "M.7.1.4.7. Doğru ve ters orantıyla ilgili problemleri çözer."
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "M.7.1.5.2. Bir çokluğu diğer bir çokluğun yüzdesi olarak hesaplar."
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "M.7.1.5.3. Bir çokluğu belirli bir yüzde ile arttırmaya veya azaltmaya yönelik hesaplamalar yapar."
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "M.7.1.5.4. Yüzde ile ilgili problemleri çözer."
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "M.7.3.1.2. İki paralel doğruyla bir keseninin oluşturduğu yöndeş, ters, iç ters, dış ters açıları belirleyerek özelliklerini inceler; oluşan açıların eş veya bütünler olanlarını belirler; ilgili problemleri çözer."
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "M.7.3.2.1. Düzgün çokgenlerin kenar ve açı özelliklerini açıklar."
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "M.7.3.2.3. Dikdörtgen, paralelkenar, yamuk ve eşkenar dörtgeni tanır; açı özelliklerini belirler."
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "M.7.3.2.5. Alan ile ilgili problemleri çözer."
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "M.7.3.3.1. Çemberde merkez açıları, gördüğü yayları ve açı ölçüleri arasındaki ilişkileri belirler."
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "M.7.3.3.3. Dairenin ve daire diliminin alanını hesaplar."
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "M.7.4.1.1. Verilere ilişkin çizgi grafiği oluşturur ve yorumlar."
+      },
+      {
+        "hafta": "34. Hafta",
+        "kazanim": "M.7.4.1.3. Bir veri grubuna ilişkin daire grafiğini oluşturur ve yorumlar."
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "M.7.4.1.4. Verileri sütun, daire veya çizgi grafiği ile gösterir ve bu gösterimler arasında uygun olan dönüşümleri"
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "M.7.3.4.1. Üç boyutlu cisimlerin farklı yönlerden iki boyutlu görünümlerini çizer."
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "M.7.3.4.1. Üç boyutlu cisimlerin farklı yönlerden iki boyutlu görünümlerini çizer."
+      }
+    ],
+    "8": [
+      {
+        "hafta": "1. Hafta",
+        "kazanim": "M.8.1.1.1. Verilen pozitif tam sayıların pozitif tam sayı çarpanlarını bulur, pozitif tam sayıların pozitif tam sayı Çarpanlarını üslü ifadelerin çarpımı şeklinde yazar."
+      },
+      {
+        "hafta": "2. Hafta",
+        "kazanim": "M.8.1.1.2. İki doğal sayının en büyük ortak bölenini (EBOB) ve en küçük ortak katını (EKOK) hesaplar, ilgili problemleri çözer."
+      },
+      {
+        "hafta": "3. Hafta",
+        "kazanim": "M.8.1.2.1.Tam sayıların, tam sayı kuvvetlerini hesaplar."
+      },
+      {
+        "hafta": "4. Hafta",
+        "kazanim": "M.8.1.2.3. Sayıların ondalık gösterimlerini 10’un tam sayı kuvvetlerini kullanarak çözümler."
+      },
+      {
+        "hafta": "5. Hafta",
+        "kazanim": "M.8.1.2.5. Çok büyük ve çok küçük sayıları bilimsel gösterimle ifade eder ve karşılaştırır."
+      },
+      {
+        "hafta": "6. Hafta",
+        "kazanim": "M.8.1.3.1. Tamkare pozitif tam sayılarla bu sayıların karekökleri arasındaki ilişkiyi belirler."
+      },
+      {
+        "hafta": "7. Hafta",
+        "kazanim": "M.8.1.3.3. Kareköklü bir ifadeyi a√b şeklinde yazar ve a√b şeklindeki ifadede katsayıyı kök içine alır."
+      },
+      {
+        "hafta": "8. Hafta",
+        "kazanim": "M.8.1.3.4. Kareköklü ifadelerde çarpma ve bölme işlemlerini yapar."
+      },
+      {
+        "hafta": "9. Hafta",
+        "kazanim": "M.8.1.3.5. Kareköklü ifadelerde toplama ve çıkarma işlemlerini yapar."
+      },
+      {
+        "hafta": "10. Hafta",
+        "kazanim": "M.8.1.3.7. Ondalık ifadelerin kareköklerini belirler."
+      },
+      {
+        "hafta": "11. Hafta",
+        "kazanim": "M.8.4.1.1.En fazla üç veri grubuna ait çizgi ve sütun grafiklerini yorumlar."
+      },
+      {
+        "hafta": "12. Hafta",
+        "kazanim": "M.8.4.1.2. Verileri sütun, daire veya çizgi grafiği ile gösterir ve bu gösterimler arasında uygun olan dönüşümleri yapar."
+      },
+      {
+        "hafta": "13. Hafta",
+        "kazanim": "M.8.4.1.2. Verileri sütun, daire veya çizgi grafiği ile gösterir ve bugösterimler arasında uygun olan dönüşümleri yapar."
+      },
+      {
+        "hafta": "14. Hafta",
+        "kazanim": "M.8.5.1.3. Eşit şansa sahip olan olaylarda her bir çıktının olasılık değerinin eşit olduğunu ve bu değerin 1/n olduğunu açıklar."
+      },
+      {
+        "hafta": "15. Hafta",
+        "kazanim": "M.8.5.1.4. Olasılık değerinin 0 ile 1 arasında (0 ve 1 dâhil) olduğunu anlar."
+      },
+      {
+        "hafta": "16. Hafta",
+        "kazanim": "M.8.2.1.1. Basit cebirsel ifadeleri anlar ve farklı biçimlerde yazar."
+      },
+      {
+        "hafta": "17. Hafta",
+        "kazanim": "M.8.2.1.3. Özdeşlikleri modellerle açıklar."
+      },
+      {
+        "hafta": "18. Hafta",
+        "kazanim": "M.8.2.1.4. Cebirsel ifadeleri çarpanlara ayırır."
+      },
+      {
+        "hafta": "19. Hafta",
+        "kazanim": "M.8.2.2.1. Birinci dereceden bir bilinmeyenli denklemleri çözer."
+      },
+      {
+        "hafta": "20. Hafta",
+        "kazanim": "M.8.2.2.3. Aralarında doğrusal ilişki bulunan iki değişkenden birinin diğerine bağlı olarak nasıl değiştiğini tablo ve denklem ile ifade eder."
+      },
+      {
+        "hafta": "21. Hafta",
+        "kazanim": "M.8.2.2.4. Doğrusal denklemlerin grafiğini çizer."
+      },
+      {
+        "hafta": "22. Hafta",
+        "kazanim": "M.8.2.2.5. Doğrusal ilişki içeren gerçek hayat durumlarına ait denklem, tablo ve grafiği oluşturur ve yorumlar."
+      },
+      {
+        "hafta": "23. Hafta",
+        "kazanim": "M.8.2.2.6. Doğrunun eğimini modellerle açıklar, doğrusal denklemleri ve grafiklerini eğimle ilişkilendirir."
+      },
+      {
+        "hafta": "24. Hafta",
+        "kazanim": "M.8.2.2.6. Doğrunun eğimini modellerle açıklar, doğrusal denklemleri ve grafiklerini eğimle ilişkilendirir."
+      },
+      {
+        "hafta": "25. Hafta",
+        "kazanim": "M.8.2.3.1. Birinci dereceden bir bilinmeyenli eşitsizlik içeren günlük hayat durumlarına uygun matematik cümleleri yazar."
+      },
+      {
+        "hafta": "26. Hafta",
+        "kazanim": "M.8.2.3.3. Birinci dereceden bir bilinmeyenli eşitsizlikleri çözer."
+      },
+      {
+        "hafta": "27. Hafta",
+        "kazanim": "M.8.3.1.1. Üçgende kenarortay, açıortay ve yüksekliği inşa eder."
+      },
+      {
+        "hafta": "28. Hafta",
+        "kazanim": "M.8.3.1.3. Üçgenin kenar uzunlukları ile bu kenarların karşısındaki açıların ölçülerini ilişkilendirir."
+      },
+      {
+        "hafta": "29. Hafta",
+        "kazanim": "M.8.3.1.5. Pisagor bağıntısını oluşturur, ilgili problemleri çözer."
+      },
+      {
+        "hafta": "30. Hafta",
+        "kazanim": "M.8.3.1.5. Pisagor bağıntısını oluşturur, ilgili problemleri çözer."
+      },
+      {
+        "hafta": "31. Hafta",
+        "kazanim": "M.8.3.3.1. Eşlik ve benzerliği ilişkilendirir, eş ve benzer şekillerin kenar ve açı ilişkilerini belirler."
+      },
+      {
+        "hafta": "32. Hafta",
+        "kazanim": "M.8.3.2.1. Nokta, doğru parçası ve diğer şekillerin öteleme sonucundaki görüntülerini çizer."
+      },
+      {
+        "hafta": "33. Hafta",
+        "kazanim": "M.8.3.2.2. Nokta, doğru parçası ve diğer şekillerin yansıma sonucu oluşan görüntüsünü oluşturur."
+      },
+      {
+        "hafta": "34. Hafta",
+        "kazanim": "M.8.3.4.1. Dik prizmaları tanır, temel elemanlarını belirler, inşa eder ve açınımını çizer."
+      },
+      {
+        "hafta": "35. Hafta",
+        "kazanim": "M.8.3.4.3. Dik dairesel silindirin yüzey alanı bağıntısını oluşturur, ilgili problemleri çözer."
+      },
+      {
+        "hafta": "36. Hafta",
+        "kazanim": "M.8.3.4.5. Dik piramidi tanır, temel elemanlarını belirler, inşa eder ve açınımını çizer."
+      },
+      {
+        "hafta": "37. Hafta",
+        "kazanim": "M.8.3.4.5. Dik piramidi tanır, temel elemanlarını belirler, inşa eder ve açınımını çizer."
+      }
+    ]
+  },
+  "Fen Bilimleri": {
+    "5": [
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "FB.5.1.1.1. Güneş’in yapısı ve dönme hareketi ile ilgili bilgileri kaydedebilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "FB.5.1.1.1. Güneş’in yapısı ve dönme hareketi ile ilgili bilgileri kaydedebilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "FB.5.1.2.1. Ay’ın özellikleri, dönme ve dolanma hareketleri ile ilgili bilimsel çıkarım yapabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "FB.5.1.2.2. Ay’ın evrelerini temsil eden bilimsel model oluşturabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "FB.5.1.3.1. Güneş, Dünya ve Ay’ın birbirlerine göre hareketlerini ve hacimsel büyüklüklerini temsil eden bilimsel model oluşturabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "FB.5.1.3.1. Güneş, Dünya ve Ay’ın birbirlerine göre hareketlerini ve hacimsel büyüklüklerini temsil eden bilimsel model oluşturabilme FB.5.2.1.1. Kuvveti büyüklüğü ile tanımlayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "FB.5.2.1.1. Kuvveti büyüklüğü ile tanımlayabilme *Okul Temelli Planlama",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "FB.5.2.1.1. Kuvveti büyüklüğü ile tanımlayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "FB.5.2.1.2. Basit araç gereçler kullanarak bir dinamometre modeli tasarlayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "FB.5.2.2.1. Kütleye etki eden yer çekimi kuvvetini ağırlık olarak tanımlayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "FB.5.2.3.1. Sürtünme kuvvetinin çeşitli ortamlardaki etkilerine yönelik genelleme yapabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "FB.5.2.3.2. Günlük yaşamda sürtünmeyi artırma veya azaltmaya yönelik bilimsel bir model tasarlayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "FB.5.3.1.1. Bitki ve hayvan hücrelerini temel kısımları ve özellikleri açısından karşılaştırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "FB.5.3.1.1. Bitki ve hayvan hücrelerini temel kısımları ve özellikleri açısından karşılaştırabilme FB.5.3.1.2. Hücre-doku-organ-sistem-organizma kavramlarını yapılandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "FB.5.3.1.2. Hücre-doku-organ-sistem-organizma kavramlarını yapılandırabilme *Okul Temelli Planlama",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "FB.5.3.2.1. Destek ve hareket sistemine ait yapıları sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 19
+      },
+      {
+        "hafta": "18. Hafta",
+        "ogrenme_cikti": "FB.5.3.2.1. Destek ve hareket sistemine ait yapıları sınıflandırabilme FB.5.3.2.2. Destek ve hareket sisteminin sağlığı için yapılması gerekenler konusunda bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 20
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "FB.5.3.2.2. Destek ve hareket sisteminin sağlığı için yapılması gerekenler konusunda bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "FB.5.4.1.1. Bir kaynaktan çıkan ışığın her yönde doğrusal bir yol izlediğini gözlem yoluyla açıklayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "FB.5.4.2.1. Maddeleri ışığı geçirme durumlarına göre sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "FB.5.4.2.1. Maddeleri ışığı geçirme durumlarına göre sınıflandırabilme FB.5.4.3.1. Tam gölgeyi gözlemleyerek açıklayabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "FB.5.4.3.1. Tam gölgeyi gözlemleyerek açıklayabilme FB.5.5.1.1. Maddeleri tanecikli, boşluklu ve hareketli yapısına göre sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "FB.5.5.1.1. Maddeleri tanecikli, boşluklu ve hareketli yapısına göre sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "FB.5.5.2.1. Isı ve sıcaklık kavramlarını karşılaştırabilme *Okul Temelli Planlama",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "FB.5.5.2.2. Sıcaklığı farklı olan sıvıların karıştırılması sonucu ısı alışverişi olduğuna yönelik bilimsel çıkarım yapabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "FB.5.5.3.1. Maddenin ısı etkisiyle hâl değiştirebileceğini bilimsel gözleme dayalı tahmin edebilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "FB.5.5.3.1. Maddenin ısı etkisiyle hâl değiştirebileceğini bilimsel gözleme dayalı tahmin edebilme FB.5.5.4.1. Maddeleri ısı iletimi bakımından sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "FB.5.5.4.1. Maddeleri ısı iletimi bakımından sınıflandırabilme FB.5.5.4.2. Isı yalıtımını gösteren model oluşturabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "FB.5.5.4.2. Isı yalıtımını gösteren model oluşturabilme FB.5.6.1.1. Bir elektrik devresindeki elemanların sembollerini sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "FB.5.6.1.1. Bir elektrik devresindeki elemanların sembollerini sınıflandırabilme FB.5.6.1.2. Şemasını çizdiği elektrik devresine uygun deney yapabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "FB.5.6.1.2. Şemasını çizdiği elektrik devresine uygun deney yapabilme FB.5.6.2.1. Bir elektrik devresindeki ampul parlaklığını etkileyen değişkenlerin neler olduğuna ilişkin hipotez oluşturabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "FB.5.6.2.1. Bir elektrik devresindeki ampul parlaklığını etkileyen değişkenlerin neler olduğuna ilişkin hipotez oluşturabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 37
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "FB.5.6.2.1. Bir elektrik devresindeki ampul parlaklığını etkileyen değişkenlerin neler olduğuna ilişkin hipotez oluşturabilme FB.5.7.1.1. Evsel atıklarda geri dönüştürülebilen ve dönüştürülemeyen maddeleri sınıflandırabilme *Okul Temelli Planlama",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "FB.5.7.1.2. Kaynakların etkili kullanımı konusunda geri dönüşümün önemli olduğuna yönelik bilimsel çıkarımda bulunabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 40
+      },
+      {
+        "hafta": "37. Hafta",
+        "ogrenme_cikti": "FB.5.7.1.3. Yakın çevresinde atık yönetiminin uygulanabilirliğine ilişkin deneyimlerini yansıtabilme",
+        "sinif": "5",
+        "ders": "Fen Bilimleri",
+        "satir": 41
+      }
+    ],
+    "6": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "FB.6.1.1.1. Güneş sistemindeki gezegenleri niteliklerine göre sınıflandırabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "FB.6.1.1.2. Güneş sistemi ile ilgili bilimsel model oluşturabilme FB.6.1.2.1. Güneş ve Ay tutulması ile ilgili bilimsel çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "FB.6.1.2.1. Güneş ve Ay tutulması ile ilgili bilimsel çıkarım yapabilme FB.6.1.2.2. Güneş ve Ay tutulması ile ilgili bilimsel model oluşturabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "FB.6.2.1.1. Bir cisme etki eden aynı doğrultudaki kuvvetler arasındaki ilişkileri açıklayarak bileşke kuvveti yapılandırabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "FB.6.2.1.2. Dengelenmiş ve dengelenmemiş kuvvetlerin etkisi altındaki bir cismin hareketine yönelik deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "FB.6.2.2.1. Sürat ve hız kavramlarını karşılaştırabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "FB.6.2.2.1. Sürat ve hız kavramlarını karşılaştırabilme FB.6.3.1.1. Eşeyli ve eşeysiz üremeyi karşılaştırabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "FB.6.3.1.2. Bitkilerde üreme, büyüme ve gelişme hakkında bilimsel çıkarım yapabilme *Okul Temelli Planlama",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "FB.6.3.1.3. Tohumun çimlenmesine etki eden faktörlere ilişkin hipotez oluşturabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "FB.6.3.1.4. Hayvanlarda üreme, büyüme ve gelişme hakkında bilimsel çıkarım yapabilme FB.6.3.1.5. İnsanda üremeyi sağlayan yapı ve organlar arasındaki ilişkileri çözümleyebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "FB.6.3.2.1. Sinir sisteminin görevlerini model üzerinde gözlemleyebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "FB.6.3.2.2. İç salgı bezlerinin vücut için önemini yapılandırabilme FB.6.3.2.3. Çocukluktan ergenliğe geçişte oluşan bedensel ve ruhsal değişimleri genelleyebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "FB.6.3.2.4. Denetleyici ve düzenleyici sistemlerin sağlığı için yapılması gerekenlerle ilgili bilgi toplayabilme FB.6.4.1.1. Işığın farklı yüzeylerdeki yansıma olaylarına ilişkin bilimsel çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "FB.6.4.1.2. Işığın yansımasında gelen ışın, yansıyan ışın ve yüzeyin normali arasındaki ilişkiyi kanıt kullanarak açıklayabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "FB.6.4.2.1. Günlük hayattaki ayna çeşitlerine ilişkin bilimsel çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "FB.6.4.3.1. Işığın madde ile etkileşimi sonucunda soğurulabileceğini gözlemleyebilme *Okul Temelli Planlama",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "FB.6.4.3.2. Beyaz ışığın tüm ışık renklerinin bileşiminden oluştuğuna ilişkin bilimsel çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 19
+      },
+      {
+        "hafta": "18. Hafta",
+        "ogrenme_cikti": "FB.6.4.3.3. Cisimlerin siyah, beyaz ve renkli görünmesinin nedenini gözlem verileriyle açıklayabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 20
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "FB.6.4.3.4. Güneş enerjisinin günlük hayat ve teknolojideki yenilikçi uygulamalarına ilişkin eleştirel düşünebilme FB.6.5.1.1. Isı etkisiyle maddelerin genleşip büzüleceğine yönelik bilimsel gözleme dayalı tahmin edebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "FB.6.5.1.1. Isı etkisiyle maddelerin genleşip büzüleceğine yönelik bilimsel gözleme dayalı tahmin edebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "FB.6.5.2.1. Maddelerin erime, donma ve kaynama noktasını gösteren deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "FB.6.5.2.1. Maddelerin erime, donma ve kaynama noktasını gösteren deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "FB.6.5.3.1. Yoğunluğa ilişkin hesaplamalar yaparak bilimsel veriye dayalı tahmin edebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "FB.6.5.3.1. Yoğunluğa ilişkin hesaplamalar yaparak bilimsel veriye dayalı tahmin edebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "FB.6.5.3.2. Deneyler sonucunda çeşitli maddelerin yoğunluklarına ilişkin tümdengelimsel akıl yürütebilme *Okul Temelli Planlama",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "FB.6.5.3.3. Suyun katı ve sıvı hâllerine ait yoğunlukları karşılaştırarak bu durumun canlılar için önemi hakkında bilimsel çıkarımlar yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "FB.6.5.3.3. Suyun katı ve sıvı hâllerine ait yoğunlukları karşılaştırarak bu durumun canlılar için önemi hakkında bilimsel çıkarımlar yapabilme FB.6.6.1.1. Maddelerin elektriği iletme durumlarını gösteren deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "FB.6.6.1.1. Maddelerin elektriği iletme durumlarını gösteren deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "FB.6.6.2.1. Elektrik devresindeki ampulün parlaklığının bağlı olduğu değişkenleri belirlemeye yönelik deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "FB.6.6.2.1. Elektrik devresindeki ampulün parlaklığının bağlı olduğu değişkenleri belirlemeye yönelik deney yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "FB.6.6.2.2. Ayarlanabilir direncin ampulün parlaklığına etkilerine yönelik bilimsel çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "FB.6.6.2.2. Ayarlanabilir direncin ampulün parlaklığına etkilerine yönelik bilimsel çıkarım yapabilme FB.6.7.1.1. Biyoçeşitliliğin doğal yaşam için önemini sorgulayabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "FB.6.7.1.1. Biyoçeşitliliğin doğal yaşam için önemini sorgulayabilme FB.6.7.1.2. Biyoçeşitliliği tehdit eden faktörleri araştırma verilerine dayalı tahmin edebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 37
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "FB.6.7.1.2. Biyoçeşitliliği tehdit eden faktörleri araştırma verilerine dayalı tahmin edebilme *Okul Temelli Planlama",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "FB.6.7.2.1. Isınma amaçlı yakıt kullanımının insan ve çevre üzerine etkilerini tartışabilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 40
+      },
+      {
+        "hafta": "37. Hafta",
+        "ogrenme_cikti": "FB.6.7.2.2. Yakın çevresindeki veya ülkemizdeki bir çevre problemine ilişkin çözüm üretebilme",
+        "sinif": "6",
+        "ders": "Fen Bilimleri",
+        "satir": 41
+      }
+    ],
+    "7": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "F.7.1.1.1. Uzay teknolojilerini açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "F.7.1.1.4. Teleskobun yapısını ve ne işe yaradığını açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "F.7.1.2.1. Yıldız oluşum sürecinin farkına varır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "F.7.1.2.3. Galaksilerin yapısını açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "F.7.2.1.1. Hayvan ve bitki hücrelerini, temel kısımları ve görevleri açısından karşılaştırır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "F.7.2.1.3. Hücre-doku-organ-sistem-organizma ilişkisini açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "F.7.2.2.2. Mitozun birbirini takip eden farklı evrelerden oluştuğunu açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "F.7.2.3.2. Üreme ana hücrelerinde mayozun nasıl gerçekleştiğini model üzerinde gösterir.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "F.7.3.1.1. Kütleye etki eden yer çekimi kuvvetini ağırlık olarak adlandırır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "F.7.3.1.3. Yer çekimini kütle çekimi olarak gök cisimleri temelinde açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "F.7.3.2.2. Enerjiyi iş kavramı ile ilişkilendirerek, kinetik ve potansiyel enerji olarak sınıflandırır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "F.7.3.3.1. Kinetik ve potansiyel enerji türlerinin birbirine dönüşümünden hareketle enerjinin korunduğu sonucunu çıkarır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "F.7.3.3.2. Sürtünme kuvvetinin kinetik enerji üzerindeki etkisini örneklerle açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "F.7.4.1.1. Atomun yapısını ve yapısındaki temel parçacıklarını söyler.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "F.7.4.1.3. Aynı veya farklı atomların bir araya gelerek molekül oluşturacağını ifade eder.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "F.7.4.2.2. Periyodik sistemdeki ilk 18 elementin ve yaygın elementlerin (altın, gümüş, bakır, çinko, kurşun, civa, platin, demir ve iyot) isimlerini, sembollerini ve bazı kullanım alanlarını ifade eder.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "F.7.4.3.1. Karışımları, homojen ve heterojen olarak sınıflandırarak örnekler verir.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 19
+      },
+      {
+        "hafta": "18. Hafta",
+        "ogrenme_cikti": "F.7.4.3.3. Çözünme hızına etki eden faktörleri deney yaparak belirler.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 20
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "F.7.4.4.1. Karışımların ayrılması için kullanılabilecek yöntemlerden uygun olanı seçerek uygular.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "F.7.4.5.3. Geri dönüşümü, kaynakların etkili kullanımı açısından sorgular.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "F.7.5.1.1. Işığın madde ile etkileşimi sonucunda madde tarafından soğurulabileceğini keşfeder.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "F.7.5.1.3. Gözlemleri sonucunda cisimlerin, siyah, beyaz ve renkli görünmesinin nedenini, ışığın yansıması ve soğurulmasıyla ilişkilendirir.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "F.7.5.1.5. Güneş enerjisinden gelecekte nasıl yararlanılacağına ilişkin ürettiği fikirleri tartışır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "F.7.5.2.2. Düz, çukur ve tümsek aynalarda oluşan görüntüleri karşılaştırır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "F.7.5.3.1. Ortam değiştiren ışığın izlediği yolu gözlemleyerek kırılma olayının sebebini ortam değişikliği ile ilişkilendirir.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "F.7.5.3.3. İnce ve kalın kenarlı merceklerin odak noktalarını deneyerek belirler.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "F.7.5.3.5. Ayna veya mercekleri kullanarak bir görüntüleme aracı tasarlar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "F.7.6.1.2. Sperm, yumurta, zigot, embriyo, fetüs ve bebek arasındaki ilişkiyi açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "F.7.6.2.1. Bitki ve hayvanlardaki üreme çeşitlerini karşılaştırır.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "F.7.6.2.2. Bitki ve hayvanlardaki büyüme ve gelişme süreçlerini örnekler vererek açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "F.7.6.2.3. Bitki ve hayvanlarda büyüme ve gelişmeye etki eden temel faktörleri açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "F.7.7.1.1. Seri ve paralel bağlı ampullerden oluşan bir devre şeması çizer.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "F.7.7.1.4. Elektrik enerjisinin devrelere akım yoluyla aktarıldığını açıklar.",
+        "sinif": "7",
+        "ders": "Fen Bilimleri",
+        "satir": 37
+      }
+    ],
+    "8": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "F.8.1.1.1. Mevsimlerin oluşumuna yönelik tahminlerde bulunur.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "F.8.1.1.1. Mevsimlerin oluşumuna yönelik tahminlerde bulunur.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "F.8.1.2.1. İklim ve hava olayları arasındaki farkı açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "F.8.1.2.2. İklim biliminin (klimatoloji) bir bilim dalı olduğunu ve bu alanda çalışan uzmanlara iklim bilimci (klimatolog) adı verildiğini söyler.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "F.8.2.1.2. DNA’nın yapısını model üzerinde gösterir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "F.8.2.2.1. Kalıtım ile ilgili kavramları tanımlar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "F.8.2.2.2. Tek karakter çaprazlamaları ile ilgili problemler çözerek sonuçlar hakkında yorum yapar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "F.8.2.3.1. Örneklerden yola çıkarak mutasyonu açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "F.8.2.5.1. Genetik mühendisliğini ve biyoteknolojiyi ilişkilendirir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "F.8.3.1.1. Katı basıncını etkileyen değişkenleri deneyerek keşfeder.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "F.8.3.1.2. Sıvı basıncını etkileyen değişkenleri tahmin eder ve tahminlerini test eder.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "F.8.3.1.3. Katı, sıvı ve gazların basınç özelliklerinin günlük yaşam ve teknolojideki uygulamalarına örnekler verir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "F.8.4.1.2. Elementleri periyodik tablo üzerinde metal, yarımetal ve ametal olarak sınıflandırır.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "F.8.4.2.1. Fiziksel ve kimyasal değişim arasındaki farkları, çeşitli olayları gözlemleyerek açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "F.8.4.3.1. Bileşiklerin kimyasal tepkime sonucunda oluştuğunu bilir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "F.8.4.4.4. Maddelerin asitlik ve bazlık durumlarına ilişkin pH değerlerini kullanarak çıkarımda bulunur.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "F.8.4.4.7. Asit yağmurlarının önlenmesine yönelik çözüm önerileri sunar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 19
+      },
+      {
+        "hafta": "18. Hafta",
+        "ogrenme_cikti": "F.8.4.5.3. Maddelerin hâl değişimi ve ısınma grafiğini çizerek yorumlar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 20
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "F.8.4.6.2. Kimya endüstrisinde meslek dallarını araştırır ve gelecekteki yeni meslek alanları hakkında öneriler sunar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "F.8.5.1.1. Basit makinelerin sağladığı avantajları örnekler üzerinden açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "F.8.5.1.2. Basit makinelerden yararlanarak günlük yaşamda iş kolaylığı sağlayacak bir düzenek tasarlar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "F.8.6.1.1. Besin zincirindeki üretici, tüketici, ayrıştırıcılara örnekler verir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "F.8.6.2.2. Fotosentez hızını etkileyen faktörler ile ilgili çıkarımlarda bulunur.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "F.8.6.2.3. Canlılarda solunumun önemini belirtir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "F.8.6.3.2. Madde döngülerinin yaşam açısından önemini sorgular.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "F.8.6.3.3. Küresel iklim değişikliklerinin nedenlerini ve olası sonuçlarını tartışır.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "F.8.6.4.3. Geri dönüşüm için katı atıkların ayrıştırılmasının önemini açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "F.8.7.1.1. Elektriklenmeyi, bazı doğa olayları ve teknolojideki uygulama örnekleri ile açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "F.8.7.1.3. Deneyler yaparak elektriklenme çeşitlerini fark eder.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "F.8.7.2.1. Cisimleri, sahip oldukları elektrik yükleri bakımından sınıflandırır.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "F.8.7.2.2. Topraklamayı açıklar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "F.8.7.3.2. Elektirik enerjisinin ısı, ışık veya hareket enerjisine dönüşümü temel alan bir model tasarlar.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "F.8.7.3.4. Güç santrallerinin avantaj ve dezavantajları konusunda fikirler üretir.",
+        "sinif": "8",
+        "ders": "Fen Bilimleri",
+        "satir": 37
+      }
+    ]
+  },
+  "Din Kültürü ve Ahlak Bilgisi": {
+    "5": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.1. Evrendeki mükemmel düzene ilişkin tümevarıma dayalı akıl yürütebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.2. Evrendeki mükemmel düzeni gözlem yoluyla fark edip Allah’ın (cc) varlığı ve birliğini gözleme dayalı tahmin edebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.2. Evrendeki mükemmel düzeni gözlem yoluyla fark edip Allah’ın (cc) varlığı ve birliğini gözleme dayalı tahmin edebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.3. Allah’ın (cc) güzel isimleri hakkında bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.3. Allah’ın (cc) güzel isimleri hakkında bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.4. İhlas suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "DKAB.5.1.4. İhlas suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.1. Namaz ibadetini özetleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.1. Namaz ibadetini özetleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.2. Namazın kılınışını gözlemleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.2. Namazın kılınışını gözlemleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.2. Namazın kılınışını gözlemleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.3. Namazın insan hayatına etkileri hakkında düşünebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.3. Namazın insan hayatına etkileri hakkında düşünebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.4. Tahiyyat duasını ve bu duanın anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "DKAB.5.2.4. Tahiyyat duasını ve bu duanın anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 18
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.1. Kur’an-ı Kerim’in iç düzenini çözümleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.2. Kur’an-ı Kerim’in temel özellikleri hakkında bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.2. Kur’an-ı Kerim’in temel özellikleri hakkında bilgi toplayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.3. Kuran-ı Kerim’in ana konularını sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.3. Kuran-ı Kerim’in ana konularını sınıflandırabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.4. Kevser suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "DKAB.5.3.4. Kevser suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.1. Peygamberlik hakkında tümdengelime dayalı akıl yürütebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.1. Peygamberlik hakkında tümdengelime dayalı akıl yürütebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.1. Peygamberlik hakkında tümdengelime dayalı akıl yürütebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.2. Peygamber kıssalarında verilen öğütleri sentezleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.2. Peygamber kıssalarında verilen öğütleri sentezleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "DKAB.5.4.3. Kureyş suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "DKAB.5.5.1. Dinin mimarimize etkisini çözümleyebilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "DKAB.5.5.2. Camilerin bölümlerini tanıyabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 37
+      },
+      {
+        "hafta": "34. Hafta",
+        "ogrenme_cikti": "DKAB.5.5.2. Camilerin bölümlerini tanıyabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 38
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "DKAB.5.5.3. Kültürümüzde yer alan cami örneklerini karşılaştırabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "DKAB.5.5.3. Kültürümüzde yer alan cami örneklerini karşılaştırabilme",
+        "sinif": "5",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 40
+      }
+    ],
+    "6": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.1. Peygamberlerin insanlara rehber olarak gönderilmesi hakkında bilgi toplayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.1. Peygamberlerin insanlara rehber olarak gönderilmesi hakkında bilgi toplayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.2. Vahiylerin insanlara ilettiği mesajları yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.2. Vahiylerin insanlara ilettiği mesajları yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.3. İlahi kitaplarla ilgili bilgileri çözümleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.3. İlahi kitaplarla ilgili bilgileri çözümleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.4. Felak suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "DKAB.6.1.4. Felak suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.1. Ramazan ayının oruç ve Kur’an ayı olduğunu çözümleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.1. Ramazan ayının oruç ve Kur’an ayı olduğunu çözümleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.2. Oruç ibadeti hakkında bilgi toplayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.2. Oruç ibadeti hakkında bilgi toplayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.3. Oruç ibadetinin insana kazandırdıklarını yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.3. Oruç ibadetinin insana kazandırdıklarını yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "DKAB.6.2.4. İftar duasını ve bu duanın anlamını okuyarak yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.1. Doğru sözlü olmayı kendi hayatına yansıtabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 18
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.2. Merhametli olmayı yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.3. Adap ve nezaket kurallarını özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.3. Adap ve nezaket kurallarını özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.4. Vatanını sevmenin önemi hakkında çıkarım yapabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "DKAB.6.3.5. Kunut dualarını ve bu duaların anlamlarını okuyarak yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.1. Hz. Muhammed’in (sav) doğduğu çevreyi tarihsel bağlamda değerlendirebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.1. Hz. Muhammed’in (sav) doğduğu çevreyi tarihsel bağlamda değerlendirebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.2. Hz. Muhammed’in (sav) çocukluk yılları hakkında verilen bilgileri yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.2. Hz. Muhammed’in (sav) çocukluk yılları hakkında verilen bilgileri yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.3. Hz. Muhammed’in (sav) gençlik yılları hakkında verilen bilgileri yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.3. Hz. Muhammed’in (sav) gençlik yılları hakkında verilen bilgileri yapılandırabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "DKAB.6.4.4. Fil suresini ve bu surenin anlamını okuyarak yorumlayabilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 37
+      },
+      {
+        "hafta": "34. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 38
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "DKAB.6.5.1. Geleneğimizde, edebiyatımızda ve musikimizde dinin izlerini özetleyebilme",
+        "sinif": "6",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 40
+      }
+    ],
+    "7": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "7.1.1. Varlıklar âlemini özelliklerine göre ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "7.1.2. Melekleri özellikleri ve görevlerine göre sınıflandırır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "7.1.3. Dünya hayatı ile ahiret hayatı arasındaki ilişkiyi yorumlar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "7.1.4. Ahiret hayatının aşamalarını açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "7.1.5. Allahın (cc) adil, merhametli ve affedici olması ile ahiret inancı arasında ilişki kurar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "7.1.6. Hz. İsanın (as) hayatını ana hatlarıyla tanır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "7.1.7. Nâs suresini okur, anlamını söyler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 8
+      },
+      {
+        "hafta": "8. Hafta",
+        "ogrenme_cikti": "7.1.7. Nâs suresini okur, anlamını söyler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 9
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "7.2.1. İslamda hac ibadetinin önemini ayet ve hadisler ışığında yorumlar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "7.2.2. Haccın yapılışını özetler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "7.2.2. Haccın yapılışını özetler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "7.2.3. Umre ibadeti ve önemini açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "7.2.4. Kurban ibadetini İslamın yardımlaşma ve dayanışmaya verdiği önem açısından değerlendirir.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "7.2.5. Hz. İsmailin (as) hayatını ana hatlarıyla tanır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "7.2.6. Enam suresi 162. ayeti okur, anlamını söyler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "7.3.1. Güzel ahlaki tutum ve davranışları örneklerle açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "7.3.1. Güzel ahlaki tutum ve davranışları örneklerle açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 19
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "7.3.2. Örnek tutum ve davranışların, birey ve toplumların ahlaki gelişimine olan katkısını değerlendirir.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "7.3.2. Örnek tutum ve davranışların, birey ve toplumların ahlaki gelişimine olan katkısını değerlendirir.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "7.3.3. Tutum ve davranışlarında ölçülü olmaya özen gösterir.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "7.3.4. Hz. Salihin (as) hayatını ana hatlarıyla tanır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "7.3.5. Felak suresini okur, anlamını söyler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "7.4.1. Hz. Muhammedin (sav) insani yönünü ayetlerden hareketle yorumlar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "7.4.1. Hz. Muhammedin (sav) insani yönünü ayetlerden hareketle yorumlar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "7.4.2. Hz. Muhammedin (sav) peygamberlik yönüyle ilgili özelliklerini ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "7.4.2. Hz. Muhammedin (sav) peygamberlik yönüyle ilgili özelliklerini ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "7.4.2. Hz. Muhammedin (sav) peygamberlik yönüyle ilgili özelliklerini ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "7.4.3. Kâfirun suresini okur, anlamını söyler.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "7.5.1. Dinin farklı yorum biçimleri olabileceğinin farkına varır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "7.5.2. İslam düşüncesinde ortaya çıkan yorum biçimlerini sınıflandırır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "7.5.2. İslam düşüncesinde ortaya çıkan yorum biçimlerini sınıflandırır.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "7.5.3. Kültürümüzde etkin olan tasavvufi yorumları ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 37
+      },
+      {
+        "hafta": "34. Hafta",
+        "ogrenme_cikti": "7.5.3. Kültürümüzde etkin olan tasavvufi yorumları ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 38
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "7.5.3. Kültürümüzde etkin olan tasavvufi yorumları ayırt eder.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "7.5.4. Alevilik Bektaşilikle ilgili temel kavram ve erkânları açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 40
+      },
+      {
+        "hafta": "37. Hafta",
+        "ogrenme_cikti": "7.5.4. Alevilik Bektaşilikle ilgili temel kavram ve erkânları açıklar.",
+        "sinif": "7",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 41
+      }
+    ],
+    "8": [
+      {
+        "hafta": "1. Hafta",
+        "ogrenme_cikti": "1.Kader ve kaza inancını ayet ve hadislerle açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 2
+      },
+      {
+        "hafta": "2. Hafta",
+        "ogrenme_cikti": "2.İnsanın ilmi, iradesi, sorumluluğu ile kader arasında ilişki kurar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 3
+      },
+      {
+        "hafta": "3. Hafta",
+        "ogrenme_cikti": "2.İnsanın ilmi, iradesi, sorumluluğu ile kader arasında ilişki kurar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 4
+      },
+      {
+        "hafta": "4. Hafta",
+        "ogrenme_cikti": "3.Kaza ve kader ile ilgili kavramları analiz eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 5
+      },
+      {
+        "hafta": "5. Hafta",
+        "ogrenme_cikti": "4.Toplumda kader ve kaza ile ilgili yaygın olan yanlış anlayışları sorgular.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 6
+      },
+      {
+        "hafta": "6. Hafta",
+        "ogrenme_cikti": "5.Hz. Musanın (a.s.) hayatını ana hatlarıyla tanır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 7
+      },
+      {
+        "hafta": "7. Hafta",
+        "ogrenme_cikti": "6.Ayetelkürsiyi okur, anlamını söyler.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 8
+      },
+      {
+        "hafta": "9. Hafta",
+        "ogrenme_cikti": "2.Zekât ve sadaka ibadetini ayet ve hadislerle açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 10
+      },
+      {
+        "hafta": "10. Hafta",
+        "ogrenme_cikti": "2.Zekât ve sadaka ibadetini ayet ve hadislerle açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 12
+      },
+      {
+        "hafta": "11. Hafta",
+        "ogrenme_cikti": "2.Zekât ve sadaka ibadetini ayet ve hadislerle açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 13
+      },
+      {
+        "hafta": "12. Hafta",
+        "ogrenme_cikti": "3.Zekât, infak ve sadakanın bireysel ve toplumsal önemini fark eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 14
+      },
+      {
+        "hafta": "13. Hafta",
+        "ogrenme_cikti": "4.Hz. Şuaybin (as) hayatını ana hatlarıyla tanır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 15
+      },
+      {
+        "hafta": "14. Hafta",
+        "ogrenme_cikti": "5.Maun suresini okur, anlamını söyler.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 16
+      },
+      {
+        "hafta": "15. Hafta",
+        "ogrenme_cikti": "1.Din, birey ve toplum arasındaki ilişkiyi yorumlar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 17
+      },
+      {
+        "hafta": "16. Hafta",
+        "ogrenme_cikti": "1.Din, birey ve toplum arasındaki ilişkiyi yorumlar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 18
+      },
+      {
+        "hafta": "17. Hafta",
+        "ogrenme_cikti": "2.İslam dininin can, nesil, akıl, mal ve din emniyetiyle ilgili ortaya koyduğu ilke ve hedefleri analiz eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 19
+      },
+      {
+        "hafta": "19. Hafta",
+        "ogrenme_cikti": "2.İslam dininin can, nesil, akıl, mal ve din emniyetiyle ilgili ortaya koyduğu ilke ve hedefleri analiz eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 22
+      },
+      {
+        "hafta": "20. Hafta",
+        "ogrenme_cikti": "2.İslam dininin can, nesil, akıl, mal ve din emniyetiyle ilgili ortaya koyduğu ilke ve hedefleri analiz eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 23
+      },
+      {
+        "hafta": "21. Hafta",
+        "ogrenme_cikti": "3.Hz. Yusufun (a.s.) örnek hayatından ilkeler çıkarır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 24
+      },
+      {
+        "hafta": "22. Hafta",
+        "ogrenme_cikti": "4.Asr suresini okur, anlamını söyler.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 25
+      },
+      {
+        "hafta": "23. Hafta",
+        "ogrenme_cikti": "1.Hz. Muhammedin (sav) doğruluğu ve güvenilir kişiliği ile peygamberlerin özellikleri arasında ilişki kurar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 26
+      },
+      {
+        "hafta": "24. Hafta",
+        "ogrenme_cikti": "1.Hz. Muhammedin (s.a.v.) doğruluğu ve güvenilir kişiliği ile peygamberlerin özellikleri arasında ilişki kurar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 27
+      },
+      {
+        "hafta": "25. Hafta",
+        "ogrenme_cikti": "2.Hz. Muhammedin (sav) merhametli ve affedici oluşunu davranışlarında yansıtmaya özen gösterir.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 29
+      },
+      {
+        "hafta": "26. Hafta",
+        "ogrenme_cikti": "3.Hz. Muhammedin (sav) istişareye verdiği önemi ortaya koyan örnek olaylardan hareketle gündelik hayatla ilgili çıkarımlarda bulunur.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 30
+      },
+      {
+        "hafta": "27. Hafta",
+        "ogrenme_cikti": "4.Hz. Muhammedin (sav) cesaret ve kararlılığını örnek olaylarla açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 31
+      },
+      {
+        "hafta": "28. Hafta",
+        "ogrenme_cikti": "5.Hz. Muhammedin (sav) hakkı gözetmedeki hassasiyetine örnekler verir.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 32
+      },
+      {
+        "hafta": "29. Hafta",
+        "ogrenme_cikti": "6.Hz. Muhammedin (sav) insanlara verdiği değeri örneklerle açıklar.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 33
+      },
+      {
+        "hafta": "30. Hafta",
+        "ogrenme_cikti": "8.Hz. Muhammedin (sav) hikmetli söz ve davranışlarıyla insanları iyiye ve güzele yönlendirdiğini fark eder.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 34
+      },
+      {
+        "hafta": "31. Hafta",
+        "ogrenme_cikti": "1.İslam dininin temel kaynaklarını tanır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 35
+      },
+      {
+        "hafta": "32. Hafta",
+        "ogrenme_cikti": "1.İslam dininin temel kaynaklarını tanır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 36
+      },
+      {
+        "hafta": "33. Hafta",
+        "ogrenme_cikti": "2.Ayetlerden hareketle Kuranın ana konularını sınıflandırır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 37
+      },
+      {
+        "hafta": "34. Hafta",
+        "ogrenme_cikti": "2.Ayetlerden hareketle Kuranın ana konularını sınıflandırır.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 38
+      },
+      {
+        "hafta": "35. Hafta",
+        "ogrenme_cikti": "3.Kuran-ı Kerimin temel özelliklerini değerlendirir.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 39
+      },
+      {
+        "hafta": "36. Hafta",
+        "ogrenme_cikti": "3.Kuran-ı Kerimin temel özelliklerini değerlendirir.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 40
+      },
+      {
+        "hafta": "37. Hafta",
+        "ogrenme_cikti": "4.Hz. Nuhun (a.s.) tevhide davetini özetler.",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 41
+      },
+      {
+        "hafta": "1. Ara Tatil (10-14 Kasım)",
+        "ogrenme_cikti": "1. Ara Tatil (10-14 Kasım)",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 11
+      },
+      {
+        "hafta": "2. Ara Tatil (16-20 Mart)",
+        "ogrenme_cikti": "2. Ara Tatil (16-20 Mart)",
+        "sinif": "8",
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "satir": 28
+      }
+    ]
+  },
+  "Türkçe": {
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": []
+  },
+  "İngilizce": {
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": []
+  }
+}

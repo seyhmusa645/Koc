@@ -1,0 +1,21 @@
+[
+  {
+    "id": "ingilizce_8_1",
+    "pdf_name": "ingilizce_8",
+    "page": 1,
+    "question_number": "1",
+    "question_text": "8. sınıf İngilizce sorusu örneği",
+    "options": {
+      "A": "A) Option A",
+      "B": "B) Option B",
+      "C": "C) Option C",
+      "D": "D) Option D"
+    },
+    "answer": null,
+    "kazanim": null,
+    "subject": "İngilizce",
+    "outcome": "ING.8.1.1",
+    "outcome_text": "Simple present tense kullanır",
+    "matching_score": 0.4
+  }
+]

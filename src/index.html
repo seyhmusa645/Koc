@@ -1,0 +1,1659 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com;">
+    <title>Kapsül Koçluk Programı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <script src="./assets/vendor/chart.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="DersPlanlayici.css" media="screen">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img id="app-icon" src="../Kapsül-Photoroom.png" alt="Program Simgesi">
+            <h1 class="title"></h1>
+            <button id="theme-toggle" class="theme-toggle" title="Tema Değiştir">
+                🌙
+            </button>
+        </div>
+        <div id="license-display" class="license-display"></div>
+        <div id="user-display" class="user-display"></div>
+        
+        <div class="student-manager">
+            <label for="student-search">Öğrenci Arama</label>
+            <div class="student-search-container">
+                <div class="search-input-container">
+                    <input type="text" id="student-search" placeholder="Öğrenci ara..." autocomplete="off">
+                    <button id="search-clear-btn" class="search-clear" title="Temizle">×</button>
+                </div>
+                <div class="search-filters">
+                    <select id="grade-filter" class="filter-select">
+                        <option value="">Tüm Sınıflar</option>
+                        <option value="5">5. Sınıf</option>
+                        <option value="6">6. Sınıf</option>
+                        <option value="7">7. Sınıf</option>
+                        <option value="8">8. Sınıf</option>
+                    </select>
+                    <select id="style-filter" class="filter-select">
+                        <option value="">Tüm Stiller</option>
+                        <option value="AYRIŞTIRAN">Ayrıştıran</option>
+                        <option value="ÖZÜMSEYEN">Özümseyen</option>
+                        <option value="YERLEŞTİREN">Yerleştiren</option>
+                        <option value="DEĞİŞTİREN">Değiştiren</option>
+                    </select>
+                </div>
+                <div class="student-results" id="student-results">
+                    <div class="no-students">Öğrenci aramak için yazmaya başlayın...</div>
+                </div>
+                <div class="profile-actions">
+                    <button id="btn-add-profile" class="btn-profile add" title="Yeni Öğrenci Ekle">
+                        <span class="icon">👤</span> Ekle
+                    </button>
+                    <button id="btn-delete-profile" class="btn-profile delete" title="Seçili Öğrenciyi Sil">
+                        <span class="icon">🗑️</span> Sil
+                    </button>
+                    <button id="btn-import-students" class="btn-profile import" title="Öğrenci Verilerini İçe Aktar">
+                        <span class="icon">📥</span> İçe
+                    </button>
+                    <button id="btn-export-students" class="btn-profile export" title="Öğrenci Verilerini Dışa Aktar">
+                        <span class="icon">📤</span> Dışa
+                    </button>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <li><button id="nav-dashboard" class="nav-btn active" data-page="dashboard-section">Genel Durum</button></li>
+            <li><button id="nav-question-bank" class="nav-btn" data-page="question-bank-section">Soru Hazırla</button></li>
+            <li><button id="nav-add-exam" class="nav-btn" data-page="add-exam-section">Yeni Sınav Ekle</button></li>
+            <li><button id="nav-reports" class="nav-btn" data-page="reports-section">Raporlar</button></li>
+            <li><button id="nav-planner" class="nav-btn" data-page="planner-section" data-premium="true">Ders Programı</button></li>
+            <li><button id="nav-etutler" class="nav-btn" data-page="etutler-section">Etütler</button></li>
+            <li><button id="nav-evaluation" class="nav-btn" data-page="evaluation-section">Öğrenci Değerlendir</button></li>
+            <li><button id="nav-class-analysis" class="nav-btn" data-page="class-analysis-section">Sınıf Analizi</button></li>
+            <li><button id="nav-exam-management" class="nav-btn" data-page="exam-management-section">Sınav Yönetimi</button></li>
+            <li><button id="nav-performance-overview" class="nav-btn" data-page="performance-overview-section">Performans Panosu</button></li>
+            <li><button id="nav-about" class="nav-btn" data-page="about-section">Hakkında</button></li>
+        </ul>
+    </nav>
+
+    <button id="sidebar-toggle" class="sidebar-toggle" title="Sidebar'ı Aç/Kapat">
+        <span class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <main class="content">
+        <!-- Yetki Bilgi Bandı -->
+        <div id="permission-info" style="display: none;"></div>
+        
+        <!-- Genel Durum Bölümü -->
+        <section id="dashboard-section" class="page active">
+            <div class="page-header">
+                <h2>Genel Durum</h2>
+            </div>
+            
+            <!-- Normal Dashboard İçeriği -->
+            <div id="dashboard-content" class="dashboard-content">
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <h3>Toplam Sınav Sayısı</h3>
+                    <p id="summary-total-exams">0</p>
+                </div>
+                <div class="summary-card">
+                    <h3>LGS Puanı Ortalaması</h3>
+                    <p id="summary-lgs-score">0.00</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Genel Net Ortalaması</h3>
+                    <p id="summary-avg-net">0.00</p>
+                </div>
+                <div class="summary-card best-subject-card">
+                    <h3>En Başarılı Dersler</h3>
+                    <p id="summary-best-subject">-</p>
+                </div>
+                <div class="summary-card topic-list-card">
+                    <h3>Son Sınava Göre Tekrar Gerekenler</h3>
+                    <ol id="summary-worst-topic-list">
+                        <li>-</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Sınav Listesi -->
+            <div class="exam-list-container">
+                <h3>Son Sınavlar</h3>
+                <div class="exam-filters">
+                    <input type="text" id="filter-search" placeholder="Sınav adı ara...">
+                    <input type="date" id="filter-from" title="Başlangıç Tarihi">
+                    <input type="date" id="filter-to" title="Bitiş Tarihi">
+                    <select id="sort-select" title="Sırala">
+                        <option value="date_desc">Tarih (Yeni → Eski)</option>
+                        <option value="date_asc">Tarih (Eski → Yeni)</option>
+                        <option value="net_desc">Toplam Net (Azalan)</option>
+                        <option value="net_asc">Toplam Net (Artan)</option>
+                        <option value="score_desc">LGS Puanı (Azalan)</option>
+                        <option value="score_asc">LGS Puanı (Artan)</option>
+                    </select>
+                </div>
+                <div id="recent-exams-list" class="exam-list">
+                    <!-- Sınavlar buraya dinamik olarak eklenecek -->
+                </div>
+            </div>
+            </div>
+            
+            <!-- Öğrenci Detay Container -->
+            <div id="dashboard-student-detail" class="student-detail-container hidden">
+                <!-- Öğrenci detayları buraya dinamik olarak eklenecek -->
+            </div>
+        </section>
+
+        <!-- Yeni Sınav Ekle Bölümü -->
+        <section id="add-exam-section" class="page">
+            <div class="page-header">
+                <h2>Yeni Sınav Ekle</h2>
+            </div>
+            
+            <!-- CSV İçe Aktarım Bölümü -->
+            <div class="csv-import-section">
+                <h3>📤 CSV Dosyası ile Toplu Sınav Ekleme</h3>
+                <div class="csv-info-box">
+                    <strong>💡 Önemli:</strong> CSV dosyanızda <code>"Sınav Adı"</code> kolonu olmalıdır. 
+                    Yoksa otomatik isim atanır (Örn: "Kasım Deneme 1", "Aralık Deneme 2")
+                </div>
+                <div class="csv-import-container">
+                    <div class="csv-upload-area">
+                        <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+                        <button type="button" id="csv-upload-btn" class="btn-secondary">
+                            📂 CSV Dosyası Seç
+                        </button>
+                        <div id="csv-file-info" class="file-info" style="display: none;">
+                            <span id="csv-file-name"></span>
+                            <button type="button" id="csv-remove-btn" class="btn-remove">❌</button>
+                        </div>
+                    </div>
+                    <div class="csv-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="csv-auto-outcomes" checked>
+                            <span>Eksik kazanımları otomatik ekle</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="csv-overwrite-check">
+                            <span>Aynı isimdeki sınavları güncelle</span>
+                        </label>
+                    </div>
+                    <button type="button" id="csv-import-btn" class="btn-primary" disabled>
+                        📊 CSV'yi İçe Aktar
+                    </button>
+                </div>
+                <div id="csv-status" class="import-status"></div>
+            </div>
+
+            <!-- Sınav İsmi Modal -->
+            <div id="exam-name-modal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>Sınav İsmi Belirleme</h3>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <p>CSV dosyası seçildi. Sınav ismini belirleyin:</p>
+                        
+                        <div class="form-group">
+                            <label for="manual-exam-name">Sınav İsmi (Opsiyonel):</label>
+                            <input 
+                                type="text" 
+                                id="manual-exam-name" 
+                                placeholder="Örn: Kasım Karne Sınavı, Ara Tatil Denemesi..."
+                                class="form-control"
+                            />
+                            <small class="form-text">Boş bırakırsanız otomatik numaralandırma kullanılır</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="auto-number-exams" checked />
+                                Otomatik numaralandır (sınıf bazında: "1. Deneme", "2. Deneme"...)
+                            </label>
+                        </div>
+                        
+                        <div class="info-box">
+                            <strong>Nasıl çalışır?</strong>
+                            <ul>
+                                <li>İsim yazarsanız: Tüm öğrenciler için o isim kullanılır</li>
+                                <li>Boş bırakırsanız: Her sınıf için ayrı numaralandırma yapılır</li>
+                                <li>Otomatik kapalıysa: İsim zorunludur</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button id="exam-name-cancel" class="btn-secondary">İptal</button>
+                        <button id="exam-name-confirm" class="btn-primary">Devam Et</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <span>VEYA</span>
+            </div>
+
+            <!-- Tekli Sınav Ekleme Formu -->
+            <div class="manual-exam-section">
+                <h3>✏️ Manuel Sınav Ekleme</h3>
+            <form id="exam-form">
+                <div class="form-group">
+                    <label for="exam-name">Sınav Adı (Örn: LGS Deneme 1)</label>
+                    <input type="text" 
+                           id="exam-name" 
+                           required 
+                           placeholder="Örn: LGS Deneme 1, Matematik Sınavı, Kasım Deneme"
+                           minlength="3"
+                           maxlength="50">
+                    <small class="form-hint">Her sınav için benzersiz bir ad girin</small>
+                </div>
+                <div class="form-group">
+                    <label for="exam-date">Sınav Tarihi</label>
+                    <input type="date" id="exam-date" required>
+                </div>
+
+                <div id="courses-container">
+                    <!-- Course inputs will be dynamically added here -->
+                </div>
+
+                <button type="submit" class="btn-primary">Sınavı Kaydet</button>
+            </form>
+            </div>
+        </section>
+
+        <!-- Raporlar Bölümü -->
+        <section id="reports-section" class="page">
+            <div class="page-header">
+                <h2>Raporlar ve Analizler</h2>
+                <button id="export-reports-pdf-btn" class="btn-secondary" style="display: none;">
+                    📄 Raporu PDF Olarak Kaydet
+                </button>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab-overview">Genel Gelişim</button>
+                <button class="tab-btn" data-tab="tab-subjects">Ders Analizleri</button>
+                <button class="tab-btn" data-tab="tab-goals">Hedef Takibi</button>
+            </div>
+            
+
+            <!-- PDF Export Buttons -->
+            <div class="pdf-export-controls">
+                <button id="export-all-reports-btn" class="btn-primary" onclick="exportAllReportsAsPDF()">
+                    📄 Tüm Raporları PDF Olarak İndir
+                </button>
+                <button id="export-current-tab-btn" class="btn-secondary" onclick="exportCurrentTabAsPDF()">
+                    📊 Mevcut Sekmeyi PDF Olarak İndir
+                </button>
+                <button id="bulk-pdf-export-btn" class="btn-primary" onclick="openBulkPDFModal()">
+                    📋 Toplu PDF Export
+                </button>
+            </div>
+
+            <div id="tab-overview" class="tab-panel active">
+                <div id="net-evolution-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Genel Net Gelişim Grafiği</h3>
+                        <button 
+                            onclick="exportElementToPDF('net-evolution-section', 'Net-Gelisim-Grafigi.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <canvas id="net-evolution-chart"></canvas>
+                </div>
+                <div id="weak-topics-section" class="table-container">
+                    <div class="section-header">
+                        <h3>En Çok Tekrar Gereken 10 Kazanım</h3>
+                        <button 
+                            onclick="exportElementToPDF('weak-topics-section', 'Zayif-Kazanımlar.pdf')"
+                            class="btn-icon"
+                            title="Bu tabloyu PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <table id="top-weak-topics-table">
+                        <thead>
+                            <tr>
+                                <th>Kazanım</th>
+                                <th>Tekrar Sayısı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Veriler buraya eklenecek -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-subjects" class="tab-panel">
+                <div id="subject-average-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Ders Bazında Ortalama Netler</h3>
+                        <button 
+                            onclick="exportElementToPDF('subject-average-section', 'Ders-Ortalamalari.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <canvas id="avg-net-by-subject-chart"></canvas>
+                </div>
+                
+                <!-- 🆕 YENİ: Performans Karşılaştırma Grafiği -->
+                <div id="performance-comparison-section" class="chart-container performance-comparison">
+                    <div class="section-header">
+                        <h3>📊 Son Deneme vs Genel Ortalama Karşılaştırması</h3>
+                        <button 
+                            onclick="exportElementToPDF('performance-comparison-section', 'Performans-Karsilastirma.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <p class="chart-description">
+                        🔵 Mavi: Önceki Denemeler Ortalaması | 
+                        🟢 Yeşil: İyileşme | 
+                        🔴 Kırmızı: Düşüş |
+                        ⚪ Gri: Stabil
+                    </p>
+                    <canvas id="performance-comparison-chart"></canvas>
+                    <div id="performance-trends" class="trend-indicators">
+                        <!-- Trend ok işaretleri buraya gelecek -->
+                    </div>
+                </div>
+                
+                <div id="subject-trend-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Ders Bazında Gelişim Trendi</h3>
+                        <button 
+                            onclick="exportElementToPDF('subject-trend-section', 'Ders-Trendi.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <canvas id="subject-trend-chart"></canvas>
+                </div>
+            </div>
+
+            <div id="tab-goals" class="tab-panel">
+                <!-- Hedef Belirleme -->
+                <div class="goal-setting-container">
+                <h3>Hedef Belirleme</h3>
+                <div class="goal-form">
+                    <div class="goal-input-group">
+                        <label for="goal-net">Hedef Toplam Net:</label>
+                        <input type="number" id="goal-net" placeholder="Örn: 85.5" step="0.1" min="0">
+                    </div>
+                    <div class="goal-input-group">
+                        <label for="goal-lgs-score">Hedef LGS Puanı:</label>
+                        <input type="number" id="goal-lgs-score" placeholder="Örn: 450.00" step="0.1" min="0">
+                    </div>
+                    <div class="goal-input-group">
+                        <label for="goal-date">Hedef Tarih:</label>
+                        <input type="date" id="goal-date">
+                    </div>
+                    <button id="set-goal-btn" class="btn-primary">Hedefi Kaydet</button>
+                </div>
+                
+                <!-- Ders Bazında Hedefler -->
+                <div class="subject-goals">
+                    <h4>Ders Bazında Hedefler</h4>
+                    <div class="subject-goals-grid">
+                        <div class="subject-goal">
+                            <label for="goal-turkce">Türkçe Hedef Net:</label>
+                            <input type="number" id="goal-turkce" placeholder="Örn: 18.5" step="0.1" min="0" max="20">
+                        </div>
+                        <div class="subject-goal">
+                            <label for="goal-matematik">Matematik Hedef Net:</label>
+                            <input type="number" id="goal-matematik" placeholder="Örn: 16.0" step="0.1" min="0" max="20">
+                        </div>
+                        <div class="subject-goal">
+                            <label for="goal-fen">Fen Bilimleri Hedef Net:</label>
+                            <input type="number" id="goal-fen" placeholder="Örn: 17.5" step="0.1" min="0" max="20">
+                        </div>
+                        <div class="subject-goal">
+                            <label for="goal-inkilap">İnkılap Hedef Net:</label>
+                            <input type="number" id="goal-inkilap" placeholder="Örn: 8.5" step="0.1" min="0" max="10">
+                        </div>
+                        <div class="subject-goal">
+                            <label for="goal-din">Din Kültürü Hedef Net:</label>
+                            <input type="number" id="goal-din" placeholder="Örn: 9.0" step="0.1" min="0" max="10">
+                        </div>
+                        <div class="subject-goal">
+                            <label for="goal-ingilizce">İngilizce Hedef Net:</label>
+                            <input type="number" id="goal-ingilizce" placeholder="Örn: 8.5" step="0.1" min="0" max="10">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="current-goal-display" class="current-goal">
+                    <!-- Mevcut hedef burada gösterilecek -->
+                </div>
+                <div id="goal-performance-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Hedef vs Gerçekleşen Performans</h3>
+                        <button 
+                            onclick="exportElementToPDF('goal-performance-section', 'Hedef-Performans.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <canvas id="goal-vs-actual-chart"></canvas>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Ders Programı Bölümü -->
+        <section id="planner-section" class="page">
+            <!-- Ders programı içeriği buraya gelecek -->
+        </section>
+
+        <!-- Etütler Bölümü -->
+        <section id="etutler-section" class="page">
+            <div class="page-header">
+                <h2>Etüt Grupları Oluşturma</h2>
+            </div>
+            
+            <div class="etut-container">
+                <!-- Etüt Oluşturma Paneli -->
+                <div class="etut-creation-panel">
+                    <h3>🎯 Yeni Etüt Grubu Oluştur</h3>
+                    
+                    <div class="etut-form">
+                        <div class="form-group">
+                            <label for="etut-grade-select">Sınıf Seçimi:</label>
+                            <select id="etut-grade-select">
+                                <option value="">Sınıf Seçin</option>
+                                <option value="5">5. Sınıf</option>
+                                <option value="6">6. Sınıf</option>
+                                <option value="7">7. Sınıf</option>
+                                <option value="8">8. Sınıf</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="etut-subject-select">Ders Seçimi:</label>
+                            <select id="etut-subject-select">
+                                <option value="">Ders Seçin</option>
+                                <option value="matematik">Matematik</option>
+                                <option value="fen">Fen Bilimleri</option>
+                                <option value="turkce">Türkçe</option>
+                                <option value="inkilap">Sosyal Bilgiler</option>
+                                <option value="ingilizce">İngilizce</option>
+                                <option value="din">Din Kültürü</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="etut-group-size">Grup Büyüklüğü:</label>
+                            <select id="etut-group-size">
+                                <option value="3">3 Öğrenci</option>
+                                <option value="4" selected>4 Öğrenci</option>
+                                <option value="5">5 Öğrenci</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="etut-name">Etüt Adı:</label>
+                            <input type="text" id="etut-name" placeholder="Örn: Matematik Etüt 1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-teacher">Öğretmen:</label>
+                            <input type="text" id="etut-teacher" placeholder="Öğretmen adı" value="[Otomatik Doldur]">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-date">Etüt Tarihi:</label>
+                            <input type="date" id="etut-date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-time-start">Başlangıç Saati:</label>
+                            <input type="time" id="etut-time-start" value="15:45">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-time-end">Bitiş Saati:</label>
+                            <input type="time" id="etut-time-end" value="17:00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-strategy">Gruplama Algoritması:</label>
+                            <select id="etut-strategy">
+                                <option value="auto">Otomatik (En Uygun)</option>
+                                <option value="performans-düşüşü">📉 Performans Düşüşü</option>
+                                <option value="eksiklik-stil">🎯 Ortak Eksiklik + Öğrenme Stili</option>
+                                <option value="eksiklik">📚 Ortak Eksik Kazanım</option>
+                                <option value="başarı-stil">⭐ Başarı Seviyesi + Öğrenme Stili</option>
+                                <option value="stil">🎨 Öğrenme Stili</option>
+                                <option value="rastgele">🎲 Rastgele</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etut-notes">Notlar:</label>
+                            <textarea id="etut-notes" placeholder="Etüt hakkında notlar (isteğe bağlı)" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="etut-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="etut-same-style" checked>
+                                <span>Aynı öğrenme stilini öncelikle</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="etut-weak-outcomes" checked>
+                                <span>Ortak eksik kazanımları öncelikle</span>
+                                <small>(Son 2 deneme baz alınır)</small>
+                            </label>
+                        </div>
+                        
+                        <button id="create-etut-btn" class="btn-primary">
+                            🎯 Etüt Grupları Oluştur
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Etüt Grupları Görüntüleme -->
+                <div class="etut-groups-display">
+                    <div class="etut-groups-header">
+                        <h3>📋 Oluşturulan Etüt Grupları</h3>
+                        <button id="export-etut-pdf-btn" class="btn-secondary" style="display: none;">
+                            📄 PDF Olarak Kaydet
+                        </button>
+                    </div>
+                    <div id="etut-groups-container">
+                        <div class="no-etuts">
+                            <p>Henüz etüt grubu oluşturulmamış.</p>
+                            <p>Yukarıdaki formu kullanarak etüt grupları oluşturun.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Öğrenci Değerlendirme Bölümü -->
+        <section id="evaluation-section" class="page">
+            <div class="page-header">
+                <h2>📊 Öğrenci Değerlendirme ve AI Tavsiyeleri</h2>
+            </div>
+            <div class="evaluation-container">
+                <div class="evaluation-subheader">
+                    <p>Öğrenci performansını analiz edin ve öğrenme stiline göre kişiselleştirilmiş tavsiyeler alın</p>
+                </div>
+
+                <!-- Öğrenci Seçim Paneli -->
+                <div class="evaluation-student-selector">
+                    <div class="selector-header">
+                        <h3>🎯 Değerlendirilecek Öğrenciyi Seçin</h3>
+                        <div class="student-info-display" id="evaluation-student-info">
+                            <div class="no-selection">Lütfen bir öğrenci seçin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Analiz Sonuçları -->
+                <div class="evaluation-results" id="evaluation-results" style="display: none;">
+                    <!-- Genel Performans Analizi -->
+                    <div class="analysis-card performance-analysis">
+                        <h3>📈 Genel Performans Analizi</h3>
+                        <div class="analysis-content" id="performance-analysis-content">
+                            <!-- AI analiz sonuçları buraya gelecek -->
+                        </div>
+                    </div>
+
+                    <!-- Öğrenme Stili Değerlendirmesi -->
+                    <div class="analysis-card learning-style-analysis">
+                        <h3>🧠 Öğrenme Stili Değerlendirmesi</h3>
+                        <div class="analysis-content" id="learning-style-content">
+                            <!-- Öğrenme stili analizi buraya gelecek -->
+                        </div>
+                    </div>
+
+                    <!-- AI Analizi -->
+                    <div class="analysis-card ai-analysis">
+                        <div class="card-header">
+                            <h3>🤖 Akıllı Öğrenci Analizi</h3>
+                            <span class="premium-badge">Premium</span>
+                        </div>
+                        <div class="analysis-content" id="ai-analysis-content">
+                            <p>Öğrencinin güçlü ve zayıf yönlerini, potansiyel riskleri ve kişiselleştirilmiş tavsiyeleri görmek için yapay zeka analizi yapın.</p>
+                            
+                            <!-- Değerlendirme Zamanı Göstergesi -->
+                            <div class="evaluation-timing" id="evaluation-timing">
+                                <div class="no-selection">Lütfen bir öğrenci seçin</div>
+                            </div>
+                            
+                            <button id="btn-get-ai-evaluation" class="ai-evaluate-btn" disabled>
+                                <span class="spinner" aria-hidden="true"></span>
+                                <span class="btn-text">🤖 AI Analizini Başlat</span>
+                            </button>
+                            <div id="ai-evaluation-result" class="evaluation-result"></div>
+                        </div>
+                    </div>
+
+
+                    <!-- Etkinlik Önerileri -->
+                    <div class="analysis-card activity-suggestions">
+                        <h3>🎯 Kişiselleştirilmiş Etkinlik Önerileri</h3>
+                        <div class="activities-grid" id="activity-suggestions">
+                            <!-- Etkinlik önerileri buraya gelecek -->
+                        </div>
+                    </div>
+
+                    <!-- PDF Export Butonu -->
+                    <div class="evaluation-actions">
+                        <button id="export-evaluation-pdf-btn" class="btn-primary">
+                            📄 Değerlendirme Raporunu PDF Olarak Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sınıf Analizi Bölümü -->
+        <section id="class-analysis-section" class="page">
+            <div class="page-header">
+                <h2>📊 Sınıf Analizi</h2>
+            </div>
+            <div class="class-analysis-container">
+                
+                <!-- Sınıf Seçimi -->
+                <div class="class-selection">
+                    <h3>📚 Analiz Edilecek Sınıfı Seçin</h3>
+                    <div class="class-selector">
+                        <select id="class-grade-select" class="class-select">
+                            <option value="">Sınıf Seçin</option>
+                            <option value="6">6. Sınıf</option>
+                            <option value="7">7. Sınıf</option>
+                            <option value="8">8. Sınıf</option>
+                        </select>
+                        <select id="class-letter-select" class="class-select">
+                            <option value="">Şube Seçin</option>
+                            <option value="A">A Şubesi</option>
+                            <option value="B">B Şubesi</option>
+                        </select>
+                        <button id="analyze-class-btn" class="btn-primary">🔍 Sınıfı Analiz Et</button>
+                    </div>
+                </div>
+
+                <!-- Sınıf Özeti -->
+                <div class="class-summary" id="class-summary" style="display: none;">
+                    <h3>📈 Sınıf Özeti</h3>
+                    <div class="summary-stats">
+                        <div class="stat-card">
+                            <h4>Toplam Öğrenci</h4>
+                            <p id="class-total-students">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Ortalama Performans</h4>
+                            <p id="class-avg-performance">-</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>En Güçlü Zeka Türü</h4>
+                            <p id="class-strongest-intelligence">-</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>En Yaygın Öğrenme Stili</h4>
+                            <p id="class-common-learning-style">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zeka Türü Dağılımı -->
+                <div class="analysis-card intelligence-distribution" id="intelligence-distribution" style="display: none;">
+                    <h3>🧠 Zeka Türü Dağılımı</h3>
+                    <div class="chart-container">
+                        <canvas id="intelligence-chart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="intelligence-details" id="intelligence-details">
+                        <!-- Zeka türü detayları buraya gelecek -->
+                    </div>
+                </div>
+
+                <!-- Öğrenme Stili Dağılımı -->
+                <div class="analysis-card learning-style-distribution" id="learning-style-distribution" style="display: none;">
+                    <h3>🎯 Öğrenme Stili Dağılımı</h3>
+                    <div class="chart-container">
+                        <canvas id="learning-style-chart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="learning-style-details" id="learning-style-details">
+                        <!-- Öğrenme stili detayları buraya gelecek -->
+                    </div>
+                </div>
+
+                <!-- Sınıf Etkinlik Önerileri -->
+                <div class="analysis-card class-activities" id="class-activities" style="display: none;">
+                    <h3>🎪 Sınıf İçin Etkinlik Önerileri</h3>
+                    <div class="activities-grid" id="class-activities-grid">
+                        <!-- Sınıf etkinlikleri buraya gelecek -->
+                    </div>
+                </div>
+
+                <!-- Sınıf Karşılaştırması -->
+                <div class="analysis-card class-comparison" id="class-comparison" style="display: none;">
+                    <h3>⚖️ Sınıf Karşılaştırması</h3>
+                    <div class="comparison-container">
+                        <div class="comparison-selector">
+                            <select id="compare-class1" class="class-select">
+                                <option value="">1. Sınıf Seçin</option>
+                            </select>
+                            <span class="vs">VS</span>
+                            <select id="compare-class2" class="class-select">
+                                <option value="">2. Sınıf Seçin</option>
+                            </select>
+                            <button id="compare-classes-btn" class="btn-secondary">Karşılaştır</button>
+                        </div>
+                        <div class="comparison-results" id="comparison-results">
+                            <!-- Karşılaştırma sonuçları buraya gelecek -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hafta Sonu Etüt Programı -->
+                <div class="analysis-card weekend-schedule-generator" id="weekend-schedule-generator" style="display: none;">
+                    <h3>📅 Hafta Sonu Etüt Programı</h3>
+                    <p>Sınıfın deneme sonuçlarına göre otomatik etüt programı oluştur (5-7. sınıflar için)</p>
+                    
+                    <div class="schedule-options">
+                        <label>
+                            <input type="checkbox" id="include-saturday" checked> Cumartesi
+                        </label>
+                        <label>
+                            <input type="checkbox" id="include-sunday" checked> Pazar
+                        </label>
+                        <label>
+                            Başlangıç Saati:
+                            <input type="time" id="schedule-start-time" value="09:00">
+                        </label>
+                    </div>
+                    
+                    <button id="generate-weekend-schedule-btn" class="btn-primary">
+                        🎯 Etüt Programı Oluştur
+                    </button>
+                    
+                    <div id="weekend-schedule-display" style="display: none;">
+                        <!-- Program burada görüntülenecek -->
+                    </div>
+                    
+                    <button id="export-weekend-schedule-pdf-btn" class="btn-secondary" style="display: none;">
+                        📄 Programı PDF Olarak Kaydet
+                    </button>
+                </div>
+
+                <!-- 🆕 YENİ: Toplu Öğrenci Raporu -->
+                <div class="analysis-card bulk-report-generator" id="bulk-report-generator" style="display: none;">
+                    <h3>📊 Toplu Öğrenci Raporu</h3>
+                    <p>Seçilen öğrenciler için otomatik rapor oluştur</p>
+                    
+                    <!-- Öğrenci Seçimi -->
+                    <div class="student-selection">
+                        <div class="selection-header">
+                            <label class="select-all-label">
+                                <input type="checkbox" id="select-all-students" onchange="toggleAllStudents()">
+                                <strong>📋 Tüm Öğrencileri Seç</strong>
+                            </label>
+                            <span class="selected-count">(<span id="selected-count">0</span> öğrenci seçildi)</span>
+                        </div>
+                        
+                        <div id="student-list" class="student-checkboxes">
+                            <!-- Öğrenciler buraya dinamik yüklenecek -->
+                        </div>
+                    </div>
+                    
+                    <!-- Rapor Türü Seçimi -->
+                    <div class="report-type-selection">
+                        <h4>📋 Rapor Türü:</h4>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="report-type" value="performance" checked>
+                                <span class="radio-custom"></span>
+                                📊 Performans Analizi
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="report-type" value="comparison">
+                                <span class="radio-custom"></span>
+                                ⚖️ Karşılaştırmalı Analiz
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="report-type" value="detailed">
+                                <span class="radio-custom"></span>
+                                📋 Detaylı Rapor
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Seçenekleri -->
+                    <div class="export-options">
+                        <h4>💾 Export Formatı:</h4>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="export-format" value="single-pdf" checked>
+                                <span class="radio-custom"></span>
+                                📄 Tek PDF (Tüm öğrenciler birlikte)
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="export-format" value="multiple-pdf">
+                                <span class="radio-custom"></span>
+                                📄📄 Ayrı PDF'ler (Her öğrenci için)
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="export-format" value="zip">
+                                <span class="radio-custom"></span>
+                                📦 ZIP Dosyası (Tüm PDF'ler arşivlenmiş)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Oluştur Butonu -->
+                    <button id="generate-bulk-report-btn" class="btn-primary" onclick="generateBulkReport()">
+                        📄 Toplu Rapor Oluştur (<span id="selected-count-display">0</span> öğrenci)
+                    </button>
+                    
+                    <!-- Progress Bar -->
+                    <div id="bulk-report-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="report-progress-fill"></div>
+                        </div>
+                        <p id="progress-text">Hazırlanıyor... (0/0)</p>
+                    </div>
+                </div>
+
+                <!-- PDF Export -->
+                <div class="class-analysis-actions" id="class-analysis-actions" style="display: none;">
+                    <button id="export-class-analysis-pdf-btn" class="btn-primary">
+                        📄 Sınıf Analizi Raporunu PDF Olarak Kaydet
+                    </button>
+                </div>
+
+                <!-- Öğrenci Etüt Raporu -->
+                <div class="analysis-card etut-report-card" id="etut-report-card">
+                    <h3>📚 Öğrenci Etüt Raporu</h3>
+                    <p>Öğrencinin katıldığı etütleri ve istatistikleri görüntüleyin</p>
+                    
+                    <!-- Öğrenci Seçimi -->
+                    <div class="etut-report-selector">
+                        <select id="etut-report-student-select">
+                            <option value="">Öğrenci seçin...</option>
+                        </select>
+                        <button id="generate-etut-report-btn" class="btn-primary">
+                            📊 Rapor Oluştur
+                        </button>
+                    </div>
+
+                    <!-- Rapor İçeriği -->
+                    <div id="etut-report-content" style="display: none;">
+                        <!-- Özet İstatistikler -->
+                        <div class="etut-report-summary">
+                            <div class="stat-card">
+                                <h4>Toplam Etüt</h4>
+                                <p id="etut-total-count" class="stat-value">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Katılım Oranı</h4>
+                                <p id="etut-attendance-rate" class="stat-value">0%</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>En Çok Etüt Alan Ders</h4>
+                                <p id="etut-top-subject" class="stat-value">-</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Son Etüt</h4>
+                                <p id="etut-last-date" class="stat-value">-</p>
+                            </div>
+                        </div>
+
+                        <!-- Ders Bazında Grafik -->
+                        <div class="etut-report-chart">
+                            <h4>📊 Ders Bazında Etüt Dağılımı</h4>
+                            <canvas id="etut-by-subject-chart"></canvas>
+                        </div>
+
+                        <!-- Etüt Listesi -->
+                        <div class="etut-report-list">
+                            <h4>📋 Etüt Geçmişi</h4>
+                            <table id="etut-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Ders</th>
+                                        <th>Saat</th>
+                                        <th>Öğretmen</th>
+                                        <th>Durum</th>
+                                        <th>Katılım</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="etut-history-tbody">
+                                    <!-- Dinamik yüklenecek -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Aylık Trend -->
+                        <div class="etut-report-trend">
+                            <h4>📈 Aylık Etüt Trendi</h4>
+                            <canvas id="etut-monthly-trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Etüt Düzenleme Modal -->
+        <div id="etut-edit-modal" class="modal">
+            <div class="modal-content etut-edit-modal-content">
+                <div class="modal-header">
+                    <h2>✏️ Etüt Grubu Düzenle</h2>
+                    <span class="close-modal" onclick="closeEtutEditModal()">&times;</span>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Grup Bilgileri -->
+                    <div class="edit-section">
+                        <h3>📋 Grup Bilgileri</h3>
+                        <div class="form-group">
+                            <label>Etüt Adı:</label>
+                            <input type="text" id="edit-etut-name">
+                        </div>
+                        <div class="form-group">
+                            <label>Öğretmen:</label>
+                            <input type="text" id="edit-etut-teacher">
+                        </div>
+                        <div class="form-group">
+                            <label>Tarih:</label>
+                            <input type="date" id="edit-etut-date">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Başlangıç:</label>
+                                <input type="time" id="edit-etut-start">
+                            </div>
+                            <div class="form-group">
+                                <label>Bitiş:</label>
+                                <input type="time" id="edit-etut-end">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Durum:</label>
+                            <select id="edit-etut-status">
+                                <option value="planned">📅 Planlandı</option>
+                                <option value="completed">✅ Tamamlandı</option>
+                                <option value="cancelled">❌ İptal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Notlar:</label>
+                            <textarea id="edit-etut-notes" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Öğrenci Yönetimi -->
+                    <div class="edit-section">
+                        <h3>👥 Öğrenci Yönetimi</h3>
+                        
+                        <!-- Mevcut Öğrenciler -->
+                        <div class="current-students">
+                            <h4>Mevcut Öğrenciler</h4>
+                            <div id="edit-current-students" class="student-chips">
+                                <!-- Dinamik yüklenecek -->
+                            </div>
+                        </div>
+
+                        <!-- Öğrenci Ekleme -->
+                        <div class="add-students">
+                            <h4>Öğrenci Ekle</h4>
+                            <select id="edit-add-student-select">
+                                <option value="">Öğrenci seçin...</option>
+                            </select>
+                            <button onclick="addStudentToGroup()" class="btn-secondary">
+                                ➕ Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Katılım Durumu -->
+                    <div class="edit-section">
+                        <h3>📊 Katılım Durumu</h3>
+                        <div id="edit-attendance-list">
+                            <!-- Dinamik yüklenecek -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button onclick="saveEtutGroupChanges()" class="btn-primary">
+                        💾 Değişiklikleri Kaydet
+                    </button>
+                    <button onclick="closeEtutEditModal()" class="btn-secondary">
+                        ❌ İptal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soru Hazırlama Bölümü -->
+        <section id="question-bank-section" class="page">
+            <div class="page-header">
+                <h2>📝 Soru Hazırla</h2>
+            </div>
+            
+            <div class="question-bank-container">
+                <!-- Öğrenci Seçimi -->
+                <div class="question-bank-card">
+                    <h3>🎯 Öğrenci Seçimi</h3>
+                    <div class="student-selection">
+                        <select id="question-student-select">
+                            <option value="">Öğrenci seçin...</option>
+                        </select>
+                        <div id="selected-student-info" class="selected-student-info" style="display: none;">
+                            <div class="student-details">
+                                <h4 id="selected-student-name"></h4>
+                                <p id="selected-student-class"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ders ve Konu Seçimi -->
+                <div class="question-bank-card">
+                    <h3>📚 Ders ve Konu Seçimi</h3>
+                    <div class="subject-selection">
+                        <select id="question-subject-select">
+                            <option value="">Ders seçin...</option>
+                            <option value="Sosyal Bilgiler">Sosyal Bilgiler</option>
+                            <option value="Matematik">Matematik</option>
+                            <option value="Fen Bilimleri">Fen Bilimleri</option>
+                            <option value="Din Kültürü ve Ahlak Bilgisi">Din Kültürü ve Ahlak Bilgisi</option>
+                            <option value="Türkçe">Türkçe</option>
+                            <option value="İngilizce">İngilizce</option>
+                        </select>
+                        <select id="question-grade-select">
+                            <option value="">Sınıf seçin...</option>
+                            <option value="5">5. Sınıf</option>
+                            <option value="6">6. Sınıf</option>
+                            <option value="7">7. Sınıf</option>
+                            <option value="8">8. Sınıf</option>
+                        </select>
+                        <select id="question-unit-select">
+                            <option value="">Ünite seçin...</option>
+                        </select>
+                        <select id="question-outcome-select">
+                            <option value="">Kazanım seçin...</option>
+                            <option value="all">Tüm kazanımlar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Soru Sayısı ve Zorluk -->
+                <div class="question-bank-card">
+                    <h3>⚙️ Test Ayarları</h3>
+                    <div class="test-settings">
+                        <div class="setting-group">
+                            <label for="question-count">Soru Sayısı:</label>
+                            <select id="question-count">
+                                <option value="5">5 Soru</option>
+                                <option value="10" selected>10 Soru</option>
+                                <option value="15">15 Soru</option>
+                                <option value="20">20 Soru</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="difficulty-level">Zorluk Seviyesi:</label>
+                            <select id="difficulty-level">
+                                <option value="mixed" selected>Karışık</option>
+                                <option value="easy">Kolay</option>
+                                <option value="medium">Orta</option>
+                                <option value="hard">Zor</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="question-type">Soru Tipi:</label>
+                            <select id="question-type">
+                                <option value="mixed" selected>Karışık</option>
+                                <option value="concept">Kavram</option>
+                                <option value="analysis">Analiz</option>
+                                <option value="application">Uygulama</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Oluşturma -->
+                <div class="question-bank-card">
+                    <h3>🚀 Test Oluştur</h3>
+                    <div class="test-actions">
+                        <button id="generate-test-btn" class="btn-primary" disabled>
+                            <span class="icon">🎯</span>
+                            Test Oluştur
+                        </button>
+                        <button id="ai-generate-btn" class="btn-secondary" disabled>
+                            <span class="icon">🤖</span>
+                            AI ile Akıllı Test Oluştur
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Test Önizleme -->
+                <div id="test-preview" class="question-bank-card" style="display: none;">
+                    <h3>👁️ Test Önizleme</h3>
+                    <div id="test-questions-container">
+                        <!-- Sorular buraya dinamik olarak eklenecek -->
+                    </div>
+                    <div class="test-actions">
+                        <button id="export-pdf-btn" class="btn-success">
+                            <span class="icon">📄</span>
+                            PDF Olarak Kaydet
+                        </button>
+                        <button id="regenerate-test-btn" class="btn-secondary">
+                            <span class="icon">🔄</span>
+                            Yeniden Oluştur
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sınav Yönetimi Bölümü -->
+        <section id="exam-management-section" class="page">
+            <div class="page-header">
+                <h2>Sınav Yönetimi</h2>
+            </div>
+            
+            <div class="exam-management-container">
+                <!-- Filtreleme Sistemi -->
+                <div class="exam-filters-section">
+                    <h3>🔍 Sınav Filtreleme</h3>
+                    <div class="filters-container">
+                        <div class="filter-group">
+                            <label for="grade-filter">Sınıf:</label>
+                            <select id="grade-filter">
+                                <option value="">Tüm Sınıflar</option>
+                                <option value="5">5. Sınıf</option>
+                                <option value="6">6. Sınıf</option>
+                                <option value="7">7. Sınıf</option>
+                                <option value="8">8. Sınıf</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="section-filter">Şube:</label>
+                            <select id="section-filter">
+                                <option value="">Tüm Şubeler</option>
+                                <!-- Dinamik olarak doldurulacak -->
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="student-filter">Öğrenci:</label>
+                            <select id="student-filter">
+                                <option value="">Tüm Öğrenciler</option>
+                                <!-- Dinamik olarak doldurulacak -->
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="exam-number-filter">Sınav Numarası:</label>
+                            <select id="exam-number-filter">
+                                <option value="">Tüm Sınavlar</option>
+                                <!-- Dinamik olarak doldurulacak -->
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="exam-name-filter">Sınav Adı:</label>
+                            <input type="text" id="exam-name-filter" placeholder="Sınav adı ara...">
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button id="clear-filters-btn" class="btn-secondary">
+                                🗑️ Filtreleri Temizle
+                            </button>
+                            <button id="apply-filters-btn" class="btn-primary">
+                                🔍 Filtrele
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-results">
+                        <span id="filter-results-count">Tüm sınavlar gösteriliyor</span>
+                    </div>
+                </div>
+                
+                <div class="section-header">
+                    <h3>📋 Sınav Kayıtları</h3>
+                    <div class="actions">
+                        <button id="bulk-rename-btn" class="btn-secondary" onclick="bulkRenameExams()">
+                            🔄 Genel İsimleri Düzelt
+                        </button>
+                        <button id="remove-duplicates-btn" class="btn-warning" onclick="removeDuplicateExams()">
+                            🧹 Duplicate Sınavları Temizle
+                        </button>
+                        <button id="select-all-exams" class="btn-secondary" onclick="toggleAllExams()">
+                            ☑️ Tümünü Seç
+                        </button>
+                        <button id="delete-selected-exams" class="btn-danger" disabled onclick="deleteSelectedExams()">
+                            🗑️ Seçilenleri Sil (<span id="selected-exam-count">0</span>)
+                        </button>
+                        <button id="delete-all-exams" class="btn-danger-outline" onclick="deleteAllExams()">
+                            🗑️ Tüm Sınavları Sil
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="exam-list-container" class="exam-list">
+                    <!-- Sınav listesi buraya dinamik olarak gelecek -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Performans Panosu Bölümü -->
+        <section id="performance-overview-section" class="page">
+            <div class="page-header">
+                <h2>📊 Performans Panosu</h2>
+                <p>Öğrenci performanslarını ders bazında değerlendirin ve takip edin</p>
+            </div>
+            
+            <div class="performance-overview-container">
+                <!-- Sol Panel: Sınıf Seçimi ve Öğrenci Listesi -->
+                <div class="performance-left-panel">
+                    <div class="class-selector">
+                        <label for="grade-select">Sınıf Seviyesi:</label>
+                        <select id="grade-select" class="class-dropdown">
+                            <option value="">Sınıf seviyesi seçin...</option>
+                            <option value="5">5. Sınıf</option>
+                            <option value="6">6. Sınıf</option>
+                            <option value="7">7. Sınıf</option>
+                            <option value="8">8. Sınıf</option>
+                        </select>
+                        
+                        <label for="branch-select">Şube:</label>
+                        <select id="branch-select" class="class-dropdown" disabled>
+                            <option value="">Önce sınıf seviyesi seçin</option>
+                        </select>
+                        
+                        <button id="load-students-btn" class="btn-primary" disabled>Öğrenci Listesini Yükle</button>
+                    </div>
+                    
+                    <div class="student-list-container">
+                        <h3>Öğrenci Listesi</h3>
+                        <div id="student-list" class="student-list">
+                            <div class="no-students">Önce sınıf seçip öğrenci listesini yükleyin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Panel: Ders Seçimi ve Performans Tablosu -->
+                <div class="performance-right-panel">
+                    <div class="ders-tabs">
+                        <button class="ders-tab active" data-ders="Türkçe">Türkçe</button>
+                        <button class="ders-tab" data-ders="Matematik">Matematik</button>
+                        <button class="ders-tab" data-ders="Fen">Fen</button>
+                        <button class="ders-tab" data-ders="Sosyal">Sosyal</button>
+                        <button class="ders-tab" data-ders="İngilizce">İngilizce</button>
+                        <button class="ders-tab" data-ders="Din Kültürü">Din Kültürü</button>
+                    </div>
+
+                    <div class="performance-table-container">
+                        <div class="table-header">
+                            <h3 id="current-ders-title">Türkçe Performans Değerlendirmesi</h3>
+                            <div class="table-actions">
+                                <button id="save-performance-btn" class="btn-success">Kaydet</button>
+                                <button id="export-excel-btn" class="btn-info">Excel'e Aktar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="performance-table-wrapper">
+                            <table id="performance-table" class="performance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Öğrenci Adı</th>
+                                        <th>Tema Başarı (%)</th>
+                                        <th>Yazılı</th>
+                                        <th>Deneme Ort.</th>
+                                        <th>Etüt Sayısı</th>
+                                        <th>Ödev Tamamlama (%)</th>
+                                        <th>Genel Başarı</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="performance-table-body">
+                                    <tr class="no-data">
+                                        <td colspan="7">Önce sınıf seçip öğrenci listesini yükleyin</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hakkında Bölümü -->
+        <section id="about-section" class="page">
+            <div class="page-header">
+                <h2>ℹ️ Hakkında</h2>
+            </div>
+            <div class="about-container">
+                
+                <!-- Program Bilgileri -->
+                <div class="about-card">
+                    <h3>📋 Program Bilgileri</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Program Adı:</strong>
+                            <span>Kapsul Koçluk Programı</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Versiyon:</strong>
+                            <span>1.0.0</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Geliştirici:</strong>
+                            <span>Kapsul Koçluk Programı</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Lisans:</strong>
+                            <span>MIT License</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Platform:</strong>
+                            <span>Electron (Windows, macOS, Linux)</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Programlama Dili:</strong>
+                            <span>JavaScript, HTML5, CSS3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Özellikler -->
+                <div class="about-card">
+                    <h3>✨ Özellikler</h3>
+                    <ul class="features-list">
+                        <li>🧠 AI Destekli Öğrenci Analizi (Gemini AI)</li>
+                        <li>📊 Zeka Türü Analizi (8 farklı zeka türü)</li>
+                        <li>🎯 Öğrenme Stili Tespiti</li>
+                        <li>📈 Performans Takibi ve Trend Analizi</li>
+                        <li>📚 Akıllı Ders Planlayıcı</li>
+                        <li>👥 Sınıf Analizi ve Karşılaştırma</li>
+                        <li>📄 PDF Rapor Export</li>
+                        <li>🎪 Kişiselleştirilmiş Etkinlik Önerileri</li>
+                    </ul>
+                </div>
+
+                <!-- Lisans Bilgileri -->
+                <div class="about-card">
+                    <h3>📄 Lisans Bilgileri</h3>
+                    <div class="license-info">
+                        <p><strong>MIT License</strong></p>
+                        <p>Bu program MIT lisansı altında lisanslanmıştır. Bu lisans:</p>
+                        <ul>
+                            <li>✅ Ticari kullanıma izin verir</li>
+                            <li>✅ Değiştirilebilir ve dağıtılabilir</li>
+                            <li>✅ Açık kaynak kullanımına izin verir</li>
+                            <li>✅ Patent koruması sağlar</li>
+                        </ul>
+                        <p><strong>Detaylar için LICENSE dosyasına bakın.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Kullanım Koşulları -->
+                <div class="about-card">
+                    <h3>📋 Kullanım Koşulları</h3>
+                    <div class="terms-info">
+                        <p><strong>Eğitim Amaçlı:</strong> Bu program eğitim amaçlı geliştirilmiştir.</p>
+                        <p><strong>Ticari Kullanım:</strong> Ticari kullanım için lütfen iletişime geçin.</p>
+                        <p><strong>Veri Güvenliği:</strong> Tüm veriler yerel olarak saklanır.</p>
+                        <p><strong>AI Kullanımı:</strong> Gemini AI API kullanımı için Google hesabı gerekir.</p>
+                    </div>
+                </div>
+
+                <!-- İletişim -->
+                <div class="about-card">
+                    <h3>📞 İletişim</h3>
+                    <div class="contact-info">
+                        <p><strong>GitHub:</strong> <a href="https://github.com/kullaniciadi/kapsul-kocluk-programi" target="_blank">github.com/kullaniciadi/kapsul-kocluk-programi</a></p>
+                        <p><strong>Email:</strong> [email@example.com]</p>
+                        <p><strong>Geliştirici:</strong> [Adınız]</p>
+                    </div>
+                </div>
+
+                <!-- Teşekkürler -->
+                <div class="about-card">
+                    <h3>🙏 Teşekkürler</h3>
+                    <div class="thanks-info">
+                        <p>Bu programın geliştirilmesinde katkıda bulunan:</p>
+                        <ul>
+                            <li>Şeyhmus TEPELİ</li>
+                            <li>Özel Debi Akademi Ortaokulu Öğretmenleri</li>
+                            <li>Özel Debi Akademi Ortaokulu Yönetimi</li>
+                            <li>Eğitim sektörü uzmanları</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="weak-topics-popup" class="weak-topics-popup" style="display:none"></div>
+    <div id="best-subjects-popup" class="weak-topics-popup" style="display:none"></div>
+
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Yeni Profil Oluştur</h2>
+            <p>Lütfen yeni profil için bilgileri girin.</p>
+            <input type="text" id="profile-name-input" placeholder="Profil Adı" required>
+            <select id="profile-grade-input" required>
+                <option value="">Sınıf Seçin</option>
+                <option value="5">5. Sınıf</option>
+                <option value="6">6. Sınıf</option>
+                <option value="7">7. Sınıf</option>
+                <option value="8">8. Sınıf</option>
+            </select>
+            <select id="profile-class-input">
+                <option value="">Sınıf Şubesi (Opsiyonel)</option>
+                <option value="A">A Şubesi</option>
+                <option value="B">B Şubesi</option>
+                <option value="C">C Şubesi</option>
+                <option value="D">D Şubesi</option>
+            </select>
+            <select id="profile-learning-style-input">
+                <option value="">Öğrenme Stili (Opsiyonel)</option>
+                <option value="AYRIŞTIRAN">Ayrıştıran (Analitik)</option>
+                <option value="ÖZÜMSEYEN">Özümseyen (Gözlemci)</option>
+                <option value="YERLEŞTİREN">Yerleştiren (Sosyal)</option>
+                <option value="DEĞİŞTİREN">Değiştiren (Pratik)</option>
+            </select>
+            <button id="save-profile-button">Kaydet</button>
+        </div>
+    </div>
+
+    <div id="edit-exam-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Sınavı Düzenle</h2>
+            <form id="edit-exam-form">
+                <input type="hidden" id="edit-exam-id">
+                <div class="form-group">
+                    <label for="edit-exam-name">Sınav Adı</label>
+                    <input type="text" 
+                           id="edit-exam-name" 
+                           required 
+                           placeholder="Örn: LGS Deneme 1"
+                           minlength="3"
+                           maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="edit-exam-date">Sınav Tarihi</label>
+                    <input type="date" id="edit-exam-date" required>
+                </div>
+                <div id="edit-courses-container">
+                    <!-- Course inputs will be dynamically added here -->
+                </div>
+                <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- İçe Aktarma Modalı -->
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>📥 Öğrenci Verilerini İçe Aktar</h2>
+            <p>Excel/CSV dosyasından öğrenci verilerini içe aktarın.</p>
+            
+            <div class="import-options">
+                <div class="import-option">
+                    <h3>📄 Excel/CSV Dosyası</h3>
+                    <p>Excel veya CSV dosyasından öğrenci verilerini içe aktarın.</p>
+                    <input type="file" id="import-file" accept=".xlsx,.xls,.csv" style="display: none;">
+                    <button id="select-file-btn" class="btn-primary">Dosya Seç</button>
+                    <div id="file-info" style="display: none; margin-top: 10px;">
+                        <p><strong>Seçilen dosya:</strong> <span id="selected-file-name"></span></p>
+                        <button id="import-file-btn" class="btn-secondary">İçe Aktar</button>
+                    </div>
+                </div>
+                
+                <div class="import-option">
+                    <h3>📋 Örnek Format</h3>
+                    <p>Excel/CSV dosyanız şu sütunlara sahip olmalı:</p>
+                    <ul>
+                        <li><strong>Ad Soyad:</strong> Öğrenci adı ve soyadı</li>
+                        <li><strong>Cinsiyet:</strong> Erkek/Kız</li>
+                        <li><strong>Sınıf:</strong> 6, 7, 8</li>
+                        <li><strong>Şube:</strong> A, B</li>
+                        <li><strong>Öğrenme Stili:</strong> AYRIŞTIRAN, ÖZÜMSEYEN, vb.</li>
+                    </ul>
+                    <button id="download-template-btn" class="btn-secondary">📥 Örnek Dosya İndir</button>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="cancel-import">İptal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manuel Öğrenci Eşleştirme Modalı -->
+    <div id="student-match-modal" class="modal">
+        <div class="modal-content student-match-modal-content">
+            <h2>🔍 Öğrenci Eşleştirme</h2>
+            <p class="match-info">
+                CSV'deki öğrenci: <strong id="csv-student-name"></strong>
+            </p>
+            
+            <!-- Arama kutusu -->
+            <div class="student-search-section">
+                <h3>🔍 Öğrenci Ara:</h3>
+                <div class="search-input-container">
+                    <input type="text" id="modal-student-search" placeholder="Öğrenci adı yazın..." autocomplete="off">
+                    <button id="modal-search-clear-btn" class="search-clear" title="Temizle">×</button>
+                </div>
+            </div>
+            
+            <!-- Otomatik eşleştirmeler -->
+            <div class="match-options-container">
+                <h3>🤖 Otomatik Eşleşmeler:</h3>
+                <div id="match-options-list" class="match-options-list">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+            </div>
+            
+            <!-- Tüm öğrenci listesi -->
+            <div class="all-students-container">
+                <h3>📋 Tüm Öğrenciler:</h3>
+                <div id="all-students-list" class="all-students-list">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+            </div>
+            
+            <div class="match-actions">
+                <button id="skip-student-btn" class="btn-secondary">⏭️ Bu Öğrenciyi Atla</button>
+                <button id="skip-all-btn" class="btn-secondary">⏭️ Tüm Hataları Atla</button>
+                <button id="cancel-import-btn" class="btn-danger">❌ İçe Aktarmayı İptal Et</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../node_modules/chart.js/dist/chart.umd.js"></script>
+    
+    <!-- Toplu PDF Export Modal -->
+    <div id="bulk-pdf-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Toplu PDF Export</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Grafik Seçimi -->
+                <div class="section">
+                    <h3>Grafik/Tablo Seçimi</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="subject-average-section"> Ders Bazında Ortalama Netler</label>
+                        <label><input type="checkbox" value="net-evolution-section"> Ders Bazında İlerleme Grafiği</label>
+                        <label><input type="checkbox" value="performance-comparison-section"> Son Deneme vs Genel Ortalama</label>
+                        <label><input type="checkbox" value="weak-topics-section"> Zayıf Kazanımlar</label>
+                        <label><input type="checkbox" value="subject-trend-section"> Ders Detayları</label>
+                    </div>
+                </div>
+                
+                <!-- Sınıf/Öğrenci Seçimi -->
+                <div class="section">
+                    <h3>Öğrenci Seçimi</h3>
+                    <div class="class-filter">
+                        <label for="class-filter-modal">Sınıf Filtresi:</label>
+                        <select id="class-filter-modal">
+                            <option value="">Tüm Sınıflar</option>
+                            <!-- Dinamik doldurulacak -->
+                        </select>
+                    </div>
+                    <div id="student-checkboxes-modal" class="student-checkboxes">
+                        <!-- Dinamik öğrenci listesi -->
+                    </div>
+                </div>
+                
+                <!-- Export Seçenekleri -->
+                <div class="section">
+                    <h3>Export Formatı</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="export-mode" value="single" checked> Tek PDF (Tüm öğrenciler)</label>
+                        <label><input type="radio" name="export-mode" value="separate"> Ayrı PDF'ler (Her öğrenci)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="generate-bulk-pdf-btn" class="btn-primary">PDF Oluştur</button>
+                <button class="btn-secondary modal-close">İptal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="./DersPlanlayici.js"></script>
+    <script src="./renderer.js"></script>
+</body>
+</html>

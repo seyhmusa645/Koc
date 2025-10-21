@@ -1,0 +1,38 @@
+Sorun Tanımı
+Ana Sorun: stripKazanimCode fonksiyonundaki regex pattern'i yanlış çalışıyor ve kazanım metinlerini kesiyor.
+Detaylı Analiz:
+1. Regex Pattern Sorunu
+Mevcut pattern: ^[A-ZÇĞİÖŞÜ]{1,4}\.\d[\d.]*\s*
+Test örneği:
+Giriş: "M.8.1.1.1. Verilen pozitif tam sayıların pozitif tam sayı çarpanlarını bulur, pozitif tam sayıların pozitif tam sayı Çarpanlarını üslü ifadelerin çarpımı şeklinde yazar."
+Beklenen çıkış: "Verilen pozitif tam sayıların pozitif tam sayı çarpanlarını bulur, pozitif tam sayıların pozitif tam sayı Çarpanlarını üslü ifadelerin çarpımı şeklinde yazar."
+Gerçek çıkış: "Verilen pozitif tam sayıların pozitif tam sayı çarpanlarını bulur, poz"
+2. Regex Pattern Analizi
+Mevcut pattern: ^[A-ZÇĞİÖŞÜ]{1,4}\.\d[\d.]*\s*
+Sorunlar:
+[A-ZÇĞİÖŞÜ]{1,4} - 1-4 karakter (M, MAT, SB, DK gibi)
+\. - nokta
+\d - tek rakam (8)
+[\d.]* - rakam ve nokta kombinasyonu (1.1.1)
+\s* - boşluklar
+Test:
+M.8.1.1.1. → Pattern eşleşir ✅
+Ama metin kesiliyor ❌
+3. Muhtemel Nedenler
+A) Regex Pattern Yanlış:
+[\d.]* kısmı yanlış çalışıyor olabilir
+M.8.1.1.1. kısmını tam olarak yakalayamıyor
+B) String Manipulation Sorunu:
+Regex doğru çalışıyor ama sonrasında başka bir işlem metni kesiyor
+replace() fonksiyonu yanlış çalışıyor
+C) Veri Kaynağı Sorunu:
+data/Kazanımlar.json'da metinler zaten kesik
+Import sırasında kesinti oluyor
+4. Etkilenen Kazanımlar
+"Verilen pozitif tam sayıların pozitif tam sayı çarpanlarını bulur, poz"
+"İki doğal sayının en büyük ortak bölenini"
+"Avrupa'daki gelişmelerin yansımaları bağlamında Osmanlı Devleti'nin yi"
+"Gençlik döneminde Mustafa Kemal'in fikir hayatını etkileyen önemli kiş"
+5. Sorunun Kaynağı
+En muhtemel: Regex pattern ^[A-ZÇĞİÖŞÜ]{1,4}\.\d[\d.]*\s* yanlış çalışıyor ve M.8.1.1.1. kısmını tam olarak kaldıramıyor, bunun yerine metni yanlış yerde kesiyor.
+Kontrol edilmesi gereken: Regex pattern'in M.8.1.1.1. gibi çok noktalı kodlarla nasıl çalıştığı.

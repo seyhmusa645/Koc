@@ -1,0 +1,188 @@
+AUTH + LICENSE IMPLEMENTATION PLAN
+================================
+
+Purpose
+-------
+Electron tabanlý koçluk uygulamasýna lisans anahtarý doðrulamalý kullanýcý kayýt/giriþ sistemi eklemek. Kodlayýcý (Claude) aþaðýdaki tasarým kararlarýna sadýk kalarak tüm modülleri yazmalý.
+
+High-Level Hedefler
+-------------------
+- Her okul cihazý benzersiz bir kurulum kodu (request code) üretir.
+- Lisans anahtarý cihazýn request code'una, lisans planýna ve bitiþ tarihine baðlýdýr; imzalýdýr, offline doðrulanýr.
+- Lisansý doðrulayan öðretmenler kullanýcý hesabý açýp þifreleriyle giriþ yapabilir.
+- Lisans süresi dolduðunda kullanýcý giriþ yapamaz, UI kilitlenir.
+
+Yeni Ana Modüller
+-----------------
+1. Auth Penceresi (yalnýzca lisans ve kullanýcý giriþi/kayýt ekranlarýný barýndýrýr)
+   - Dosyalar: `src/auth.html`, `src/auth.js`, `src/auth.css`.
+   - Bileþenler: Lisans yükleme bölümü, öðretmen giriþ formu, kayýt formu.
+2. Ana Uygulama Penceresi
+   - Mevcut `src/index.html` açýlmadan önce auth doðrulamasý yapýlýr.
+3. Ana süreç servisleri
+   - `src/main.js` içinde veya ayrý modülde `authManager` benzeri yardýmcýlar.
+   - IPC kanallarý: `license:get-request-code`, `license:import`, `license:status`, `user:register`, `user:login`, `user:logout`, `session:get`.
+4. Veri depolarý (`app.getPath('userData')` altýnda JSON):
+   - `license.json`
+   - `users.json`
+   - Opsiyonel `session.json` (sadece aktif kullanýcýyý hatýrlamak için).
+
+Veri Þemalarý
+-------------
+- license.json:
+  {
+    "requestCode": "<string>",
+    "schoolName": "<string>",
+    "plan": "standard" | "premium",
+    "expiresAt": "ISO-8601",
+    "issuedAt": "ISO-8601",
+    "licenseKey": "<orijinal imzalý string>",
+    "status": "active" | "expired" | "invalid"
+  }
+- users.json:
+  {
+    "version": "1.0",
+    "users": [
+      {
+        "id": "user_001",
+        "email": "teacher@example.com",
+        "passwordHash": "<bcrypt hash>",
+        "name": "<optional>",
+        "role": "teacher",
+        "createdAt": "ISO-8601",
+        "updatedAt": "ISO-8601"
+      }
+    ]
+  }
+- session.json (opsiyonel): { "currentUserId": "user_001", "lastLogin": "ISO-8601" }
+
+Makine Kimliði ve Request Code
+------------------------------
+- Kurulum sýrasýnda `hardwareId = SHA256(cpuId + diskSerial + installGuid)` üret.
+  - `cpuId`: `os.cpus()[0].model + os.cpus()[0].speed` (veya Windows WMI komutu)
+  - `diskSerial`: Electron ana süreçte `wmic diskdrive get serialnumber` gibi komutla okunabilir.
+  - `installGuid`: Ýlk çalýþtýrmada oluþturulup `install.json` içinde saklanan random UUID.
+- Request code = Base64Url(hardwareId).
+- Auth penceresinde “Lisans iste” butonu request code’u gösterip kopyalama saðlar.
+
+Lisans Anahtarý Formatý
+-----------------------
+- JWT benzeri yapý: `<base64url(header)>.<base64url(payload)>.<base64url(signature)>`.
+- Header: { "alg": "ES256", "typ": "LICENSE" } (örnek; ES256 public-key imzasý önerilir).
+- Payload alanlarý:
+  - `requestCode`
+  - `schoolName`
+  - `plan`
+  - `issuedAt`
+  - `expiresAt`
+  - `maxUsers` (opsiyonel kota)
+- Signature: ECDSA (ES256) veya RSA (RS256). Uygulamaya yalnýzca PUBLIC KEY gömülür.
+- Lisans dosyasý text (.lic) veya JSON olabilir; UI hem ham string hem dosya yüklemeyi desteklesin.
+
+Offline Lisans Üretim Aracý
+---------------------------
+Yeni script: `scripts/generate_license.js`
+- CLI argümanlarý: `--request`, `--school`, `--plan`, `--expires`, `--maxUsers`.
+- Gizli anahtar (private key) burada tutulur, uygulama paketine eklenmez.
+- Çýktý: `.lic` dosyasý veya STDOUT.
+- Girdiler doðrulanmazsa hata mesajý göster.
+
+Lisans Doðrulama Akýþý
+----------------------
+1. Uygulama baþlangýcýnda ana süreç `license.json`u okur.
+2. Dosya yoksa veya geçersizse auth penceresi lisans yüklenene kadar ana uygulamayý engeller.
+3. Kullanýcý lisans anahtarýný girer veya dosya seçer.
+4. `ipcRenderer.invoke('license:import', keyData)` çaðrýlýr.
+5. Ana süreç:
+   - Ýmza doðrulamasý yapar (public key + payload).
+   - `payload.requestCode` ile lokal request code eþleþiyor mu kontrol eder.
+   - `expiresAt` geçmiþ mi bakar.
+   - Baþarýlýysa `license.json`u günceller, `status = active`.
+   - Baþarýsýzsa `status = invalid`, hata mesajý döndürür.
+6. Uygulama periyodik olarak (örn. günlük) lisans durumunu tekrar kontrol eder; süre dolduysa `status = expired` ve oturumlar sonlandýrýlýr.
+
+Kullanýcý Kayýt / Giriþ Akýþlarý
+--------------------------------
+Registration (yalnýzca aktif lisans varken):
+1. Kullanýcý formu: ad-soyad (opsiy.), email, þifre, þifre tekrar.
+2. Frontend temel doðrulamalar (zorunlu alanlar, min þifre uzunluðu).
+3. `ipcRenderer.invoke('user:register', { email, password, name })`.
+4. Ana süreç:
+   - Lisans `status` aktif mi ve kullanýcý limiti aþýlmadý mý kontrol eder.
+   - `users.json`u oku, email var mý bak.
+   - Bcrypt ile þifre hashle (`bcryptjs` veya `bcrypt` modülü, 10 salt round yeterli).
+   - Kullanýcýyý ekle, dosyayý kaydet.
+   - Baþarýlý yanýt döndür.
+5. UI baþarý mesajý, ardýndan login sekmesine yönlendir.
+
+Login:
+1. Kullanýcý email + þifre girer.
+2. `ipcRenderer.invoke('user:login', { email, password })`.
+3. Ana süreç:
+   - Lisans `status` aktif mi ve tarih geçmedi mi kontrol eder.
+   - Email’e ait kullanýcýyý bul, bcrypt ile þifre doðrula.
+   - Baþarýlýysa `session.json`u güncelle (kullanýcý ID + timestamp) ve token benzeri kýsa süreli session id üret (örn. random uuid). Bu session id `BrowserWindow` contextine döndürülür.
+4. Renderer session id’yi memory’de tutar; ana pencere açýlýrken `ipcRenderer.invoke('session:get')` ile kullanýcý bilgisi çekilir.
+
+Logout:
+- Menüden “Oturumu kapat” seçildiðinde `ipcRenderer.invoke('user:logout')` session’u siler ve auth penceresine döner.
+
+UI Gereksinimleri
+-----------------
+Auth ekraný component’leri:
+- Tab’lý yapý: (1) Lisans Yükle (2) Giriþ (3) Kayýt.
+- Lisans tabýnda request code görüntüleyici + kopyala butonu + lisans string/dosya yükleme alaný + durum etiketi.
+- Giriþ tabý: email, þifre, “Þifreyi göster” toggle.
+- Kayýt tabý: email, ad (opsiyonel), þifre, þifre tekrar, lisans hakkýnda bilgi.
+- Lisans süresi bitiþini gösteren banner (kalan gün).
+
+Ana pencere üst barý:
+- Aktif kullanýcý adý/okul adý gösterimi.
+- Lisans kalan süre göstergesi.
+- “Oturumu kapat” butonu.
+
+Güvenlik ve Dayanýklýlýk
+------------------------
+- Þifreler asla düz metin saklanmaz.
+- Lisans anahtarý doðrulama kodu olabildiðince küçük ve net yazýlsýn, ama private key uygulamada olmasýn.
+- Request code hesaplarken donaným verisi alýnamazsa fallback olarak yalnýzca installGuid kullan (lisans o makineye baðlanýr yine de).
+- Dosya iþlemleri try/catch ile sarýlsýn; bozuk JSON yakalanýnca yedek dosya oluþtur.
+- Að eriþimi kullanýlmaz; tüm iþlemler offline.
+
+Uygulamada Yapýlacak Deðiþiklikler (Adým Adým)
+----------------------------------------------
+1. `package.json` baðýmlýlýklarýna `bcryptjs` ekle, gerekiyorsa tip deklarasyonlarý.
+2. `src/main.js` düzenle:
+   - Uygulama açýlýþýnda auth penceresi oluþtur.
+   - Lisans ve kullanýcý dosyalarýný yöneten helper fonksiyonlar ekle.
+   - IPC handler’larýný tanýmla.
+   - Baþarýlý login sonrasý ana pencereyi aç, auth penceresini gizle.
+3. `src/preload.js` güncelle:
+   - Yeni IPC kanallarýný `contextBridge` üzerinden expose et.
+4. Yeni UI dosyalarýný (`auth.html`, `auth.js`, `auth.css`) oluþtur.
+5. Lisans status’ünü ana ekrandan izlemek için renderer tarafýnda `window.electronAPI.licenseStatus()` benzeri fonksiyon tüket.
+6. Giriþ yapýlmamýþsa veya lisans süresi dolmuþsa ana UI’da tüm modülleri devre dýþý býrak.
+7. Menüde oturum kapat ve lisans bilgisi görünümlerini ekle.
+8. Unit/integ test ekleyemiyorsak manuel test senaryolarýný yaz (lisans geçerli/geçersiz, süre bitiþi, çoklu kullanýcý, logout).
+
+Manual Test Senaryolarý (Örnek)
+-------------------------------
+- Taze kurulum, lisans yok: Auth ekraný lisans talep ediyor olmalý.
+- Geçerli lisans ekle, kayýt ve login yap: Ana ekran açýlmalý.
+- Lisans süresi geçmiþ lisans ekle: Hata mesajý, kayýt kapalý.
+- Birden çok kullanýcý kaydý ve login: `users.json`da hashing kontrol et, login/logout akýcý.
+- Lisans bitiþine 3 gün kala banner gösteriliyor mu kontrol et (örnek business kural).
+
+Geliþtirici Notlarý
+-------------------
+- Kod modüler olsun (pure helper fonksiyonlar). Ana süreç üstünde gereksiz global deðiþken býrakmayýn.
+- JSON okuma/yazma için tek noktadan yönetilen helper kullanýn (ör. `readJsonSafe`, `writeJsonSafe`).
+- Hata iletileri Türkçe tutulabilir, ancak loglarda teknik detaylar korunmalý.
+- Offline lisans doðrulamasý bypass edilebilmesin diye request code + imza kombinasyonu þart.
+
+Teslimat Beklentisi
+-------------------
+- Tüm yeni dosyalar oluþturulmuþ, IPC ve UI entegrasyonu tamamlanmýþ olmalý.
+- README veya ek dokümantasyon gerekirse kýsa “Kullanýcý ve lisans kurulumu” bölümü eklenmeli.
+- Üretim build’i (`electron-builder`) lisans kontrolüyle açýlmalý.
+
