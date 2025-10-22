@@ -11309,16 +11309,26 @@ async function loadAutomaticExamAverages() {
                     );
                     
                     if (!studentData) {
+                        // YENİ YAPI: Dinamik kazanım sütunları
                         studentData = {
                             ogrenciId: studentId,
                             ad: student.name,
-                            temaBasari: '',
-                            yazili: '',
                             denemeOrt: '',
                             etutSayisi: '',
                             odevTamamlama: '',
                             genelBasari: 0
                         };
+
+                        // Dinamik kazanım alanlarını ekle (kazanimCount varsa kullan, yoksa 3 varsayılan)
+                        const kazanimCount = currentKazanimCount || 3;
+                        for (let i = 1; i <= kazanimCount; i++) {
+                            studentData[`kazanim${i}`] = '';
+                        }
+
+                        // Yazılı 1 ve 2
+                        studentData.yazili1 = '';
+                        studentData.yazili2 = '';
+
                         currentPerformanceData[ders].push(studentData);
                     }
                     
