@@ -3637,23 +3637,26 @@
       }
     }
 
-    // SEVİYE 4: Benzerlik Algoritması (Levenshtein Distance)
+    // SEVİYE 4: Benzerlik Algoritması (Fuzzy Matching - Levenshtein Distance)
     let bestMatch = null;
     let bestScore = 0;
-    
+
     allStudents.forEach(s => {
       const similarity = calculateSimilarity(csvNameLower, s.name.toLowerCase());
-      if (similarity > bestScore && similarity > 0.8) { // %80 benzerlik eşiği
+      // similarity 0-100 arası değer döndürüyor, 0-1 arasına çevirmeliyiz
+      const normalizedSimilarity = similarity / 100;
+
+      if (normalizedSimilarity > bestScore && normalizedSimilarity > 0.7) { // %70 benzerlik eşiği (düşürüldü)
         bestMatch = s;
-        bestScore = similarity;
+        bestScore = normalizedSimilarity;
       }
     });
-    
+
     if (bestMatch) {
-      return { 
-        student: bestMatch, 
-        method: `Benzerlik eşleşmesi (${(bestScore * 100).toFixed(1)}%)`, 
-        confidence: bestScore 
+      return {
+        student: bestMatch,
+        method: `Fuzzy matching`,
+        confidence: bestScore
       };
     }
 
@@ -4230,25 +4233,204 @@
       };
     });
   }
-  
+
+  // ========================================
+  // FAZ 1-3: CSV IMPORT GELİŞMELERİ
+  // ========================================
+
+  // FAZ 1.1: DUPLICATE KONTROL FONKSİYONLARI
+  function isDuplicateExam(profile, examName, examDate) {
+    return allExams.some(exam =>
+      exam.profile === profile &&
+      exam.name === examName &&
+      exam.date === examDate
+    );
+  }
+
+  // Duplicate handling seçenekleri
+  let duplicateHandlingMode = 'skip'; // 'ask', 'skip', 'update', 'add-all'
+  const csvDuplicateStats = {
+    found: 0,
+    skipped: 0,
+    updated: 0,
+    addedAnyway: 0
+  };
+
+  // FAZ 1.2: SKOR VALIDASYON FONKSİYONLARI
+  function validateScores(subjectKey, correct, incorrect, blank, studentName) {
+    const errors = [];
+    const warnings = [];
+
+    // Toplam soru sayısı kontrolü
+    const total = correct + incorrect + blank;
+    const expectedTotal = questionCounts[subjectKey];
+
+    if (expectedTotal && total !== expectedTotal) {
+      errors.push(`Toplam soru sayısı ${expectedTotal} olmalı, ${total} bulundu`);
+    }
+
+    // Negatif değer kontrolü
+    if (correct < 0 || incorrect < 0 || blank < 0) {
+      errors.push('Negatif değer olamaz');
+    }
+
+    // Minimum skor kontrolü
+    if (correct === 0 && incorrect === 0 && blank === expectedTotal) {
+      warnings.push('Tüm sorular boş');
+    }
+
+    // Mantıksız skor kontrolü
+    if (expectedTotal && (correct > expectedTotal || incorrect > expectedTotal || blank > expectedTotal)) {
+      errors.push('Soru sayısı maksimumu aşıyor');
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      warnings,
+      total,
+      expectedTotal
+    };
+  }
+
+  function validateLGSScore(lgsScore) {
+    if (lgsScore < 0 || lgsScore > 560) {
+      return {
+        valid: false,
+        message: `LGS puanı 0-560 arasında olmalı (${lgsScore})`
+      };
+    }
+
+    if (lgsScore > 0 && lgsScore < 50) {
+      return {
+        valid: true,
+        warning: `Çok düşük LGS puanı (${lgsScore})`
+      };
+    }
+
+    return { valid: true };
+  }
+
+  // FAZ 1.3: GELİŞMİŞ İSİM TEMİZLEME FONKSİYONLARI
+  function cleanStudentName(name) {
+    if (!name) return '';
+
+    let cleaned = name.trim();
+
+    // Fazla boşlukları tek boşluğa düşür
+    cleaned = cleaned.replace(/\s+/g, ' ');
+
+    // Birleşik isimleri ayır (örn: İDİLGÜLER → İDİL GÜLER)
+    cleaned = splitJoinedNames(cleaned);
+
+    return cleaned;
+  }
+
+  function splitJoinedNames(name) {
+    // Eğer boşluk yoksa ve 2'den fazla büyük harf varsa ayır
+    if (!name.includes(' ') && name.length > 5) {
+      // Büyük harfleri bul
+      const upperCasePositions = [];
+      for (let i = 0; i < name.length; i++) {
+        if (name[i] === name[i].toUpperCase() && name[i] !== name[i].toLowerCase()) {
+          upperCasePositions.push(i);
+        }
+      }
+
+      // 2+ büyük harf varsa ve ortada bir yerde ise ayır
+      if (upperCasePositions.length >= 2 && upperCasePositions[1] > 2) {
+        const splitPos = upperCasePositions[1];
+        return name.slice(0, splitPos) + ' ' + name.slice(splitPos);
+      }
+    }
+
+    return name;
+  }
+
+  // FAZ 2.1: FUZZY MATCHING (Levenshtein Distance)
+  function levenshteinDistance(str1, str2) {
+    const len1 = str1.length;
+    const len2 = str2.length;
+    const matrix = [];
+
+    for (let i = 0; i <= len1; i++) {
+      matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= len2; j++) {
+      matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= len1; i++) {
+      for (let j = 1; j <= len2; j++) {
+        if (str1.charAt(i - 1) === str2.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1, // substitution
+            matrix[i][j - 1] + 1,     // insertion
+            matrix[i - 1][j] + 1      // deletion
+          );
+        }
+      }
+    }
+
+    return matrix[len1][len2];
+  }
+
+  function calculateSimilarity(str1, str2) {
+    const distance = levenshteinDistance(str1.toLowerCase(), str2.toLowerCase());
+    const maxLen = Math.max(str1.length, str2.length);
+    return (1 - distance / maxLen) * 100; // 0-100 arası similarity score
+  }
+
+  // CSV Import için validasyon ve istatistikler
+  const csvImportStats = {
+    totalRows: 0,
+    processed: 0,
+    imported: 0,
+    errors: 0,
+    duplicates: 0,
+    validationErrors: 0,
+    matchingErrors: 0,
+    warnings: []
+  };
+
   async function importCSVData(csvData) {
     console.log(`?? DEBUG: importCSVData başladı - ${csvData.length} satır`);
     try {
       let imported = 0;
       let errors = 0;
       
+      // İstatistikleri sıfırla
+      csvImportStats.totalRows = csvData.length;
+      csvImportStats.processed = 0;
+      csvImportStats.imported = 0;
+      csvImportStats.errors = 0;
+      csvImportStats.duplicates = 0;
+      csvImportStats.validationErrors = 0;
+      csvImportStats.matchingErrors = 0;
+      csvImportStats.warnings = [];
+
       for (const row of csvData) {
         try {
-          // Öğrenci adını kontrol et
-          const studentName = row['Öğrenci Adı'];
+          csvImportStats.processed++;
+
+          // Öğrenci adını kontrol et ve temizle
+          let studentName = row['Öğrenci Adı'];
           if (!studentName) {
             errors++;
+            csvImportStats.errors++;
             continue;
           }
-          
-          // Gelişmiş öğrenci eşleştirme sistemi
+
+          // FAZ 1.3: İsim temizleme
+          studentName = cleanStudentName(studentName);
+          console.log(`🧹 Temizlenmiş isim: "${row['Öğrenci Adı']}" → "${studentName}"`);
+
+          // Gelişmiş öğrenci eşleştirme sistemi (FAZ 2.1 ile iyileştirilmiş)
           const matchResult = findStudentAdvanced(
-            studentName, 
+            studentName,
             row['Öğrenci No'] || null,
             allStudents
           );
@@ -4314,8 +4496,20 @@
             date: row['Sınav Tarihi'] || new Date().toISOString().split('T')[0],
             courses: {}
           };
-          
+
+          // FAZ 1.1: Duplicate kontrolü
+          if (isDuplicateExam(examData.profile, examData.name, examData.date)) {
+            console.warn(`🔁 DUPLICATE: ${examData.profile} - ${examData.name} (${examData.date})`);
+            csvImportStats.duplicates++;
+            csvDuplicateStats.found++;
+            csvDuplicateStats.skipped++;
+            errors++;
+            csvImportStats.errors++;
+            continue; // Bu sınavı atla
+          }
+
           // Ders verilerini ekle
+          let hasValidationErrors = false;
           const subjects = [
             { key: 'turkce', prefix: 'Türkçe' },
             { key: 'matematik', prefix: 'Matematik' },
@@ -4329,7 +4523,26 @@
             const correct = parseInt(row[`${subject.prefix}_Doğru`]) || 0;
             const incorrect = parseInt(row[`${subject.prefix}_Yanlış`]) || 0;
             const blank = parseInt(row[`${subject.prefix}_Boş`]) || 0;
-            
+
+            // FAZ 1.2: Skor validasyonu
+            const validation = validateScores(subject.key, correct, incorrect, blank, student.name);
+
+            if (!validation.valid) {
+              console.error(`❌ VALIDATION ERROR: ${student.name} - ${subject.prefix}:`, validation.errors);
+              validation.errors.forEach(err => {
+                csvImportStats.warnings.push(`${student.name} - ${subject.prefix}: ${err}`);
+              });
+              csvImportStats.validationErrors++;
+              hasValidationErrors = true;
+            }
+
+            if (validation.warnings.length > 0) {
+              console.warn(`⚠️ VALIDATION WARNING: ${student.name} - ${subject.prefix}:`, validation.warnings);
+              validation.warnings.forEach(warn => {
+                csvImportStats.warnings.push(`${student.name} - ${subject.prefix}: ${warn}`);
+              });
+            }
+
         let csvOutcomes = row[`${subject.prefix}_Yanlış_Kazanımlar`] || 
                           row[`${subject.prefix}_Yanlis_Kazanimlar`] ||
                           row[`${subject.prefix}_Kazanım`] || 
@@ -4372,17 +4585,40 @@
               incorrectOutcomes: processedOutcomes
             };
           }
-          
+
+          // Eğer validasyon hataları varsa bu sınavı atla
+          if (hasValidationErrors) {
+            console.warn(`⚠️ Sınav atlandı (validasyon hatası): ${student.name} - ${examData.name}`);
+            errors++;
+            continue;
+          }
+
           // LGS Puanını ekle (CSV'den oku, yoksa hesapla)
-          const lgsScore = row['LGS_Puanı'] 
-            ? parseFloat(row['LGS_Puanı']) 
+          const lgsScore = row['LGS_Puanı']
+            ? parseFloat(row['LGS_Puanı'])
             : parseFloat(calculateLgsScore(examData));
-          
+
+          // FAZ 1.2: LGS puan validasyonu
+          const lgsValidation = validateLGSScore(lgsScore);
+          if (!lgsValidation.valid) {
+            console.error(`❌ LGS PUAN HATASI: ${student.name} - ${lgsValidation.message}`);
+            csvImportStats.warnings.push(`${student.name}: ${lgsValidation.message}`);
+            csvImportStats.validationErrors++;
+            errors++;
+            continue;
+          }
+
+          if (lgsValidation.warning) {
+            console.warn(`⚠️ LGS PUAN UYARI: ${student.name} - ${lgsValidation.warning}`);
+            csvImportStats.warnings.push(`${student.name}: ${lgsValidation.warning}`);
+          }
+
           examData.lgsScore = lgsScore;
-          
+
           // Sınavı kaydet
           allExams.push(examData);
           imported++;
+          csvImportStats.imported++;
           
         } catch (rowError) {
           console.error('Satır işleme hatası:', rowError);
@@ -4404,13 +4640,37 @@
         return { success: false, message: 'Bu işlem için müdür yetkisi gereklidir.' };
       }
       
-      // Eşleştirme istatistiklerini logla
-      console.log('\n?? CSV Import İstatistikleri:');
-      console.log(`? Başarıyla import edilen: ${imported} sınav`);
-      console.log(`? Hatalı satır: ${errors} satır`);
-      console.log(`?? Başarı oranı: ${((imported / (imported + errors)) * 100).toFixed(1)}%`);
-      
-      return { success: true, imported, errors };
+      // Detaylı import istatistiklerini logla
+      console.log('\n========================================');
+      console.log('CSV IMPORT ISTATISTIKLERI');
+      console.log('========================================');
+      console.log(`Toplam satir: ${csvImportStats.totalRows}`);
+      console.log(`Islenen satir: ${csvImportStats.processed}`);
+      console.log(`Basariyla import edilen: ${csvImportStats.imported} sinav`);
+      console.log(`Hatali satir: ${csvImportStats.errors} satir`);
+      console.log(`Duplicate sinavlar: ${csvImportStats.duplicates} (atlandi: ${csvDuplicateStats.skipped})`);
+      console.log(`Validasyon hatalari: ${csvImportStats.validationErrors}`);
+      console.log(`Eslestirme hatalari: ${csvImportStats.matchingErrors}`);
+      console.log(`Basari orani: ${((csvImportStats.imported / csvImportStats.totalRows) * 100).toFixed(1)}%`);
+
+      if (csvImportStats.warnings.length > 0) {
+        console.log(`\nUYARILAR (${csvImportStats.warnings.length} adet):`);
+        csvImportStats.warnings.slice(0, 10).forEach((warn, i) => {
+          console.log(`  ${i + 1}. ${warn}`);
+        });
+        if (csvImportStats.warnings.length > 10) {
+          console.log(`  ... ve ${csvImportStats.warnings.length - 10} uyari daha`);
+        }
+      }
+
+      console.log('========================================\n');
+
+      return {
+        success: true,
+        imported: csvImportStats.imported,
+        errors: csvImportStats.errors,
+        stats: csvImportStats
+      };
       
     } catch (error) {
       return { success: false, message: error.message };
