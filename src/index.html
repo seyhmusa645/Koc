@@ -752,20 +752,59 @@
 
                 <!-- Sınıf Karşılaştırması -->
                 <div class="analysis-card class-comparison" id="class-comparison" style="display: none;">
-                    <h3>⚖️ Sınıf Karşılaştırması</h3>
+                    <h3>⚖️ Sınıf Karşılaştırması ve Deneme Analizi</h3>
+
                     <div class="comparison-container">
-                        <div class="comparison-selector">
-                            <select id="compare-class1" class="class-select">
-                                <option value="">1. Sınıf Seçin</option>
-                            </select>
-                            <span class="vs">VS</span>
-                            <select id="compare-class2" class="class-select">
-                                <option value="">2. Sınıf Seçin</option>
-                            </select>
-                            <button id="compare-classes-btn" class="btn-secondary">Karşılaştır</button>
+                        <!-- Sınıf Seçim Paneli -->
+                        <div class="comparison-selector-new">
+                            <div class="class-selection-header">
+                                <p class="selection-info">
+                                    📌 <strong>Tek sınıf</strong> seçerseniz: O sınıfın deneme analizi<br>
+                                    📊 <strong>İki sınıf</strong> seçerseniz: Karşılaştırmalı analiz
+                                </p>
+                            </div>
+
+                            <div class="class-checkbox-container" id="class-checkbox-container">
+                                <!-- Sınıflar dinamik olarak yüklenecek -->
+                            </div>
+
+                            <div class="comparison-controls">
+                                <div class="exam-range-selector">
+                                    <label for="exam-range">Deneme Aralığı:</label>
+                                    <select id="exam-range" class="class-dropdown">
+                                        <option value="3">Son 3 Deneme</option>
+                                        <option value="5">Son 5 Deneme</option>
+                                        <option value="10">Son 10 Deneme</option>
+                                        <option value="all">Tüm Denemeler</option>
+                                    </select>
+                                </div>
+                                <button id="analyze-classes-btn" class="btn-primary" disabled>
+                                    📊 Analiz Yap
+                                </button>
+                            </div>
                         </div>
-                        <div class="comparison-results" id="comparison-results">
-                            <!-- Karşılaştırma sonuçları buraya gelecek -->
+
+                        <!-- Grafik ve Sonuçlar Alanı -->
+                        <div class="comparison-results-new" id="comparison-results-new" style="display: none;">
+                            <!-- Grafik Canvas -->
+                            <div class="chart-section">
+                                <canvas id="comparison-chart" style="max-height: 400px;"></canvas>
+                            </div>
+
+                            <!-- Rapor Alanı -->
+                            <div class="comparison-report" id="comparison-report">
+                                <!-- Rapor buraya gelecek -->
+                            </div>
+
+                            <!-- Export Butonları -->
+                            <div class="export-buttons">
+                                <button id="export-comparison-pdf" class="btn-secondary">
+                                    📄 PDF Kaydet
+                                </button>
+                                <button id="export-comparison-png" class="btn-secondary">
+                                    🖼️ PNG Kaydet
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

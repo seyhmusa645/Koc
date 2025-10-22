@@ -6819,6 +6819,9 @@
   // Sınıf karşılaştırmasını göster
   function showClassComparison() {
     document.getElementById('class-comparison').style.display = 'block';
+
+    // Yeni karşılaştırma modülü için checkbox'ları yükle
+    loadClassCheckboxes();
   }
 
   // Sınıf karşılaştırma butonu
@@ -11912,6 +11915,678 @@ async function exportToExcel() {
   }
 }
 
+// ===================================
+// YENİ: Sınıf Karşılaştırma Modülü
+// ===================================
+
+let comparisonChart = null; // Chart.js instance
+let selectedClassesForComparison = []; // Seçili sınıflar
+
+// Sınıf checkbox'larını yükle
+function loadClassCheckboxes() {
+  console.log('📋 Sınıf checkbox\'ları yükleniyor...');
+
+  const container = document.getElementById('class-checkbox-container');
+  if (!container) {
+    console.error('❌ class-checkbox-container bulunamadı');
+    return;
+  }
+
+  // Tüm öğrencileri al
+  const students = getStudents();
+
+  // Benzersiz sınıfları bul (5A, 5B, 6A vb.)
+  const uniqueClasses = [...new Set(students.map(s => `${s.grade}${s.class}`))].sort();
+
+  console.log(`✅ ${uniqueClasses.length} benzersiz sınıf bulundu:`, uniqueClasses);
+
+  // Checkbox'ları oluştur
+  container.innerHTML = uniqueClasses.map(className => `
+    <div class="class-checkbox-item" data-class="${className}">
+      <input type="checkbox" id="class-${className}" value="${className}">
+      <label for="class-${className}">${className}</label>
+    </div>
+  `).join('');
+
+  // Event listener'ları ekle
+  container.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', handleClassCheckboxChange);
+  });
+}
+
+// Checkbox değişikliğini handle et
+function handleClassCheckboxChange(event) {
+  const checkbox = event.target;
+  const className = checkbox.value;
+  const item = checkbox.closest('.class-checkbox-item');
+
+  if (checkbox.checked) {
+    // Maksimum 2 sınıf seçilebilir
+    if (selectedClassesForComparison.length >= 2) {
+      checkbox.checked = false;
+      showToast('Uyarı', 'En fazla 2 sınıf seçebilirsiniz', 'warning');
+      return;
+    }
+
+    selectedClassesForComparison.push(className);
+    item.classList.add('selected');
+  } else {
+    selectedClassesForComparison = selectedClassesForComparison.filter(c => c !== className);
+    item.classList.remove('selected');
+  }
+
+  // Analiz butonunu aktif/pasif yap
+  const analyzeBtn = document.getElementById('analyze-classes-btn');
+  if (analyzeBtn) {
+    analyzeBtn.disabled = selectedClassesForComparison.length === 0;
+  }
+
+  console.log('Seçili sınıflar:', selectedClassesForComparison);
+}
+
+// Analiz yap butonu event listener'ı
+document.addEventListener('DOMContentLoaded', function() {
+  const analyzeBtn = document.getElementById('analyze-classes-btn');
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', performClassAnalysis);
+  }
+
+  // Export butonları
+  const exportPdfBtn = document.getElementById('export-comparison-pdf');
+  if (exportPdfBtn) {
+    exportPdfBtn.addEventListener('click', exportComparisonPDF);
+  }
+
+  const exportPngBtn = document.getElementById('export-comparison-png');
+  if (exportPngBtn) {
+    exportPngBtn.addEventListener('click', exportComparisonPNG);
+  }
+});
+
+// Ana analiz fonksiyonu
+async function performClassAnalysis() {
+  if (selectedClassesForComparison.length === 0) {
+    showToast('Hata', 'Lütfen en az bir sınıf seçin', 'error');
+    return;
+  }
+
+  console.log('🔍 Analiz başlatılıyor...', selectedClassesForComparison);
+
+  // Deneme aralığını al
+  const examRange = document.getElementById('exam-range')?.value || '3';
+
+  // Sınav verilerini yükle
+  const examData = await window.electronAPI.loadData();
+  if (!examData?.value) {
+    showToast('Hata', 'Sınav verisi bulunamadı', 'error');
+    return;
+  }
+
+  if (selectedClassesForComparison.length === 1) {
+    // TEK SINIF ANALİZİ
+    analyzeSingleClass(selectedClassesForComparison[0], examData.value, examRange);
+  } else if (selectedClassesForComparison.length === 2) {
+    // İKİ SINIF KARŞILAŞTIRMASI
+    compareTwoClasses(selectedClassesForComparison[0], selectedClassesForComparison[1], examData.value, examRange);
+  }
+
+  // Sonuç alanını göster
+  const resultsContainer = document.getElementById('comparison-results-new');
+  if (resultsContainer) {
+    resultsContainer.style.display = 'block';
+  }
+}
+
+// Tek sınıf analizi
+function analyzeSingleClass(className, examData, examRange) {
+  console.log(`📊 Tek sınıf analizi: ${className}`);
+
+  // Sınıfın öğrencilerini al
+  const students = getStudents();
+  const classStudents = students.filter(s => `${s.grade}${s.class}` === className);
+
+  if (classStudents.length === 0) {
+    showToast('Hata', 'Bu sınıfta öğrenci bulunamadı', 'error');
+    return;
+  }
+
+  // Dersler
+  const subjects = ['Türkçe', 'Matematik', 'Fen', 'Sosyal', 'İngilizce', 'Din Kültürü'];
+  const subjectAverages = {};
+  const subjectData = {};
+
+  // Her ders için ortalama hesapla
+  subjects.forEach(subject => {
+    let totalNet = 0;
+    let count = 0;
+    let studentCount = 0;
+    const studentNets = [];
+
+    classStudents.forEach(student => {
+      const studentExams = examData.filter(exam => exam.profile === student.name);
+
+      // Deneme aralığına göre filtrele
+      const sortedExams = studentExams
+        .sort((a, b) => new Date(b.date || b.tarih || 0) - new Date(a.date || a.tarih || 0));
+
+      const selectedExams = examRange === 'all' ? sortedExams : sortedExams.slice(0, parseInt(examRange));
+
+      let studentTotal = 0;
+      let studentExamCount = 0;
+
+      selectedExams.forEach(exam => {
+        const courses = exam.courses || {};
+        const subjectData = courses[subject] || courses[subject.toLowerCase()] || courses[subject.toUpperCase()];
+
+        if (subjectData?.net != null) {
+          totalNet += subjectData.net;
+          studentTotal += subjectData.net;
+          count++;
+          studentExamCount++;
+        }
+      });
+
+      if (studentExamCount > 0) {
+        studentCount++;
+        studentNets.push(studentTotal / studentExamCount);
+      }
+    });
+
+    if (count > 0) {
+      subjectAverages[subject] = Math.round((totalNet / count) * 10) / 10;
+      subjectData[subject] = {
+        average: subjectAverages[subject],
+        studentCount: studentCount,
+        examCount: count,
+        studentNets: studentNets
+      };
+    } else {
+      subjectAverages[subject] = 0;
+      subjectData[subject] = {
+        average: 0,
+        studentCount: 0,
+        examCount: 0,
+        studentNets: []
+      };
+    }
+  });
+
+  console.log('Ders ortalamaları:', subjectAverages);
+
+  // Grafik oluştur
+  createSingleClassChart(className, subjects, subjectAverages);
+
+  // Rapor oluştur
+  generateSingleClassReport(className, classStudents.length, subjectData, examRange);
+}
+
+// Tek sınıf için grafik
+function createSingleClassChart(className, subjects, averages) {
+  const canvas = document.getElementById('comparison-chart');
+  if (!canvas) return;
+
+  // Eski grafiği temizle
+  if (comparisonChart) {
+    comparisonChart.destroy();
+  }
+
+  const ctx = canvas.getContext('2d');
+
+  comparisonChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: subjects,
+      datasets: [{
+        label: `${className} Sınıfı Ortalama Net`,
+        data: subjects.map(s => averages[s] || 0),
+        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+        borderColor: 'rgba(102, 126, 234, 1)',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            font: { size: 14, weight: 'bold' }
+          }
+        },
+        title: {
+          display: true,
+          text: `${className} Sınıfı Deneme Ortalamaları`,
+          font: { size: 18, weight: 'bold' }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `Ortalama: ${context.parsed.y.toFixed(1)} net`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Net Sayısı',
+            font: { size: 14, weight: 'bold' }
+          },
+          grid: { color: 'rgba(0, 0, 0, 0.1)' }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Dersler',
+            font: { size: 14, weight: 'bold' }
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// Tek sınıf raporu
+function generateSingleClassReport(className, studentCount, subjectData, examRange) {
+  const reportContainer = document.getElementById('comparison-report');
+  if (!reportContainer) return;
+
+  const subjects = Object.keys(subjectData);
+
+  // En iyi ve en zayıf dersleri bul
+  const sortedSubjects = subjects.sort((a, b) => subjectData[b].average - subjectData[a].average);
+  const bestSubject = sortedSubjects[0];
+  const worstSubject = sortedSubjects[sortedSubjects.length - 1];
+
+  // Genel ortalama
+  const totalAverage = subjects.reduce((sum, s) => sum + subjectData[s].average, 0) / subjects.length;
+
+  const rangeText = examRange === 'all' ? 'Tüm denemeler' : `Son ${examRange} deneme`;
+
+  reportContainer.innerHTML = `
+    <h3 class="report-title">📊 ${className} Sınıfı Analiz Raporu</h3>
+
+    <div class="report-section">
+      <h4>📈 Genel Durum</h4>
+      <div class="report-stats">
+        <div class="report-stat-item">
+          <div class="report-stat-label">Öğrenci Sayısı</div>
+          <div class="report-stat-value">${studentCount}</div>
+        </div>
+        <div class="report-stat-item">
+          <div class="report-stat-label">Genel Ortalama</div>
+          <div class="report-stat-value">${totalAverage.toFixed(1)}</div>
+          <div class="report-stat-detail">net</div>
+        </div>
+        <div class="report-stat-item">
+          <div class="report-stat-label">Analiz Aralığı</div>
+          <div class="report-stat-value" style="font-size: 16px;">${rangeText}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h4>🏆 En Başarılı Ders</h4>
+      <p>
+        <span class="comparison-badge badge-winner">${bestSubject}</span>
+        <strong>${subjectData[bestSubject].average.toFixed(1)} net</strong> ortalamayla sınıfın en güçlü dersi.
+        ${studentCount} öğrenciden ${subjectData[bestSubject].studentCount} öğrenci bu derste deneme çözdü.
+      </p>
+    </div>
+
+    <div class="report-section">
+      <h4>⚠️ Gelişim Gereken Ders</h4>
+      <p>
+        <span class="comparison-badge badge-loser">${worstSubject}</span>
+        <strong>${subjectData[worstSubject].average.toFixed(1)} net</strong> ortalamayla dikkat edilmesi gereken ders.
+        Bu derste ek çalışma ve etüt programı düzenlenebilir.
+      </p>
+    </div>
+
+    <div class="report-section">
+      <h4>💡 Öğretmen Önerileri</h4>
+      <ul class="suggestions-list">
+        ${generateSingleClassSuggestions(className, subjectData, bestSubject, worstSubject)}
+      </ul>
+    </div>
+  `;
+}
+
+// Tek sınıf için öneriler
+function generateSingleClassSuggestions(className, subjectData, bestSubject, worstSubject) {
+  const suggestions = [];
+
+  // Öneri 1: En zayıf ders için
+  if (subjectData[worstSubject].average < 5) {
+    suggestions.push(`<li><strong>${worstSubject}</strong> dersinde sınıf ortalaması 5'in altında. Acil müdahale gerekiyor! Haftalık ek etüt düzenlenebilir.</li>`);
+  } else if (subjectData[worstSubject].average < 7) {
+    suggestions.push(`<li><strong>${worstSubject}</strong> dersinde performans ortalamanın altında. Konular tekrar edilmeli, eksik kazanımlar belirlenmeli.</li>`);
+  }
+
+  // Öneri 2: En iyi ders için
+  if (subjectData[bestSubject].average > 8) {
+    suggestions.push(`<li><strong>${bestSubject}</strong> dersinde sınıf çok başarılı! Bu motivasyonu korumak için zorlayıcı sorular ve olimpiyat çalışmaları yapılabilir.</li>`);
+  }
+
+  // Öneri 3: Katılım oranı düşük dersler
+  Object.keys(subjectData).forEach(subject => {
+    const participation = (subjectData[subject].studentCount / subjectData[subject].examCount) * 100;
+    if (participation < 50) {
+      suggestions.push(`<li><strong>${subject}</strong> dersinde öğrenci katılımı düşük (${participation.toFixed(0)}%). Deneme çözme alışkanlığı kazandırılmalı.</li>`);
+    }
+  });
+
+  // Öneri 4: Genel
+  suggestions.push(`<li>Haftalık sınıf toplantılarında <strong>${worstSubject}</strong> dersine öncelik verilebilir.</li>`);
+
+  return suggestions.join('');
+}
+
+// İki sınıf karşılaştırması
+function compareTwoClasses(class1, class2, examData, examRange) {
+  console.log(`⚖️ İki sınıf karşılaştırması: ${class1} vs ${class2}`);
+
+  const students = getStudents();
+  const class1Students = students.filter(s => `${s.grade}${s.class}` === class1);
+  const class2Students = students.filter(s => `${s.grade}${s.class}` === class2);
+
+  if (class1Students.length === 0 || class2Students.length === 0) {
+    showToast('Hata', 'Seçilen sınıflarda öğrenci bulunamadı', 'error');
+    return;
+  }
+
+  const subjects = ['Türkçe', 'Matematik', 'Fen', 'Sosyal', 'İngilizce', 'Din Kültürü'];
+
+  // Her sınıf için ortalamaları hesapla
+  const class1Data = calculateClassAverages(class1Students, examData, subjects, examRange);
+  const class2Data = calculateClassAverages(class2Students, examData, subjects, examRange);
+
+  // Grafik oluştur
+  createComparisonChart(class1, class2, subjects, class1Data, class2Data);
+
+  // Karşılaştırma raporu
+  generateComparisonReport(class1, class2, class1Students.length, class2Students.length, subjects, class1Data, class2Data, examRange);
+}
+
+// Sınıf ortalamalarını hesapla
+function calculateClassAverages(students, examData, subjects, examRange) {
+  const averages = {};
+
+  subjects.forEach(subject => {
+    let totalNet = 0;
+    let count = 0;
+
+    students.forEach(student => {
+      const studentExams = examData.filter(exam => exam.profile === student.name);
+      const sortedExams = studentExams.sort((a, b) => new Date(b.date || b.tarih || 0) - new Date(a.date || a.tarih || 0));
+      const selectedExams = examRange === 'all' ? sortedExams : sortedExams.slice(0, parseInt(examRange));
+
+      selectedExams.forEach(exam => {
+        const courses = exam.courses || {};
+        const subjectData = courses[subject] || courses[subject.toLowerCase()] || courses[subject.toUpperCase()];
+
+        if (subjectData?.net != null) {
+          totalNet += subjectData.net;
+          count++;
+        }
+      });
+    });
+
+    averages[subject] = count > 0 ? Math.round((totalNet / count) * 10) / 10 : 0;
+  });
+
+  return averages;
+}
+
+// Karşılaştırmalı grafik
+function createComparisonChart(class1, class2, subjects, class1Data, class2Data) {
+  const canvas = document.getElementById('comparison-chart');
+  if (!canvas) return;
+
+  if (comparisonChart) {
+    comparisonChart.destroy();
+  }
+
+  const ctx = canvas.getContext('2d');
+
+  comparisonChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: subjects,
+      datasets: [
+        {
+          label: `${class1} Sınıfı`,
+          data: subjects.map(s => class1Data[s] || 0),
+          backgroundColor: 'rgba(102, 126, 234, 0.8)',
+          borderColor: 'rgba(102, 126, 234, 1)',
+          borderWidth: 2,
+          borderRadius: 8
+        },
+        {
+          label: `${class2} Sınıfı`,
+          data: subjects.map(s => class2Data[s] || 0),
+          backgroundColor: 'rgba(40, 167, 69, 0.8)',
+          borderColor: 'rgba(40, 167, 69, 1)',
+          borderWidth: 2,
+          borderRadius: 8
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            font: { size: 14, weight: 'bold' }
+          }
+        },
+        title: {
+          display: true,
+          text: `${class1} vs ${class2} - Deneme Ortalamaları Karşılaştırması`,
+          font: { size: 18, weight: 'bold' }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.parsed.y.toFixed(1)} net`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Net Sayısı',
+            font: { size: 14, weight: 'bold' }
+          },
+          grid: { color: 'rgba(0, 0, 0, 0.1)' }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Dersler',
+            font: { size: 14, weight: 'bold' }
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// Karşılaştırma raporu
+function generateComparisonReport(class1, class2, class1Count, class2Count, subjects, class1Data, class2Data, examRange) {
+  const reportContainer = document.getElementById('comparison-report');
+  if (!reportContainer) return;
+
+  // Her ders için kazananı bul
+  const subjectWinners = {};
+  subjects.forEach(subject => {
+    const diff = class1Data[subject] - class2Data[subject];
+    if (Math.abs(diff) < 0.5) {
+      subjectWinners[subject] = 'equal';
+    } else if (diff > 0) {
+      subjectWinners[subject] = class1;
+    } else {
+      subjectWinners[subject] = class2;
+    }
+  });
+
+  // Genel kazananı bul
+  const class1Avg = subjects.reduce((sum, s) => sum + class1Data[s], 0) / subjects.length;
+  const class2Avg = subjects.reduce((sum, s) => sum + class2Data[s], 0) / subjects.length;
+  const overallWinner = class1Avg > class2Avg ? class1 : (class2Avg > class1Avg ? class2 : 'equal');
+
+  const class1Wins = Object.values(subjectWinners).filter(w => w === class1).length;
+  const class2Wins = Object.values(subjectWinners).filter(w => w === class2).length;
+  const ties = Object.values(subjectWinners).filter(w => w === 'equal').length;
+
+  const rangeText = examRange === 'all' ? 'Tüm denemeler' : `Son ${examRange} deneme`;
+
+  reportContainer.innerHTML = `
+    <h3 class="report-title">⚖️ ${class1} vs ${class2} Karşılaştırma Raporu</h3>
+
+    <div class="report-section">
+      <h4>🏆 Genel Sonuç</h4>
+      ${overallWinner === 'equal' ?
+        `<p><span class="comparison-badge badge-equal">BERABERE</span> İki sınıf da genel ortalamalarda eşit seviyede!</p>` :
+        `<p><span class="comparison-badge badge-winner">${overallWinner}</span> sınıfı <strong>${Math.abs(class1Avg - class2Avg).toFixed(1)} net</strong> farkla önde!</p>`
+      }
+      <div class="report-stats">
+        <div class="report-stat-item">
+          <div class="report-stat-label">${class1} Öğrenci</div>
+          <div class="report-stat-value">${class1Count}</div>
+        </div>
+        <div class="report-stat-item">
+          <div class="report-stat-label">${class1} Ortalama</div>
+          <div class="report-stat-value">${class1Avg.toFixed(1)}</div>
+          <div class="report-stat-detail">net</div>
+        </div>
+        <div class="report-stat-item">
+          <div class="report-stat-label">${class2} Öğrenci</div>
+          <div class="report-stat-value">${class2Count}</div>
+        </div>
+        <div class="report-stat-item">
+          <div class="report-stat-label">${class2} Ortalama</div>
+          <div class="report-stat-value">${class2Avg.toFixed(1)}</div>
+          <div class="report-stat-detail">net</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h4>📊 Ders Bazında Sonuçlar</h4>
+      <p><strong>${class1}:</strong> ${class1Wins} ders kazandı | <strong>${class2}:</strong> ${class2Wins} ders kazandı | <strong>Berabere:</strong> ${ties} ders</p>
+      <div style="margin-top: 15px;">
+        ${subjects.map(subject => {
+          const winner = subjectWinners[subject];
+          const diff = Math.abs(class1Data[subject] - class2Data[subject]);
+          if (winner === 'equal') {
+            return `<span class="comparison-badge badge-equal">${subject}: Berabere (${class1Data[subject].toFixed(1)})</span>`;
+          } else if (winner === class1) {
+            return `<span class="comparison-badge badge-winner">${subject}: ${class1} (+${diff.toFixed(1)})</span>`;
+          } else {
+            return `<span class="comparison-badge badge-loser">${subject}: ${class2} (+${diff.toFixed(1)})</span>`;
+          }
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h4>💡 Öğretmen Önerileri</h4>
+      <ul class="suggestions-list">
+        ${generateComparisonSuggestions(class1, class2, subjects, class1Data, class2Data, subjectWinners)}
+      </ul>
+    </div>
+
+    <div class="report-section">
+      <h4>📅 Analiz Detayları</h4>
+      <p>Bu rapor <strong>${rangeText}</strong> baz alınarak hazırlanmıştır.</p>
+    </div>
+  `;
+}
+
+// Karşılaştırma önerileri
+function generateComparisonSuggestions(class1, class2, subjects, class1Data, class2Data, subjectWinners) {
+  const suggestions = [];
+
+  // Öneri 1: En büyük fark
+  let maxDiff = 0;
+  let maxDiffSubject = '';
+  let maxDiffWinner = '';
+
+  subjects.forEach(subject => {
+    const diff = Math.abs(class1Data[subject] - class2Data[subject]);
+    if (diff > maxDiff) {
+      maxDiff = diff;
+      maxDiffSubject = subject;
+      maxDiffWinner = class1Data[subject] > class2Data[subject] ? class1 : class2;
+    }
+  });
+
+  if (maxDiff > 2) {
+    const loser = maxDiffWinner === class1 ? class2 : class1;
+    suggestions.push(`<li><strong>${maxDiffSubject}</strong> dersinde en büyük fark var (${maxDiff.toFixed(1)} net). <strong>${loser}</strong> sınıfı için bu derste ek çalışma planlanabilir.</li>`);
+  }
+
+  // Öneri 2: Her iki sınıf da zayıf
+  subjects.forEach(subject => {
+    if (class1Data[subject] < 5 && class2Data[subject] < 5) {
+      suggestions.push(`<li><strong>${subject}</strong> dersinde her iki sınıf da ortalamanın altında. Ortak etüt programı düzenlenebilir.</li>`);
+    }
+  });
+
+  // Öneri 3: Genel
+  const class1Wins = Object.values(subjectWinners).filter(w => w === class1).length;
+  const class2Wins = Object.values(subjectWinners).filter(w => w === class2).length;
+
+  if (class1Wins > class2Wins + 2) {
+    suggestions.push(`<li><strong>${class1}</strong> sınıfı çoğu derste önde. <strong>${class2}</strong> için genel motivasyon ve çalışma disiplini artırılabilir.</li>`);
+  } else if (class2Wins > class1Wins + 2) {
+    suggestions.push(`<li><strong>${class2}</strong> sınıfı çoğu derste önde. <strong>${class1}</strong> için genel motivasyon ve çalışma disiplini artırılabilir.</li>`);
+  } else {
+    suggestions.push(`<li>İki sınıf da birbirine yakın performans gösteriyor. Rekabet ortamı oluşturulabilir (sınıflar arası yarışma vb.).</li>`);
+  }
+
+  return suggestions.join('');
+}
+
+// PDF Export
+async function exportComparisonPDF() {
+  showToast('Bilgi', 'PDF export özelliği yakında eklenecek!', 'info');
+  // TODO: jsPDF kütüphanesi ile PDF oluştur
+}
+
+// PNG Export (Grafik)
+function exportComparisonPNG() {
+  if (!comparisonChart) {
+    showToast('Hata', 'Önce bir analiz yapmalısınız', 'error');
+    return;
+  }
+
+  const canvas = document.getElementById('comparison-chart');
+  if (!canvas) return;
+
+  // Canvas'ı PNG olarak indir
+  const url = canvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `sinif-karsilastirma-${Date.now()}.png`;
+  link.href = url;
+  link.click();
+
+  showToast('Başarılı', 'Grafik PNG olarak kaydedildi!', 'success');
+}
 
 
 
