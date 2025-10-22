@@ -6318,23 +6318,35 @@
     pages.forEach(page => {
       page.classList.remove('active');
     });
-    
+
     // Seçilen sayfayı göster
     const targetPage = document.getElementById(pageId);
     if (targetPage) {
       targetPage.classList.add('active');
     }
-    
+
     // Navigasyon butonlarını güncelle
     const navButtons = document.querySelectorAll('.nav-btn');
     navButtons.forEach(btn => {
       btn.classList.remove('active');
     });
-    
+
     // Aktif butonu bul ve işaretle
     const activeButton = document.querySelector(`[data-page="${pageId}"]`);
     if (activeButton) {
       activeButton.classList.add('active');
+    }
+
+    // DÜZELTME: Rapor sayfasına geçildiğinde grafikleri yeniden çiz
+    if (pageId === 'reports-section' && selectedStudent) {
+      console.log('📊 Rapor sayfası açıldı, grafikler yeniden çiziliyor...');
+      const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
+
+      // Grafikleri yeniden çiz (kısa bir gecikme ile, DOM'un render olması için)
+      setTimeout(() => {
+        updateCharts(profileExams);
+        console.log('✅ Grafikler yeniden çizildi');
+      }, 100);
     }
   }
 
