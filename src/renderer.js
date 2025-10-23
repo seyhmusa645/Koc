@@ -97,6 +97,13 @@
   const csvPreviewCancel = document.getElementById('csv-preview-cancel');
   const csvPreviewConfirm = document.getElementById('csv-preview-confirm');
 
+  // CSV Progress Bar elementleri
+  const csvProgressContainer = document.getElementById('csv-progress-container');
+  const csvProgressBar = document.getElementById('csv-progress-bar');
+  const csvProgressText = document.getElementById('csv-progress-text');
+  const csvProgressPercentage = document.getElementById('csv-progress-percentage');
+  const csvProgressDetails = document.getElementById('csv-progress-details');
+
   const addProfileButton = document.getElementById('btn-add-profile');
   const deleteProfileButton = document.getElementById('btn-delete-profile');
 
@@ -4497,6 +4504,46 @@
     csvPreviewModal.style.display = 'flex';
   }
 
+  // FAZ 3: PROGRESS BAR FONKSİYONLARI
+  function showProgress() {
+    csvProgressContainer.style.display = 'block';
+    csvProgressBar.style.width = '0%';
+    csvProgressPercentage.textContent = '0%';
+    csvProgressText.textContent = 'İşleniyor...';
+    csvProgressDetails.innerHTML = '';
+  }
+
+  function updateProgress(current, total, stats) {
+    const percentage = Math.round((current / total) * 100);
+    csvProgressBar.style.width = `${percentage}%`;
+    csvProgressPercentage.textContent = `${percentage}%`;
+    csvProgressText.textContent = `${current} / ${total} satır işlendi`;
+
+    // Detayları göster
+    csvProgressDetails.innerHTML = `
+      <div class="progress-detail-item">
+        <span class="progress-detail-label">✅ Başarılı:</span>
+        <span class="progress-detail-value success">${stats.imported}</span>
+      </div>
+      <div class="progress-detail-item">
+        <span class="progress-detail-label">❌ Hata:</span>
+        <span class="progress-detail-value error">${stats.errors}</span>
+      </div>
+      <div class="progress-detail-item">
+        <span class="progress-detail-label">🔁 Duplicate:</span>
+        <span class="progress-detail-value warning">${stats.duplicates}</span>
+      </div>
+      <div class="progress-detail-item">
+        <span class="progress-detail-label">⚠️ Validasyon:</span>
+        <span class="progress-detail-value warning">${stats.validationErrors}</span>
+      </div>
+    `;
+  }
+
+  function hideProgress() {
+    csvProgressContainer.style.display = 'none';
+  }
+
   // FAZ 1.1: DUPLICATE KONTROL FONKSİYONLARI
   function isDuplicateExam(profile, examName, examDate) {
     return allExams.some(exam =>
@@ -4656,11 +4703,15 @@
   };
 
   async function importCSVData(csvData) {
-    console.log(`?? DEBUG: importCSVData başladı - ${csvData.length} satır`);
+    console.log(`📊 DEBUG: importCSVData başladı - ${csvData.length} satır`);
+
+    // FAZ 3: Progress bar göster
+    showProgress();
+
     try {
       let imported = 0;
       let errors = 0;
-      
+
       // İstatistikleri sıfırla
       csvImportStats.totalRows = csvData.length;
       csvImportStats.processed = 0;
@@ -4878,10 +4929,17 @@
           allExams.push(examData);
           imported++;
           csvImportStats.imported++;
-          
+
         } catch (rowError) {
           console.error('Satır işleme hatası:', rowError);
           errors++;
+        }
+
+        // FAZ 3: Progress güncellemesi (her 5 satırda bir veya son satır)
+        if (csvImportStats.processed % 5 === 0 || csvImportStats.processed === csvData.length) {
+          updateProgress(csvImportStats.processed, csvData.length, csvImportStats);
+          // UI'nin güncellenmesi için kısa bir bekle
+          await new Promise(resolve => setTimeout(resolve, 1));
         }
       }
       
@@ -4930,9 +4988,12 @@
         errors: csvImportStats.errors,
         stats: csvImportStats
       };
-      
+
     } catch (error) {
       return { success: false, message: error.message };
+    } finally {
+      // FAZ 3: Progress bar'ı gizle
+      hideProgress();
     }
   }
   
