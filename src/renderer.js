@@ -10628,12 +10628,23 @@
   function loadExamManagement() {
   const container = document.getElementById('exam-list-container');
   if (!container) return;
-  
+
+  // Filtre select'lerini doldur
+  populateExamFilters();
+
   if (allExams.length === 0) {
     container.innerHTML = '<p class="no-data">Hiç sınav kaydı bulunmamaktadır.</p>';
+    updateFilterResults();
     return;
   }
-  
+
+  // Filtrelenmiş listeyi göster veya tüm listeyi göster
+  if (Object.values(activeFilters).some(val => val !== '')) {
+    displayFilteredExams();
+    updateFilterResults();
+    return;
+  }
+
   // Tarihe göre sırala (en yeni üstte)
   const sortedExams = [...allExams].sort((a, b) => new Date(b.date) - new Date(a.date));
   
@@ -10813,6 +10824,374 @@
   }
 };
 
+  /**
+   * Genel sınav isimlerini toplu olarak düzeltir
+   */
+  window.bulkRenameExams = async function() {
+  // Genel isimleri tespit et (örn: "1. Deneme", "2. Deneme", "Deneme 1" vs.)
+  const genericPatterns = [
+    /^\d+\.\s*Deneme$/i,
+    /^Deneme\s*\d+$/i,
+    /^\d+\.\s*Sınav$/i,
+    /^Sınav\s*\d+$/i,
+    /^Test\s*\d+$/i,
+    /^\d+\.\s*Test$/i
+  ];
+
+  const genericExams = allExams.filter(exam => {
+    return genericPatterns.some(pattern => pattern.test(exam.name.trim()));
+  });
+
+  if (genericExams.length === 0) {
+    showToast('Bilgi', 'Genel isimli sınav bulunamadı', 'info');
+    return;
+  }
+
+  // Modal göster
+  const newName = prompt(
+    `${genericExams.length} adet genel isimli sınav bulundu.\n\n` +
+    `Örnekler: ${genericExams.slice(0, 3).map(e => e.name).join(', ')}\n\n` +
+    `Yeni sınav ismini girin (boş bırakırsanız iptal edilir):`,
+    'Kasım Denemesi'
+  );
+
+  if (!newName || newName.trim() === '') {
+    showToast('İptal', 'İşlem iptal edildi', 'info');
+    return;
+  }
+
+  const confirm = window.confirm(
+    `${genericExams.length} sınavın ismi "${newName.trim()}" olarak değiştirilecek.\n\n` +
+    'Devam etmek istiyor musunuz?'
+  );
+
+  if (!confirm) return;
+
+  try {
+    // İsimleri değiştir
+    let renamedCount = 0;
+    genericExams.forEach(exam => {
+      const examIndex = allExams.findIndex(e => e.id === exam.id);
+      if (examIndex !== -1) {
+        allExams[examIndex].name = newName.trim();
+        renamedCount++;
+      }
+    });
+
+    // Kaydet
+    const result = await window.electronAPI.saveData({
+      value: allExams,
+      Count: allExams.length
+    });
+
+    if (result.success) {
+      showToast('Başarılı', `${renamedCount} sınavın ismi değiştirildi`, 'success');
+      loadExamManagement();
+    } else {
+      showToast('Hata', 'Sınav isimleri değiştirilemedi', 'error');
+    }
+  } catch (error) {
+    console.error('Toplu isimlendirme hatası:', error);
+    showToast('Hata', 'İşlem sırasında bir hata oluştu', 'error');
+  }
+};
+
+  /**
+   * Duplicate sınavları tespit edip siler
+   */
+  window.removeDuplicateExams = async function() {
+  if (allExams.length === 0) {
+    showToast('Bilgi', 'Sınav bulunamadı', 'info');
+    return;
+  }
+
+  // Duplicate'leri tespit et
+  const examMap = new Map();
+  const duplicates = [];
+
+  allExams.forEach(exam => {
+    const key = `${exam.profile}_${exam.name}_${exam.date}`;
+
+    if (examMap.has(key)) {
+      // Duplicate bulundu - en yeni olan hangisi?
+      const existing = examMap.get(key);
+      const existingIndex = allExams.findIndex(e => e.id === existing.id);
+      const currentIndex = allExams.findIndex(e => e.id === exam.id);
+
+      // Daha yeni olanı tut (daha büyük index = daha yeni eklendi)
+      if (currentIndex > existingIndex) {
+        duplicates.push(existing.id);
+        examMap.set(key, exam);
+      } else {
+        duplicates.push(exam.id);
+      }
+    } else {
+      examMap.set(key, exam);
+    }
+  });
+
+  if (duplicates.length === 0) {
+    showToast('Başarılı', 'Duplicate sınav bulunamadı', 'success');
+    return;
+  }
+
+  // Kullanıcıya bilgi ver
+  const duplicateExams = allExams.filter(e => duplicates.includes(e.id));
+  const exampleText = duplicateExams.slice(0, 5)
+    .map(e => `• ${e.profile} - ${e.name} (${new Date(e.date).toLocaleDateString('tr-TR')})`)
+    .join('\n');
+
+  const confirm = window.confirm(
+    `${duplicates.length} duplicate sınav bulundu ve silinecek.\n\n` +
+    `Örnekler:\n${exampleText}\n` +
+    (duplicates.length > 5 ? `\n...ve ${duplicates.length - 5} tane daha\n` : '') +
+    `\nDuplicate'ler silinip sadece en son eklenen sınavlar tutulacak.\n\n` +
+    'Devam etmek istiyor musunuz?'
+  );
+
+  if (!confirm) return;
+
+  try {
+    // Duplicate'leri sil
+    const filteredExams = allExams.filter(exam => !duplicates.includes(exam.id));
+
+    const result = await window.electronAPI.saveData({
+      value: filteredExams,
+      Count: filteredExams.length
+    });
+
+    if (result.success) {
+      allExams = filteredExams;
+      showToast('Başarılı', `${duplicates.length} duplicate sınav silindi`, 'success');
+      loadExamManagement();
+
+      // Grafikleri güncelle
+      if (selectedStudent) {
+        const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
+        updateCharts(profileExams);
+      }
+    } else {
+      showToast('Hata', 'Duplicate sınavlar silinemedi', 'error');
+    }
+  } catch (error) {
+    console.error('Duplicate temizleme hatası:', error);
+    showToast('Hata', 'İşlem sırasında bir hata oluştu', 'error');
+  }
+};
+
+  /**
+   * Sınav Filtreleme Sistemi
+   */
+  let filteredExams = [...allExams];
+  let activeFilters = {
+    grade: '',
+    section: '',
+    student: '',
+    examNumber: '',
+    examName: ''
+  };
+
+  // Filtreleri uygula
+  window.applyExamFilters = function() {
+    const gradeFilter = document.getElementById('grade-filter');
+    const sectionFilter = document.getElementById('section-filter');
+    const studentFilter = document.getElementById('student-filter');
+    const examNumberFilter = document.getElementById('exam-number-filter');
+    const examNameFilter = document.getElementById('exam-name-filter');
+
+    activeFilters.grade = gradeFilter?.value || '';
+    activeFilters.section = sectionFilter?.value || '';
+    activeFilters.student = studentFilter?.value || '';
+    activeFilters.examNumber = examNumberFilter?.value || '';
+    activeFilters.examName = examNameFilter?.value.toLowerCase().trim() || '';
+
+    // Filtreleme yap
+    filteredExams = allExams.filter(exam => {
+      // Sınıf filtresi
+      if (activeFilters.grade && !exam.profile.includes(`${activeFilters.grade}/`)) {
+        return false;
+      }
+
+      // Şube filtresi
+      if (activeFilters.section) {
+        const examSection = exam.profile.split('/')[1]?.split(' ')[0];
+        if (examSection !== activeFilters.section) {
+          return false;
+        }
+      }
+
+      // Öğrenci filtresi
+      if (activeFilters.student && exam.profile !== activeFilters.student) {
+        return false;
+      }
+
+      // Sınav numarası filtresi (1. Deneme, 2. Deneme vb.)
+      if (activeFilters.examNumber && !exam.name.includes(activeFilters.examNumber)) {
+        return false;
+      }
+
+      // Sınav adı filtresi (text search)
+      if (activeFilters.examName && !exam.name.toLowerCase().includes(activeFilters.examName)) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // Filtrelenmiş listeyi göster
+    displayFilteredExams();
+
+    // Sonuç sayısını güncelle
+    updateFilterResults();
+  };
+
+  // Filtreleri temizle
+  window.clearExamFilters = function() {
+    const gradeFilter = document.getElementById('grade-filter');
+    const sectionFilter = document.getElementById('section-filter');
+    const studentFilter = document.getElementById('student-filter');
+    const examNumberFilter = document.getElementById('exam-number-filter');
+    const examNameFilter = document.getElementById('exam-name-filter');
+
+    if (gradeFilter) gradeFilter.value = '';
+    if (sectionFilter) sectionFilter.value = '';
+    if (studentFilter) studentFilter.value = '';
+    if (examNumberFilter) examNumberFilter.value = '';
+    if (examNameFilter) examNameFilter.value = '';
+
+    activeFilters = {
+      grade: '',
+      section: '',
+      student: '',
+      examNumber: '',
+      examName: ''
+    };
+
+    filteredExams = [...allExams];
+    displayFilteredExams();
+    updateFilterResults();
+  };
+
+  // Filtrelenmiş sınavları göster
+  function displayFilteredExams() {
+    const container = document.getElementById('exam-list-container');
+    if (!container) return;
+
+    if (filteredExams.length === 0) {
+      container.innerHTML = '<p class="no-data">Filtrelere uygun sınav bulunamadı.</p>';
+      return;
+    }
+
+    // Tarihe göre sırala (en yeni üstte)
+    const sortedExams = [...filteredExams].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    container.innerHTML = sortedExams.map(exam => {
+      const totalNet = Object.values(exam.courses || {}).reduce((sum, course) => {
+        return sum + (course.net ?? (course.correct - (course.incorrect / 4)));
+      }, 0).toFixed(2);
+
+      const totalCorrect = Object.values(exam.courses || {}).reduce((sum, c) => sum + (c.correct || 0), 0);
+      const totalIncorrect = Object.values(exam.courses || {}).reduce((sum, c) => sum + (c.incorrect || 0), 0);
+
+      return `
+        <div class="exam-item">
+          <input type="checkbox" class="exam-checkbox" data-exam-id="${exam.id}">
+          <div class="exam-info">
+            <div class="exam-details">
+              <span class="exam-name">${exam.name}</span>
+              <span class="exam-student">${exam.profile}</span>
+              <span class="exam-date">${new Date(exam.date).toLocaleDateString('tr-TR')}</span>
+            </div>
+            <div class="exam-stats">
+              <div class="stat-item">
+                <span class="stat-label">Toplam Net</span>
+                <span class="stat-value">${totalNet}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value" style="color: #27ae60;">${totalCorrect}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value" style="color: #e74c3c;">${totalIncorrect}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Checkbox event listeners
+    document.querySelectorAll('.exam-checkbox').forEach(cb => {
+      cb.addEventListener('change', updateSelectedExamCount);
+    });
+  }
+
+  // Filtre sonuçlarını güncelle
+  function updateFilterResults() {
+    const resultsElement = document.getElementById('filter-results-count');
+    if (!resultsElement) return;
+
+    const hasActiveFilters = Object.values(activeFilters).some(val => val !== '');
+
+    if (!hasActiveFilters) {
+      resultsElement.textContent = `Tüm sınavlar gösteriliyor (${allExams.length} adet)`;
+    } else {
+      resultsElement.textContent = `${allExams.length} sınavdan ${filteredExams.length} tanesi gösteriliyor`;
+    }
+  }
+
+  // Filtre select'lerini doldur
+  function populateExamFilters() {
+    // Şube select'ini doldur
+    const sectionFilter = document.getElementById('section-filter');
+    if (sectionFilter) {
+      const sections = new Set();
+      allStudents.forEach(student => {
+        const section = student.name.split('/')[1]?.split(' ')[0];
+        if (section) sections.add(section);
+      });
+
+      sectionFilter.innerHTML = '<option value="">Tüm Şubeler</option>';
+      Array.from(sections).sort().forEach(section => {
+        sectionFilter.innerHTML += `<option value="${section}">${section} Şubesi</option>`;
+      });
+    }
+
+    // Öğrenci select'ini doldur
+    const studentFilter = document.getElementById('student-filter');
+    if (studentFilter) {
+      const sortedStudents = [...allStudents].sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+
+      studentFilter.innerHTML = '<option value="">Tüm Öğrenciler</option>';
+      sortedStudents.forEach(student => {
+        studentFilter.innerHTML += `<option value="${student.name}">${student.name}</option>`;
+      });
+    }
+
+    // Sınav numarası select'ini doldur
+    const examNumberFilter = document.getElementById('exam-number-filter');
+    if (examNumberFilter) {
+      const examNumbers = new Set();
+      allExams.forEach(exam => {
+        // "1. Deneme", "2. Deneme" gibi pattern'leri yakala
+        const match = exam.name.match(/^(\d+)\.\s*(\w+)/);
+        if (match) {
+          examNumbers.add(`${match[1]}. ${match[2]}`);
+        }
+      });
+
+      examNumberFilter.innerHTML = '<option value="">Tüm Sınavlar</option>';
+      Array.from(examNumbers).sort((a, b) => {
+        const numA = parseInt(a);
+        const numB = parseInt(b);
+        return numA - numB;
+      }).forEach(examNum => {
+        examNumberFilter.innerHTML += `<option value="${examNum}">${examNum}</option>`;
+      });
+    }
+  }
+
 // Modal event listener'ları
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal-close')) {
@@ -10824,6 +11203,35 @@ document.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
   if (e.target.id === 'generate-bulk-pdf-btn') {
     generateBulkPDF();
+  }
+});
+
+// Sınav Yönetimi Event Listener'ları
+document.addEventListener('DOMContentLoaded', () => {
+  // Filtre butonları
+  const applyFiltersBtn = document.getElementById('apply-filters-btn');
+  const clearFiltersBtn = document.getElementById('clear-filters-btn');
+
+  if (applyFiltersBtn) {
+    applyFiltersBtn.addEventListener('click', () => {
+      window.applyExamFilters();
+    });
+  }
+
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', () => {
+      window.clearExamFilters();
+    });
+  }
+
+  // Enter tuşu ile filtreleme
+  const examNameFilter = document.getElementById('exam-name-filter');
+  if (examNameFilter) {
+    examNameFilter.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        window.applyExamFilters();
+      }
+    });
   }
 });
 
