@@ -245,6 +245,29 @@
                 </div>
             </div>
 
+            <!-- CSV Önizleme Modal -->
+            <div id="csv-preview-modal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 900px;">
+                    <div class="modal-header">
+                        <h3>📋 CSV Önizleme</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="csv-preview-stats" class="preview-stats"></div>
+
+                        <h4>İlk 10 Satır:</h4>
+                        <div id="csv-preview-table" class="preview-table-container"></div>
+
+                        <div id="csv-preview-problems" class="preview-problems"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="csv-preview-cancel" class="btn-secondary">İptal</button>
+                        <button id="csv-preview-confirm" class="btn-primary">İçe Aktarmaya Devam Et</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="section-divider">
                 <span>VEYA</span>
             </div>

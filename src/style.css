@@ -1569,6 +1569,137 @@ body {
   color: #2a69ac;
 }
 
+/* CSV Preview Modal Styles */
+.preview-stats {
+  background: #f7fafc;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.preview-stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.preview-stat-label {
+  font-size: 12px;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.preview-stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.preview-stat-value.success {
+  color: #38a169;
+}
+
+.preview-stat-value.warning {
+  color: #d69e2e;
+}
+
+.preview-stat-value.error {
+  color: #e53e3e;
+}
+
+.preview-table-container {
+  max-height: 400px;
+  overflow: auto;
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.preview-table th {
+  position: sticky;
+  top: 0;
+  background: #f7fafc;
+  padding: 10px 8px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #cbd5e0;
+  white-space: nowrap;
+}
+
+.preview-table td {
+  padding: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-table tr:hover {
+  background: #f7fafc;
+}
+
+.preview-table td.student-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.preview-table td.duplicate {
+  background: #fff5f5;
+  color: #e53e3e;
+}
+
+.preview-table td.validation-error {
+  background: #fffaf0;
+  color: #dd6b20;
+}
+
+.preview-table td.warning {
+  background: #fffff0;
+  color: #d69e2e;
+}
+
+.preview-problems {
+  margin-top: 20px;
+}
+
+.preview-problems h4 {
+  margin-bottom: 12px;
+  color: #e53e3e;
+}
+
+.problem-list {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.problem-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #fed7d7;
+  font-size: 13px;
+}
+
+.problem-item:last-child {
+  border-bottom: none;
+}
+
+.problem-icon {
+  margin-right: 8px;
+  font-weight: 600;
+}
+
 /* Etüt Styles */
 
 /* Hafta Sonu Etüt Programı Styles */

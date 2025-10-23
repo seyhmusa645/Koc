@@ -88,6 +88,15 @@
   const csvStatus = document.getElementById('csv-status');
   const csvAutoOutcomes = document.getElementById('csv-auto-outcomes');
   const csvOverwriteCheck = document.getElementById('csv-overwrite-check');
+
+  // CSV Preview Modal elementleri
+  const csvPreviewModal = document.getElementById('csv-preview-modal');
+  const csvPreviewStats = document.getElementById('csv-preview-stats');
+  const csvPreviewTable = document.getElementById('csv-preview-table');
+  const csvPreviewProblems = document.getElementById('csv-preview-problems');
+  const csvPreviewCancel = document.getElementById('csv-preview-cancel');
+  const csvPreviewConfirm = document.getElementById('csv-preview-confirm');
+
   const addProfileButton = document.getElementById('btn-add-profile');
   const deleteProfileButton = document.getElementById('btn-delete-profile');
 
@@ -3353,49 +3362,91 @@
     hideCsvStatus();
   });
   
-  // CSV import işlemi
+  // CSV import işlemi - FAZ 2: Preview ile
+  let pendingCSVData = null; // Preview'dan sonra import için bekleyen data
+
   csvImportBtn.addEventListener('click', async () => {
     const file = csvFileInput.files[0];
     if (!file) {
       showCsvStatus('Lütfen bir CSV dosyası seçin.', 'error');
       return;
     }
-    
+
     try {
       csvImportBtn.disabled = true;
-      csvImportBtn.textContent = '? İçe Aktarılıyor...';
-      showCsvStatus('CSV dosyası okunuyor...', 'info');
-      
+      csvImportBtn.textContent = 'Analiz ediliyor...';
+      showCsvStatus('CSV dosyası okunuyor ve analiz ediliyor...', 'info');
+
       const csvText = await file.text();
       const csvData = parseCSV(csvText);
-      
-      showCsvStatus(`${csvData.length} satır veri bulundu. İşleniyor...`, 'info');
-      
-      const result = await importCSVData(csvData);
-      
+
+      showCsvStatus(`${csvData.length} satır bulundu. Önizleme hazırlanıyor...`, 'info');
+
+      // Preview oluştur ve göster
+      const preview = generateCSVPreview(csvData);
+      pendingCSVData = csvData;
+      displayCSVPreview(preview);
+
+    } catch (error) {
+      console.error('CSV preview hatası:', error);
+      showCsvStatus(`CSV analiz edilirken hata oluştu: ${error.message}`, 'error');
+      csvImportBtn.disabled = false;
+      csvImportBtn.textContent = 'CSV\'yi İçe Aktar';
+    }
+  });
+
+  // CSV Preview Modal - İptal
+  csvPreviewCancel.addEventListener('click', () => {
+    csvPreviewModal.style.display = 'none';
+    pendingCSVData = null;
+    csvImportBtn.disabled = false;
+    csvImportBtn.textContent = 'CSV\'yi İçe Aktar';
+    showCsvStatus('İçe aktarma iptal edildi.', 'info');
+  });
+
+  // CSV Preview Modal - Onayla ve İçe Aktar
+  csvPreviewConfirm.addEventListener('click', async () => {
+    if (!pendingCSVData) {
+      showCsvStatus('Hata: CSV verisi bulunamadı.', 'error');
+      return;
+    }
+
+    try {
+      csvPreviewModal.style.display = 'none';
+      csvImportBtn.disabled = true;
+      csvImportBtn.textContent = 'İçe Aktarılıyor...';
+      showCsvStatus('CSV verileri içe aktarılıyor...', 'info');
+
+      const result = await importCSVData(pendingCSVData);
+      pendingCSVData = null;
+
       if (result.success) {
-        showCsvStatus(`? Başarılı! ${result.imported} sınav eklendi, ${result.errors} hata.`, 'success');
-        
+        const successRate = ((result.imported / result.stats.totalRows) * 100).toFixed(1);
+        showCsvStatus(
+          `Başarılı! ${result.imported} sınav eklendi, ${result.errors} hata. (Başarı oranı: %${successRate})`,
+          'success'
+        );
+
         // Verileri yenile
         await loadInitialData();
         if (selectedStudent) {
           displayDataForProfile(selectedStudent.name);
         }
-        
+
         // Formu temizle
         csvFileInput.value = '';
         csvFileInfo.style.display = 'none';
         csvImportBtn.disabled = true;
       } else {
-        showCsvStatus(`? Hata: ${result.message}`, 'error');
+        showCsvStatus(`Hata: ${result.message}`, 'error');
       }
-      
+
     } catch (error) {
       console.error('CSV import hatası:', error);
-      showCsvStatus(`? CSV işlenirken hata oluştu: ${error.message}`, 'error');
+      showCsvStatus(`CSV işlenirken hata oluştu: ${error.message}`, 'error');
     } finally {
       csvImportBtn.disabled = false;
-      csvImportBtn.textContent = '?? CSV\'yi İçe Aktar';
+      csvImportBtn.textContent = 'CSV\'yi İçe Aktar';
     }
   });
   
@@ -4237,6 +4288,214 @@
   // ========================================
   // FAZ 1-3: CSV IMPORT GELİŞMELERİ
   // ========================================
+
+  // FAZ 2: CSV PREVIEW FONKSİYONU
+  function generateCSVPreview(csvData) {
+    const preview = {
+      totalRows: csvData.length,
+      firstRows: csvData.slice(0, 10),
+      problems: [],
+      statistics: {
+        duplicates: 0,
+        validationErrors: 0,
+        matchingIssues: 0,
+        warnings: 0
+      }
+    };
+
+    // Hızlı analiz - tüm satırlar için problemleri tespit et
+    const seenExams = new Set();
+
+    for (let i = 0; i < csvData.length; i++) {
+      const row = csvData[i];
+      const studentName = cleanStudentName(row['Öğrenci Adı'] || row['Öğrenci'] || '');
+      const examName = row['Sınav Adı'] || row['Sınav'] || '';
+      const examDate = row['Sınav Tarihi'] || row['Tarih'] || '';
+      const lgsScore = parseFloat(row['LGS_Puanı'] || 0);
+
+      // Öğrenci eşleştirme kontrolü
+      const matchResult = findStudentAdvanced(studentName);
+      if (!matchResult) {
+        preview.problems.push({
+          row: i + 1,
+          type: 'matching',
+          message: `Öğrenci bulunamadı: "${studentName}"`
+        });
+        preview.statistics.matchingIssues++;
+      } else if (matchResult.confidence < 0.9) {
+        preview.problems.push({
+          row: i + 1,
+          type: 'warning',
+          message: `Belirsiz eşleşme: "${studentName}" → "${matchResult.student.name}" (%${(matchResult.confidence * 100).toFixed(0)})`
+        });
+        preview.statistics.warnings++;
+      }
+
+      // Duplicate kontrolü
+      const examKey = `${matchResult?.student?.name || studentName}_${examName}_${examDate}`;
+      if (seenExams.has(examKey)) {
+        preview.problems.push({
+          row: i + 1,
+          type: 'duplicate',
+          message: `Duplicate sınav: ${examName} (${examDate})`
+        });
+        preview.statistics.duplicates++;
+      }
+      seenExams.add(examKey);
+
+      // Skor validasyonu
+      const subjects = [
+        { key: 'TR', prefix: 'Türkçe' },
+        { key: 'MAT', prefix: 'Matematik' },
+        { key: 'FEN', prefix: 'Fen' },
+        { key: 'SOS', prefix: 'Sosyal' },
+        { key: 'DIN', prefix: 'Din' },
+        { key: 'ING', prefix: 'İngilizce' }
+      ];
+
+      for (const subject of subjects) {
+        const correct = parseInt(row[`${subject.prefix}_Doğru`] || 0);
+        const incorrect = parseInt(row[`${subject.prefix}_Yanlış`] || 0);
+        const blank = parseInt(row[`${subject.prefix}_Boş`] || 0);
+
+        const validation = validateScores(subject.key, correct, incorrect, blank, studentName);
+        if (!validation.valid) {
+          preview.problems.push({
+            row: i + 1,
+            type: 'validation',
+            message: `${subject.prefix} - ${validation.errors[0]}`
+          });
+          preview.statistics.validationErrors++;
+        }
+      }
+
+      // LGS skor validasyonu
+      const lgsValidation = validateLGSScore(lgsScore);
+      if (!lgsValidation.valid) {
+        preview.problems.push({
+          row: i + 1,
+          type: 'validation',
+          message: lgsValidation.message
+        });
+        preview.statistics.validationErrors++;
+      }
+    }
+
+    return preview;
+  }
+
+  // FAZ 2: CSV PREVIEW DISPLAY FONKSİYONU
+  function displayCSVPreview(preview) {
+    // İstatistikleri göster
+    const totalProblems = preview.statistics.duplicates +
+                         preview.statistics.validationErrors +
+                         preview.statistics.matchingIssues;
+
+    csvPreviewStats.innerHTML = `
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Toplam Satır</span>
+        <span class="preview-stat-value">${preview.totalRows}</span>
+      </div>
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Muhtemel Başarılı</span>
+        <span class="preview-stat-value success">${preview.totalRows - totalProblems}</span>
+      </div>
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Duplicate</span>
+        <span class="preview-stat-value ${preview.statistics.duplicates > 0 ? 'error' : ''}">${preview.statistics.duplicates}</span>
+      </div>
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Validasyon Hatası</span>
+        <span class="preview-stat-value ${preview.statistics.validationErrors > 0 ? 'error' : ''}">${preview.statistics.validationErrors}</span>
+      </div>
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Eşleştirme Sorunu</span>
+        <span class="preview-stat-value ${preview.statistics.matchingIssues > 0 ? 'error' : ''}">${preview.statistics.matchingIssues}</span>
+      </div>
+      <div class="preview-stat-item">
+        <span class="preview-stat-label">Uyarılar</span>
+        <span class="preview-stat-value ${preview.statistics.warnings > 0 ? 'warning' : ''}">${preview.statistics.warnings}</span>
+      </div>
+    `;
+
+    // İlk 10 satırı tablo olarak göster
+    let tableHTML = `
+      <table class="preview-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Öğrenci Adı</th>
+            <th>Sınav Adı</th>
+            <th>Tarih</th>
+            <th>LGS Puanı</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    preview.firstRows.forEach((row, index) => {
+      const studentName = row['Öğrenci Adı'] || row['Öğrenci'] || '';
+      const examName = row['Sınav Adı'] || row['Sınav'] || '';
+      const examDate = row['Sınav Tarihi'] || row['Tarih'] || '';
+      const lgsScore = row['LGS_Puanı'] || '0';
+
+      // Bu satırın problemlerini bul
+      const rowProblems = preview.problems.filter(p => p.row === index + 1);
+      const hasError = rowProblems.some(p => p.type === 'duplicate' || p.type === 'validation' || p.type === 'matching');
+      const hasWarning = rowProblems.some(p => p.type === 'warning');
+
+      const statusClass = hasError ? 'error' : (hasWarning ? 'warning' : 'success');
+      const statusText = hasError ? '❌ Hata' : (hasWarning ? '⚠️ Uyarı' : '✅ OK');
+
+      tableHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td class="student-name ${hasError ? 'validation-error' : ''}">${studentName}</td>
+          <td>${examName}</td>
+          <td>${examDate}</td>
+          <td>${lgsScore}</td>
+          <td class="${statusClass}">${statusText}</td>
+        </tr>
+      `;
+    });
+
+    tableHTML += '</tbody></table>';
+    csvPreviewTable.innerHTML = tableHTML;
+
+    // Problemleri göster
+    if (preview.problems.length > 0) {
+      const maxProblems = 20;
+      const problemsToShow = preview.problems.slice(0, maxProblems);
+
+      let problemsHTML = `<h4>⚠️ Tespit Edilen Sorunlar (${preview.problems.length} adet)</h4>`;
+      problemsHTML += '<div class="problem-list">';
+
+      problemsToShow.forEach(problem => {
+        const icon = problem.type === 'duplicate' ? '🔁' :
+                    problem.type === 'validation' ? '❌' :
+                    problem.type === 'matching' ? '🔍' : '⚠️';
+        problemsHTML += `
+          <div class="problem-item">
+            <span class="problem-icon">${icon}</span>
+            Satır ${problem.row}: ${problem.message}
+          </div>
+        `;
+      });
+
+      if (preview.problems.length > maxProblems) {
+        problemsHTML += `<div class="problem-item">... ve ${preview.problems.length - maxProblems} sorun daha</div>`;
+      }
+
+      problemsHTML += '</div>';
+      csvPreviewProblems.innerHTML = problemsHTML;
+    } else {
+      csvPreviewProblems.innerHTML = '<div style="color: #38a169; font-weight: 600;">✅ Sorun tespit edilmedi!</div>';
+    }
+
+    // Modalı göster
+    csvPreviewModal.style.display = 'flex';
+  }
 
   // FAZ 1.1: DUPLICATE KONTROL FONKSİYONLARI
   function isDuplicateExam(profile, examName, examDate) {
