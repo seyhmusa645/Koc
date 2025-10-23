@@ -10626,13 +10626,19 @@
    * Sınav yönetimi sayfasını yükler - Tüm öğrencilerin sınavları
    */
   function loadExamManagement() {
+  console.log('📊 loadExamManagement çağrıldı, allExams.length:', allExams.length);
+
   const container = document.getElementById('exam-list-container');
-  if (!container) return;
+  if (!container) {
+    console.error('❌ exam-list-container elementi bulunamadı!');
+    return;
+  }
 
   // Filtre select'lerini doldur
   populateExamFilters();
 
   if (allExams.length === 0) {
+    console.log('⚠️ Hiç sınav yok, boş mesaj gösteriliyor');
     container.innerHTML = '<p class="no-data">Hiç sınav kaydı bulunmamaktadır.</p>';
     updateFilterResults();
     return;
@@ -10640,10 +10646,13 @@
 
   // Filtrelenmiş listeyi göster veya tüm listeyi göster
   if (Object.values(activeFilters).some(val => val !== '')) {
+    console.log('🔍 Filtreli liste gösteriliyor');
     displayFilteredExams();
     updateFilterResults();
     return;
   }
+
+  console.log('✅ Tüm sınavlar gösteriliyor:', allExams.length, 'adet');
 
   // Tarihe göre sırala (en yeni üstte)
   const sortedExams = [...allExams].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -10683,11 +10692,14 @@
       </div>
     `;
   }).join('');
-  
+
   // Checkbox event listeners
   document.querySelectorAll('.exam-checkbox').forEach(cb => {
     cb.addEventListener('change', updateSelectedExamCount);
   });
+
+  // Filtre sonuç sayacını güncelle
+  updateFilterResults();
 }
 
   /**
@@ -11130,7 +11142,10 @@
   // Filtre sonuçlarını güncelle
   function updateFilterResults() {
     const resultsElement = document.getElementById('filter-results-count');
-    if (!resultsElement) return;
+    if (!resultsElement) {
+      console.warn('filter-results-count elementi bulunamadı!');
+      return;
+    }
 
     const hasActiveFilters = Object.values(activeFilters).some(val => val !== '');
 
