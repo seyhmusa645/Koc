@@ -10622,6 +10622,22 @@
     }
   };
 
+  // ========================================
+  // SINAV YÖNETİMİ VE FİLTRELEME SİSTEMİ
+  // ========================================
+
+  /**
+   * Sınav Filtreleme Sistemi - Global Değişkenler
+   */
+  let filteredExams = [];
+  let activeFilters = {
+    grade: '',
+    section: '',
+    student: '',
+    examNumber: '',
+    examName: ''
+  };
+
   /**
    * Sınav yönetimi sayfasını yükler - Tüm öğrencilerin sınavları
    */
@@ -10990,18 +11006,6 @@
     showToast('Hata', 'İşlem sırasında bir hata oluştu', 'error');
   }
 };
-
-  /**
-   * Sınav Filtreleme Sistemi
-   */
-  let filteredExams = [...allExams];
-  let activeFilters = {
-    grade: '',
-    section: '',
-    student: '',
-    examNumber: '',
-    examName: ''
-  };
 
   // Filtreleri uygula
   window.applyExamFilters = function() {
