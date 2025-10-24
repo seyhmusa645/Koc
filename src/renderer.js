@@ -158,6 +158,86 @@
   let selectedStudent = null; // Seçili öğrenci
   let isStudentDetailVisible = false; // Öğrenci detay görünürlük durumu
   
+  // Sınav yönetimi filtreleme değişkenleri
+  let filteredExams = [];
+  let activeFilters = {
+    grade: '',
+    section: '',
+    student: '',
+    examNumber: '',
+    examName: ''
+  };
+
+  // Global sınav yönetimi fonksiyonları
+  window.toggleAllExams = function() {
+    const checkboxes = document.querySelectorAll('.exam-checkbox');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+    
+    const selectAllBtn = document.getElementById('select-all-exams');
+    if (selectAllBtn) {
+      selectAllBtn.textContent = allChecked ? '☑️ Tümünü Seç' : '☐ Seçimi Kaldır';
+    }
+    
+    updateSelectedExamCount();
+  };
+
+  window.deleteSelectedExams = async function() {
+    const selected = document.querySelectorAll('.exam-checkbox:checked');
+    const examIds = Array.from(selected).map(cb => parseInt(cb.dataset.examId));
+    
+    if (examIds.length === 0) return;
+    
+    const confirm = window.confirm(
+      `${examIds.length} sınavı silmek istediğinizden emin misiniz?\n\n` +
+      'Bu işlem geri alınamaz!'
+    );
+    
+    if (!confirm) return;
+    
+    try {
+      // Sınavları sil
+      const filteredExams = allExams.filter(exam => !examIds.includes(exam.id));
+      
+      const result = await window.electronAPI.saveData({
+        value: filteredExams,
+        Count: filteredExams.length
+      });
+      
+      if (result.success) {
+        allExams = filteredExams;
+        showToast('Başarılı', `${examIds.length} sınav silindi`, 'success');
+        
+        // Listeyi yenile
+        loadExamManagement();
+        
+        // Grafikleri güncelle
+        if (selectedStudent) {
+          const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
+          updateCharts(profileExams);
+        }
+      } else {
+        showToast('Hata', 'Sınavlar silinemedi', 'error');
+      }
+    } catch (error) {
+      console.error('Sınav silme hatası:', error);
+      showToast('Hata', 'Sınavlar silinirken bir hata oluştu', 'error');
+    }
+  };
+
+  // Global sınav seçim fonksiyonu
+  window.updateSelectedExamCount = function() {
+    const selected = document.querySelectorAll('.exam-checkbox:checked');
+    const count = selected.length;
+    
+    const countElement = document.getElementById('selected-exam-count');
+    const deleteButton = document.getElementById('delete-selected-exams');
+    
+    if (countElement) countElement.textContent = count;
+    if (deleteButton) deleteButton.disabled = count === 0;
+  };
+  
   // Etüt system state
   let etutGroups = [];
   const questionCounts = {
@@ -1698,6 +1778,24 @@
       
       allStudents = studentsData.students || [];
       console.log(`✅ Renderer: ${allStudents.length} öğrenci yüklendi`);
+      
+      // ELA ÇELİK öğrencisini ara
+      const elaCelikStudents = allStudents.filter(s => 
+        s.name && s.name.toLowerCase().includes('ela') && s.name.toLowerCase().includes('çelik')
+      );
+      console.log('🔍 ELA ÇELİK arama sonuçları:', elaCelikStudents);
+      
+      // Tüm ELA ile başlayan öğrencileri ara
+      const elaStudents = allStudents.filter(s => 
+        s.name && s.name.toLowerCase().startsWith('ela')
+      );
+      console.log('🔍 ELA ile başlayan öğrenciler:', elaStudents);
+      
+      // Tüm ÇELİK içeren öğrencileri ara
+      const celikStudents = allStudents.filter(s => 
+        s.name && s.name.toLowerCase().includes('çelik')
+      );
+      console.log('🔍 ÇELİK içeren öğrenciler:', celikStudents);
       
       // Başlangıçta filtrelenmiş liste tüm öğrencilerle dolu
       filteredStudents = [...allStudents];
@@ -3602,18 +3700,55 @@
   }
 
   /**
-   * İsmi parçalara ayırır ve normalize eder
+   * İsmi parçalara ayırır ve normalize eder - Türkçe karakter desteği ile iyileştirilmiş
    * @param {string} name - İsim
    * @returns {Array} Normalize edilmiş isim parçaları
    */
   function normalizeNameParts(name) {
     if (!name) return [];
     
-    return name
-      .trim()
+    // Türkçe karakterleri normalize et
+    const turkishMap = {
+      'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u',
+      'Ç': 'C', 'Ğ': 'G', 'İ': 'I', 'Ö': 'O', 'Ş': 'S', 'Ü': 'U'
+    };
+    
+    let normalized = name.trim();
+    
+    // Türkçe karakterleri değiştir
+    Object.entries(turkishMap).forEach(([turkish, english]) => {
+      normalized = normalized.replace(new RegExp(turkish, 'g'), english);
+    });
+    
+    return normalized
       .split(/\s+/)
       .filter(part => part.length > 0)
       .map(part => part.toLowerCase());
+  }
+
+  /**
+   * İsmi tamamen normalize eder - Türkçe karakter desteği ile
+   * @param {string} name - İsim
+   * @returns {string} Normalize edilmiş isim
+   */
+  function normalizeStudentName(name) {
+    if (!name) return '';
+    
+    // Türkçe karakterleri normalize et
+    const turkishMap = {
+      'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u',
+      'Ç': 'C', 'Ğ': 'G', 'İ': 'I', 'Ö': 'O', 'Ş': 'S', 'Ü': 'U'
+    };
+    
+    let normalized = name.trim();
+    
+    // Türkçe karakterleri değiştir
+    Object.entries(turkishMap).forEach(([turkish, english]) => {
+      normalized = normalized.replace(new RegExp(turkish, 'g'), english);
+    });
+    
+    // Fazla boşlukları temizle ve küçük harfe çevir
+    return normalized.replace(/\s+/g, ' ').toLowerCase();
   }
 
   /**
@@ -3632,10 +3767,23 @@
     const csvNameLower = csvName.toLowerCase();
     const csvNameParts = normalizeNameParts(csvName);
     
-    // SEVİYE 1: Tam Eşleşme (Mevcut sistem)
-    let student = allStudents.find(s => 
-      s.name.trim().toLowerCase() === csvNameLower
-    );
+    // ELA ÇELİK için özel debug
+    if (csvName.toLowerCase().includes('ela') && csvName.toLowerCase().includes('çelik')) {
+      console.log('🔍 ELA ÇELİK DEBUG:', {
+        csvName,
+        csvNameParts,
+        allStudentsCount: allStudents.length,
+        elaStudents: allStudents.filter(s => s.name && s.name.toLowerCase().includes('ela')),
+        celikStudents: allStudents.filter(s => s.name && s.name.toLowerCase().includes('çelik'))
+      });
+    }
+    
+    // SEVİYE 1: Tam Eşleşme (Türkçe karakter desteği ile iyileştirilmiş)
+    let student = allStudents.find(s => {
+      const normalizedStudentName = normalizeStudentName(s.name);
+      const normalizedCsvName = normalizeStudentName(csvName);
+      return normalizedStudentName === normalizedCsvName;
+    });
     if (student) {
       return { 
         student, 
@@ -3644,17 +3792,22 @@
       };
     }
 
-    // SEVİYE 2: Ad + Soyad Eşleşmesi
+    // SEVİYE 2: Ad + Soyad Eşleşmesi (Güçlendirilmiş soyad kontrolü)
     if (csvNameParts.length >= 2) {
       student = allStudents.find(s => {
         const sNameParts = normalizeNameParts(s.name);
         if (sNameParts.length < 2) return false;
         
+        const csvAd = csvNameParts[0];
+        const csvSoyad = csvNameParts[csvNameParts.length - 1];
+        
+        const sAd = sNameParts[0];
+        const sSoyad = sNameParts[sNameParts.length - 1];
+        
         // Ad eşleşmesi (ilk kelime)
-        const adMatch = sNameParts[0] === csvNameParts[0];
-        // Soyad eşleşmesi (son kelime)
-        const soyadMatch = sNameParts[sNameParts.length - 1] === 
-                          csvNameParts[csvNameParts.length - 1];
+        const adMatch = sAd === csvAd;
+        // Soyad eşleşmesi (son kelime) - tam eşleşme gerekli
+        const soyadMatch = sSoyad === csvSoyad;
         
         return adMatch && soyadMatch;
       });
@@ -3668,20 +3821,75 @@
       }
     }
 
-    // SEVİYE 3: Sadece Ad Eşleşmesi
+    // SEVİYE 2.5: Kısmi İsim Eşleştirmesi (Soyad önceliği ile)
+    if (csvNameParts.length >= 2) {
+      const csvAd = csvNameParts[0];
+      const csvSoyad = csvNameParts[csvNameParts.length - 1];
+      
+      // Önce soyad eşleşmesi olanları bul
+      const surnameMatches = allStudents.filter(s => {
+        const sNameParts = normalizeNameParts(s.name);
+        if (sNameParts.length < 2) return false;
+        
+        const sSoyad = sNameParts[sNameParts.length - 1];
+        return sSoyad === csvSoyad;
+      });
+      
+      // Soyad eşleşenler arasında ad eşleşmesi ara
+      if (surnameMatches.length > 0) {
+        student = surnameMatches.find(s => {
+          const sNameParts = normalizeNameParts(s.name);
+          const sAd = sNameParts[0];
+          return sAd === csvAd || normalizeStudentName(s.name).includes(csvAd);
+        });
+        
+        if (student) {
+          return { 
+            student, 
+            method: 'Kısmi isim eşleşmesi (soyad önceliği)', 
+            confidence: 0.85 
+          };
+        }
+      }
+    }
+    
+    // Genel kısmi eşleşme kontrolü
+    student = allStudents.find(s => {
+      const normalizedStudentName = normalizeStudentName(s.name);
+      const normalizedCsvName = normalizeStudentName(csvName);
+      
+      return normalizedStudentName.includes(normalizedCsvName) || 
+             normalizedCsvName.includes(normalizedStudentName);
+    });
+    
+    if (student) {
+      return { 
+        student, 
+        method: 'Kısmi isim eşleşmesi', 
+        confidence: 0.8 
+      };
+    }
+
+    // SEVİYE 3: Sadece Ad Eşleşmesi (Esnek - CSV adı veritabanındaki ismin içinde geçiyorsa)
     if (csvNameParts.length >= 1) {
       const matches = allStudents.filter(s => {
         const sNameParts = normalizeNameParts(s.name);
         if (sNameParts.length < 1) return false;
         
-        return sNameParts[0] === csvNameParts[0];
+        const csvAd = csvNameParts[0];
+        const sAd = sNameParts[0];
+        
+        // Tam ad eşleşmesi veya CSV adı veritabanındaki ismin içinde geçiyorsa
+        return sAd === csvAd || 
+               normalizeStudentName(s.name).includes(csvAd) ||
+               csvAd.includes(sAd);
       });
       
       if (matches.length === 1) {
         return { 
           student: matches[0], 
           method: 'Sadece ad eşleşmesi', 
-          confidence: 0.7 
+          confidence: 0.5 
         };
       } else if (matches.length > 1) {
         // Birden fazla eşleşme - sınıf bilgisi ile filtrele
@@ -3690,7 +3898,7 @@
         return { 
           student: matches[0], 
           method: 'Sadece ad eşleşmesi (çoklu)', 
-          confidence: 0.6 
+          confidence: 0.4 
         };
       }
     }
@@ -3704,7 +3912,7 @@
       // similarity 0-100 arası değer döndürüyor, 0-1 arasına çevirmeliyiz
       const normalizedSimilarity = similarity / 100;
 
-      if (normalizedSimilarity > bestScore && normalizedSimilarity > 0.7) { // %70 benzerlik eşiği (düşürüldü)
+      if (normalizedSimilarity > bestScore && normalizedSimilarity > 0.5) { // %50 benzerlik eşiği (düşürüldü)
         bestMatch = s;
         bestScore = normalizedSimilarity;
       }
@@ -4321,12 +4529,19 @@
       const lgsScore = parseFloat(row['LGS_Puanı'] || 0);
 
       // Öğrenci eşleştirme kontrolü
-      const matchResult = findStudentAdvanced(studentName);
+      const matchResult = findStudentAdvanced(studentName, '', allStudents);
       if (!matchResult) {
         preview.problems.push({
           row: i + 1,
           type: 'matching',
           message: `Öğrenci bulunamadı: "${studentName}"`
+        });
+        preview.statistics.matchingIssues++;
+      } else if (matchResult.confidence < 0.6) {
+        preview.problems.push({
+          row: i + 1,
+          type: 'matching',
+          message: `Düşük güven eşleşmesi: "${studentName}" → "${matchResult.student.name}" (${Math.round(matchResult.confidence * 100)}%)`
         });
         preview.statistics.matchingIssues++;
       } else if (matchResult.confidence < 0.9) {
@@ -4432,6 +4647,7 @@
           <tr>
             <th>#</th>
             <th>Öğrenci Adı</th>
+            <th>Eşleşen Öğrenci</th>
             <th>Sınav Adı</th>
             <th>Tarih</th>
             <th>LGS Puanı</th>
@@ -4455,10 +4671,25 @@
       const statusClass = hasError ? 'error' : (hasWarning ? 'warning' : 'success');
       const statusText = hasError ? '❌ Hata' : (hasWarning ? '⚠️ Uyarı' : '✅ OK');
 
+      // Eşleştirme bilgisini al
+      const cleanedName = cleanStudentName(studentName);
+      const matchResult = findStudentAdvanced(cleanedName, '', allStudents);
+      let matchInfo = '';
+      
+      if (matchResult) {
+        const confidencePercent = Math.round(matchResult.confidence * 100);
+        const confidenceClass = matchResult.confidence >= 0.9 ? 'success' : 
+                               matchResult.confidence >= 0.6 ? 'warning' : 'error';
+        matchInfo = `<span class="${confidenceClass}">${matchResult.student.name} (${confidencePercent}%)</span>`;
+      } else {
+        matchInfo = '<span class="error">Eşleşme bulunamadı</span>';
+      }
+
       tableHTML += `
         <tr>
           <td>${index + 1}</td>
           <td class="student-name ${hasError ? 'validation-error' : ''}">${studentName}</td>
+          <td>${matchInfo}</td>
           <td>${examName}</td>
           <td>${examDate}</td>
           <td>${lgsScore}</td>
@@ -4544,13 +4775,37 @@
     csvProgressContainer.style.display = 'none';
   }
 
-  // FAZ 1.1: DUPLICATE KONTROL FONKSİYONLARI
+  // FAZ 1.1: DUPLICATE KONTROL FONKSİYONLARI (İyileştirilmiş)
   function isDuplicateExam(profile, examName, examDate) {
-    return allExams.some(exam =>
+    // Önce tam eşleşme kontrolü
+    const exactMatch = allExams.some(exam =>
       exam.profile === profile &&
       exam.name === examName &&
       exam.date === examDate
     );
+    
+    if (exactMatch) {
+      console.log(`🔁 DUPLICATE TESPİT EDİLDİ: ${profile} - ${examName} (${examDate})`);
+      console.log(`🔍 Mevcut sınavlar:`, allExams.filter(exam => 
+        exam.profile === profile && exam.name === examName
+      ));
+      return true;
+    }
+    
+    // Eğer tam eşleşme yoksa, aynı öğrenci için aynı gün içinde başka sınav var mı kontrol et
+    const sameDayExams = allExams.filter(exam =>
+      exam.profile === profile &&
+      exam.date === examDate
+    );
+    
+    if (sameDayExams.length > 0) {
+      console.log(`⚠️ Aynı gün sınav var: ${profile} - ${examDate}`);
+      console.log(`🔍 Aynı gün sınavları:`, sameDayExams.map(exam => exam.name));
+      // Aynı gün sınav varsa duplicate sayma, sadece uyarı ver
+      return false;
+    }
+    
+    return false;
   }
 
   // Duplicate handling seçenekleri
@@ -4617,7 +4872,7 @@
     return { valid: true };
   }
 
-  // FAZ 1.3: GELİŞMİŞ İSİM TEMİZLEME FONKSİYONLARI
+  // FAZ 1.3: GELİŞMİŞ İSİM TEMİZLEME FONKSİYONLARI - Sadece boşluk temizleme
   function cleanStudentName(name) {
     if (!name) return '';
 
@@ -4633,8 +4888,32 @@
   }
 
   function splitJoinedNames(name) {
+    if (!name || name.includes(' ')) {
+      return name;
+    }
+
+    // Türkçe yaygın isimler listesi
+    const commonFirstNames = [
+      'MEHMET', 'AHMET', 'ALİ', 'HASAN', 'HÜSEYİN', 'MUSTAFA', 'MAHMUT',
+      'AYŞE', 'FATMA', 'ELİF', 'ZEYNEP', 'HATICE', 'ESRA',
+      'EMİN', 'YUSUF', 'ÖMER', 'İBRAHİM', 'ABDULLAH', 'SÜLEYMAN',
+      'NAZ', 'NUR', 'SENA', 'DURU', 'ELA', 'BERRA', 'ASAF', 'ASIM',
+      'DERİN', 'EGEMEN', 'FESLİKAN', 'HAKAN', 'HİDAYET', 'KAAN',
+      'MAHMUTEMİN', 'OMUR', 'YIGIT', 'ZEYNEP'
+    ];
+
+    // Önce yaygın isimlerle kontrol et
+    for (const firstName of commonFirstNames) {
+      if (name.toUpperCase().startsWith(firstName) && name.length > firstName.length) {
+        const remaining = name.slice(firstName.length);
+        if (remaining.length > 0) {
+          return firstName + ' ' + remaining;
+        }
+      }
+    }
+
     // Eğer boşluk yoksa ve 2'den fazla büyük harf varsa ayır
-    if (!name.includes(' ') && name.length > 5) {
+    if (name.length > 5) {
       // Büyük harfleri bul
       const upperCasePositions = [];
       for (let i = 0; i < name.length; i++) {
@@ -4748,8 +5027,8 @@
           let student, confidence, method;
           console.log(`?? DEBUG: matchResult için "${studentName}":`, matchResult);
           
-          // Eğer eşleştirme bulunamadıysa veya düşük güvenliyse modal aç
-          if (!matchResult || matchResult.confidence < 0.7) {
+          // Eğer eşleştirme bulunamadıysa veya düşük güvenliyse modal aç (eşik düşürüldü)
+          if (!matchResult || matchResult.confidence < 0.6) {
             console.log(`?? DEBUG: Öğrenci eşleştirilemedi: "${studentName}"`);
             console.log(`?? DEBUG: matchResult:`, matchResult);
             console.log(`?? DEBUG: allStudents sayısı:`, allStudents.length);
@@ -4817,6 +5096,8 @@
             csvImportStats.errors++;
             continue; // Bu sınavı atla
           }
+          
+          console.log(`✅ ${studentName} sınavı işleniyor...`);
 
           // Ders verilerini ekle
           let hasValidationErrors = false;
@@ -7417,22 +7698,25 @@
   }
 
   // Sınıf karşılaştırma butonu
-  document.getElementById('compare-classes-btn').addEventListener('click', function() {
-    const class1 = document.getElementById('compare-class1').value;
-    const class2 = document.getElementById('compare-class2').value;
-    
-    if (!class1 || !class2) {
-      showToast('Hata', 'Lütfen karşılaştırılacak iki sınıfı seçin', 'error');
-      return;
-    }
+  const compareBtn = document.getElementById('compare-classes-btn');
+  if (compareBtn) {
+    compareBtn.addEventListener('click', function() {
+      const class1 = document.getElementById('compare-class1').value;
+      const class2 = document.getElementById('compare-class2').value;
+      
+      if (!class1 || !class2) {
+        showToast('Hata', 'Lütfen karşılaştırılacak iki sınıfı seçin', 'error');
+        return;
+      }
 
-    if (class1 === class2) {
-      showToast('Hata', 'Aynı sınıfı seçemezsiniz', 'error');
-      return;
-    }
+      if (class1 === class2) {
+        showToast('Hata', 'Aynı sınıfı seçemezsiniz', 'error');
+        return;
+      }
 
-    compareClasses(class1, class2);
-  });
+      compareClasses(class1, class2);
+    });
+  }
 
   // Sınıfları karşılaştır
   function compareClasses(class1, class2) {
@@ -10628,15 +10912,8 @@
 
   /**
    * Sınav Filtreleme Sistemi - Global Değişkenler
+   * (Değişkenler yukarıda global olarak tanımlandı)
    */
-  let filteredExams = [];
-  let activeFilters = {
-    grade: '',
-    section: '',
-    student: '',
-    examNumber: '',
-    examName: ''
-  };
 
   /**
    * Sınav yönetimi sayfasını yükler - Tüm öğrencilerin sınavları
@@ -10719,81 +10996,16 @@
 }
 
   /**
-   * Seçili sınav sayısını günceller
+   * (Fonksiyon global olarak tanımlandı)
    */
-  function updateSelectedExamCount() {
-  const selected = document.querySelectorAll('.exam-checkbox:checked');
-  const count = selected.length;
-  
-  const countElement = document.getElementById('selected-exam-count');
-  const deleteButton = document.getElementById('delete-selected-exams');
-  
-  if (countElement) countElement.textContent = count;
-  if (deleteButton) deleteButton.disabled = count === 0;
-}
 
   /**
-   * Tüm sınavları seç/bırak
+   * (Fonksiyonlar global olarak tanımlandı)
    */
-  window.toggleAllExams = function() {
-  const checkboxes = document.querySelectorAll('.exam-checkbox');
-  const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-  
-  checkboxes.forEach(cb => cb.checked = !allChecked);
-  
-  const selectAllBtn = document.getElementById('select-all-exams');
-  if (selectAllBtn) {
-    selectAllBtn.textContent = allChecked ? '?? Tümünü Seç' : '? Seçimi Kaldır';
-  }
-  
-  updateSelectedExamCount();
-};
 
   /**
-   * Seçilen sınavları siler
+   * Tüm sınavları siler
    */
-  window.deleteSelectedExams = async function() {
-  const selected = document.querySelectorAll('.exam-checkbox:checked');
-  const examIds = Array.from(selected).map(cb => parseInt(cb.dataset.examId));
-  
-  if (examIds.length === 0) return;
-  
-  const confirm = window.confirm(
-    `${examIds.length} sınavı silmek istediğinizden emin misiniz?\n\n` +
-    '?? Bu işlem geri alınamaz!'
-  );
-  
-  if (!confirm) return;
-  
-  try {
-    // Sınavları sil
-    const filteredExams = allExams.filter(exam => !examIds.includes(exam.id));
-    
-    const result = await window.electronAPI.saveData({
-      value: filteredExams,
-      Count: filteredExams.length
-    });
-    
-    if (result.success) {
-      allExams = filteredExams;
-      showToast('Başarılı', `${examIds.length} sınav silindi`, 'success');
-      
-      // Listeyi yenile
-      loadExamManagement();
-      
-    // Grafikleri güncelle
-    if (selectedStudent) {
-      const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
-      updateCharts(profileExams);
-    }
-    } else {
-      showToast('Hata', 'Sınavlar silinemedi', 'error');
-    }
-  } catch (error) {
-    console.error('Sınav silme hatası:', error);
-    showToast('Hata', 'Sınavlar silinirken bir hata oluştu', 'error');
-  }
-};
 
   /**
    * Tüm sınavları siler
@@ -12971,6 +13183,20 @@ function loadClassCheckboxes() {
   container.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', handleClassCheckboxChange);
   });
+
+  // YENİ: Karşılaştırma select'lerini doldur
+  const compareClass1 = document.getElementById('compare-class1');
+  const compareClass2 = document.getElementById('compare-class2');
+  
+  if (compareClass1) {
+    compareClass1.innerHTML = '<option value="">İlk Sınıf Seçin</option>' + 
+      uniqueClasses.map(cls => `<option value="${cls}">${cls}</option>`).join('');
+  }
+  
+  if (compareClass2) {
+    compareClass2.innerHTML = '<option value="">İkinci Sınıf Seçin</option>' + 
+      uniqueClasses.map(cls => `<option value="${cls}">${cls}</option>`).join('');
+  }
 }
 
 // Checkbox değişikliğini handle et

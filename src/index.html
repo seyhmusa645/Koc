@@ -817,6 +817,26 @@
                                     📊 Analiz Yap
                                 </button>
                             </div>
+
+                            <!-- Sınıf Karşılaştırma Kontrolleri -->
+                            <div class="class-comparison-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                                <h4 style="margin-bottom: 10px; color: #333;">⚖️ İki Sınıf Karşılaştırması</h4>
+                                <div class="comparison-inputs" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                    <select id="compare-class1" class="class-dropdown" style="min-width: 150px;">
+                                        <option value="">İlk Sınıf Seçin</option>
+                                        <!-- Sınıflar dinamik olarak doldurulacak -->
+                                    </select>
+                                    
+                                    <select id="compare-class2" class="class-dropdown" style="min-width: 150px;">
+                                        <option value="">İkinci Sınıf Seçin</option>
+                                        <!-- Sınıflar dinamik olarak doldurulacak -->
+                                    </select>
+                                    
+                                    <button id="compare-classes-btn" class="btn-secondary">
+                                        ⚖️ Sınıfları Karşılaştır
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Grafik ve Sonuçlar Alanı -->
@@ -840,6 +860,11 @@
                                     🖼️ PNG Kaydet
                                 </button>
                             </div>
+                        </div>
+
+                        <!-- Sınıf Karşılaştırma Sonuçları -->
+                        <div id="comparison-results" class="comparison-results" style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; display: none;">
+                            <!-- Karşılaştırma sonuçları buraya gelecek -->
                         </div>
                     </div>
                 </div>
