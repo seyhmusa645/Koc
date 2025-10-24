@@ -1,6 +1,83 @@
 ﻿// DersPlanlayici.js - Advanced Study Planning System
 // Gelişmiş Ders Planlama Sistemi
 
+// ============================================
+// PLAN ŞABLONLARI (Hazır Çalışma Planları)
+// ============================================
+const PLAN_TEMPLATES = {
+  intensive: {
+    id: 'intensive',
+    name: '🔥 Yoğun Çalışma',
+    description: 'LGS öncesi son 3 ay için ideal',
+    icon: '🔥',
+    dailyHours: 4,
+    weekendHours: 6,
+    breakFrequency: 30,
+    questionTarget: 2500,
+    studyTechnique: 'pomodoro',
+    focusOnWeakTopics: true,
+    settings: {
+      okuldanCikis: '16:00',
+      calismaBaslangic: '09:00',
+      uyumaSaati: '23:00'
+    }
+  },
+
+  balanced: {
+    id: 'balanced',
+    name: '⚖️ Dengeli Çalışma',
+    description: 'Okul dönemi için ideal, dengeli tempo',
+    icon: '⚖️',
+    dailyHours: 2,
+    weekendHours: 4,
+    breakFrequency: 40,
+    questionTarget: 1400,
+    studyTechnique: 'spaced',
+    focusOnWeakTopics: true,
+    settings: {
+      okuldanCikis: '16:30',
+      calismaBaslangic: '09:30',
+      uyumaSaati: '22:30'
+    }
+  },
+
+  light: {
+    id: 'light',
+    name: '🌱 Hafif Tempo',
+    description: 'Yeni başlayanlar veya 5-6. sınıflar için',
+    icon: '🌱',
+    dailyHours: 1.5,
+    weekendHours: 3,
+    breakFrequency: 25,
+    questionTarget: 700,
+    studyTechnique: 'pomodoro',
+    focusOnWeakTopics: false,
+    settings: {
+      okuldanCikis: '17:00',
+      calismaBaslangic: '10:00',
+      uyumaSaati: '22:00'
+    }
+  },
+
+  exam_week: {
+    id: 'exam_week',
+    name: '📝 Sınav Haftası',
+    description: 'Deneme öncesi son hafta sprint',
+    icon: '📝',
+    dailyHours: 5,
+    weekendHours: 7,
+    breakFrequency: 45,
+    questionTarget: 3500,
+    studyTechnique: 'feynman',
+    focusOnWeakTopics: true,
+    settings: {
+      okuldanCikis: '15:00',
+      calismaBaslangic: '08:00',
+      uyumaSaati: '23:30'
+    }
+  }
+};
+
 // --- StudyPlanAlgorithms Sınıfı ---
 class StudyPlanAlgorithms {
   constructor() {
@@ -29,6 +106,36 @@ class StudyPlanAlgorithms {
         studyTime: 40,
         breakTime: 10
       }
+    };
+  }
+
+  /**
+   * Plan önizlemesi oluşturur
+   */
+  generatePlanPreview(options) {
+    const { weeklyHours, questionTarget, technique, grade } = options;
+
+    // Günlük dağılım hesapla
+    const dailyHours = weeklyHours / 7;
+    const dailyQuestions = Math.round(questionTarget / 7);
+
+    // Ders dağılımı hesapla
+    const subjectDistribution = {
+      'Paragraf': Math.round(dailyQuestions * 0.125), // 12.5%
+      'Matematik': Math.round(dailyQuestions * 0.25), // 25%
+      'Fen Bilimleri': Math.round(dailyQuestions * 0.25), // 25%
+      'Türkçe': Math.round(dailyQuestions * 0.25), // 25%
+      'Diğer': Math.round(dailyQuestions * 0.125) // 12.5%
+    };
+
+    return {
+      weeklyHours,
+      dailyHours: parseFloat(dailyHours.toFixed(1)),
+      questionTarget,
+      dailyQuestions,
+      subjectDistribution,
+      technique: this.studyTechniques[technique]?.name || 'Bilinmiyor',
+      estimatedDays: Math.ceil(questionTarget / dailyQuestions)
     };
   }
 
@@ -1519,5 +1626,272 @@ ${remoteFocusLines}` : ''}`
 
 // renderer.js'den çağrılacak global fonksiyon
 window.initializeDersPlanlayici = initializeDersPlanlayici;
+
+// ============================================
+// GAMİFİCATION SİSTEMİ (Rozet ve İlerleme)
+// ============================================
+
+class StudyGamification {
+  constructor() {
+    this.badges = {
+      weekCompleted: {
+        id: 'week_completed',
+        icon: '🏆',
+        name: 'Hafta Tamamlandı',
+        description: 'Tüm haftalık hedefleri tamamladın!',
+        xp: 100,
+        condition: (stats) => stats.weekCompletion >= 100
+      },
+      perfectWeek: {
+        id: 'perfect_week',
+        icon: '⭐',
+        name: 'Mükemmel Hafta',
+        description: '%100 tamamlama oranı!',
+        xp: 250,
+        condition: (stats) => stats.weekCompletion === 100
+      },
+      streakWeek: {
+        id: 'streak_week',
+        icon: '🔥',
+        name: '3 Hafta Üst Üste',
+        description: '3 hafta boyunca düzenli çalıştın!',
+        xp: 500,
+        condition: (stats) => stats.streak >= 21 // 3 hafta = 21 gün
+      },
+      earlyBird: {
+        id: 'early_bird',
+        icon: '🌅',
+        name: 'Erken Kuş',
+        description: '5 gün üst üste sabah çalıştın!',
+        xp: 150,
+        condition: (stats) => stats.morningStudyDays >= 5
+      },
+      nightOwl: {
+        id: 'night_owl',
+        icon: '🦉',
+        name: 'Gece Kuşu',
+        description: '5 gün üst üste akşam çalıştın!',
+        xp: 150,
+        condition: (stats) => stats.eveningStudyDays >= 5
+      },
+      weakTopicMaster: {
+        id: 'weak_topic_master',
+        icon: '💪',
+        name: 'Zayıf Konu Ustası',
+        description: 'Bir zayıf konuyu ustalaştırdın!',
+        xp: 300,
+        condition: (stats) => stats.masteredWeakTopics >= 1
+      },
+      marathoner: {
+        id: 'marathoner',
+        icon: '🏃',
+        name: 'Maraton Koşucusu',
+        description: '1000+ soru çözdün!',
+        xp: 400,
+        condition: (stats) => stats.totalQuestions >= 1000
+      },
+      consistent: {
+        id: 'consistent',
+        icon: '📅',
+        name: 'Tutarlı Çalışkan',
+        description: '30 gün boyunca her gün çalıştın!',
+        xp: 750,
+        condition: (stats) => stats.streak >= 30
+      }
+    };
+
+    this.levels = [
+      { level: 1, name: 'Yeni Başlayan', minXP: 0, maxXP: 99 },
+      { level: 2, name: 'Acemi', minXP: 100, maxXP: 299 },
+      { level: 3, name: 'Öğrenci', minXP: 300, maxXP: 599 },
+      { level: 4, name: 'Çalışkan', minXP: 600, maxXP: 999 },
+      { level: 5, name: 'Deneyimli', minXP: 1000, maxXP: 1499 },
+      { level: 6, name: 'Uzman', minXP: 1500, maxXP: 2499 },
+      { level: 7, name: 'Master', minXP: 2500, maxXP: 3999 },
+      { level: 8, name: 'Efsane', minXP: 4000, maxXP: 5999 },
+      { level: 9, name: 'Kahraman', minXP: 6000, maxXP: 9999 },
+      { level: 10, name: 'LGS Şampiyonu', minXP: 10000, maxXP: Infinity }
+    ];
+  }
+
+  /**
+   * XP'den seviye hesapla
+   */
+  calculateLevel(xp) {
+    for (let i = this.levels.length - 1; i >= 0; i--) {
+      const levelInfo = this.levels[i];
+      if (xp >= levelInfo.minXP) {
+        const nextLevel = this.levels[i + 1];
+        const xpInCurrentLevel = xp - levelInfo.minXP;
+        const xpNeededForNextLevel = nextLevel
+          ? nextLevel.minXP - levelInfo.minXP
+          : 0;
+        const progressPercent = nextLevel
+          ? Math.round((xpInCurrentLevel / xpNeededForNextLevel) * 100)
+          : 100;
+
+        return {
+          level: levelInfo.level,
+          name: levelInfo.name,
+          xp,
+          xpInLevel: xpInCurrentLevel,
+          xpForNext: xpNeededForNextLevel - xpInCurrentLevel,
+          progressPercent,
+          nextLevelName: nextLevel?.name || 'Maksimum Seviye'
+        };
+      }
+    }
+
+    return {
+      level: 1,
+      name: 'Yeni Başlayan',
+      xp: 0,
+      xpInLevel: 0,
+      xpForNext: 100,
+      progressPercent: 0,
+      nextLevelName: 'Acemi'
+    };
+  }
+
+  /**
+   * Kazanılan rozetleri kontrol et
+   */
+  checkBadges(stats) {
+    const earnedBadges = [];
+
+    Object.values(this.badges).forEach(badge => {
+      if (badge.condition(stats) && !stats.earnedBadges?.includes(badge.id)) {
+        earnedBadges.push(badge);
+      }
+    });
+
+    return earnedBadges;
+  }
+
+  /**
+   * Dashboard için istatistikleri hazırla
+   */
+  generateDashboardData(studentProgress) {
+    const level = this.calculateLevel(studentProgress.totalXP || 0);
+    const earnedBadges = studentProgress.earnedBadges || [];
+
+    return {
+      level,
+      totalXP: studentProgress.totalXP || 0,
+      earnedBadges: earnedBadges.map(badgeId => this.badges[badgeId]),
+      availableBadges: Object.values(this.badges).filter(
+        badge => !earnedBadges.includes(badge.id)
+      ),
+      stats: {
+        todayCompletion: studentProgress.todayCompletion || 0,
+        weekCompletion: studentProgress.weekCompletion || 0,
+        streak: studentProgress.streak || 0,
+        totalQuestions: studentProgress.totalQuestions || 0
+      }
+    };
+  }
+
+  /**
+   * İlerleme barı HTML'i oluştur
+   */
+  renderProgressBar(percent, label) {
+    return `
+      <div class="progress-bar-container">
+        <div class="progress-bar-label">${label}</div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="width: ${percent}%"></div>
+        </div>
+        <div class="progress-bar-percent">${percent}%</div>
+      </div>
+    `;
+  }
+
+  /**
+   * Rozet kartı HTML'i oluştur
+   */
+  renderBadgeCard(badge, earned = false) {
+    return `
+      <div class="badge-card ${earned ? 'earned' : 'locked'}">
+        <div class="badge-icon">${badge.icon}</div>
+        <div class="badge-name">${badge.name}</div>
+        <div class="badge-description">${badge.description}</div>
+        <div class="badge-xp">${badge.xp} XP</div>
+        ${earned ? '<div class="badge-status">✅ Kazanıldı</div>' : '<div class="badge-status">🔒 Kilitli</div>'}
+      </div>
+    `;
+  }
+
+  /**
+   * Tam dashboard HTML'i oluştur
+   */
+  renderDashboard(studentProgress) {
+    const dashData = this.generateDashboardData(studentProgress);
+
+    return `
+      <div class="study-dashboard">
+        <!-- Seviye ve XP -->
+        <div class="dashboard-section level-section">
+          <h3>⭐ Seviye ${dashData.level.level} - ${dashData.level.name}</h3>
+          <div class="level-info">
+            <p>Toplam XP: <strong>${dashData.totalXP}</strong></p>
+            <p>Sonraki seviye için: <strong>${dashData.level.xpForNext} XP</strong></p>
+          </div>
+          ${this.renderProgressBar(dashData.level.progressPercent, `${dashData.level.nextLevelName} seviyesine ilerleme`)}
+        </div>
+
+        <!-- Günlük ve Haftalık İlerleme -->
+        <div class="dashboard-section progress-section">
+          <h3>📊 İlerleme</h3>
+          ${this.renderProgressBar(dashData.stats.todayCompletion, 'Bugünkü Hedefler')}
+          ${this.renderProgressBar(dashData.stats.weekCompletion, 'Haftalık Hedefler')}
+          <div class="streak-display">
+            <span class="streak-icon">🔥</span>
+            <span class="streak-number">${dashData.stats.streak}</span>
+            <span class="streak-label">gün üst üste</span>
+          </div>
+        </div>
+
+        <!-- Kazanılan Rozetler -->
+        <div class="dashboard-section badges-section">
+          <h3>🏅 Rozetler (${dashData.earnedBadges.length}/${Object.keys(this.badges).length})</h3>
+          <div class="badge-grid">
+            ${dashData.earnedBadges.map(badge => this.renderBadgeCard(badge, true)).join('')}
+            ${dashData.availableBadges.slice(0, 3).map(badge => this.renderBadgeCard(badge, false)).join('')}
+          </div>
+        </div>
+
+        <!-- İstatistikler -->
+        <div class="dashboard-section stats-section">
+          <h3>📈 İstatistikler</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📝</div>
+              <div class="stat-value">${dashData.stats.totalQuestions}</div>
+              <div class="stat-label">Toplam Soru</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⭐</div>
+              <div class="stat-value">${dashData.level.level}</div>
+              <div class="stat-label">Seviye</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🏆</div>
+              <div class="stat-value">${dashData.earnedBadges.length}</div>
+              <div class="stat-label">Rozet</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-value">${dashData.stats.streak}</div>
+              <div class="stat-label">Seri</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Global gamification instance
+window.studyGamification = new StudyGamification();
 
 

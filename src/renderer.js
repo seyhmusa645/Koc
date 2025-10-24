@@ -9306,14 +9306,20 @@
     }
 
     try {
-      console.log('?? DEBUG: AI evaluation request başlatılıyor...');
-      const response = await window.electronAPI.getAiEvaluation({
-        id: selectedStudent.id,
-        name: selectedStudent.name,
-        grade: selectedStudent.grade,
-        class: selectedStudent.class,
-        learningStyle: selectedStudent.learningStyle
-      }, force);
+      console.log('🧠 DEBUG: AI evaluation request başlatılıyor...');
+      console.log('🧠 Zenginleştirilmiş veri toplanıyor...');
+
+      // Zenginleştirilmiş öğrenci verileri topla
+      const enhancedData = collectEnhancedStudentData(selectedStudent);
+
+      console.log('📊 Toplanan veriler:', {
+        recentExams: enhancedData.recentExams.length,
+        trend: enhancedData.performanceTrend.trend,
+        weakTopics: enhancedData.weakTopics.length,
+        strongTopics: enhancedData.strongTopics.length
+      });
+
+      const response = await window.electronAPI.getAiEvaluation(enhancedData, force);
 
       console.log('?? DEBUG: AI evaluation response:', response);
 
@@ -11886,6 +11892,319 @@ function loadClassCheckboxes() {
   console.log('loadClassCheckboxes: Dropdown\'lar başarıyla dolduruldu');
 }
 
+
+// ============================================
+// AI DEĞERLENDİRME - VERİ TOPLAMA FONKSİYONLARI
+// ============================================
+
+/**
+ * Öğrencinin son N sınavını getirir
+ */
+function getRecentExams(studentId, limit = 5) {
+  const studentName = typeof studentId === 'string' ? studentId :
+                      allStudents.find(s => s.id === studentId)?.name;
+
+  if (!studentName) return [];
+
+  return allExams
+    .filter(exam => exam.profile === studentName)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, limit)
+    .map(exam => {
+      const totalNet = Object.values(exam.courses || {}).reduce((sum, course) => {
+        return sum + (course.net ?? (course.correct - (course.incorrect / 4)));
+      }, 0);
+
+      const lgsScore = exam.lgsScore || calculateLGSScore(exam);
+
+      return {
+        name: exam.name,
+        date: exam.date,
+        totalNet: parseFloat(totalNet.toFixed(2)),
+        lgsScore: parseFloat(lgsScore.toFixed(2)),
+        courses: exam.courses
+      };
+    });
+}
+
+/**
+ * Performans trendini hesaplar
+ */
+function calculatePerformanceTrend(studentId) {
+  const recentExams = getRecentExams(studentId, 5);
+
+  if (recentExams.length < 2) {
+    return {
+      trend: 'insufficient_data',
+      changePercent: 0,
+      avgScore: 0,
+      message: 'Yeterli sınav verisi yok'
+    };
+  }
+
+  // Son 3 sınav vs önceki 3 sınav karşılaştırması
+  const lastThree = recentExams.slice(0, 3);
+  const previousThree = recentExams.slice(2, 5);
+
+  const lastThreeAvg = lastThree.reduce((sum, e) => sum + e.totalNet, 0) / lastThree.length;
+  const previousThreeAvg = previousThree.length > 0
+    ? previousThree.reduce((sum, e) => sum + e.totalNet, 0) / previousThree.length
+    : lastThreeAvg;
+
+  const changePercent = previousThreeAvg > 0
+    ? ((lastThreeAvg - previousThreeAvg) / previousThreeAvg) * 100
+    : 0;
+
+  let trend = 'stable';
+  if (changePercent > 5) trend = 'increasing';
+  else if (changePercent < -5) trend = 'decreasing';
+
+  return {
+    trend,
+    changePercent: parseFloat(changePercent.toFixed(2)),
+    avgScore: parseFloat(lastThreeAvg.toFixed(2)),
+    lastExamScore: recentExams[0].totalNet,
+    message: trend === 'increasing' ? 'Yükseliş trendinde' :
+             trend === 'decreasing' ? 'Düşüş trendinde' : 'Stabil performans'
+  };
+}
+
+/**
+ * En zayıf konuları getirir
+ */
+function getWeakTopics(studentId, limit = 10) {
+  const studentName = typeof studentId === 'string' ? studentId :
+                      allStudents.find(s => s.id === studentId)?.name;
+
+  if (!studentName) return [];
+
+  const recentExams = allExams
+    .filter(exam => exam.profile === studentName)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3); // Son 3 sınav
+
+  const outcomeFrequency = {};
+
+  recentExams.forEach(exam => {
+    Object.entries(exam.courses || {}).forEach(([subject, course]) => {
+      if (course.incorrectOutcomes) {
+        const outcomes = Array.isArray(course.incorrectOutcomes)
+          ? course.incorrectOutcomes
+          : [];
+
+        outcomes.forEach(outcome => {
+          if (outcome && outcome.trim()) {
+            const key = outcome.trim();
+            if (!outcomeFrequency[key]) {
+              outcomeFrequency[key] = {
+                subject,
+                topic: outcome,
+                frequency: 0
+              };
+            }
+            outcomeFrequency[key].frequency++;
+          }
+        });
+      }
+    });
+  });
+
+  return Object.values(outcomeFrequency)
+    .sort((a, b) => b.frequency - a.frequency)
+    .slice(0, limit)
+    .map(item => ({
+      subject: getSubjectDisplayName(item.subject),
+      topic: item.topic.length > 60 ? item.topic.substring(0, 60) + '...' : item.topic,
+      frequency: item.frequency
+    }));
+}
+
+/**
+ * En güçlü konuları getirir
+ */
+function getStrongTopics(studentId, limit = 5) {
+  const recentExams = getRecentExams(studentId, 3);
+
+  if (recentExams.length === 0) return [];
+
+  const subjectScores = {};
+
+  recentExams.forEach(exam => {
+    Object.entries(exam.courses || {}).forEach(([subject, course]) => {
+      if (!subjectScores[subject]) {
+        subjectScores[subject] = {
+          subject,
+          totalNet: 0,
+          totalQuestions: 0,
+          examCount: 0
+        };
+      }
+
+      const net = course.net ?? (course.correct - (course.incorrect / 4));
+      const total = (course.correct || 0) + (course.incorrect || 0) + (course.empty || 0);
+
+      subjectScores[subject].totalNet += net;
+      subjectScores[subject].totalQuestions += total;
+      subjectScores[subject].examCount++;
+    });
+  });
+
+  return Object.values(subjectScores)
+    .map(item => ({
+      subject: getSubjectDisplayName(item.subject),
+      avgNet: parseFloat((item.totalNet / item.examCount).toFixed(2)),
+      avgScore: item.totalQuestions > 0
+        ? Math.round((item.totalNet / item.totalQuestions) * 100)
+        : 0
+    }))
+    .sort((a, b) => b.avgScore - a.avgScore)
+    .slice(0, limit);
+}
+
+/**
+ * Etüt verilerini getirir
+ */
+function getEtutData(studentId) {
+  const studentName = typeof studentId === 'string' ? studentId :
+                      allStudents.find(s => s.id === studentId)?.name;
+
+  // Not: Etüt verileri varsa burada toplanır
+  // Şu an için örnek veri döndürüyoruz
+  return {
+    totalAttended: 0,
+    totalScheduled: 0,
+    attendanceRate: 0,
+    mostFrequentSubject: '-',
+    recentEtuts: []
+  };
+}
+
+/**
+ * Çalışma verilerini getirir
+ */
+function getStudyData(studentId) {
+  // Not: Ders planı tamamlanma verileri varsa burada toplanır
+  return {
+    weeklyStudyHours: 0,
+    lastWeekCompletion: 0,
+    preferredStudyTime: 'not_set'
+  };
+}
+
+/**
+ * Motivasyon göstergelerini hesaplar
+ */
+function getMotivationIndicators(studentId) {
+  const recentExams = getRecentExams(studentId, 5);
+
+  if (recentExams.length === 0) {
+    return {
+      examParticipation: 0,
+      trend: 'unknown',
+      selfAssessmentScore: 5
+    };
+  }
+
+  // Sınav katılımı (son 5 sınavdan kaçına katıldı)
+  const examParticipation = Math.round((recentExams.length / 5) * 100);
+
+  // Performans trendi
+  const trend = calculatePerformanceTrend(studentId);
+
+  return {
+    examParticipation,
+    trend: trend.trend,
+    trendPercent: trend.changePercent,
+    selfAssessmentScore: 7 // Varsayılan
+  };
+}
+
+/**
+ * Ders adını görüntüleme formatına çevirir
+ */
+function getSubjectDisplayName(subject) {
+  const displayNames = {
+    'turkce': 'Türkçe',
+    'matematik': 'Matematik',
+    'fen': 'Fen Bilimleri',
+    'sosyal': 'Sosyal Bilgiler',
+    'inkilap': 'İnkılap Tarihi',
+    'din': 'Din Kültürü',
+    'ingilizce': 'İngilizce'
+  };
+  return displayNames[subject] || subject;
+}
+
+/**
+ * LGS puanını hesaplar (basitleştirilmiş)
+ */
+function calculateLGSScore(exam) {
+  if (!exam.courses) return 0;
+
+  const weights = {
+    turkce: 5,
+    matematik: 5,
+    fen: 5,
+    sosyal: 5,
+    inkilap: 5,
+    din: 5,
+    ingilizce: 5
+  };
+
+  let totalWeightedNet = 0;
+  let totalWeight = 0;
+
+  Object.entries(exam.courses).forEach(([subject, course]) => {
+    const net = course.net ?? (course.correct - (course.incorrect / 4));
+    const weight = weights[subject] || 5;
+    totalWeightedNet += net * weight;
+    totalWeight += weight;
+  });
+
+  return totalWeight > 0 ? (totalWeightedNet / totalWeight) * 10 : 0;
+}
+
+/**
+ * AI için zenginleştirilmiş öğrenci verileri toplar
+ */
+function collectEnhancedStudentData(student) {
+  const studentId = student.name;
+
+  const recentExams = getRecentExams(studentId, 5);
+  const performanceTrend = calculatePerformanceTrend(studentId);
+  const weakTopics = getWeakTopics(studentId, 10);
+  const strongTopics = getStrongTopics(studentId, 5);
+  const etutData = getEtutData(studentId);
+  const studyData = getStudyData(studentId);
+  const motivationIndicators = getMotivationIndicators(studentId);
+
+  return {
+    // Temel bilgiler
+    id: student.id,
+    name: student.name,
+    grade: student.grade,
+    class: student.class,
+    learningStyle: student.learningStyle,
+
+    // Zenginleştirilmiş veriler
+    recentExams,
+    performanceTrend,
+    weakTopics,
+    strongTopics,
+    etutData,
+    studyData,
+    motivationIndicators,
+
+    // Özet istatistikler
+    summary: {
+      totalExams: recentExams.length,
+      avgScore: performanceTrend.avgScore,
+      trend: performanceTrend.trend,
+      weakTopicsCount: weakTopics.length,
+      strongTopicsCount: strongTopics.length
+    }
+  };
+}
 
 // Sayfa yüklendiğinde filtreleme ve sınıf karşılaştırma fonksiyonlarını başlat
 document.addEventListener('DOMContentLoaded', () => {
