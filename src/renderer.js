@@ -5837,6 +5837,17 @@
     loadClassAnalysisData();
   });
 
+  // Sınav yönetimi sayfasına geçiş
+  document.getElementById('nav-exam-management').addEventListener('click', function() {
+    showPage('exam-management-section');
+    loadExamManagement();
+  });
+
+  // Performans panosu sayfasına geçiş
+  document.getElementById('nav-performance-overview').addEventListener('click', function() {
+    showPage('performance-overview-section');
+  });
+
   // Hakkında sayfasına geçiş
   document.getElementById('nav-about').addEventListener('click', function() {
     showPage('about-section');
@@ -6819,6 +6830,8 @@
   // Sınıf karşılaştırmasını göster
   function showClassComparison() {
     document.getElementById('class-comparison').style.display = 'block';
+    // Sınıf karşılaştırma dropdown'larını doldur
+    loadClassCheckboxes();
   }
 
   // Sınıf karşılaştırma butonu
@@ -9170,7 +9183,7 @@
       // Metni varsayılan haline döndür
       const btnText = aiEvaluationButton.querySelector('.btn-text');
       if (btnText) {
-        btnText.textContent = '?? AI Analizini Başlat';
+        btnText.textContent = '🧠 AI Analizini Başlat';
       }
     }
 
@@ -9379,7 +9392,7 @@
         // Metni varsayılan haline döndür
         const btnText = aiEvaluationButton.querySelector('.btn-text');
         if (btnText) {
-          btnText.textContent = '?? AI Analizini Başlat';
+          btnText.textContent = '🧠 AI Analizini Başlat';
         }
         
         aiEvaluationButton.disabled = !isPremiumPlan();
@@ -11521,6 +11534,366 @@ async function exportToExcel() {
     showToast('Excel dosyası oluşturulurken hata oluştu', 'error');
   }
 }
+
+// ============================================
+// SINAV YÖNETİMİ - FİLTRELEME FONKSİYONLARI
+// ============================================
+
+/**
+ * Sınav filtreleme değişkenleri
+ */
+let currentFilters = {
+  grade: '',
+  section: '',
+  student: '',
+  examNumber: '',
+  examName: ''
+};
+
+/**
+ * Filtreleme event listener'larını başlat
+ */
+function initExamFilters() {
+  const applyFiltersBtn = document.getElementById('apply-filters-btn');
+  const clearFiltersBtn = document.getElementById('clear-filters-btn');
+  const gradeFilter = document.getElementById('grade-filter');
+  const sectionFilter = document.getElementById('section-filter');
+  const studentFilter = document.getElementById('student-filter');
+
+  if (applyFiltersBtn) {
+    applyFiltersBtn.addEventListener('click', applyExamFilters);
+  }
+
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', clearExamFilters);
+  }
+
+  // Sınıf değiştiğinde şube filtrelerini güncelle
+  if (gradeFilter) {
+    gradeFilter.addEventListener('change', updateSectionFilter);
+  }
+
+  // Sınıf ve şube değiştiğinde öğrenci filtrelerini güncelle
+  if (gradeFilter && sectionFilter) {
+    gradeFilter.addEventListener('change', updateStudentFilter);
+    sectionFilter.addEventListener('change', updateStudentFilter);
+  }
+}
+
+/**
+ * Şube filtresini güncelle
+ */
+function updateSectionFilter() {
+  const gradeFilter = document.getElementById('grade-filter');
+  const sectionFilter = document.getElementById('section-filter');
+
+  if (!gradeFilter || !sectionFilter) return;
+
+  const selectedGrade = gradeFilter.value;
+  const students = getStudents();
+
+  // Seçili sınıftaki benzersiz şubeleri bul
+  const sections = [...new Set(
+    students
+      .filter(s => !selectedGrade || s.grade == selectedGrade)
+      .map(s => s.class)
+      .filter(c => c)
+  )].sort();
+
+  // Dropdown'u güncelle
+  sectionFilter.innerHTML = '<option value="">Tüm Şubeler</option>' +
+    sections.map(section => `<option value="${section}">${section} Şubesi</option>`).join('');
+}
+
+/**
+ * Öğrenci filtresini güncelle
+ */
+function updateStudentFilter() {
+  const gradeFilter = document.getElementById('grade-filter');
+  const sectionFilter = document.getElementById('section-filter');
+  const studentFilter = document.getElementById('student-filter');
+
+  if (!studentFilter) return;
+
+  const selectedGrade = gradeFilter?.value || '';
+  const selectedSection = sectionFilter?.value || '';
+  const students = getStudents();
+
+  // Filtrelenmiş öğrenciler
+  const filteredStudents = students.filter(s => {
+    if (selectedGrade && s.grade != selectedGrade) return false;
+    if (selectedSection && s.class != selectedSection) return false;
+    return true;
+  }).sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+
+  // Dropdown'u güncelle
+  studentFilter.innerHTML = '<option value="">Tüm Öğrenciler</option>' +
+    filteredStudents.map(student =>
+      `<option value="${student.name}">${student.name} (${student.grade}/${student.class})</option>`
+    ).join('');
+}
+
+/**
+ * Sınav numarası filtresini güncelle
+ */
+function updateExamNumberFilter() {
+  const examNumberFilter = document.getElementById('exam-number-filter');
+  if (!examNumberFilter) return;
+
+  // Benzersiz sınav numaralarını bul (sınav adından çıkar)
+  const examNumbers = [...new Set(
+    allExams
+      .map(exam => {
+        const match = exam.name.match(/(\d+)\.\s*Deneme/);
+        return match ? match[1] : null;
+      })
+      .filter(n => n)
+  )].sort((a, b) => parseInt(a) - parseInt(b));
+
+  examNumberFilter.innerHTML = '<option value="">Tüm Sınavlar</option>' +
+    examNumbers.map(num => `<option value="${num}">${num}. Deneme</option>`).join('');
+}
+
+/**
+ * Sınav filtrelerini uygula
+ */
+function applyExamFilters() {
+  const gradeFilter = document.getElementById('grade-filter');
+  const sectionFilter = document.getElementById('section-filter');
+  const studentFilter = document.getElementById('student-filter');
+  const examNumberFilter = document.getElementById('exam-number-filter');
+  const examNameFilter = document.getElementById('exam-name-filter');
+
+  // Filtreleri kaydet
+  currentFilters = {
+    grade: gradeFilter?.value || '',
+    section: sectionFilter?.value || '',
+    student: studentFilter?.value || '',
+    examNumber: examNumberFilter?.value || '',
+    examName: examNameFilter?.value.toLowerCase() || ''
+  };
+
+  // Filtrelenmiş sınavları göster
+  displayFilteredExams();
+}
+
+/**
+ * Filtrelenmiş sınavları görüntüle
+ */
+function displayFilteredExams() {
+  const container = document.getElementById('exam-list-container');
+  if (!container) return;
+
+  const students = getStudents();
+
+  // Sınavları filtrele
+  let filteredExams = allExams.filter(exam => {
+    // Öğrenci bilgisini bul
+    const student = students.find(s => s.name === exam.profile);
+
+    // Sınıf filtresi
+    if (currentFilters.grade && student && student.grade != currentFilters.grade) {
+      return false;
+    }
+
+    // Şube filtresi
+    if (currentFilters.section && student && student.class != currentFilters.section) {
+      return false;
+    }
+
+    // Öğrenci filtresi
+    if (currentFilters.student && exam.profile !== currentFilters.student) {
+      return false;
+    }
+
+    // Sınav numarası filtresi
+    if (currentFilters.examNumber) {
+      const match = exam.name.match(/(\d+)\.\s*Deneme/);
+      if (!match || match[1] !== currentFilters.examNumber) {
+        return false;
+      }
+    }
+
+    // Sınav adı filtresi
+    if (currentFilters.examName && !exam.name.toLowerCase().includes(currentFilters.examName)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // Sonuç sayısını göster
+  const filterResultsCount = document.getElementById('filter-results-count');
+  if (filterResultsCount) {
+    const activeFiltersCount = Object.values(currentFilters).filter(v => v).length;
+    if (activeFiltersCount > 0) {
+      filterResultsCount.textContent = `${filteredExams.length} sınav bulundu (${activeFiltersCount} filtre aktif)`;
+    } else {
+      filterResultsCount.textContent = 'Tüm sınavlar gösteriliyor';
+    }
+  }
+
+  // Sınavları görüntüle
+  if (filteredExams.length === 0) {
+    container.innerHTML = '<p class="no-data">Filtrelere uygun sınav bulunamadı.</p>';
+    return;
+  }
+
+  // Tarihe göre sırala (en yeni üstte)
+  filteredExams.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  container.innerHTML = filteredExams.map(exam => {
+    const totalNet = Object.values(exam.courses || {}).reduce((sum, course) => {
+      return sum + (course.net ?? (course.correct - (course.incorrect / 4)));
+    }, 0).toFixed(2);
+
+    const totalCorrect = Object.values(exam.courses || {}).reduce((sum, c) => sum + (c.correct || 0), 0);
+    const totalIncorrect = Object.values(exam.courses || {}).reduce((sum, c) => sum + (c.incorrect || 0), 0);
+
+    return `
+      <div class="exam-item">
+        <input type="checkbox" class="exam-checkbox" data-exam-id="${exam.id}">
+        <div class="exam-info">
+          <div class="exam-details">
+            <span class="exam-name">${exam.name}</span>
+            <span class="exam-student">👤 ${exam.profile}</span>
+            <span class="exam-date">📅 ${new Date(exam.date).toLocaleDateString('tr-TR')}</span>
+          </div>
+          <div class="exam-stats">
+            <div class="stat-item">
+              <span class="stat-label">Toplam Net</span>
+              <span class="stat-value">${totalNet}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Doğru</span>
+              <span class="stat-value" style="color: #27ae60;">${totalCorrect}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Yanlış</span>
+              <span class="stat-value" style="color: #e74c3c;">${totalIncorrect}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Checkbox event listeners
+  document.querySelectorAll('.exam-checkbox').forEach(cb => {
+    cb.addEventListener('change', updateSelectedExamCount);
+  });
+}
+
+/**
+ * Sınav filtrelerini temizle
+ */
+function clearExamFilters() {
+  const gradeFilter = document.getElementById('grade-filter');
+  const sectionFilter = document.getElementById('section-filter');
+  const studentFilter = document.getElementById('student-filter');
+  const examNumberFilter = document.getElementById('exam-number-filter');
+  const examNameFilter = document.getElementById('exam-name-filter');
+
+  // Tüm filtreleri sıfırla
+  if (gradeFilter) gradeFilter.value = '';
+  if (sectionFilter) sectionFilter.value = '';
+  if (studentFilter) studentFilter.value = '';
+  if (examNumberFilter) examNumberFilter.value = '';
+  if (examNameFilter) examNameFilter.value = '';
+
+  // Filtreleri temizle
+  currentFilters = {
+    grade: '',
+    section: '',
+    section: '',
+    student: '',
+    examNumber: '',
+    examName: ''
+  };
+
+  // Tüm sınavları göster
+  loadExamManagement();
+
+  // Sonuç sayısını güncelle
+  const filterResultsCount = document.getElementById('filter-results-count');
+  if (filterResultsCount) {
+    filterResultsCount.textContent = 'Tüm sınavlar gösteriliyor';
+  }
+
+  showToast('Başarılı', 'Filtreler temizlendi', 'success');
+}
+
+// ============================================
+// SINIF KARŞILAŞTIRMA - loadClassCheckboxes
+// ============================================
+
+/**
+ * Sınıf karşılaştırma dropdown'larını doldur
+ */
+function loadClassCheckboxes() {
+  const compareClass1 = document.getElementById('compare-class1');
+  const compareClass2 = document.getElementById('compare-class2');
+
+  if (!compareClass1 || !compareClass2) {
+    console.error('loadClassCheckboxes: Dropdown elemanları bulunamadı');
+    return;
+  }
+
+  // Öğrencileri al
+  const students = getStudents();
+
+  if (students.length === 0) {
+    console.warn('loadClassCheckboxes: Hiç öğrenci bulunamadı');
+    compareClass1.innerHTML = '<option value="">Öğrenci bulunamadı</option>';
+    compareClass2.innerHTML = '<option value="">Öğrenci bulunamadı</option>';
+    return;
+  }
+
+  // Benzersiz sınıf/şube kombinasyonlarını bul (örn: "8/A", "8/B")
+  const classes = [...new Set(
+    students
+      .filter(s => s.grade && s.class)
+      .map(s => `${s.grade}/${s.class}`)
+  )].sort((a, b) => {
+    const [gradeA, classA] = a.split('/');
+    const [gradeB, classB] = b.split('/');
+
+    // Önce sınıfa göre, sonra şubeye göre sırala
+    if (gradeA !== gradeB) {
+      return parseInt(gradeA) - parseInt(gradeB);
+    }
+    return classA.localeCompare(classB, 'tr');
+  });
+
+  console.log('loadClassCheckboxes: Bulunan sınıflar:', classes);
+
+  if (classes.length === 0) {
+    compareClass1.innerHTML = '<option value="">Sınıf bilgisi eksik</option>';
+    compareClass2.innerHTML = '<option value="">Sınıf bilgisi eksik</option>';
+    return;
+  }
+
+  // Dropdown'ları doldur
+  const optionsHTML = '<option value="">Sınıf Seçin</option>' +
+    classes.map(className => {
+      const [grade, section] = className.split('/');
+      return `<option value="${className}">${grade}/${section} Sınıfı</option>`;
+    }).join('');
+
+  compareClass1.innerHTML = optionsHTML;
+  compareClass2.innerHTML = optionsHTML;
+
+  console.log('loadClassCheckboxes: Dropdown\'lar başarıyla dolduruldu');
+}
+
+
+// Sayfa yüklendiğinde filtreleme ve sınıf karşılaştırma fonksiyonlarını başlat
+document.addEventListener('DOMContentLoaded', () => {
+  initExamFilters();
+  updateExamNumberFilter();
+  updateSectionFilter();
+  updateStudentFilter();
+});
 
 
 

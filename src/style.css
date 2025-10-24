@@ -5301,13 +5301,30 @@ body {
 }
 
 .ai-evaluate-btn .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
+  width: 18px;
+  height: 18px;
+  border: 3px solid transparent;
+  border-top: 3px solid currentColor;
+  border-right: 3px solid currentColor;
   border-radius: 50%;
-  animation: spin 600ms linear infinite;
+  animation: spin-smooth 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
   display: none;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+.ai-evaluate-btn.loading {
+  background: linear-gradient(
+    270deg,
+    #4a9fff,
+    #357ae8,
+    #5b63ff,
+    #7c3aed,
+    #357ae8,
+    #4a9fff
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 3s ease infinite, ai-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(74, 159, 255, 0.4);
 }
 
 .ai-evaluate-btn.loading .spinner {
@@ -5316,21 +5333,82 @@ body {
 
 .ai-evaluate-btn.loading .btn-text {
   margin-left: 8px;
+  animation: text-pulse 2s ease-in-out infinite;
 }
 
 .ai-evaluate-btn.success {
   background: linear-gradient(135deg, #10b981, #059669);
   border: 2px solid #10b981;
+  animation: success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .ai-evaluate-btn.error {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   border: 2px solid #ef4444;
+  animation: error-shake 0.5s ease-in-out;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Modern Animasyonlar */
+@keyframes spin-smooth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes ai-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(74, 159, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(74, 159, 255, 0.6), 0 0 60px rgba(124, 58, 237, 0.3);
+  }
+}
+
+@keyframes text-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes success-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
 }
 
 /* Dark mode için AI evaluate button stilleri */
