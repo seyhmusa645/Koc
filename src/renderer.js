@@ -141,6 +141,13 @@
   let filteredStudents = []; // Filtrelenmiş öğrenci listesi
   let selectedStudent = null; // Seçili öğrenci
   let isStudentDetailVisible = false; // Öğrenci detay görünürlük durumu
+
+  // Global erişim için window'a ekle (AI fonksiyonları için)
+  window._appState = {
+    get allExams() { return allExams; },
+    get allStudents() { return allStudents; },
+    get selectedStudent() { return selectedStudent; }
+  };
   
   // Etüt system state
   let etutGroups = [];
@@ -11901,6 +11908,9 @@ function loadClassCheckboxes() {
  * Öğrencinin son N sınavını getirir
  */
 function getRecentExams(studentId, limit = 5) {
+  const allExams = window._appState?.allExams || [];
+  const allStudents = window._appState?.allStudents || [];
+
   const studentName = typeof studentId === 'string' ? studentId :
                       allStudents.find(s => s.id === studentId)?.name;
 
@@ -11973,6 +11983,9 @@ function calculatePerformanceTrend(studentId) {
  * En zayıf konuları getirir
  */
 function getWeakTopics(studentId, limit = 10) {
+  const allExams = window._appState?.allExams || [];
+  const allStudents = window._appState?.allStudents || [];
+
   const studentName = typeof studentId === 'string' ? studentId :
                       allStudents.find(s => s.id === studentId)?.name;
 
@@ -12065,6 +12078,8 @@ function getStrongTopics(studentId, limit = 5) {
  * Etüt verilerini getirir
  */
 function getEtutData(studentId) {
+  const allStudents = window._appState?.allStudents || [];
+
   const studentName = typeof studentId === 'string' ? studentId :
                       allStudents.find(s => s.id === studentId)?.name;
 
