@@ -35,23 +35,36 @@ class XLSToCSVConverter:
         }
         
         # Ders eşleştirmeleri (XLS sütun adı → sistem adı)
+        # Her sistem dersi için birden fazla XLS sütun adı olabilir
         self.subject_mapping = {
             'Türkçe': 'turkce',
-            'Tarih': 'sosyal',  # Tarih → Sosyal
+            'Tarih': 'sosyal',
+            'İnkılap Tarihi': 'sosyal',
+            'T.C. İnkılap Tarihi': 'sosyal',
             'Sosyal Bilgiler': 'sosyal',
             'Matematik': 'matematik',
             'Fen': 'fen',
+            'Fen Bilimleri': 'fen',
             'İngilizce': 'ingilizce',
-            'Din': 'din'
+            'Din': 'din',
+            'Din Kültürü': 'din',
+            'Din K.ve A.B.': 'din'
         }
-        
+
         # Kazanım prefix eşleştirmeleri
         self.kazanim_prefix_mapping = {
             'TÜR': 'turkce',
+            'TÜRKÇE': 'turkce',
             'MAT': 'matematik',
+            'MATEMATİK': 'matematik',
             'FEN': 'fen',
             'TAR': 'sosyal',
+            'TARİH': 'sosyal',
+            'SOSYAL': 'sosyal',
+            'SOS': 'sosyal',
+            'SOSYAL BİLGİLER': 'sosyal',
             'İNG': 'ingilizce',
+            'İNGİLİZCE': 'ingilizce',
             'DİN': 'din'
         }
 
@@ -201,21 +214,21 @@ class XLSToCSVConverter:
             ogrenci_adi = xls_row.get('Ad Soyad', '').strip()
             if not ogrenci_adi:
                 return None
-            
+
             sinif_str = xls_row.get('Sınıf', '')
             sinif_level = self.extract_class_level(sinif_str)
             sosyal_mapping = self.get_social_subject_mapping(sinif_str)
-            
+
             # Bugünün tarihi
             sinav_tarihi = datetime.now().strftime('%Y-%m-%d')
-            
+
             # LGS Puanını al
             lgs_puani = xls_row.get('LGS Puanı', 0)
             try:
                 lgs_puani = float(lgs_puani) if lgs_puani else 0
             except (ValueError, TypeError):
                 lgs_puani = 0
-            
+
             # CSV satırı başlat
             csv_row = {
                 'Öğrenci Adı': ogrenci_adi,
@@ -223,46 +236,80 @@ class XLSToCSVConverter:
                 'Sınav Tarihi': sinav_tarihi,
                 'LGS_Puanı': lgs_puani
             }
-            
+
             # Kazanımları parse et
             kazanim_str = xls_row.get('Kazanım Detayları', '')
             kazanimlar = self.parse_kazanimlar(kazanim_str)
-            
+
             # Her ders için veri işle
             subjects = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din']
-            
+
             for subject in subjects:
-                # XLS'teki sütun adlarını bul (dinamik mapping ile)
+                # XLS'teki sütun adlarını bul - gerçekte var olan sütunu bul
                 xls_subject_name = None
-                for xls_name, sys_name in self.subject_mapping.items():
-                    if sys_name == subject:
-                        xls_subject_name = xls_name
-                        break
-                
-                # Sosyal dersler için özel mapping kullan
+
+                # Sosyal dersler için özel mapping kullan (sınıfa özgü)
                 if subject == 'sosyal':
-                    for xls_name, sys_name in sosyal_mapping.items():
-                        if xls_name in xls_row:
+                    for xls_name in sosyal_mapping.keys():
+                        dogru_test_key = f'{xls_name} Doğru'
+                        if dogru_test_key in xls_row:
                             xls_subject_name = xls_name
-                            break
-                
+                            break  # Gerçek sütunu bulduk!
+
+                    # Sosyal mapping'de bulunamadıysa genel mapping'e bak
+                    if not xls_subject_name:
+                        for xls_name, sys_name in self.subject_mapping.items():
+                            if sys_name == subject:
+                                dogru_test_key = f'{xls_name} Doğru'
+                                if dogru_test_key in xls_row:
+                                    xls_subject_name = xls_name
+                                    break
+                else:
+                    # Diğer dersler için standart mapping
+                    for xls_name, sys_name in self.subject_mapping.items():
+                        if sys_name == subject:
+                            # Bu sütun XLS'te gerçekten var mı kontrol et
+                            dogru_test_key = f'{xls_name} Doğru'
+                            if dogru_test_key in xls_row:
+                                xls_subject_name = xls_name
+                                break  # Gerçek sütunu bulduk!
                 if not xls_subject_name:
+                    # Hiçbir alternatif sütun bulunamadı, varsayılan değerlerle devam et
+                    if subject == 'sosyal':
+                        csv_subject_name = sosyal_header
+                    elif subject == 'turkce':
+                        csv_subject_name = 'Türkçe'
+                    elif subject == 'matematik':
+                        csv_subject_name = 'Matematik'
+                    elif subject == 'fen':
+                        csv_subject_name = 'Fen'
+                    elif subject == 'ingilizce':
+                        csv_subject_name = 'İngilizce'
+                    elif subject == 'din':
+                        csv_subject_name = 'Din'
+                    else:
+                        csv_subject_name = subject.capitalize()
+
+                    csv_row[f'{csv_subject_name}_Doğru'] = 0
+                    csv_row[f'{csv_subject_name}_Yanlış'] = 0
+                    csv_row[f'{csv_subject_name}_Boş'] = 0
+                    csv_row[f'{csv_subject_name}_Yanlış_Kazanımlar'] = ''
                     continue
-                
+
                 # Doğru ve yanlış sayılarını al
                 dogru_key = f'{xls_subject_name} Doğru'
                 yanlis_key = f'{xls_subject_name} Yanlış'
-                
+
                 dogru = xls_row.get(dogru_key, 0)
                 yanlis = xls_row.get(yanlis_key, 0)
-                
+
                 # Boş sayısını hesapla
                 bos = self.calculate_bos(sinif_level, subject, dogru, yanlis)
-                
+
                 # Yanlış kazanımları al
                 yanlis_kazanimlar = kazanimlar.get(subject, [])
                 yanlis_kazanim_str = ' | '.join(yanlis_kazanimlar) if yanlis_kazanimlar else ''
-                
+
                 # CSV sütunlarını doldur (sosyal için dinamik başlık)
                 if subject == 'sosyal':
                     csv_row[f'{sosyal_header}_Doğru'] = dogru
@@ -283,14 +330,13 @@ class XLSToCSVConverter:
                         subject_name = 'Din'
                     else:
                         subject_name = subject.capitalize()
-                    
+
                     csv_row[f'{subject_name}_Doğru'] = dogru
                     csv_row[f'{subject_name}_Yanlış'] = yanlis
                     csv_row[f'{subject_name}_Boş'] = bos
                     csv_row[f'{subject_name}_Yanlış_Kazanımlar'] = yanlis_kazanim_str
-            
             return csv_row
-            
+
         except Exception as e:
             print(f"❌ Satır dönüştürme hatası: {e}")
             return None
