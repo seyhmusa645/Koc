@@ -4,7 +4,7 @@
   "description": "Öğrenci kazanım analizi ve gelişim takip programı.",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "chcp 65001 && electron .",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",

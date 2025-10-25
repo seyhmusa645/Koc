@@ -133,7 +133,8 @@
   const editExamIdInput = document.getElementById('edit-exam-id');
 
   // --- Uygulama Durumu (State) ---
-  let allExams = [];
+  let allExams = []; // Global scope'a taşındı
+  window.allExams = allExams; // Global erişim için
   let outcomes = null;
   let topicsToRepeat = [];
   let haftalikPlanData = {};
@@ -148,6 +149,35 @@
     get allStudents() { return allStudents; },
     get selectedStudent() { return selectedStudent; }
   };
+
+  // Öğrenci verilerini al - Global scope
+  function getStudents() {
+    try {
+      // Önce mevcut allStudents değişkenini kontrol et
+      if (allStudents && allStudents.length > 0) {
+        console.log('🔍 getStudents: allStudents\'dan', allStudents.length, 'öğrenci döndürülüyor');
+        return allStudents;
+      }
+      
+      // localStorage'dan kontrol et
+      const localData = localStorage.getItem('students');
+      if (localData) {
+        const data = JSON.parse(localData);
+        console.log('🔍 getStudents: localStorage\'dan', data.students?.length || 0, 'öğrenci döndürülüyor');
+        return data.students || [];
+      }
+      
+      // Son çare olarak window.studentsData'ya bak
+      console.log('🔍 getStudents: window.studentsData\'dan', window.studentsData?.length || 0, 'öğrenci döndürülüyor');
+      return window.studentsData || [];
+    } catch (error) {
+      console.error('Öğrenci verileri yüklenirken hata:', error);
+      return [];
+    }
+  }
+
+  // Global erişim için window'a bağla
+  window.getStudents = getStudents;
   
   // Etüt system state
   let etutGroups = [];
@@ -1537,6 +1567,7 @@
           console.log('Exam ID:', exam.id, 'Tip:', typeof exam.id, 'Eşit mi:', exam.id == examId);
           return exam.id != examId; // == ile karşılaştır (tip dönüşümü ile)
         });
+        window.allExams = allExams; // Window'u güncelle
         const dataToSave = {
           value: allExams,
           Count: allExams.length
@@ -1650,10 +1681,17 @@
       allExams = [];
     }
     
+    window.allExams = allExams; // EKLE: Window'u güncelle
+    
     const activeProfile = selectedStudent?.name;
     if (activeProfile) {
       displayDataForProfile(activeProfile);
     }
+    
+    // Veriler yüklendikten sonra filtreleri güncelle
+    updateExamNumberFilter();
+    updateSectionFilter();
+    updateStudentFilter();
   }
 
   // --- Profil Yönetimi ---
@@ -2907,6 +2945,7 @@
     };
 
     allExams.push(newExam);
+    window.allExams = allExams; // Window'u güncelle
     }
 
     // Veriyi kaydet
@@ -2955,7 +2994,7 @@
     ingilizce: { bg: 'rgba(255, 159, 64, 0.6)', border: 'rgba(255, 159, 64, 1)' },
   };
 
-  function saveGoals() {
+  async function saveGoals() {
     if (!selectedStudent) {
       alert('Hedef kaydetmek için önce bir öğrenci seçmelisiniz!');
       return;
@@ -2975,27 +3014,47 @@
       }
     };
     
-    // Kişiye özel hedef kaydet
-    const studentGoalKey = `goals_${selectedStudent.id}`;
-    localStorage.setItem(studentGoalKey, JSON.stringify(goals));
-    console.log(`Hedefler kaydedildi: ${selectedStudent.name} (${selectedStudent.id})`);
-    updateGoalUI();
-    alert('Hedefler başarıyla kaydedildi!');
+    try {
+      // Hedefleri shared klasörüne kaydet
+      const result = await window.electronAPI.saveGoals(selectedStudent.id, goals);
+      
+      if (result.success) {
+        console.log(`Hedefler kaydedildi: ${selectedStudent.name} (${selectedStudent.id})`);
+        await updateGoalUI();
+        showToast('Başarılı', 'Hedefler başarıyla kaydedildi!', 'success');
+      } else {
+        console.error('Hedef kaydetme hatası:', result.error);
+        showToast('Hata', result.error || 'Hedefler kaydedilemedi', 'error');
+      }
+    } catch (error) {
+      console.error('Hedef kaydetme hatası:', error);
+      showToast('Hata', 'Hedefler kaydedilirken bir hata oluştu', 'error');
+    }
   }
 
-  function loadGoals() {
+  async function loadGoals() {
     if (!selectedStudent) {
       return null;
     }
     
-    // Kişiye özel hedefleri yükle
-    const studentGoalKey = `goals_${selectedStudent.id}`;
-    const savedGoals = localStorage.getItem(studentGoalKey);
-    return savedGoals ? JSON.parse(savedGoals) : null;
+    try {
+      // Hedefleri shared klasöründen yükle
+      const result = await window.electronAPI.loadGoals(selectedStudent.id);
+      
+      if (result.success) {
+        return result.data;
+      } else {
+        console.error('Hedef yükleme hatası:', result.error);
+        return null;
+      }
+    } catch (error) {
+      console.error('Hedef yükleme hatası:', error);
+      return null;
+    }
   }
 
-  function updateGoalUI() {
-    const goals = loadGoals();
+  async function updateGoalUI() {
+    const goals = await loadGoals();
     currentGoalDisplay.innerHTML = '';
 
     if (goals) {
@@ -3024,6 +3083,9 @@
       }
 
       const profileExams = allExams.filter(exam => exam.profile === selectedStudent?.name);
+      console.log('🎯 DEBUG: Profile exams found:', profileExams.length);
+      console.log('🎯 DEBUG: Selected student:', selectedStudent?.name);
+      console.log('🎯 DEBUG: All exams count:', allExams.length);
 
       let avgNet = 0;
       let avgLgs = 0;
@@ -3031,7 +3093,8 @@
 
       if (profileExams.length > 0) {
         const totalNet = profileExams.reduce((acc, exam) => acc + Object.values(exam.courses).reduce((sum, course) => {
-          const net = course.correct - (course.incorrect / 4);
+          // Net hesaplama: course.net varsa onu kullan, yoksa correct - (incorrect/4) hesapla
+          const net = course.net !== undefined ? course.net : (course.correct - (course.incorrect / 4));
           return sum + Math.max(0, net);
         }, 0), 0);
         avgNet = totalNet / profileExams.length;
@@ -3040,10 +3103,20 @@
         avgLgs = totalLgs / profileExams.length;
 
         for (const subjectKey in goals.subjectGoals) {
-          const totalSubjectNet = profileExams.reduce((acc, exam) => acc + (exam.courses[subjectKey]?.net || 0), 0);
+          const totalSubjectNet = profileExams.reduce((acc, exam) => {
+            const course = exam.courses[subjectKey];
+            if (course) {
+              // Net hesaplama: course.net varsa onu kullan, yoksa correct - (incorrect/4) hesapla
+              const net = course.net !== undefined ? course.net : (course.correct - (course.incorrect / 4));
+              return acc + Math.max(0, net);
+            }
+            return acc;
+          }, 0);
           avgSubjectNets[subjectKey] = totalSubjectNet / profileExams.length;
         }
       }
+
+      console.log('🎯 DEBUG: Calculated averages:', { avgNet, avgLgs, avgSubjectNets });
 
       const labels = ['Hedef Net', 'Ortalama Net', 'Hedef LGS', 'Ortalama LGS'];
       const data = [
@@ -3097,20 +3170,226 @@
         }
       });
 
+      // YENİ: Zaman İçinde Hedefe Yaklaşım Grafiği
+      createGoalProgressChart(goals, profileExams);
+      
+      // YENİ: Hedef Tamamlanma Oranları
+      createGoalCompletionIndicators(goals, avgSubjectNets);
+
     } else {
       currentGoalDisplay.innerHTML = '<p>Henüz bir hedef belirlenmedi.</p>';
       if (goalVsActualChart) goalVsActualChart.destroy();
     }
   }
 
+  // YENİ: Zaman İçinde Hedefe Yaklaşım Grafiği
+  function createGoalProgressChart(goals, profileExams) {
+    const ctx = document.getElementById('goal-progress-over-time-chart').getContext('2d');
+    
+    // Mevcut chart'ı yok et
+    if (window.goalProgressChart) {
+      window.goalProgressChart.destroy();
+    }
+
+    if (!profileExams || profileExams.length === 0) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.font = '16px Arial';
+      ctx.fillStyle = '#666';
+      ctx.textAlign = 'center';
+      ctx.fillText('Henüz deneme verisi yok', ctx.canvas.width / 2, ctx.canvas.height / 2);
+      return;
+    }
+
+    // Denemeleri tarihe göre sırala
+    const sortedExams = profileExams.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    console.log('🎯 DEBUG: Goal progress chart - sorted exams:', sortedExams.length);
+    console.log('🎯 DEBUG: First exam data:', sortedExams[0]);
+    
+    const labels = sortedExams.map(exam => new Date(exam.date).toLocaleDateString('tr-TR'));
+    const actualNets = sortedExams.map(exam => {
+      const totalNet = Object.values(exam.courses).reduce((sum, course) => {
+        // Net hesaplama: course.net varsa onu kullan, yoksa correct - (incorrect/4) hesapla
+        const net = course.net !== undefined ? course.net : (course.correct - (course.incorrect / 4));
+        return sum + Math.max(0, net);
+      }, 0);
+      console.log('🎯 DEBUG: Exam total net:', totalNet, 'for exam:', exam.date);
+      return totalNet;
+    });
+    
+    // Hedef çizgisi (sabit)
+    const goalLine = new Array(sortedExams.length).fill(goals.net);
+
+    window.goalProgressChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Hedef Net',
+            data: goalLine,
+            borderColor: '#e74c3c',
+            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+            borderWidth: 3,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: 'Gerçekleşen Net',
+            data: actualNets,
+            borderColor: '#27ae60',
+            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+            borderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            fill: false,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              font: { size: 14, weight: 'bold' },
+              padding: 15
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = context.parsed.y || 0;
+                return `${label}: ${value.toFixed(2)} net`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: Math.max(goals.net, Math.max(...actualNets)) * 1.1,
+            ticks: {
+              stepSize: 5,
+              font: { size: 12 }
+            },
+            title: {
+              display: true,
+              text: 'Net Puan',
+              font: { size: 14, weight: 'bold' }
+            }
+          },
+          x: {
+            ticks: {
+              font: { size: 11 },
+              maxRotation: 45
+            },
+            title: {
+              display: true,
+              text: 'Tarih',
+              font: { size: 14, weight: 'bold' }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // YENİ: Hedef Tamamlanma Oranları
+  function createGoalCompletionIndicators(goals, avgSubjectNets) {
+    const container = document.getElementById('goal-completion-indicators');
+    container.innerHTML = '';
+
+    console.log('🎯 DEBUG: Goal completion indicators - goals:', goals);
+    console.log('🎯 DEBUG: Goal completion indicators - avgSubjectNets:', avgSubjectNets);
+
+    const subjects = {
+      turkce: 'Türkçe',
+      matematik: 'Matematik',
+      fen: 'Fen',
+      inkilap: 'İnkılap',
+      din: 'Din',
+      ingilizce: 'İngilizce'
+    };
+
+    Object.keys(subjects).forEach(subjectKey => {
+      const goal = goals.subjectGoals[subjectKey] || 0;
+      const actual = avgSubjectNets[subjectKey] || 0;
+      const percentage = goal > 0 ? Math.min((actual / goal) * 100, 100) : 0;
+      
+      // Kırmızıdan yeşile doğru renk hesaplama
+      const getCompletionColor = (percent) => {
+        if (percent >= 80) return '#10b981'; // Yeşil
+        if (percent >= 60) return '#22c55e'; // Açık yeşil
+        if (percent >= 40) return '#f59e0b'; // Turuncu
+        if (percent >= 20) return '#f97316'; // Koyu turuncu
+        return '#ef4444'; // Kırmızı
+      };
+      
+      const completionColor = getCompletionColor(percentage);
+
+      const indicator = document.createElement('div');
+      indicator.className = 'completion-indicator';
+      indicator.innerHTML = `
+        <div class="completion-circle" style="--completion-color: ${completionColor}; --percentage: ${percentage * 3.6}deg">
+          <span class="completion-percentage">${percentage.toFixed(1)}%</span>
+        </div>
+        <div class="completion-info">
+          <h4>${subjects[subjectKey]}</h4>
+          <p>Hedef: ${goal.toFixed(1)} net</p>
+          <p>Gerçekleşen: ${actual.toFixed(1)} net</p>
+        </div>
+      `;
+      
+      container.appendChild(indicator);
+    });
+  }
+
   setGoalBtn.addEventListener('click', saveGoals);
+
+  // DEBUG: Hedef takibi test fonksiyonu
+  window.debugGoalTracking = async function() {
+    console.log('🔍 DEBUG: Goal tracking test başlatılıyor...');
+    console.log('🔍 DEBUG: Selected student:', selectedStudent);
+    console.log('🔍 DEBUG: All exams count:', allExams.length);
+    
+    if (selectedStudent) {
+      const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
+      console.log('🔍 DEBUG: Profile exams:', profileExams.length);
+      
+      if (profileExams.length > 0) {
+        console.log('🔍 DEBUG: First exam structure:', profileExams[0]);
+        console.log('🔍 DEBUG: First exam courses:', profileExams[0].courses);
+        
+        // Net hesaplama testi
+        const firstExam = profileExams[0];
+        Object.keys(firstExam.courses).forEach(subject => {
+          const course = firstExam.courses[subject];
+          const net = course.net !== undefined ? course.net : (course.correct - (course.incorrect / 4));
+          console.log(`🔍 DEBUG: ${subject} - correct: ${course.correct}, incorrect: ${course.incorrect}, net: ${course.net}, calculated: ${net}`);
+        });
+      }
+    }
+    
+    // Hedefleri yükle ve göster
+    await updateGoalUI();
+  };
 
   // --- Başlangıç ---
   async function initialize() {
     setActivePage('dashboard')();
     await loadAllStudents();
     await loadInitialData();
-    updateGoalUI(); // Load and display goals on initialization
+    await updateGoalUI(); // Load and display goals on initialization
   }
 
   initialize();
@@ -4389,6 +4668,7 @@
           
           // Sınavı kaydet
           allExams.push(examData);
+          window.allExams = allExams; // Window'u güncelle
           imported++;
           
         } catch (rowError) {
@@ -5298,10 +5578,14 @@
     // Güçlü ve zayıf alanlar
     const strengths = [];
     const weaknesses = [];
+    const avgNets = {}; // Ders bazlı ortalama netler
     
     Object.keys(subjectPerformance).forEach(subject => {
       const avg = subjectPerformance[subject].total / subjectPerformance[subject].count;
       const subjectName = getSubjectDisplayName(subject);
+      
+      // avgNets nesnesini doldur
+      avgNets[subject] = avg;
       
       if (avg >= 15) {
         strengths.push({ subject: subjectName, score: avg.toFixed(1) });
@@ -5315,6 +5599,7 @@
       trend: trend,
       averageNet: averageNet.toFixed(1),
       totalExams: totalExams,
+      avgNets: avgNets, // EKLE: Ders bazlı ortalama netler
       strengths: strengths,
       weaknesses: weaknesses
     };
@@ -5524,15 +5809,54 @@
       });
     }
     
-    // Ders bazlı etkinlikler
-    performance.weaknesses.forEach(weakness => {
-      activities.push({
-        title: `${weakness.subject} Gelişim Etkinliği`,
-        description: `${weakness.subject} dersinde özel çalışma programı oluşturun`,
-        category: weakness.subject
-      });
-    });
+    // Ders bazlı etkinlikler - geliştirilmiş versiyon
+    const subjects = ['Türkçe', 'Matematik', 'Fen', 'İnkılap', 'Din', 'İngilizce'];
     
+    // performance.avgNets'in var olduğunu kontrol et
+    if (performance && performance.avgNets) {
+      subjects.forEach(subject => {
+        const subjectKey = subject.toLowerCase().replace('ı', 'i').replace('ş', 's').replace('ç', 'c');
+        const avgNet = performance.avgNets[subjectKey] || 0;
+        const goal = 15; // Ortalama hedef net
+        
+        if (avgNet < goal) {
+          activities.push({
+            title: `${subject} Gelişim Etkinliği`,
+            description: getSubjectSpecificActivity(subject, avgNet, style),
+            category: subject
+          });
+        } else if (avgNet >= goal) {
+          activities.push({
+            title: `${subject} Pekiştirme Etkinliği`,
+            description: getSubjectStrengtheningActivity(subject, avgNet, style),
+            category: subject
+          });
+        }
+      });
+    } else {
+      // performance.avgNets yoksa genel etkinlikler oluştur
+      console.log('🔍 DEBUG: performance.avgNets bulunamadı, genel etkinlikler oluşturuluyor');
+      subjects.forEach(subject => {
+        activities.push({
+          title: `${subject} Genel Etkinlik`,
+          description: `${subject} dersinde temel konuları tekrar edin ve bol pratik yapın`,
+          category: subject
+        });
+      });
+    }
+    
+    // Eksik kazanım bazlı etkinlikler
+    if (performance.weaknesses && performance.weaknesses.length > 0) {
+      performance.weaknesses.slice(0, 3).forEach(weakness => {
+        activities.push({
+          title: `${weakness.subject} Eksik Kazanım Etkinliği`,
+          description: `${weakness.subject} dersinde "${weakness.outcome}" kazanımı için özel çalışma programı oluşturun`,
+          category: weakness.subject
+        });
+      });
+    }
+    
+    console.log('🔍 DEBUG: Oluşturulan etkinlik sayısı:', activities.length);
     return activities;
   }
 
@@ -5547,6 +5871,94 @@
     };
     
     return activities[style] || activities['Belirlenmemiş'];
+  }
+
+  // Ders özgü gelişim etkinliği
+  function getSubjectSpecificActivity(subject, avgNet, learningStyle) {
+    const activities = {
+      'Türkçe': {
+        'AYRIŞTIRAN': 'Paragraf analizi grup çalışması yapın, metin yorumlama etkinlikleri düzenleyin',
+        'ÖZÜMSEYEN': 'Kavram haritaları ile dil bilgisi kurallarını görselleştirin',
+        'YERLEŞTİREN': 'Düzenli okuma programı oluşturun ve sistematik kelime çalışması yapın',
+        'DEĞİŞTİREN': 'Yaratıcı yazma projeleri geliştirin ve farklı metin türleri deneyin'
+      },
+      'Matematik': {
+        'AYRIŞTIRAN': 'Problem çözme grup etkinlikleri düzenleyin, matematik oyunları oynayın',
+        'ÖZÜMSEYEN': 'Matematiksel kavramları günlük hayatla ilişkilendirin',
+        'YERLEŞTİREN': 'Sistematik problem çözme teknikleri öğrenin ve düzenli pratik yapın',
+        'DEĞİŞTİREN': 'Yaratıcı matematik projeleri geliştirin ve farklı çözüm yolları deneyin'
+      },
+      'Fen': {
+        'AYRIŞTIRAN': 'Deney ve gözlem etkinlikleri düzenleyin, grup araştırmaları yapın',
+        'ÖZÜMSEYEN': 'Fen kavramlarını görselleştirin ve kavram haritaları oluşturun',
+        'YERLEŞTİREN': 'Sistematik deney raporları tutun ve düzenli gözlem yapın',
+        'DEĞİŞTİREN': 'Yaratıcı fen projeleri geliştirin ve farklı deney yöntemleri deneyin'
+      },
+      'İnkılap': {
+        'AYRIŞTIRAN': 'Tarihsel olayları grup tartışmaları ile analiz edin',
+        'ÖZÜMSEYEN': 'Tarihsel olayları kronolojik sırayla görselleştirin',
+        'YERLEŞTİREN': 'Düzenli tarih çalışması yapın ve sistematik not tutun',
+        'DEĞİŞTİREN': 'Yaratıcı tarih projeleri geliştirin ve farklı kaynakları kullanın'
+      },
+      'Din': {
+        'AYRIŞTIRAN': 'Dini konuları grup tartışmaları ile öğrenin',
+        'ÖZÜMSEYEN': 'Dini kavramları günlük hayatla ilişkilendirin',
+        'YERLEŞTİREN': 'Düzenli dini metin okuma programı oluşturun',
+        'DEĞİŞTİREN': 'Yaratıcı dini projeler geliştirin ve farklı öğrenme yöntemleri deneyin'
+      },
+      'İngilizce': {
+        'AYRIŞTIRAN': 'İngilizce konuşma grupları oluşturun ve rol oyunları yapın',
+        'ÖZÜMSEYEN': 'İngilizce kelimeleri görselleştirin ve kavram haritaları oluşturun',
+        'YERLEŞTİREN': 'Düzenli İngilizce çalışma programı oluşturun ve sistematik kelime çalışması yapın',
+        'DEĞİŞTİREN': 'Yaratıcı İngilizce projeler geliştirin ve farklı öğrenme yöntemleri deneyin'
+      }
+    };
+    
+    return activities[subject]?.[learningStyle] || `${subject} dersinde temel konuları tekrar edin ve bol pratik yapın`;
+  }
+
+  // Ders özgü pekiştirme etkinliği
+  function getSubjectStrengtheningActivity(subject, avgNet, learningStyle) {
+    const activities = {
+      'Türkçe': {
+        'AYRIŞTIRAN': 'İleri seviye metin analizi grup çalışmaları düzenleyin',
+        'ÖZÜMSEYEN': 'Karmaşık dil bilgisi konularını görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye okuma programı oluşturun',
+        'DEĞİŞTİREN': 'Yaratıcı edebiyat projeleri geliştirin'
+      },
+      'Matematik': {
+        'AYRIŞTIRAN': 'Karmaşık problem çözme grup etkinlikleri düzenleyin',
+        'ÖZÜMSEYEN': 'İleri matematik kavramlarını görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye problem çözme teknikleri öğrenin',
+        'DEĞİŞTİREN': 'Yaratıcı matematik araştırmaları yapın'
+      },
+      'Fen': {
+        'AYRIŞTIRAN': 'İleri seviye deney ve araştırma projeleri düzenleyin',
+        'ÖZÜMSEYEN': 'Karmaşık fen kavramlarını görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye bilimsel araştırma yöntemleri öğrenin',
+        'DEĞİŞTİREN': 'Yaratıcı bilim projeleri geliştirin'
+      },
+      'İnkılap': {
+        'AYRIŞTIRAN': 'Derinlemesine tarih analizi grup çalışmaları düzenleyin',
+        'ÖZÜMSEYEN': 'Karmaşık tarihsel olayları görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye tarih araştırma yöntemleri öğrenin',
+        'DEĞİŞTİREN': 'Yaratıcı tarih araştırma projeleri geliştirin'
+      },
+      'Din': {
+        'AYRIŞTIRAN': 'Derinlemesine dini konular grup tartışmaları düzenleyin',
+        'ÖZÜMSEYEN': 'Karmaşık dini kavramları görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye dini metin analizi yapın',
+        'DEĞİŞTİREN': 'Yaratıcı dini araştırma projeleri geliştirin'
+      },
+      'İngilizce': {
+        'AYRIŞTIRAN': 'İleri seviye İngilizce konuşma grupları oluşturun',
+        'ÖZÜMSEYEN': 'Karmaşık İngilizce kavramları görselleştirin',
+        'YERLEŞTİREN': 'İleri seviye İngilizce çalışma programı oluşturun',
+        'DEĞİŞTİREN': 'Yaratıcı İngilizce araştırma projeleri geliştirin'
+      }
+    };
+    
+    return activities[subject]?.[learningStyle] || `${subject} dersinde başarınızı pekiştirmek için ileri seviye konulara odaklanın`;
   }
 
   // Analiz sonuçlarını göster
@@ -6238,32 +6650,6 @@
     showToast('Başarılı', 'Örnek dosya indirildi', 'success');
   }
 
-  // Öğrenci verilerini al
-  function getStudents() {
-    try {
-      // Önce mevcut allStudents değişkenini kontrol et
-      if (allStudents && allStudents.length > 0) {
-        console.log('🔍 getStudents: allStudents\'dan', allStudents.length, 'öğrenci döndürülüyor');
-        return allStudents;
-      }
-      
-      // localStorage'dan kontrol et
-      const localData = localStorage.getItem('students');
-      if (localData) {
-        const data = JSON.parse(localData);
-        console.log('🔍 getStudents: localStorage\'dan', data.students?.length || 0, 'öğrenci döndürülüyor');
-        return data.students || [];
-      }
-      
-      // Son çare olarak window.studentsData'ya bak
-      console.log('🔍 getStudents: window.studentsData\'dan', window.studentsData?.length || 0, 'öğrenci döndürülüyor');
-      return window.studentsData || [];
-    } catch (error) {
-      console.error('Öğrenci verileri yüklenirken hata:', error);
-      return [];
-    }
-  }
-
   // Öğrenci verilerini kaydet
   function saveStudents(students) {
     try {
@@ -6539,13 +6925,14 @@
     document.getElementById('intelligence-distribution').style.display = 'block';
   }
 
-  // Zeka türü grafiği oluştur
+  // Zeka türü grafiği oluştur - Chart.js ile modernize edilmiş
   function createIntelligenceChart(distribution) {
-    const canvas = document.getElementById('intelligence-chart');
-    const ctx = canvas.getContext('2d');
+    const ctx = document.getElementById('intelligence-chart').getContext('2d');
     
-    // Canvas'ı temizle
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Mevcut chart'ı yok et
+    if (window.intelligenceChartInstance) {
+      window.intelligenceChartInstance.destroy();
+    }
     
     const intelligenceNames = {
       verbal: 'Sözel/Dilsel',
@@ -6557,43 +6944,78 @@
       intrapersonal: 'İçsel/Öze Dönük',
       naturalist: 'Doğa'
     };
-
-    const colors = ['#4a90e2', '#50e3c2', '#f39c12', '#e74c3c', '#9b59b6', '#1abc9c', '#34495e', '#e67e22'];
     
-    const data = Object.entries(distribution).map(([key, value], index) => ({
-      name: intelligenceNames[key],
-      value: value,
-      color: colors[index]
-    }));
-
-    // Basit bar chart çiz
-    const maxValue = Math.max(...data.map(d => d.value));
-    const barWidth = canvas.width / data.length * 0.8;
-    const barSpacing = canvas.width / data.length * 0.2;
-    const maxHeight = canvas.height - 60;
-
-    data.forEach((item, index) => {
-      const x = index * (barWidth + barSpacing) + barSpacing / 2;
-      const barHeight = (item.value / maxValue) * maxHeight;
-      const y = canvas.height - barHeight - 30;
-
-      // Bar çiz
-      ctx.fillStyle = item.color;
-      ctx.fillRect(x, y, barWidth, barHeight);
-
-      // Değer yaz
-      ctx.fillStyle = '#333';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(item.value.toString(), x + barWidth / 2, y - 5);
-
-      // İsim yaz
-      ctx.save();
-      ctx.translate(x + barWidth / 2, canvas.height - 10);
-      ctx.rotate(-Math.PI / 2);
-      ctx.font = '10px Arial';
-      ctx.fillText(item.name, 0, 0);
-      ctx.restore();
+    const colors = [
+      '#4a90e2', '#50e3c2', '#f39c12', '#e74c3c', 
+      '#9b59b6', '#1abc9c', '#34495e', '#e67e22'
+    ];
+    
+    window.intelligenceChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(distribution).map(key => intelligenceNames[key]),
+        datasets: [{
+          label: 'Öğrenci Sayısı',
+          data: Object.values(distribution),
+          backgroundColor: colors,
+          borderColor: colors.map(c => c),
+          borderWidth: 2,
+          borderRadius: 8,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { 
+            display: false 
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: (context) => {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((context.parsed.y / total) * 100).toFixed(1);
+                return `${context.label}: ${context.parsed.y} öğrenci (${percentage}%)`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+              font: { size: 12 }
+            },
+            title: {
+              display: true,
+              text: 'Öğrenci Sayısı',
+              font: { size: 14, weight: 'bold' }
+            }
+          },
+          x: {
+            ticks: {
+              font: { size: 11 },
+              maxRotation: 45,
+              minRotation: 45
+            },
+            title: {
+              display: true,
+              text: 'Zeka Türleri',
+              font: { size: 14, weight: 'bold' }
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        }
+      }
     });
   }
 
@@ -6642,52 +7064,75 @@
     document.getElementById('learning-style-distribution').style.display = 'block';
   }
 
-  // Öğrenme stili grafiği oluştur
+  // Öğrenme stili grafiği oluştur - Chart.js ile modernize edilmiş
   function createLearningStyleChart(distribution) {
-    const canvas = document.getElementById('learning-style-chart');
-    const ctx = canvas.getContext('2d');
+    const ctx = document.getElementById('learning-style-chart').getContext('2d');
     
-    // Canvas'ı temizle
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Mevcut chart'ı yok et
+    if (window.learningStyleChartInstance) {
+      window.learningStyleChartInstance.destroy();
+    }
     
     const colors = ['#4a90e2', '#50e3c2', '#f39c12', '#e74c3c', '#9b59b6'];
     
-    const data = Object.entries(distribution).map(([style, count], index) => ({
-      name: style,
-      value: count,
-      color: colors[index % colors.length]
-    }));
-
-    // Pie chart çiz
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(centerX, centerY) - 20;
-    
-    let currentAngle = 0;
-    const total = data.reduce((sum, item) => sum + item.value, 0);
-
-    data.forEach(item => {
-      const sliceAngle = (item.value / total) * 2 * Math.PI;
-      
-      // Slice çiz
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
-      ctx.closePath();
-      ctx.fillStyle = item.color;
-      ctx.fill();
-
-      // Label çiz
-      const labelAngle = currentAngle + sliceAngle / 2;
-      const labelX = centerX + Math.cos(labelAngle) * (radius + 30);
-      const labelY = centerY + Math.sin(labelAngle) * (radius + 30);
-      
-      ctx.fillStyle = '#333';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${item.name}: ${item.value}`, labelX, labelY);
-
-      currentAngle += sliceAngle;
+    window.learningStyleChartInstance = new Chart(ctx, {
+      type: 'doughnut', // Pasta yerine halka grafik - daha modern
+      data: {
+        labels: Object.keys(distribution),
+        datasets: [{
+          data: Object.values(distribution),
+          backgroundColor: colors,
+          borderColor: '#ffffff',
+          borderWidth: 3,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              padding: 15,
+              font: {
+                size: 14,
+                weight: '600',
+                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+              },
+              generateLabels: (chart) => {
+                const data = chart.data;
+                return data.labels.map((label, i) => ({
+                  text: `${label} (${data.datasets[0].data[i]})`,
+                  fillStyle: data.datasets[0].backgroundColor[i],
+                  hidden: false,
+                  index: i
+                }));
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: (context) => {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                return `${context.label}: ${context.parsed} öğrenci (${percentage}%)`;
+              }
+            }
+          }
+        },
+        animation: {
+          animateRotate: true,
+          animateScale: true,
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        },
+        cutout: '60%' // Halka kalınlığı
+      }
     });
   }
 
@@ -6918,6 +7363,136 @@
         </div>
       </div>
     `;
+    
+    // YENİ: Deneme ortalamalarını hesapla ve grafik oluştur
+    const examAverages1 = calculateClassExamAverages(students1, class1);
+    const examAverages2 = calculateClassExamAverages(students2, class2);
+    
+    // Grafik container'ını göster
+    const chartContainer = document.getElementById('comparison-chart-container');
+    if (chartContainer) {
+      chartContainer.style.display = 'block';
+    }
+    
+    // Grafik oluştur
+    createClassComparisonChart(class1, class2, examAverages1, examAverages2);
+  }
+
+  // Sınıf deneme ortalamalarını hesapla
+  function calculateClassExamAverages(students, className) {
+    const subjects = ['turkce', 'matematik', 'fen', 'inkilap', 'ingilizce', 'din'];
+    const averages = {};
+    
+    subjects.forEach(subject => {
+      let totalNet = 0;
+      let examCount = 0;
+      
+      students.forEach(student => {
+        const studentExams = allExams.filter(e => e.profile === student.name);
+        
+        studentExams.forEach(exam => {
+          if (exam.courses && exam.courses[subject] && exam.courses[subject].net != null) {
+            totalNet += exam.courses[subject].net;
+            examCount++;
+          }
+        });
+      });
+      
+      averages[subject] = examCount > 0 ? parseFloat((totalNet / examCount).toFixed(2)) : 0;
+    });
+    
+    return averages;
+  }
+
+  // Sınıf karşılaştırma grafiği oluştur
+  function createClassComparisonChart(class1, class2, averages1, averages2) {
+    const ctx = document.getElementById('class-comparison-chart').getContext('2d');
+    
+    // Mevcut chart'ı yok et
+    if (window.classComparisonChartInstance) {
+      window.classComparisonChartInstance.destroy();
+    }
+    
+    const subjectNames = {
+      turkce: 'Türkçe',
+      matematik: 'Matematik',
+      fen: 'Fen',
+      inkilap: 'İnkılap',
+      ingilizce: 'İngilizce',
+      din: 'Din'
+    };
+    
+    window.classComparisonChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(averages1).map(k => subjectNames[k]),
+        datasets: [
+          {
+            label: class1,
+            data: Object.values(averages1),
+            backgroundColor: '#3498db',
+            borderColor: '#2980b9',
+            borderWidth: 2,
+            borderRadius: 6
+          },
+          {
+            label: class2,
+            data: Object.values(averages2),
+            backgroundColor: '#e74c3c',
+            borderColor: '#c0392b',
+            borderWidth: 2,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              font: { size: 14, weight: 'bold' },
+              padding: 15
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            callbacks: {
+              label: (context) => {
+                return `${context.dataset.label}: ${context.parsed.y} net`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 20,
+            ticks: {
+              stepSize: 2,
+              font: { size: 12 }
+            },
+            title: {
+              display: true,
+              text: 'Ortalama Net',
+              font: { size: 14, weight: 'bold' }
+            }
+          },
+          x: {
+            ticks: {
+              font: { size: 12, weight: 'bold' }
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
   }
 
   // Hafta sonu etüt programı bölümünü göster
@@ -9371,6 +9946,18 @@
           `;
         }
         
+        // Genel değerlendirmeyi göster
+        const generalContent = document.getElementById('ai-general-content');
+        if (generalContent) {
+          generalContent.innerHTML = `
+            <div class="evaluation-text">${response.evaluation}</div>
+            ${response.timing ? `<div class="evaluation-timing-info">Değerlendirme Periyodu: ${response.timing.reason}</div>` : ''}
+          `;
+        }
+        
+        // Ders bazında değerlendirmeleri başlat
+        await displaySubjectEvaluations(enhancedData);
+        
         // Başarı durumu için kısa renk geçişi
         if (aiEvaluationButton) {
           aiEvaluationButton.classList.add('success');
@@ -9411,6 +9998,175 @@
         aiEvaluationButton.disabled = !isPremiumPlan();
       }
     }
+  }
+
+  // Ders bazında değerlendirmeleri göster
+  async function displaySubjectEvaluations(studentData) {
+    const subjects = ['turkce', 'matematik', 'fen', 'inkilap', 'ingilizce', 'din'];
+    
+    for (const subject of subjects) {
+      const card = document.querySelector(`.subject-eval-card[data-subject="${subject}"]`);
+      if (!card) continue;
+      
+      const content = card.querySelector('.eval-content');
+      if (!content) continue;
+      
+      // Loading göster
+      content.className = 'eval-content loading';
+      content.innerHTML = 'Yükleniyor...';
+      
+      try {
+        // Değerlendirme al
+        const evaluation = await getSubjectSpecificEvaluation(subject, studentData);
+        
+        // Render et
+        content.className = 'eval-content';
+        content.innerHTML = formatSubjectEvaluation(evaluation, subject);
+      } catch (error) {
+        console.error(`${subject} değerlendirme hatası:`, error);
+        content.className = 'eval-content';
+        content.innerHTML = `<div class="error-message">Değerlendirme alınamadı: ${error.message}</div>`;
+      }
+    }
+  }
+
+  // Ders özgü değerlendirme al
+  async function getSubjectSpecificEvaluation(subject, studentData) {
+    const prompt = generateSubjectSpecificPrompt(subject, studentData);
+    
+    // Mevcut AI evaluation API'sini kullan, ama subject-specific prompt ile
+    const enhancedData = {
+      ...studentData,
+      subjectSpecificPrompt: prompt,
+      subject: subject
+    };
+    
+    return await window.electronAPI.getAiEvaluation(enhancedData, false);
+  }
+
+  // Ders özgü prompt oluştur
+  function generateSubjectSpecificPrompt(subject, studentData) {
+    const subjectConfig = {
+      'turkce': {
+        focus: 'Okuma anlama, yazma becerileri, dil bilgisi',
+        techniques: ['Aktif okuma', 'Not çıkarma', 'Kavram haritası']
+      },
+      'matematik': {
+        focus: 'Problem çözme stratejileri, kavramsal anlama',
+        techniques: ['Çözümlü soru çalışma', 'Modelleme', 'Adım adım çözüm']
+      },
+      'fen': {
+        focus: 'Fen bilimleri kavramları, deney ve gözlem',
+        techniques: ['Görsel öğrenme', 'Deney yapma', 'Kavram haritası']
+      },
+      'inkilap': {
+        focus: 'Tarihsel olaylar, neden-sonuç ilişkileri',
+        techniques: ['Kronolojik sıralama', 'Harita okuma', 'Kaynak analizi']
+      },
+      'ingilizce': {
+        focus: 'Dil becerileri, kelime bilgisi, gramer',
+        techniques: ['Kelime kartları', 'Dinleme pratiği', 'Konuşma pratiği']
+      },
+      'din': {
+        focus: 'Dini kavramlar, ahlaki değerler',
+        techniques: ['Metin analizi', 'Tartışma', 'Örnek olay inceleme']
+      }
+    };
+    
+    const subjectName = {
+      'turkce': 'Türkçe',
+      'matematik': 'Matematik',
+      'fen': 'Fen Bilimleri',
+      'inkilap': 'İnkılap Tarihi',
+      'ingilizce': 'İngilizce',
+      'din': 'Din Kültürü'
+    };
+    
+    const config = subjectConfig[subject];
+    const name = subjectName[subject];
+    
+    // Bu derse ait eksik kazanımları filtrele
+    const weakOutcomes = studentData.weakTopics.filter(topic => 
+      topic.subject && topic.subject.toLowerCase().includes(subject.toLowerCase())
+    );
+    
+    // Bu derse ait performans verilerini al
+    const subjectPerformance = studentData.subjectPerformance?.[subject] || {};
+    
+    return `
+${name} Dersi Özel Analizi:
+
+Öğrenci: ${studentData.name}
+Öğrenme Stili: ${studentData.learningStyle || 'Belirlenmemiş'}
+
+Eksik Kazanımlar (${name}):
+${weakOutcomes.length > 0 ? weakOutcomes.map(o => `- ${o.outcome || o.topic}`).join('\n') : '- Belirgin eksiklik tespit edilmedi'}
+
+Son Performans:
+- Ortalama Net: ${subjectPerformance.averageNet || 'Veri yok'}
+- Son Deneme Net: ${subjectPerformance.lastExamNet || 'Veri yok'}
+- Trend: ${subjectPerformance.trend || 'Belirsiz'}
+
+Lütfen aşağıdaki başlıklar altında değerlendirme yap:
+
+1. ${name} Özgü Çalışma Stratejileri (3-4 madde)
+   - ${config.focus} alanlarına odaklan
+   - ${studentData.learningStyle || 'Genel'} öğrenme stiline uygun teknikler öner
+   - ${config.techniques.join(', ')} tekniklerini kullan
+
+2. Eksik Konular ve Önceliklendirme
+   - Hangi konular acil çalışılmalı?
+   - Hangi sırayla çalışılmalı?
+   - Her konu için kaç soru çözülmeli?
+
+3. Hedef Net Stratejisi
+   - Mevcut: ${subjectPerformance.averageNet || 'Veri yok'} net
+   - Hedef: ${subjectPerformance.targetNet || 'Belirlenmemiş'} net
+   - Bu hedefe ulaşmak için aylık plan
+
+4. Öğrenme Stili Uyarlamaları
+   - ${studentData.learningStyle || 'Genel'} stili için ${name} özel teknikleri
+   - Evde uygulanabilecek pratik öneriler
+
+5. Motivasyon ve Takip
+   - Bu ders için motivasyon artırıcı öneriler
+   - İlerleme takibi için öneriler
+
+Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3-4 madde yaz.
+`;
+  }
+
+  // Ders değerlendirmesini formatla
+  function formatSubjectEvaluation(evaluation, subject) {
+    if (!evaluation || !evaluation.evaluation) {
+      return '<div class="no-evaluation">Değerlendirme verisi bulunamadı.</div>';
+    }
+    
+    // AI response'unu parse et ve formatla
+    const text = evaluation.evaluation;
+    
+    // Başlıkları ve içerikleri ayır
+    const sections = text.split(/\d+\.\s+/).filter(section => section.trim());
+    
+    let html = '';
+    sections.forEach((section, index) => {
+      const lines = section.split('\n').filter(line => line.trim());
+      if (lines.length === 0) return;
+      
+      const title = lines[0].replace(/:/, '');
+      const content = lines.slice(1).filter(line => line.trim());
+      
+      html += `
+        <div class="evaluation-section">
+          <h6>${title}</h6>
+          <ul>
+            ${content.map(item => `<li>${item.replace(/^[-•]\s*/, '')}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    });
+    
+    return html || `<div class="evaluation-text">${text}</div>`;
   }
 
   if (aiEvaluationButton) {
@@ -10168,6 +10924,7 @@
     
     if (result.success) {
       allExams = filteredExams;
+      window.allExams = allExams; // Window'u güncelle
       showToast('Başarılı', `${examIds.length} sınav silindi`, 'success');
       
       // Listeyi yenile
@@ -10225,6 +10982,7 @@
     
     if (result.success) {
       allExams = filteredExams;
+      window.allExams = allExams; // Window'u güncelle
       showToast('Başarılı', `${deletedCount} sınav silindi`, 'success');
       
       // Listeyi yenile
@@ -11079,15 +11837,19 @@ async function loadClassStudents() {
     
     // Sınıfa göre filtrele
     currentStudents = students.filter(student => {
-      const studentClass = student.class || student.sinif || '';
-      // Mevcut verilerde sadece A/B var, sınıf seviyesi bilgisi yok
-      // Bu yüzden şube eşleştirmesi yapıyoruz
-      const matches = studentClass === currentBranch;
+      const studentGrade = student.grade || student.sinif || '';
+      const studentBranch = student.class || student.sinif || '';
+      
+      // Hem sınıf seviyesi hem de şube eşleşmeli
+      const gradeMatches = studentGrade === currentGrade;
+      const branchMatches = studentBranch === currentBranch;
+      
       // Sadece ilk 5 öğrenci için debug bilgisi göster
       if (students.indexOf(student) < 5) {
-        console.log(`Öğrenci: ${student.name}, Sınıf: ${studentClass}, Hedef Şube: ${currentBranch}, Eşleşme: ${matches}`);
+        console.log(`Öğrenci: ${student.name}, Sınıf: ${studentGrade}, Şube: ${studentBranch}, Hedef Sınıf: ${currentGrade}, Hedef Şube: ${currentBranch}, Sınıf Eşleşme: ${gradeMatches}, Şube Eşleşme: ${branchMatches}`);
       }
-      return matches;
+      
+      return gradeMatches && branchMatches;
     });
 
     console.log(`${currentClass} sınıfına ait öğrenci sayısı:`, currentStudents.length);
@@ -11095,11 +11857,6 @@ async function loadClassStudents() {
     if (currentStudents.length === 0) {
       showToast(`${currentClass} sınıfında öğrenci bulunamadı`, 'warning');
       return;
-    }
-
-    // Uyarı: Mevcut verilerde sadece şube bilgisi var, sınıf seviyesi yok
-    if (currentStudents.length > 50) {
-      showToast(`Uyarı: Mevcut verilerde sadece şube bilgisi (A/B) var. ${currentBranch} şubesindeki tüm öğrenciler gösteriliyor.`, 'warning');
     }
 
     // Öğrenci listesini render et
@@ -11603,7 +12360,7 @@ function updateSectionFilter() {
   if (!gradeFilter || !sectionFilter) return;
 
   const selectedGrade = gradeFilter.value;
-  const students = getStudents();
+  const students = window.getStudents ? window.getStudents() : [];
 
   // Seçili sınıftaki benzersiz şubeleri bul
   const sections = [...new Set(
@@ -11630,7 +12387,7 @@ function updateStudentFilter() {
 
   const selectedGrade = gradeFilter?.value || '';
   const selectedSection = sectionFilter?.value || '';
-  const students = getStudents();
+  const students = window.getStudents ? window.getStudents() : [];
 
   // Filtrelenmiş öğrenciler
   const filteredStudents = students.filter(s => {
@@ -11653,9 +12410,16 @@ function updateExamNumberFilter() {
   const examNumberFilter = document.getElementById('exam-number-filter');
   if (!examNumberFilter) return;
 
+  // Global erişim için window.allExams'i kontrol et
+  const exams = window.allExams || allExams || [];
+  if (!exams || exams.length === 0) {
+    console.log('⚠️ updateExamNumberFilter: allExams henüz yüklenmemiş, fonksiyon atlanıyor');
+    return;
+  }
+
   // Benzersiz sınav numaralarını bul (sınav adından çıkar)
   const examNumbers = [...new Set(
-    allExams
+    exams
       .map(exam => {
         const match = exam.name.match(/(\d+)\.\s*Deneme/);
         return match ? match[1] : null;
@@ -11867,7 +12631,27 @@ function loadClassCheckboxes() {
     students
       .filter(s => s.grade && s.class)
       .map(s => `${s.grade}/${s.class}`)
-  )].sort((a, b) => {
+  )].filter(className => {
+    // Geçersiz kombinasyonları filtrele
+    const [grade, section] = className.split('/');
+    
+    // Sınıf seviyesi kontrolü (5-8 arası olmalı)
+    if (!grade || isNaN(grade) || parseInt(grade) < 5 || parseInt(grade) > 8) {
+      return false;
+    }
+    
+    // Şube kontrolü (tek harf olmalı, A-Z arası)
+    if (!section || section.length !== 1 || !/^[A-Z]$/.test(section)) {
+      return false;
+    }
+    
+    // "8AB" gibi garip kombinasyonları engelle
+    if (section.length > 1) {
+      return false;
+    }
+    
+    return true;
+  }).sort((a, b) => {
     const [gradeA, classA] = a.split('/');
     const [gradeB, classB] = b.split('/');
 
@@ -12224,9 +13008,7 @@ function collectEnhancedStudentData(student) {
 // Sayfa yüklendiğinde filtreleme ve sınıf karşılaştırma fonksiyonlarını başlat
 document.addEventListener('DOMContentLoaded', () => {
   initExamFilters();
-  updateExamNumberFilter();
-  updateSectionFilter();
-  updateStudentFilter();
+  // Filtreler artık loadInitialData() içinde çağrılıyor
 });
 
 

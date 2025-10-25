@@ -599,23 +599,50 @@ class StudyPlanAlgorithms {
     };
   }
 
-  // Pazar konu tekrarı
+  // Pazar konu tekrarı - Geliştirilmiş versiyon
   addSundayReview(daySchedule, weakAchievements, questionCount, currentTime, remainingTime) {
     if (weakAchievements.priorityList.length === 0) return;
     
     const studyTime = Math.min(remainingTime, 60); // 1 saat konu tekrarı
     
+    // En çok yanlış yapılan 3 konuyu seç
+    const topRepeatedTopics = this.getTopRepeatedTopics(weakAchievements, 3);
+    
+    // Tekrar edilecek konuları liste olarak hazırla
+    const repeatTopicsText = topRepeatedTopics.length > 0 
+      ? topRepeatedTopics.map(topic => `• ${topic.subject}: ${topic.outcome}`).join('\n')
+      : '• Tüm eksik kazanımların genel tekrarı';
+    
     daySchedule.blocks.push({
       type: 'study',
-      subject: 'Eksik Kazanım Tekrarı',
-      topic: 'Tüm eksik kazanımların konu tekrarı',
+      subject: '🔄 Konu Tekrarı',
+      topic: 'Eksik Kazanım Tekrarı',
       startTime: this.formatTime(currentTime),
       duration: studyTime,
       priority: 'high',
       activity: 'Konu Tekrarı ve Pekiştirme',
       description: `Eksik kazanımların konu tekrarı - ${questionCount} soru`,
-      questionCount: questionCount
+      questionCount: questionCount,
+      isRepeat: true,
+      repeatTopics: topRepeatedTopics,
+      note: `TEKRAR: ${topRepeatedTopics.map(t => t.outcome).join(', ')}`
     });
+  }
+
+  // En çok yanlış yapılan konuları getir
+  getTopRepeatedTopics(weakAchievements, limit = 3) {
+    if (!weakAchievements.priorityList || weakAchievements.priorityList.length === 0) {
+      return [];
+    }
+    
+    // Öncelik sırasına göre en çok yanlış yapılan konuları al
+    return weakAchievements.priorityList
+      .slice(0, limit)
+      .map(item => ({
+        subject: item.subject,
+        outcome: item.outcome,
+        priority: item.priority || 'medium'
+      }));
   }
 
 
@@ -1503,8 +1530,26 @@ ${remoteFocusLines}` : ''}`
           badgeText = '<div class="planning-badge weekly-badge">📅 Hafta Bazlı</div>';
         }
         
+        // Tekrar günü için özel badge
+        if (block.isRepeat) {
+          badgeText = '<div class="planning-badge repeat-badge">🔄 TEKRAR GÜNÜ</div>';
+        }
+        
+        // Tekrar konuları için özel içerik
+        let repeatTopicsContent = '';
+        if (block.isRepeat && block.repeatTopics && block.repeatTopics.length > 0) {
+          repeatTopicsContent = `
+            <div class="repeat-topics">
+              <div class="repeat-title">Tekrar Edilecek Konular:</div>
+              <ul class="repeat-list">
+                ${block.repeatTopics.map(topic => `<li><strong>${topic.subject}:</strong> ${topic.outcome}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+        
         tableHTML += `
-          <div class="time-block ${blockClass} ${planningTypeClass}" data-subject="${subjectClass}">
+          <div class="time-block ${blockClass} ${planningTypeClass} ${block.isRepeat ? 'repeat-block' : ''}" data-subject="${subjectClass}">
             <div class="block-time">${block.startTime} (${block.duration}dk)</div>
             <div class="block-content">
               <div class="block-title">${block.activity || block.subject || 'Mola'}</div>
@@ -1512,6 +1557,7 @@ ${remoteFocusLines}` : ''}`
               ${block.description ? `<div class="block-description">${block.description}</div>` : ''}
               ${block.focusAreas && block.focusAreas.length > 0 ? 
                 `<div class="focus-areas">Odak Alanları: ${block.focusAreas.slice(0, 2).join(', ')}${block.focusAreas.length > 2 ? '...' : ''}</div>` : ''}
+              ${repeatTopicsContent}
             </div>
             ${badgeText}
             ${block.priority === 'high' ? '<div class="priority-badge">🔥</div>' : ''}

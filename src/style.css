@@ -7982,3 +7982,546 @@ input:focus::placeholder {
   background: var(--background-color);
   border-color: var(--border-color);
 }
+
+/* Hedef Tamamlanma Oranları Stilleri */
+#goal-completion-indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.completion-indicator {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.completion-indicator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.completion-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--completion-color, #ef4444) 0deg,
+    var(--completion-color, #ef4444) var(--percentage, 0deg),
+    #f1f5f9 var(--percentage, 0deg),
+    #f1f5f9 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completion-circle::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--card-bg, #ffffff);
+}
+
+.completion-percentage {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-color, #2c3e50);
+}
+
+.completion-info {
+  flex: 1;
+}
+
+.completion-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color, #2c3e50);
+}
+
+.completion-info p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: var(--light-text-color, #666);
+}
+
+/* Renk sınıfları - Artık inline style kullanılıyor, bu sınıflar kaldırıldı */
+
+/* Dark mode için */
+[data-theme="dark"] .completion-indicator {
+  background: var(--panel-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .completion-circle {
+  background: conic-gradient(
+    var(--completion-color, #ef4444) 0deg,
+    var(--completion-color, #ef4444) var(--percentage, 0deg),
+    #374151 var(--percentage, 0deg),
+    #374151 360deg
+  );
+}
+
+[data-theme="dark"] .completion-circle::before {
+  background: var(--panel-bg);
+}
+
+[data-theme="dark"] .completion-info h4 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .completion-info p {
+  color: var(--light-text-color);
+}
+
+[data-theme="dark"] .completion-percentage {
+  color: var(--text-color);
+}
+
+/* Ders Planı - Tekrar Günü Stilleri */
+.repeat-block {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+  border: 2px solid #f39c12 !important;
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3) !important;
+}
+
+.repeat-block .block-title {
+  color: #8b4513 !important;
+  font-weight: 700 !important;
+}
+
+.repeat-block .block-topic {
+  color: #8b4513 !important;
+  font-weight: 600 !important;
+}
+
+.repeat-badge {
+  background: #f39c12 !important;
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+}
+
+.repeat-topics {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.repeat-title {
+  font-weight: 600;
+  color: #8b4513;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.repeat-list {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.repeat-list li {
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #8b4513;
+}
+
+.repeat-list li strong {
+  color: #8b4513;
+}
+
+/* Dark mode için tekrar günü stilleri */
+[data-theme="dark"] .repeat-block {
+  background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%) !important;
+  border-color: #f39c12 !important;
+}
+
+[data-theme="dark"] .repeat-block .block-title,
+[data-theme="dark"] .repeat-block .block-topic {
+  color: #f39c12 !important;
+}
+
+[data-theme="dark"] .repeat-topics {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(243, 156, 18, 0.3);
+}
+
+[data-theme="dark"] .repeat-title {
+  color: #f39c12;
+}
+
+[data-theme="dark"] .repeat-list li,
+[data-theme="dark"] .repeat-list li strong {
+  color: #f39c12;
+}
+
+/* Sınav Yönetimi Butonları - Tutarlı Stiller */
+.section-header .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.section-header .actions .btn-secondary,
+.section-header .actions .btn-warning,
+.section-header .actions .btn-danger,
+.section-header .actions .btn-danger-outline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.section-header .actions .btn-secondary {
+  background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+  color: #2d3748;
+  border-color: #cbd5e0;
+}
+
+.section-header .actions .btn-secondary:hover {
+  background: linear-gradient(145deg, #cbd5e0, #a0aec0);
+  border-color: #a0aec0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.section-header .actions .btn-warning {
+  background: linear-gradient(145deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.section-header .actions .btn-warning:hover {
+  background: linear-gradient(145deg, #fde68a, #f59e0b);
+  border-color: #f59e0b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.section-header .actions .btn-danger {
+  background: linear-gradient(145deg, #fecaca, #fca5a5);
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+
+.section-header .actions .btn-danger:hover:not(:disabled) {
+  background: linear-gradient(145deg, #fca5a5, #ef4444);
+  border-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.section-header .actions .btn-danger:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.section-header .actions .btn-danger-outline {
+  background: transparent;
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.section-header .actions .btn-danger-outline:hover {
+  background: #dc2626;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
+/* Dark mode için sınav yönetimi butonları */
+[data-theme="dark"] .section-header .actions .btn-secondary {
+  background: linear-gradient(145deg, #374151, #4b5563);
+  color: #e5e7eb;
+  border-color: #4b5563;
+}
+
+[data-theme="dark"] .section-header .actions .btn-secondary:hover {
+  background: linear-gradient(145deg, #4b5563, #6b7280);
+  border-color: #6b7280;
+}
+
+[data-theme="dark"] .section-header .actions .btn-warning {
+  background: linear-gradient(145deg, #451a03, #78350f);
+  color: #fbbf24;
+  border-color: #78350f;
+}
+
+[data-theme="dark"] .section-header .actions .btn-warning:hover {
+  background: linear-gradient(145deg, #78350f, #d97706);
+  border-color: #d97706;
+}
+
+[data-theme="dark"] .section-header .actions .btn-danger {
+  background: linear-gradient(145deg, #450a0a, #7f1d1d);
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+[data-theme="dark"] .section-header .actions .btn-danger:hover:not(:disabled) {
+  background: linear-gradient(145deg, #7f1d1d, #dc2626);
+  border-color: #dc2626;
+}
+
+[data-theme="dark"] .section-header .actions .btn-danger:disabled {
+  background: #374151;
+  color: #6b7280;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .section-header .actions .btn-danger-outline {
+  background: transparent;
+  color: #fca5a5;
+  border-color: #dc2626;
+}
+
+[data-theme="dark"] .section-header .actions .btn-danger-outline:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* AI Değerlendirme - Ders Özgü Kartlar */
+.ai-subject-evaluations {
+  margin-top: 24px;
+}
+
+.subject-eval-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.subject-eval-card {
+  background: var(--card-bg, #ffffff);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.subject-eval-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-color: var(--primary-color, #3498db);
+}
+
+.subject-eval-card h5 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color, #2c3e50);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eval-content {
+  min-height: 120px;
+  line-height: 1.6;
+  color: var(--text-color, #2c3e50);
+}
+
+.eval-content.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light-text-color, #666);
+  font-style: italic;
+}
+
+.eval-content.loading::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-top: 2px solid var(--primary-color, #3498db);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.eval-content h6 {
+  margin: 12px 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-color, #3498db);
+}
+
+.eval-content ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.eval-content li {
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.ai-general-evaluation {
+  background: var(--card-bg, #ffffff);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.ai-general-evaluation h4 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color, #2c3e50);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Dark mode için AI değerlendirme kartları */
+[data-theme="dark"] .subject-eval-card {
+  background: var(--panel-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .subject-eval-card:hover {
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .subject-eval-card h5 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .eval-content {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .eval-content.loading {
+  color: var(--light-text-color);
+}
+
+[data-theme="dark"] .eval-content h6 {
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .ai-general-evaluation {
+  background: var(--panel-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .ai-general-evaluation h4 {
+  color: var(--text-color);
+}
+
+/* Sınıf Analizi - Sınıf Özeti Renk Düzeltmeleri */
+.class-summary {
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #2c3e50);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.class-summary h3 {
+  color: var(--heading-color, #1a1a1a);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--stat-card-bg, #f8f9fa);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #e0e0e0);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.stat-card h4 {
+  color: var(--stat-label-color, #666);
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.stat-card p {
+  color: var(--stat-value-color, #1a1a1a);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Dark mode için sınıf özeti */
+[data-theme="dark"] .class-summary {
+  background: var(--panel-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .class-summary h3 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .stat-card {
+  background: var(--background-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .stat-card h4 {
+  color: var(--light-text-color);
+}
+
+[data-theme="dark"] .stat-card p {
+  color: var(--text-color);
+}

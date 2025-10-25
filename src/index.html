@@ -477,6 +477,34 @@
                     </div>
                     <canvas id="goal-vs-actual-chart"></canvas>
                 </div>
+                
+                <!-- YENİ: Zaman İçinde Hedefe Yaklaşım Grafiği -->
+                <div id="goal-progress-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Zaman İçinde Hedefe Yaklaşım</h3>
+                        <button 
+                            onclick="exportElementToPDF('goal-progress-section', 'Hedef-Ilerleme.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <canvas id="goal-progress-over-time-chart"></canvas>
+                </div>
+                
+                <!-- YENİ: Hedef Tamamlanma Oranları -->
+                <div id="goal-completion-section" class="chart-container">
+                    <div class="section-header">
+                        <h3>Hedef Tamamlanma Oranları</h3>
+                        <button 
+                            onclick="exportElementToPDF('goal-completion-section', 'Hedef-Tamamlanma.pdf')"
+                            class="btn-icon"
+                            title="Bu grafiği PDF olarak kaydet">
+                            📄 PDF
+                        </button>
+                    </div>
+                    <div id="goal-completion-indicators"></div>
+                </div>
             </div>
 
         </section>
@@ -666,7 +694,44 @@
                                 <span class="spinner" aria-hidden="true"></span>
                                 <span class="btn-text">🧠 AI Analizini Başlat</span>
                             </button>
-                            <div id="ai-evaluation-result" class="evaluation-result"></div>
+                            <div id="ai-evaluation-result" class="evaluation-result">
+                                <!-- Genel değerlendirme -->
+                                <div class="ai-general-evaluation">
+                                    <h4>🎯 Genel Değerlendirme</h4>
+                                    <div id="ai-general-content"></div>
+                                </div>
+                                
+                                <!-- Ders bazında değerlendirmeler -->
+                                <div class="ai-subject-evaluations">
+                                    <h4>📚 Ders Bazında Öneriler</h4>
+                                    <div class="subject-eval-grid">
+                                        <div class="subject-eval-card" data-subject="turkce">
+                                            <h5>📖 Türkçe</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                        <div class="subject-eval-card" data-subject="matematik">
+                                            <h5>🔢 Matematik</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                        <div class="subject-eval-card" data-subject="fen">
+                                            <h5>🔬 Fen Bilimleri</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                        <div class="subject-eval-card" data-subject="inkilap">
+                                            <h5>🏛️ İnkılap Tarihi</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                        <div class="subject-eval-card" data-subject="ingilizce">
+                                            <h5>🌍 İngilizce</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                        <div class="subject-eval-card" data-subject="din">
+                                            <h5>🕌 Din Kültürü</h5>
+                                            <div class="eval-content loading">Yükleniyor...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -784,6 +849,14 @@
                         </div>
                         <div class="comparison-results" id="comparison-results">
                             <!-- Karşılaştırma sonuçları buraya gelecek -->
+                            
+                            <!-- YENİ: Deneme ortalamaları grafiği -->
+                            <div class="comparison-chart-container" id="comparison-chart-container" style="display: none;">
+                                <h4>📊 Ders Bazında Deneme Ortalamaları Karşılaştırması</h4>
+                                <div class="chart-container">
+                                    <canvas id="class-comparison-chart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

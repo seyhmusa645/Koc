@@ -7,6 +7,22 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+// Windows konsol kodlamasını UTF-8'e çevir
+if (process.platform === 'win32') {
+  try {
+    // Windows konsol kodlamasını UTF-8'e çevir
+    process.stdout.setEncoding('utf8');
+    process.stderr.setEncoding('utf8');
+    
+    // Konsol kodlamasını ayarla
+    if (process.env.TERM !== 'cygwin') {
+      process.env.CHCP = '65001';
+    }
+  } catch (error) {
+    console.log('Konsol kodlaması ayarlanamadı:', error.message);
+  }
+}
+
 // Pencereler
 let mainWindow;
 let authWindow;
@@ -2299,7 +2315,15 @@ ipcMain.handle('student:get-ai-evaluation', async (event, studentData, force = f
         };
 
         // AI Prompt oluştur
-        const prompt = generateAIPrompt(preparedData);
+        let prompt;
+        if (preparedData.subjectSpecificPrompt) {
+            // Ders özgü prompt kullan
+            prompt = preparedData.subjectSpecificPrompt;
+            console.log('🔍 DEBUG: Ders özgü prompt kullanılıyor:', preparedData.subject);
+        } else {
+            // Genel prompt oluştur
+            prompt = generateAIPrompt(preparedData);
+        }
         console.log('🔍 DEBUG: Prompt oluşturuldu, uzunluk:', prompt.length);
 
         const API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent';
@@ -2818,5 +2842,73 @@ ipcMain.handle('performance:export-excel', async (event, data) => {
     return { error: error.message };
   }
 });
+
+// ===========================================
+// HEDEF TAKİBİ IPC HANDLERS
+// ===========================================
+
+// Hedefleri kaydet
+ipcMain.handle('goals:save', (event, studentId, goalsData) => {
+  console.log('🎯 DEBUG: goals:save çağrıldı', studentId);
+  
+  if (!activeUser) {
+    console.error('❌ goals:save: Aktif kullanıcı oturumu bulunamadı!');
+    return { error: 'Hedef kaydetmek için kullanıcı girişi gereklidir.' };
+  }
+
+  try {
+    // Goals klasörünü oluştur
+    const goalsDir = path.join(sharedPath, 'goals');
+    if (!fs.existsSync(goalsDir)) {
+      fs.mkdirSync(goalsDir, { recursive: true });
+    }
+
+    const goalsFilePath = path.join(goalsDir, `student_${studentId}.json`);
+    
+    // Hedef verisini kaydet
+    const goalsDataWithMeta = {
+      ...goalsData,
+      studentId: studentId,
+      lastUpdated: new Date().toISOString(),
+      version: "1.0"
+    };
+    
+    fs.writeFileSync(goalsFilePath, JSON.stringify(goalsDataWithMeta, null, 2), 'utf8');
+    console.log(`✅ Hedefler kaydedildi: ${studentId}`);
+    return { success: true };
+    
+  } catch (error) {
+    console.error('❌ Hedef kaydetme hatası:', error);
+    return { error: error.message };
+  }
+});
+
+// Hedefleri yükle
+ipcMain.handle('goals:load', (event, studentId) => {
+  console.log('🎯 DEBUG: goals:load çağrıldı', studentId);
+  
+  if (!activeUser) {
+    console.error('❌ goals:load: Aktif kullanıcı oturumu bulunamadı!');
+    return { error: 'Hedef yüklemek için kullanıcı girişi gereklidir.' };
+  }
+
+  try {
+    const goalsFilePath = path.join(sharedPath, 'goals', `student_${studentId}.json`);
+    
+    if (!fs.existsSync(goalsFilePath)) {
+      console.log(`⚠️ Hedef dosyası bulunamadı: ${goalsFilePath}`);
+      return { success: true, data: null };
+    }
+
+    const data = JSON.parse(fs.readFileSync(goalsFilePath, 'utf8'));
+    console.log(`✅ Hedefler yüklendi: ${studentId}`);
+    return { success: true, data };
+    
+  } catch (error) {
+    console.error('❌ Hedef yükleme hatası:', error);
+    return { error: error.message };
+  }
+});
+
 
 

@@ -68,7 +68,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Performans Panosu
   loadPerformanceData: (sinif) => ipcRenderer.invoke('performance:load', sinif),
   savePerformanceData: (data) => ipcRenderer.invoke('performance:save', data),
-  exportToExcel: (data) => ipcRenderer.invoke('performance:export-excel', data)
+  exportToExcel: (data) => ipcRenderer.invoke('performance:export-excel', data),
+
+  // Hedef Takibi
+  saveGoals: (studentId, goalsData) => ipcRenderer.invoke('goals:save', studentId, goalsData),
+  loadGoals: (studentId) => ipcRenderer.invoke('goals:load', studentId)
 });
 
 
