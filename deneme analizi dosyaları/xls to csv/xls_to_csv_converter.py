@@ -55,6 +55,37 @@ class XLSToCSVConverter:
             'DİN': 'din'
         }
 
+    def get_social_subject_mapping(self, sinif_str):
+        """Sınıfa göre sosyal bilimler ders adını döndürür"""
+        sinif_num = 0
+        try:
+            sinif_num = int(re.search(r'\d+', sinif_str).group())
+        except:
+            pass
+        
+        if sinif_num >= 8:  # 8. sınıf ve üzeri
+            return {
+                'İnkılap Tarihi': 'sosyal'  # İnkılap → sosyal olarak işle
+            }
+        else:  # 5, 6, 7. sınıflar
+            return {
+                'Sosyal Bilgiler': 'sosyal',
+                'Tarih': 'sosyal'  # Tarih → sosyal olarak işle
+            }
+
+    def get_social_csv_headers(self, sinif_str):
+        """Sınıfa göre CSV başlıkları döndürür"""
+        sinif_num = 0
+        try:
+            sinif_num = int(re.search(r'\d+', sinif_str).group())
+        except:
+            pass
+        
+        if sinif_num >= 8:  # 8. sınıf ve üzeri
+            return 'İnkılap Tarihi'  # İnkılap Tarihi olarak göster
+        else:  # 5, 6, 7. sınıflar
+            return 'Sosyal Bilgiler'  # Sosyal Bilgiler olarak göster
+
     def read_xls(self, file_path: str) -> List[Dict]:
         """XLS dosyasını oku ve veri listesi döndür"""
         try:
@@ -163,7 +194,7 @@ class XLSToCSVConverter:
         
         return result
 
-    def convert_row(self, xls_row: Dict) -> Optional[Dict]:
+    def convert_row(self, xls_row: Dict, sosyal_header: str) -> Optional[Dict]:
         """Tek XLS satırını CSV formatına dönüştür"""
         try:
             # Temel bilgiler
@@ -173,6 +204,7 @@ class XLSToCSVConverter:
             
             sinif_str = xls_row.get('Sınıf', '')
             sinif_level = self.extract_class_level(sinif_str)
+            sosyal_mapping = self.get_social_subject_mapping(sinif_str)
             
             # Bugünün tarihi
             sinav_tarihi = datetime.now().strftime('%Y-%m-%d')
@@ -200,12 +232,19 @@ class XLSToCSVConverter:
             subjects = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din']
             
             for subject in subjects:
-                # XLS'teki sütun adlarını bul
+                # XLS'teki sütun adlarını bul (dinamik mapping ile)
                 xls_subject_name = None
                 for xls_name, sys_name in self.subject_mapping.items():
                     if sys_name == subject:
                         xls_subject_name = xls_name
                         break
+                
+                # Sosyal dersler için özel mapping kullan
+                if subject == 'sosyal':
+                    for xls_name, sys_name in sosyal_mapping.items():
+                        if xls_name in xls_row:
+                            xls_subject_name = xls_name
+                            break
                 
                 if not xls_subject_name:
                     continue
@@ -224,12 +263,31 @@ class XLSToCSVConverter:
                 yanlis_kazanimlar = kazanimlar.get(subject, [])
                 yanlis_kazanim_str = ' | '.join(yanlis_kazanimlar) if yanlis_kazanimlar else ''
                 
-                # CSV sütunlarını doldur (Tarih → Sosyal dönüşümü)
-                csv_subject_name = 'Sosyal' if xls_subject_name == 'Tarih' else xls_subject_name
-                csv_row[f'{csv_subject_name}_Doğru'] = dogru
-                csv_row[f'{csv_subject_name}_Yanlış'] = yanlis
-                csv_row[f'{csv_subject_name}_Boş'] = bos
-                csv_row[f'{csv_subject_name}_Yanlış_Kazanımlar'] = yanlis_kazanim_str
+                # CSV sütunlarını doldur (sosyal için dinamik başlık)
+                if subject == 'sosyal':
+                    csv_row[f'{sosyal_header}_Doğru'] = dogru
+                    csv_row[f'{sosyal_header}_Yanlış'] = yanlis
+                    csv_row[f'{sosyal_header}_Boş'] = bos
+                    csv_row[f'{sosyal_header}_Yanlış_Kazanımlar'] = yanlis_kazanim_str
+                else:
+                    # Türkçe karakterleri düzelt
+                    if subject == 'turkce':
+                        subject_name = 'Türkçe'
+                    elif subject == 'matematik':
+                        subject_name = 'Matematik'
+                    elif subject == 'fen':
+                        subject_name = 'Fen'
+                    elif subject == 'ingilizce':
+                        subject_name = 'İngilizce'
+                    elif subject == 'din':
+                        subject_name = 'Din'
+                    else:
+                        subject_name = subject.capitalize()
+                    
+                    csv_row[f'{subject_name}_Doğru'] = dogru
+                    csv_row[f'{subject_name}_Yanlış'] = yanlis
+                    csv_row[f'{subject_name}_Boş'] = bos
+                    csv_row[f'{subject_name}_Yanlış_Kazanımlar'] = yanlis_kazanim_str
             
             return csv_row
             
@@ -243,13 +301,17 @@ class XLSToCSVConverter:
             print("❌ Yazılacak veri yok")
             return
         
+        # İlk satırdan sınıf bilgisini al
+        sinif_str = data[0].get('Sınıf', '') if data else ''
+        sosyal_header = self.get_social_csv_headers(sinif_str)
+        
         # CSV başlıkları
         headers = [
             'Öğrenci Adı', 'Sınav Adı', 'Sınav Tarihi', 'LGS_Puanı',
             'Türkçe_Doğru', 'Türkçe_Yanlış', 'Türkçe_Boş', 'Türkçe_Yanlış_Kazanımlar',
             'Matematik_Doğru', 'Matematik_Yanlış', 'Matematik_Boş', 'Matematik_Yanlış_Kazanımlar',
             'Fen_Doğru', 'Fen_Yanlış', 'Fen_Boş', 'Fen_Yanlış_Kazanımlar',
-            'Sosyal_Doğru', 'Sosyal_Yanlış', 'Sosyal_Boş', 'Sosyal_Yanlış_Kazanımlar',
+            f'{sosyal_header}_Doğru', f'{sosyal_header}_Yanlış', f'{sosyal_header}_Boş', f'{sosyal_header}_Yanlış_Kazanımlar',
             'İngilizce_Doğru', 'İngilizce_Yanlış', 'İngilizce_Boş', 'İngilizce_Yanlış_Kazanımlar',
             'Din_Doğru', 'Din_Yanlış', 'Din_Boş', 'Din_Yanlış_Kazanımlar'
         ]
@@ -284,8 +346,12 @@ class XLSToCSVConverter:
         csv_data = []
         errors = 0
         
+        # İlk satırdan sınıf bilgisini al ve sosyal başlığı belirle
+        sinif_str = xls_data[0].get('Sınıf', '') if xls_data else ''
+        sosyal_header = self.get_social_csv_headers(sinif_str)
+        
         for i, xls_row in enumerate(xls_data):
-            csv_row = self.convert_row(xls_row)
+            csv_row = self.convert_row(xls_row, sosyal_header)
             if csv_row:
                 csv_data.append(csv_row)
             else:
