@@ -975,7 +975,7 @@
     } finally {
       progressDiv.style.display = 'none';
       generateBtn.disabled = false;
-      generateBtn.textContent = `?? Toplu Rapor Oluştur (${selectedStudentsForReport.length} öğrenci)`;
+      generateBtn.textContent = `📑 Toplu Rapor Oluştur (${selectedStudentsForReport.length} öğrenci)`;
     }
   };
 
@@ -1094,11 +1094,11 @@
       <div class="student-report performance-report">
         <div class="report-header">
           <h2>${student.name} - Performans Raporu</h2>
-          <p>?? ${new Date().toLocaleDateString('tr-TR')}</p>
+          <p>📅 ${new Date().toLocaleDateString('tr-TR')}</p>
         </div>
-        
+
         <div class="report-section">
-          <h3>?? Son Deneme Sonuçları</h3>
+          <h3>📊 Son Deneme Sonuçları</h3>
           <table>
             <thead>
               <tr>
@@ -1114,9 +1114,9 @@
             </tbody>
           </table>
         </div>
-        
+
         <div class="report-section">
-          <h3>?? Genel Ortalama</h3>
+          <h3>📈 Genel Ortalama</h3>
           <div class="average-stats">
             ${generateAverageStats(avgPerformance)}
           </div>
@@ -1131,11 +1131,11 @@
       <div class="student-report comparison-report">
         <div class="report-header">
           <h2>${student.name} - Karşılaştırmalı Analiz</h2>
-          <p>?? ${new Date().toLocaleDateString('tr-TR')}</p>
+          <p>📅 ${new Date().toLocaleDateString('tr-TR')}</p>
         </div>
-        
+
         <div class="report-section">
-          <h3>?? Performans Karşılaştırması</h3>
+          <h3>📊 Performans Karşılaştırması</h3>
           <p>Son deneme vs genel ortalama karşılaştırması burada görüntülenecek.</p>
         </div>
       </div>
@@ -1148,11 +1148,11 @@
       <div class="student-report detailed-report">
         <div class="report-header">
           <h2>${student.name} - Detaylı Rapor</h2>
-          <p>?? ${new Date().toLocaleDateString('tr-TR')}</p>
+          <p>📅 ${new Date().toLocaleDateString('tr-TR')}</p>
         </div>
-        
+
         <div class="report-section">
-          <h3>?? Kapsamlı Analiz</h3>
+          <h3>📋 Kapsamlı Analiz</h3>
           <p>Detaylı öğrenci analizi burada görüntülenecek.</p>
         </div>
       </div>
@@ -5145,25 +5145,25 @@
   // Strateji adlarını kullanıcı dostu hale getir
   function getStrategyName(strategy) {
     const strategyNames = {
-      'eksiklik-stil': '?? Ortak Eksiklik + Öğrenme Stili',
-      'eksiklik': '?? Ortak Eksik Kazanım',
-      'başarı-stil': '?? Başarı Seviyesi + Öğrenme Stili',
-      'stil': '?? Öğrenme Stili',
-      'rastgele': '?? Rastgele'
+      'eksiklik-stil': '🎯 Ortak Eksiklik + Öğrenme Stili',
+      'eksiklik': '📌 Ortak Eksik Kazanım',
+      'başarı-stil': '⭐ Başarı Seviyesi + Öğrenme Stili',
+      'stil': '🎨 Öğrenme Stili',
+      'rastgele': '🎲 Rastgele'
     };
-    return strategyNames[strategy] || '? Bilinmeyen';
+    return strategyNames[strategy] || '❓ Bilinmeyen';
   }
 
   // Grup başlığı için ikon seç
   function getGroupIcon(strategy) {
     const icons = {
-      'eksiklik-stil': '??',
-      'eksiklik': '??', 
-      'başarı-stil': '?',
-      'stil': '??',
-      'rastgele': '??'
+      'eksiklik-stil': '🎯',
+      'eksiklik': '📌',
+      'başarı-stil': '⭐',
+      'stil': '🎨',
+      'rastgele': '🎲'
     };
-    return icons[strategy] || '??';
+    return icons[strategy] || '📚';
   }
 
   // Karma konuları kategorize et ve göster
@@ -5176,7 +5176,7 @@
     if (mainTopics.length > 0) {
       html += `
         <div class="etut-main-topics">
-          <h5>?? Ana Konular (Tüm grup)</h5>
+          <h5>🎯 Ana Konular (Tüm grup)</h5>
           <div class="etut-outcomes-list">
             ${mainTopics.map(topic => `
               <span class="etut-outcome-tag main-topic">${topic}</span>
@@ -5185,12 +5185,12 @@
         </div>
       `;
     }
-    
+
     // Yan konular (bireysel eksiklikler)
     if (sideTopics.length > 0) {
       html += `
         <div class="etut-side-topics">
-          <h5>?? Yan Konular (Bireysel)</h5>
+          <h5>📝 Yan Konular (Bireysel)</h5>
           <div class="etut-outcomes-list">
             ${sideTopics.map(topic => `
               <span class="etut-outcome-tag side-topic">${topic}</span>
@@ -5244,14 +5244,14 @@
           </div>
           <div class="etut-group-actions">
             <button class="btn-etut-action btn-edit-etut" onclick="editEtutGroup('${group.id}')">
-              ?? Düzenle
+              ✏️ Düzenle
             </button>
             <button class="btn-etut-action btn-delete-etut" onclick="deleteEtutGroup('${group.id}')">
-              ??? Sil
+              🗑️ Sil
             </button>
           </div>
         </div>
-        
+
         <div class="etut-group-info">
           <div class="etut-info-item">
             <span class="label">Ders:</span> ${subjectNames[group.subject] || group.subject}
@@ -5269,12 +5269,12 @@
             <span class="label">Oluşturma Tarihi:</span> ${group.createdDate}
           </div>
         </div>
-        
+
         <div class="etut-students">
           ${group.students.map(student => `
             <div class="etut-student">
               <div class="etut-student-name">
-                ?? ${student.name}
+                👤 ${student.name}
               </div>
               <div class="etut-student-info">
                 <div>Sınıf: ${student.grade}.${student.class || '-'}</div>
@@ -5283,17 +5283,17 @@
             </div>
           `).join('')}
         </div>
-        
+
         ${group.commonWeaknesses.length > 0 ? `
           <div class="etut-common-outcomes">
-            <h4>?? Karma Etüt Konuları</h4>
+            <h4>📚 Karma Etüt Konuları</h4>
             <div class="etut-hybrid-topics">
               ${categorizeAndDisplayTopics(group.students, group.subject, group.commonWeaknesses)}
             </div>
           </div>
         ` : `
           <div class="etut-common-outcomes">
-            <h4>?? Bilgi</h4>
+            <h4>ℹ️ Bilgi</h4>
             <p style="color: var(--text-muted); font-style: italic;">Bu grupta ortak eksik kazanım bulunamadı.</p>
           </div>
         `}
@@ -5415,12 +5415,12 @@
     if (studentInfoDisplay) {
       studentInfoDisplay.innerHTML = `
         <div class="no-selection">
-          <p>?? Lütfen değerlendirilecek öğrenciyi seçin</p>
+          <p>👤 Lütfen değerlendirilecek öğrenciyi seçin</p>
           <p>Ana ekrandan öğrenci arama yaparak seçim yapabilirsiniz</p>
         </div>
       `;
     }
-    
+
     if (evaluationResults) {
       evaluationResults.style.display = 'none';
     }
@@ -5429,11 +5429,11 @@
   // Seçili öğrenci bilgilerini güncelle
   function updateEvaluationStudentInfo() {
     const studentInfoDisplay = document.getElementById('evaluation-student-info');
-    
+
     if (studentInfoDisplay && selectedStudent) {
       studentInfoDisplay.innerHTML = `
         <div class="has-student">
-          <h4>?? ${selectedStudent.name}</h4>
+          <h4>👤 ${selectedStudent.name}</h4>
           <p><strong>Sınıf:</strong> ${selectedStudent.grade}. Sınıf | <strong>Şube:</strong> ${selectedStudent.class}</p>
           <p><strong>Öğrenme Stili:</strong> ${selectedStudent.learningStyle || 'Belirlenmemiş'}</p>
         </div>
@@ -5480,7 +5480,7 @@
     
     const loadingHTML = `
       <div style="text-align: center; padding: 20px;">
-        <div style="font-size: 24px; margin-bottom: 10px;">??</div>
+        <div style="font-size: 24px; margin-bottom: 10px;">🧠</div>
         <p>AI analizi yapılıyor...</p>
         <div style="width: 100%; height: 4px; background: #f0f0f0; border-radius: 2px; margin-top: 10px;">
           <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 2px; animation: loading 2s ease-in-out infinite;"></div>
@@ -6015,38 +6015,38 @@
     content.innerHTML = `
       <div class="performance-summary">
         <div class="performance-metric">
-          <h4>?? Genel Seviye</h4>
+          <h4>📊 Genel Seviye</h4>
           <div class="metric-value" style="color: ${levelColor}">
             ${performance.level} (${performance.averageNet} net)
           </div>
         </div>
-        
+
         <div class="performance-metric">
-          <h4>?? Gelişim Trendi</h4>
+          <h4>📈 Gelişim Trendi</h4>
           <div class="metric-value">
             ${trendIcon} ${performance.trend}
           </div>
         </div>
-        
+
         <div class="performance-metric">
-          <h4>?? Toplam Sınav</h4>
+          <h4>📝 Toplam Sınav</h4>
           <div class="metric-value">
             ${performance.totalExams} sınav
           </div>
         </div>
       </div>
-      
+
       <div class="strengths-weaknesses">
         <div class="strengths">
-          <h4>?? Güçlü Alanlar</h4>
-          ${performance.strengths.length > 0 ? 
+          <h4>💪 Güçlü Alanlar</h4>
+          ${performance.strengths.length > 0 ?
             performance.strengths.map(s => `<div class="strength-item">${s.subject}: ${s.score} net</div>`).join('') :
             '<div class="no-data">Henüz güçlü alan tespit edilemedi</div>'
           }
         </div>
-        
+
         <div class="weaknesses">
-          <h4>?? Geliştirilmesi Gereken Alanlar</h4>
+          <h4>🎯 Geliştirilmesi Gereken Alanlar</h4>
           ${performance.weaknesses.length > 0 ? 
             performance.weaknesses.map(w => `<div class="weakness-item">${w.subject}: ${w.score} net</div>`).join('') :
             '<div class="no-data">Tüm alanlarda dengeli performans</div>'
@@ -6087,7 +6087,7 @@
       </div>
       
       <div class="style-recommendations">
-        <h4>?? Önerilen Yaklaşımlar</h4>
+        <h4>💡 Önerilen Yaklaşımlar</h4>
         <ul>
           ${learningStyle.recommendations.map(rec => `<li>${rec}</li>`).join('')}
         </ul>
@@ -6147,12 +6147,12 @@
 
   function getTrendIcon(trend) {
     const icons = {
-      'Yükselişte': '??',
-      'Düşüşte': '??',
-      'Stabil': '??',
-      'Belirsiz': '?'
+      'Yükselişte': '📈',
+      'Düşüşte': '📉',
+      'Stabil': '➡️',
+      'Belirsiz': '❓'
     };
-    return icons[trend] || '?';
+    return icons[trend] || '❓';
   }
 
   function getLearningStyleColor(style) {
@@ -7780,12 +7780,12 @@
     let html = `
       <div class="weekend-schedule">
         <div class="schedule-header">
-          <h4>?? ${schedule.className} Sınıfı - Hafta Sonu Etüt Programı</h4>
-          <p>?? ${schedule.totalStudents} Öğrenci | ?? ${schedule.date}</p>
+          <h4>📅 ${schedule.className} Sınıfı - Hafta Sonu Etüt Programı</h4>
+          <p>👥 ${schedule.totalStudents} Öğrenci | 📆 ${schedule.date}</p>
         </div>
-        
+
         <div class="schedule-summary">
-          <h5>?? Program Özeti</h5>
+          <h5>📋 Program Özeti</h5>
           <p><strong>Toplam Süre:</strong> ${schedule.summary.totalDuration}</p>
           <p><strong>Yüksek Öncelik:</strong> ${schedule.summary.highPrioritySubjects.join(', ')}</p>
           <p><strong>Orta Öncelik:</strong> ${schedule.summary.mediumPrioritySubjects.join(', ')}</p>
@@ -7810,7 +7810,7 @@
         <div class="day-sessions">`;
       
       sessionsByDay[day].forEach(session => {
-        const priorityIcon = session.priority === 'high' ? '??' : session.priority === 'medium' ? '??' : '??';
+        const priorityIcon = session.priority === 'high' ? '🔴' : session.priority === 'medium' ? '🟡' : '🟢';
         html += `
           <div class="session-card ${session.priority}">
             <div class="session-header">
@@ -7822,10 +7822,10 @@
               ${session.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
             </div>
             <div class="session-stats">
-              <span>?? Ort: ${session.avgScore} net</span>
-              <span>?? ${session.studentCount} öğrenci</span>
-              <span>? ${session.weakOutcomeCount} eksik kazanım</span>
-              <span>?? %${session.participationRate} katılım</span>
+              <span>📊 Ort: ${session.avgScore} net</span>
+              <span>👥 ${session.studentCount} öğrenci</span>
+              <span>📌 ${session.weakOutcomeCount} eksik kazanım</span>
+              <span>✅ %${session.participationRate} katılım</span>
             </div>
           </div>
         `;
@@ -7859,19 +7859,19 @@
     
     // PDF içeriğini hazırla
     let content = `
-      <h1>?? ${schedule.className} Sınıfı - Hafta Sonu Etüt Programı</h1>
+      <h1>📅 ${schedule.className} Sınıfı - Hafta Sonu Etüt Programı</h1>
       <p><strong>Tarih:</strong> ${schedule.date}</p>
       <p><strong>Öğrenci Sayısı:</strong> ${schedule.totalStudents}</p>
       <p><strong>Toplam Süre:</strong> ${schedule.summary.totalDuration}</p>
-      
-      <h2>?? Program Özeti</h2>
+
+      <h2>📋 Program Özeti</h2>
       <ul>
         <li><strong>Yüksek Öncelik:</strong> ${schedule.summary.highPrioritySubjects.join(', ')}</li>
         <li><strong>Orta Öncelik:</strong> ${schedule.summary.mediumPrioritySubjects.join(', ')}</li>
         <li><strong>Düşük Öncelik:</strong> ${schedule.summary.lowPrioritySubjects.join(', ')}</li>
       </ul>
-      
-      <h2>?? Etüt Programı</h2>
+
+      <h2>📚 Etüt Programı</h2>
     `;
 
     // Günlere göre grupla
@@ -9795,7 +9795,7 @@
     // Sayfa başlığını Premium'a göre güncelle
     const pageHeader = document.querySelector('#evaluation-section .page-header h2');
     if (pageHeader) {
-      pageHeader.textContent = isPremium ? '?? AI Öğrenci Değerlendirme ve Tavsiyeleri' : '?? Öğrenci Değerlendirme';
+      pageHeader.textContent = isPremium ? '🧠 AI Öğrenci Değerlendirme ve Tavsiyeleri' : '📋 Öğrenci Değerlendirme';
       console.log(`?? DEBUG: Sayfa başlığı güncellendi: ${pageHeader.textContent}`);
     }
   }
@@ -9939,7 +9939,7 @@
         if (aiEvaluationResult) {
           aiEvaluationResult.innerHTML = `
             <div class="ai-evaluation-content">
-              <h4>?? AI Değerlendirmesi</h4>
+              <h4>🧠 AI Değerlendirmesi</h4>
               <div class="evaluation-text">${response.evaluation}</div>
               ${response.timing ? `<div class="evaluation-timing-info">Değerlendirme Periyodu: ${response.timing.reason}</div>` : ''}
             </div>
@@ -10838,8 +10838,8 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
         <div class="exam-info">
           <div class="exam-details">
             <span class="exam-name">${exam.name}</span>
-            <span class="exam-student">?? ${exam.profile}</span>
-            <span class="exam-date">?? ${new Date(exam.date).toLocaleDateString('tr-TR')}</span>
+            <span class="exam-student">👤 ${exam.profile}</span>
+            <span class="exam-date">📅 ${new Date(exam.date).toLocaleDateString('tr-TR')}</span>
           </div>
           <div class="exam-stats">
             <div class="stat-item">
@@ -10891,7 +10891,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
   
   const selectAllBtn = document.getElementById('select-all-exams');
   if (selectAllBtn) {
-    selectAllBtn.textContent = allChecked ? '?? Tümünü Seç' : '? Seçimi Kaldır';
+    selectAllBtn.textContent = allChecked ? '☑️ Tümünü Seç' : '⬜ Seçimi Kaldır';
   }
   
   updateSelectedExamCount();
