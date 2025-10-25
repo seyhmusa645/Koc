@@ -8,6 +8,20 @@ import re
 import sys
 import os
 
+def get_social_subject_name(sinif):
+    """Sınıfa göre sosyal bilimler ders adını döndürür"""
+    # Sınıf bilgisinden rakamı çıkar
+    sinif_num = 0
+    try:
+        sinif_num = int(re.search(r'\d+', sinif).group())
+    except:
+        pass
+    
+    if sinif_num >= 8:  # 8. sınıf ve üzeri
+        return "İnkılap Tarihi"
+    else:  # 5, 6, 7. sınıflar
+        return "Sosyal Bilgiler"
+
 def parse_kazanimlar(text):
     """Ders bazlı kazanım satırlarını özetler."""
     analysis_start = text.find('DERSLERE GÖRE ANALİZ')
@@ -113,21 +127,33 @@ def parse_student_page(text):
         student_data['turk_net'] = turk_match.group(4).replace(',', '.')
         student_data['turk_basari'] = turk_match.group(5)
     
-    # Tarih veya Sosyal Bilgiler
-    tarih_match = re.search(r'Tarih\s+10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
-    if tarih_match:
-        student_data['tarih_dogru'] = tarih_match.group(1)
-        student_data['tarih_yanlis'] = tarih_match.group(2)
-        student_data['tarih_net'] = tarih_match.group(3).replace(',', '.')
-        student_data['tarih_basari'] = tarih_match.group(4)
+    # Sınıfa göre sosyal bilgiler/inkılap tarihi bilgisi
+    sinif = student_data.get('sinif', '')
+    sosyal_ders_adi = get_social_subject_name(sinif)
+    
+    # Sınıf numarasını belirle
+    sinif_num = 0
+    try:
+        sinif_num = int(re.search(r'\d+', sinif).group())
+    except:
+        pass
+    
+    if sinif_num >= 8:
+        # İnkılap Tarihi ara (8. sınıf)
+        inkilap_match = re.search(r'İnkılap Tarihi.*?10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
+        if inkilap_match:
+            student_data['sosyal_dogru'] = inkilap_match.group(1)
+            student_data['sosyal_yanlis'] = inkilap_match.group(2)
+            student_data['sosyal_net'] = inkilap_match.group(3).replace(',', '.')
+            student_data['sosyal_basari'] = inkilap_match.group(4)
     else:
-        # Sosyal Bilgiler dene (büyük veya küçük harf)
-        sos_match = re.search(r'(?:Sosyal Bilgiler|SOSYAL BİLGİLER)\s+10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
+        # Sosyal Bilgiler ara (5, 6, 7. sınıf)
+        sos_match = re.search(r'(?:Sosyal Bilgiler|SOSYAL BİLGİLER|Tarih)\s+10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
         if sos_match:
-            student_data['tarih_dogru'] = sos_match.group(1)
-            student_data['tarih_yanlis'] = sos_match.group(2)
-            student_data['tarih_net'] = sos_match.group(3).replace(',', '.')
-            student_data['tarih_basari'] = sos_match.group(4)
+            student_data['sosyal_dogru'] = sos_match.group(1)
+            student_data['sosyal_yanlis'] = sos_match.group(2)
+            student_data['sosyal_net'] = sos_match.group(3).replace(',', '.')
+            student_data['sosyal_basari'] = sos_match.group(4)
     
     # Din Kültürü
     din_match = re.search(r'Din K\.ve A\.B\.\s+10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
@@ -217,7 +243,7 @@ def extract_to_excel(input_file, output_file):
         'LGS Puanı', 'LGS Ortalama', 'Sınıf Derecesi', 'Kurum Derecesi', 
         'İlçe Derecesi', 'İl Derecesi', 'Genel Derece',
         'Türkçe Doğru', 'Türkçe Yanlış', 'Türkçe Net', 'Türkçe Başarı%',
-        'Tarih Doğru', 'Tarih Yanlış', 'Tarih Net', 'Tarih Başarı%',
+        'Sosyal Bilgiler Doğru', 'Sosyal Bilgiler Yanlış', 'Sosyal Bilgiler Net', 'Sosyal Bilgiler Başarı%',
         'Din Doğru', 'Din Yanlış', 'Din Net', 'Din Başarı%',
         'İngilizce Doğru', 'İngilizce Yanlış', 'İngilizce Net', 'İngilizce Başarı%',
         'Matematik Doğru', 'Matematik Yanlış', 'Matematik Net', 'Matematik Başarı%',
@@ -265,10 +291,10 @@ def extract_to_excel(input_file, output_file):
             student_data.get('turk_yanlis', ''),
             student_data.get('turk_net', ''),
             student_data.get('turk_basari', ''),
-            student_data.get('tarih_dogru', ''),
-            student_data.get('tarih_yanlis', ''),
-            student_data.get('tarih_net', ''),
-            student_data.get('tarih_basari', ''),
+            student_data.get('sosyal_dogru', ''),
+            student_data.get('sosyal_yanlis', ''),
+            student_data.get('sosyal_net', ''),
+            student_data.get('sosyal_basari', ''),
             student_data.get('din_dogru', ''),
             student_data.get('din_yanlis', ''),
             student_data.get('din_net', ''),

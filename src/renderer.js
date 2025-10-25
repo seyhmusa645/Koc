@@ -3830,6 +3830,26 @@
   }
 
   /**
+   * Türkçe karakterleri normalize eder
+   * @param {string} text - Normalize edilecek metin
+   * @returns {string} Normalize edilmiş metin
+   */
+  function normalizeTurkishText(text) {
+    if (!text) return '';
+    
+    return text
+      .trim()
+      .replace(/İ/g, 'i')
+      .replace(/I/g, 'ı')
+      .replace(/Ğ/g, 'ğ')
+      .replace(/Ü/g, 'ü')
+      .replace(/Ş/g, 'ş')
+      .replace(/Ö/g, 'ö')
+      .replace(/Ç/g, 'ç')
+      .toLowerCase();
+  }
+
+  /**
    * İsmi parçalara ayırır ve normalize eder
    * @param {string} name - İsim
    * @returns {Array} Normalize edilmiş isim parçaları
@@ -3841,7 +3861,7 @@
       .trim()
       .split(/\s+/)
       .filter(part => part.length > 0)
-      .map(part => part.toLowerCase());
+      .map(part => normalizeTurkishText(part));
   }
 
   /**
@@ -3857,47 +3877,86 @@
     }
 
     const csvName = csvStudentName.trim();
-    const csvNameLower = csvName.toLowerCase();
+    const csvNameLower = normalizeTurkishText(csvName);
     const csvNameParts = normalizeNameParts(csvName);
     
-    // SEVİYE 1: Tam Eşleşme (Mevcut sistem)
+    console.log(`🔍 Eşleştirme: "${csvName}"`);
+    console.log(`  📊 Normalize edilmiş: "${csvNameLower}"`);
+    console.log(`  📊 Parçalar: [${csvNameParts.join(', ')}]`);
+    console.log(`  📊 Öğrenci numarası: ${csvStudentNumber || 'Yok'}`);
+    
+    // SEVİYE 1: Öğrenci Numarası Eşleşmesi (en güvenilir)
+    if (csvStudentNumber) {
+      console.log(`  📊 Seviye 1 (Numara): Kontrol ediliyor...`);
+      const student = allStudents.find(s => 
+        s.studentNumber && s.studentNumber.toString() === csvStudentNumber.toString()
+      );
+      if (student) {
+        console.log(`  ✅ Seviye 1 (Numara): Bulundu - ${student.name}`);
+        return { 
+          student, 
+          method: 'Öğrenci numarası eşleşmesi', 
+          confidence: 1.0 
+        };
+      }
+      console.log(`  ❌ Seviye 1 (Numara): Bulunamadı`);
+    } else {
+      console.log(`  📊 Seviye 1 (Numara): Yok`);
+    }
+
+    // SEVİYE 2: Tam Eşleşme
+    console.log(`  📊 Seviye 2 (Tam): Kontrol ediliyor...`);
     let student = allStudents.find(s => 
-      s.name.trim().toLowerCase() === csvNameLower
+      normalizeTurkishText(s.name.trim()) === csvNameLower
     );
     if (student) {
+      console.log(`  ✅ Seviye 2 (Tam): Bulundu - ${student.name}`);
       return { 
         student, 
         method: 'Tam eşleşme', 
         confidence: 1.0 
       };
     }
+    console.log(`  ❌ Seviye 2 (Tam): Bulunamadı`);
 
-    // SEVİYE 2: Ad + Soyad Eşleşmesi
+    // SEVİYE 3: Ad + Soyad Eşleşmesi (sıra bağımsız, çoklu isim desteği)
     if (csvNameParts.length >= 2) {
+      console.log(`  📊 Seviye 3 (Ad+Soyad): Kontrol ediliyor...`);
       student = allStudents.find(s => {
         const sNameParts = normalizeNameParts(s.name);
         if (sNameParts.length < 2) return false;
         
-        // Ad eşleşmesi (ilk kelime)
-        const adMatch = sNameParts[0] === csvNameParts[0];
-        // Soyad eşleşmesi (son kelime)
-        const soyadMatch = sNameParts[sNameParts.length - 1] === 
-                          csvNameParts[csvNameParts.length - 1];
+        // İlk ve son isimleri al (orta isimleri atla)
+        const csvFirst = csvNameParts[0];
+        const csvLast = csvNameParts[csvNameParts.length - 1];
+        const sFirst = sNameParts[0];
+        const sLast = sNameParts[sNameParts.length - 1];
         
-        return adMatch && soyadMatch;
+        // Normal sıra: Ahmet Yılmaz
+        const normalOrder = sFirst === csvFirst && sLast === csvLast;
+        
+        // Ters sıra: Yılmaz Ahmet
+        const reverseOrder = sFirst === csvLast && sLast === csvFirst;
+        
+        return normalOrder || reverseOrder;
       });
       
       if (student) {
+        console.log(`  ✅ Seviye 3 (Ad+Soyad): Bulundu - ${student.name}`);
         return { 
           student, 
           method: 'Ad + Soyad eşleşmesi', 
           confidence: 0.95 
         };
       }
+      console.log(`  ❌ Seviye 3 (Ad+Soyad): Bulunamadı`);
+    } else {
+      console.log(`  📊 Seviye 3 (Ad+Soyad): Yeterli parça yok`);
     }
 
-    // SEVİYE 3: Sadece Ad Eşleşmesi
+    // SEVİYE 4: Sadece Ad Eşleşmesi
     if (csvNameParts.length >= 1) {
+      console.log(`  📊 Seviye 4 (Sadece Ad): Kontrol ediliyor...`);
       const matches = allStudents.filter(s => {
         const sNameParts = normalizeNameParts(s.name);
         if (sNameParts.length < 1) return false;
@@ -3906,29 +3965,32 @@
       });
       
       if (matches.length === 1) {
+        console.log(`  ✅ Seviye 4 (Sadece Ad): Bulundu - ${matches[0].name}`);
         return { 
           student: matches[0], 
           method: 'Sadece ad eşleşmesi', 
           confidence: 0.7 
         };
       } else if (matches.length > 1) {
-        // Birden fazla eşleşme - sınıf bilgisi ile filtrele
-        console.warn(`⚠️ "${csvName}" için ${matches.length} aday bulundu:`, 
-          matches.map(m => m.name));
+        console.log(`  ⚠️ Seviye 4 (Sadece Ad): ${matches.length} aday bulundu`);
         return { 
           student: matches[0], 
           method: 'Sadece ad eşleşmesi (çoklu)', 
           confidence: 0.6 
         };
       }
+      console.log(`  ❌ Seviye 4 (Sadece Ad): Bulunamadı`);
+    } else {
+      console.log(`  📊 Seviye 4 (Sadece Ad): Parça yok`);
     }
 
-    // SEVİYE 4: Benzerlik Algoritması (Levenshtein Distance)
+    // SEVİYE 5: Benzerlik Algoritması (Levenshtein Distance)
+    console.log(`  📊 Seviye 5 (Benzerlik): Kontrol ediliyor...`);
     let bestMatch = null;
     let bestScore = 0;
     
     allStudents.forEach(s => {
-      const similarity = calculateSimilarity(csvNameLower, s.name.toLowerCase());
+      const similarity = calculateSimilarity(csvNameLower, normalizeTurkishText(s.name));
       if (similarity > bestScore && similarity > 0.8) { // %80 benzerlik eşiği
         bestMatch = s;
         bestScore = similarity;
@@ -3936,27 +3998,16 @@
     });
     
     if (bestMatch) {
+      console.log(`  ✅ Seviye 5 (Benzerlik): Bulundu - ${bestMatch.name} (${(bestScore * 100).toFixed(1)}%)`);
       return { 
         student: bestMatch, 
         method: `Benzerlik eşleşmesi (${(bestScore * 100).toFixed(1)}%)`, 
         confidence: bestScore 
       };
     }
+    console.log(`  ❌ Seviye 5 (Benzerlik): Bulunamadı`);
 
-    // SEVİYE 5: Okul Numarası Eşleşmesi (Gelecek için hazır)
-    if (csvStudentNumber) {
-      student = allStudents.find(s => 
-        s.studentNumber && s.studentNumber.toString() === csvStudentNumber.toString()
-      );
-      if (student) {
-        return { 
-          student, 
-          method: 'Okul numarası eşleşmesi', 
-          confidence: 0.99 
-        };
-      }
-    }
-
+    console.log(`  ❌ Hiçbir seviyede eşleşme bulunamadı`);
     return null;
   }
 
@@ -4543,7 +4594,40 @@
           console.log(`?? DEBUG: matchResult için "${studentName}":`, matchResult);
           
           // Eğer eşleştirme bulunamadıysa veya düşük güvenliyse modal aç
-          if (!matchResult || matchResult.confidence < 0.7) {
+          if (!matchResult) {
+            console.log(`❌ Öğrenci eşleştirilemedi: "${studentName}"`);
+            console.log(`🔍 matchResult:`, matchResult);
+            console.log(`👥 allStudents sayısı:`, allStudents.length);
+            console.log(`⚠️ Modal açma koşulu TRUE - "${studentName}"`);
+            
+            // Olası eşleşmeleri bul (tüm benzer öğrenciler)
+            const possibleMatches = findAllPossibleMatches(studentName, allStudents);
+            console.log(`🔍 possibleMatches sayısı:`, possibleMatches.length);
+            console.log(`🔍 possibleMatches:`, possibleMatches);
+            
+            if (possibleMatches.length > 0) {
+              console.log(`🔍 Modal açılıyor... possibleMatches:`, possibleMatches);
+              // Modal aç ve kullanıcıdan seçim bekle
+              const modalResult = await showStudentMatchModalAsync(studentName, row, possibleMatches);
+              console.log(`🔍 Modal sonucu:`, modalResult);
+              
+              // Kullanıcı atladıysa veya iptal ettiyse
+              if (!modalResult || skipAllErrors || importCancelled) {
+                if (importCancelled) break;
+                errors++;
+                continue;
+              }
+              
+              student = modalResult.student;
+              confidence = 1.0; // Manuel seçim = %100 güven
+              method = 'Manuel Seçim';
+            } else {
+              // Hiç eşleşme yoksa direkt hata
+              console.warn(`⚠️ Öğrenci bulunamadı: "${studentName}" (Satır ${csvData.indexOf(row) + 2})`);
+              errors++;
+              continue;
+            }
+          } else if (matchResult.confidence < 0.7) {
             console.log(`?? DEBUG: Öğrenci eşleştirilemedi: "${studentName}"`);
             console.log(`?? DEBUG: matchResult:`, matchResult);
             console.log(`?? DEBUG: allStudents sayısı:`, allStudents.length);
@@ -4696,6 +4780,14 @@
       console.log(`? Başarıyla import edilen: ${imported} sınav`);
       console.log(`? Hatalı satır: ${errors} satır`);
       console.log(`?? Başarı oranı: ${((imported / (imported + errors)) * 100).toFixed(1)}%`);
+      // Detaylı eşleştirme raporu
+      if (imported > 0) {
+        console.log('\n📋 Eşleştirme Detayları:');
+        console.log(`🔍 Toplam işlenen satır: ${csvData.length}`);
+        console.log(`✅ Başarılı eşleştirme: ${imported}`);
+        console.log(`⚠️ Manuel müdahale gerekli: ${errors}`);
+        console.log(`📈 Otomatik eşleştirme oranı: ${((imported / csvData.length) * 100).toFixed(1)}%`);
+      }
       
       return { success: true, imported, errors };
       

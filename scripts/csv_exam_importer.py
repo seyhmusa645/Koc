@@ -112,12 +112,19 @@ def calculate_similarity(str1, str2):
     distance = levenshtein_distance(longer, shorter)
     return (len(longer) - distance) / len(longer)
 
+def normalize_turkish_text(text):
+    """Türkçe karakterleri normalize eder"""
+    if not text:
+        return ''
+    
+    return text.strip().replace('İ', 'i').replace('I', 'ı').replace('Ğ', 'ğ').replace('Ü', 'ü').replace('Ş', 'ş').replace('Ö', 'ö').replace('Ç', 'ç').lower()
+
 def normalize_name_parts(name):
     """İsmi parçalara ayırır ve normalize eder"""
     if not name:
         return []
     
-    return [part.strip().lower() for part in name.strip().split() if part.strip()]
+    return [normalize_turkish_text(part.strip()) for part in name.strip().split() if part.strip()]
 
 def calculate_lgs_score(exam_data):
     """LGS puanını hesapla (MEB resmi formülü)"""
@@ -164,31 +171,54 @@ def calculate_lgs_score(exam_data):
     return max(100, min(500, lgs_score))
 
 def find_student_advanced(csv_student_name, students):
-    """Gelişmiş öğrenci eşleştirme fonksiyonu"""
+    """Gelişmiş öğrenci eşleştirme fonksiyonu - 5 seviye eşleştirme stratejisi"""
     if not csv_student_name or not students:
         return None
     
     csv_name = csv_student_name.strip()
-    csv_name_lower = csv_name.lower()
+    csv_name_normalized = normalize_turkish_text(csv_name)
     csv_name_parts = normalize_name_parts(csv_name)
     
-    # SEVİYE 1: Tam Eşleşme
-    for student in students:
-        if student['name'].strip().lower() == csv_name_lower:
-            return {'student': student, 'method': 'Tam eşleşme', 'confidence': 1.0}
+    print(f"🔍 Eşleştirme: '{csv_name}'")
+    print(f"  📊 Normalize edilmiş: '{csv_name_normalized}'")
+    print(f"  📊 Parçalar: {csv_name_parts}")
     
-    # SEVİYE 2: Ad + Soyad Eşleşmesi
+    # SEVİYE 1: Tam Eşleşme (Türkçe karakter desteği ile)
+    print(f"  📊 Seviye 1 (Tam): Kontrol ediliyor...")
+    for student in students:
+        if normalize_turkish_text(student['name'].strip()) == csv_name_normalized:
+            print(f"  ✅ Seviye 1 (Tam): Bulundu - {student['name']}")
+            return {'student': student, 'method': 'Tam eşleşme', 'confidence': 1.0}
+    print(f"  ❌ Seviye 1 (Tam): Bulunamadı")
+    
+    # SEVİYE 2: Ad + Soyad Eşleşmesi (sıra bağımsız, çoklu isim desteği)
     if len(csv_name_parts) >= 2:
+        print(f"  📊 Seviye 2 (Ad+Soyad): Kontrol ediliyor...")
         for student in students:
             s_name_parts = normalize_name_parts(student['name'])
             if len(s_name_parts) >= 2:
-                ad_match = s_name_parts[0] == csv_name_parts[0]
-                soyad_match = s_name_parts[-1] == csv_name_parts[-1]
-                if ad_match and soyad_match:
+                # İlk ve son isimleri al (orta isimleri atla)
+                csv_first = csv_name_parts[0]
+                csv_last = csv_name_parts[-1]
+                s_first = s_name_parts[0]
+                s_last = s_name_parts[-1]
+                
+                # Normal sıra: Ahmet Yılmaz
+                normal_order = s_first == csv_first and s_last == csv_last
+                
+                # Ters sıra: Yılmaz Ahmet
+                reverse_order = s_first == csv_last and s_last == csv_first
+                
+                if normal_order or reverse_order:
+                    print(f"  ✅ Seviye 2 (Ad+Soyad): Bulundu - {student['name']}")
                     return {'student': student, 'method': 'Ad + Soyad eşleşmesi', 'confidence': 0.95}
+        print(f"  ❌ Seviye 2 (Ad+Soyad): Bulunamadı")
+    else:
+        print(f"  📊 Seviye 2 (Ad+Soyad): Yeterli parça yok")
     
     # SEVİYE 3: Sadece Ad Eşleşmesi
     if len(csv_name_parts) >= 1:
+        print(f"  📊 Seviye 3 (Sadece Ad): Kontrol ediliyor...")
         matches = []
         for student in students:
             s_name_parts = normalize_name_parts(student['name'])
@@ -196,24 +226,32 @@ def find_student_advanced(csv_student_name, students):
                 matches.append(student)
         
         if len(matches) == 1:
+            print(f"  ✅ Seviye 3 (Sadece Ad): Bulundu - {matches[0]['name']}")
             return {'student': matches[0], 'method': 'Sadece ad eşleşmesi', 'confidence': 0.7}
         elif len(matches) > 1:
-            print(f"⚠️ '{csv_name}' için {len(matches)} aday bulundu: {[m['name'] for m in matches]}")
+            print(f"  ⚠️ Seviye 3 (Sadece Ad): {len(matches)} aday bulundu")
             return {'student': matches[0], 'method': 'Sadece ad eşleşmesi (çoklu)', 'confidence': 0.6}
+        print(f"  ❌ Seviye 3 (Sadece Ad): Bulunamadı")
+    else:
+        print(f"  📊 Seviye 3 (Sadece Ad): Parça yok")
     
     # SEVİYE 4: Benzerlik Algoritması
+    print(f"  📊 Seviye 4 (Benzerlik): Kontrol ediliyor...")
     best_match = None
     best_score = 0
     
     for student in students:
-        similarity = calculate_similarity(csv_name_lower, student['name'].lower())
+        similarity = calculate_similarity(csv_name_normalized, normalize_turkish_text(student['name']))
         if similarity > best_score and similarity > 0.8:
             best_match = student
             best_score = similarity
     
     if best_match:
+        print(f"  ✅ Seviye 4 (Benzerlik): Bulundu - {best_match['name']} ({best_score*100:.1f}%)")
         return {'student': best_match, 'method': f'Benzerlik eşleşmesi ({best_score*100:.1f}%)', 'confidence': best_score}
     
+    print(f"  ❌ Seviye 4 (Benzerlik): Bulunamadı")
+    print(f"  ❌ Hiçbir seviyede eşleşme bulunamadı")
     return None
 
 def find_student_by_name(name, students):
@@ -391,6 +429,14 @@ def import_csv_exams(csv_filename):
     print(f"✅ Başarıyla eklenen: {imported_count} sınav")
     print(f"❌ Hata olan: {error_count} satır")
     print(f"📊 Toplam sınav sayısı: {len(existing_exams)}")
+    
+    # Detaylı eşleştirme raporu
+    if imported_count > 0:
+        print(f"\n📋 Eşleştirme Detayları:")
+        print(f"🔍 Toplam işlenen satır: {imported_count + error_count}")
+        print(f"✅ Başarılı eşleştirme: {imported_count}")
+        print(f"⚠️ Manuel müdahale gerekli: {error_count}")
+        print(f"📈 Otomatik eşleştirme oranı: {((imported_count / (imported_count + error_count)) * 100):.1f}%")
     
     # Eşleşmeyen öğrencileri raporla
     if unmatched_students:
