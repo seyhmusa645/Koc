@@ -13,7 +13,7 @@ if (process.platform === 'win32') {
     // Windows konsol kodlamasını UTF-8'e çevir
     process.stdout.setEncoding('utf8');
     process.stderr.setEncoding('utf8');
-    
+
     // Konsol kodlamasını ayarla
     if (process.env.TERM !== 'cygwin') {
       process.env.CHCP = '65001';
@@ -21,6 +21,13 @@ if (process.platform === 'win32') {
   } catch (error) {
     console.log('Konsol kodlaması ayarlanamadı:', error.message);
   }
+}
+
+// Emoji desteği için Electron komut satırı ayarları (Windows/Linux için kritik)
+app.commandLine.appendSwitch('lang', 'tr-TR');
+app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion');
+if (process.platform === 'win32') {
+  app.commandLine.appendSwitch('enable-features', 'DirectWriteForUI');
 }
 
 // Pencereler

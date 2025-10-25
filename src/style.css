@@ -34,7 +34,7 @@
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+    font-family: 'Inter', 'Noto Color Emoji', sans-serif;
     display: flex;
     background-color: var(--background-color);
     color: var(--text-color);
@@ -44,21 +44,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Emoji desteği - Geliştirilmiş Windows/Linux uyumluluğu */
-.emoji, [data-emoji], .btn-icon, .nav-btn, .trend-arrow,
-button, .badge-icon, .stat-icon, .template-icon, .streak-icon,
-.btn-text, .ai-evaluate-btn, h1, h2, h3, h4, h5, h6 {
-    font-family: 'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Twemoji Mozilla', 'EmojiOne Color', 'Android Emoji', 'Inter', sans-serif !important;
-    font-variant-emoji: emoji;
-
-    /* Windows emoji render fix */
-    -webkit-font-smoothing: subpixel-antialiased;
-    text-rendering: optimizeSpeed;
-}
-
-/* Emoji içeren elementler için özel ayar */
-*:has(.emoji), *:has([data-emoji]) {
-    font-family: 'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Inter', sans-serif !important;
+/* Emoji desteği için basit font stack */
+button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Noto Color Emoji', sans-serif;
 }
 
 .sidebar {
