@@ -4420,8 +4420,8 @@
         )); // Tam skor - çarpan kaldırıldı
       }
       
-      // En yüksek skoru al
-      const confidence = Math.max(...scores) / 100; // 0-1 aralığına normalize et
+      // En yüksek skoru al (calculateSimilarity zaten 0-1 döndürüyor)
+      const confidence = Math.max(...scores);
       
       return {
         student,
@@ -4450,11 +4450,11 @@
     
     // Skora göre sırala ve filtrelenen adayları al
     const filteredMatches = matches
-      .filter(m => m.confidence > 0.001)  // En az %0.1 benzerlik (çok düşük eşik - herkes gelsin)
+      .filter(m => m.confidence > 0.1)  // En az %10 benzerlik
       .sort((a, b) => b.confidence - a.confidence)
       .slice(0, limit);
     
-    console.log(`?? DEBUG: Filtrelenmiş eşleşmeler (confidence > 0.001):`, filteredMatches.length);
+    console.log(`?? DEBUG: Filtrelenmiş eşleşmeler (confidence > 0.1 / %10):`, filteredMatches.length);
     
     // Eğer hiç aday yoksa, en yüksek 5 skoru göster ve zorla modal aç
     if (filteredMatches.length === 0) {
