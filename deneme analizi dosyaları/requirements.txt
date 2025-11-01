@@ -1,0 +1,23 @@
+# PDF İşleme Kütüphaneleri
+PyMuPDF>=1.23.0
+pdfplumber>=0.10.0
+camelot-py[cv]>=0.11.0
+tabula-py>=2.8.0
+
+# Excel İşleme
+openpyxl>=3.1.0
+
+# Şablon ve Yapılandırma
+PyYAML>=6.0.1
+
+# Metin İşleme ve Benzerlik
+python-Levenshtein>=0.21.0
+
+# OCR (Opsiyonel - gerekirse)
+pytesseract>=0.3.10
+
+# Yardımcı Kütüphaneler
+opencv-python>=4.8.0  # Camelot için gerekli
+ghostscript>=0.7  # Camelot için PDF dönüşümü
+Pillow>=10.0.0  # Template wizard için PDF görselleştirme
+

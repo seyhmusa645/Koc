@@ -166,10 +166,26 @@ class StudyPlanAlgorithms {
     const weakOutcomes = {};
     const outcomeFrequency = {};
 
-    // Sadece son iki sınavdan eksik kazanımları topla
+    // Ders key mapping (data.json → UI ders adı)
+    const courseKeyToSubject = {
+      'turkce': 'Türkçe',
+      'matematik': 'Matematik',
+      'fen': 'Fen Bilimleri',
+      'inkilap': 'Sosyal Bilgiler',
+      'sosyal': 'Sosyal Bilgiler',
+      'ingilizce': 'İngilizce',
+      'din': 'Din Kültürü'
+    };
+
+    // Kazanım → ders mapping (aynı kazanım farklı derslerde görülebilir, en çok görüleni al)
+    const outcomeToSubject = {};
+
+    // Sadece son iki sınavdan eksik kazanımları topla - DERS BİLGİSİYLE BİRLİKTE
     lastTwoExams.forEach(exam => {
-      Object.values(exam.courses).forEach(course => {
+      Object.entries(exam.courses).forEach(([courseKey, course]) => {
         if (course.incorrectOutcomes) {
+          const subjectName = courseKeyToSubject[courseKey] || this.extractSubjectFromOutcome(courseKey);
+          
           course.incorrectOutcomes.forEach(outcome => {
             if (!weakOutcomes[outcome]) {
               weakOutcomes[outcome] = 0;
@@ -177,6 +193,15 @@ class StudyPlanAlgorithms {
             }
             weakOutcomes[outcome]++;
             outcomeFrequency[outcome]++;
+            
+            // Ders bilgisini kaydet (en çok görülen dersi tut)
+            if (!outcomeToSubject[outcome]) {
+              outcomeToSubject[outcome] = {};
+            }
+            if (!outcomeToSubject[outcome][subjectName]) {
+              outcomeToSubject[outcome][subjectName] = 0;
+            }
+            outcomeToSubject[outcome][subjectName]++;
           });
         }
       });
@@ -184,12 +209,30 @@ class StudyPlanAlgorithms {
 
     // Öncelik sırasına göre sırala (daha sık tekrarlanan eksiklikler önce)
     const priorityList = Object.entries(weakOutcomes)
-      .map(([outcome, count]) => ({
+      .map(([outcome, count]) => {
+        // En çok görülen dersi bul
+        let detectedSubject = 'Bilinmeyen';
+        if (outcomeToSubject[outcome]) {
+          const subjectCounts = outcomeToSubject[outcome];
+          const mostFrequentSubject = Object.entries(subjectCounts)
+            .sort((a, b) => b[1] - a[1])[0];
+          if (mostFrequentSubject) {
+            detectedSubject = mostFrequentSubject[0];
+          }
+        }
+        
+        // Eğer ders tespit edilemediyse fallback olarak extractSubjectFromOutcome kullan
+        if (detectedSubject === 'Bilinmeyen') {
+          detectedSubject = this.extractSubjectFromOutcome(outcome);
+        }
+        
+        return {
         outcome,
         count,
-        subject: this.extractSubjectFromOutcome(outcome),
+          subject: detectedSubject,
         frequency: count / lastTwoExams.length // Kaç denemede kaç kez yanlış yapıldığı oranı
-      }))
+        };
+      })
       .sort((a, b) => {
         // Önce frekansa göre, sonra sayıya göre sırala
         if (a.frequency !== b.frequency) {
@@ -405,13 +448,64 @@ class StudyPlanAlgorithms {
 
   // Kazanımdan ders adını çıkar
   extractSubjectFromOutcome(outcome) {
+    const outcomeLower = outcome.toLowerCase();
+    
+    // KOD bazlı eşleştirme (öncelikli)
     if (outcome.includes('SB.')) return 'Sosyal Bilgiler';
     if (outcome.includes('M.')) return 'Matematik';
     if (outcome.includes('F.') || outcome.includes('FB.')) return 'Fen Bilimleri';
-    if (outcome.includes('DK.') || outcome.includes('Din')) return 'Din Kültürü';
-    if (outcome.includes('T.') || outcome.includes('Türkçe')) return 'Türkçe';
-    if (outcome.includes('İ.') || outcome.includes('İngilizce')) return 'İngilizce';
+    if (outcome.includes('DK.')) return 'Din Kültürü';
+    if (outcome.includes('T.') && outcome.includes('.')) return 'Türkçe'; // T.5.1.1 gibi kodlar
     if (outcome.includes('İTA.') || outcome.includes('İnkılap')) return 'Sosyal Bilgiler';
+    
+    // TAM METİN bazlı eşleştirme (Türkçe ve İngilizce için)
+    
+    // İngilizce belirgin anahtar kelimeler
+    if (outcomeLower.includes('students will') || 
+        outcomeLower.includes('can identify') ||
+        outcomeLower.includes('can understand') ||
+        outcomeLower.includes('can use') ||
+        /\b(listening|speaking|reading|writing|grammar|vocabulary)\b/i.test(outcome)) {
+      return 'İngilizce';
+    }
+    
+    // Din Kültürü anahtar kelimeler
+    if (outcomeLower.includes('peygamber') ||
+        outcomeLower.includes('allah') ||
+        outcomeLower.includes('kuran') ||
+        outcomeLower.includes('hadis') ||
+        outcomeLower.includes('ibadet') ||
+        outcomeLower.includes('namaz') ||
+        outcomeLower.includes('oruç') ||
+        outcomeLower.includes('zekat') ||
+        outcomeLower.includes('hac')) {
+      return 'Din Kültürü';
+    }
+    
+    // Türkçe anahtar kelimeler (daha spesifik)
+    if (outcomeLower.includes('metin') ||
+        outcomeLower.includes('yazım') ||
+        outcomeLower.includes('noktalama') ||
+        outcomeLower.includes('sözcük') ||
+        outcomeLower.includes('cümle') ||
+        outcomeLower.includes('paragraf') ||
+        outcomeLower.includes('ana fikir') ||
+        outcomeLower.includes('okuma') ||
+        outcomeLower.includes('yazma') ||
+        outcomeLower.includes('dinleme') ||
+        outcomeLower.includes('konuşma') ||
+        outcomeLower.includes('fiil') ||
+        outcomeLower.includes('isim') ||
+        outcomeLower.includes('sıfat') ||
+        outcomeLower.includes('edat')) {
+      return 'Türkçe';
+    }
+    
+    // Genel kontroller (fallback)
+    if (outcomeLower.includes('türkçe')) return 'Türkçe';
+    if (outcomeLower.includes('ingilizce') || outcomeLower.includes('İngilizce')) return 'İngilizce';
+    if (outcomeLower.includes('din')) return 'Din Kültürü';
+    
     return 'Bilinmeyen';
   }
 
@@ -447,47 +541,143 @@ class StudyPlanAlgorithms {
     }
   }
 
-  // Ders içeriğini belirle (eksik kazanım varsa eksik, yoksa haftalık)
-  getSubjectContent(subject, weakAchievements, kazanimlarData, selectedGrade, selectedWeek, isWeaknessDay) {
-    // Türkçe ve İngilizce için özel kontrol
-    const nonWeeklySubjects = ['Türkçe', 'İngilizce'];
-    const isNonWeeklySubject = nonWeeklySubjects.includes(subject);
-    
-    if (isNonWeeklySubject) {
-      // Türkçe/İngilizce için eksiklik bazlı planlama
-      const subjectKey = subject === 'Türkçe' ? 'turkce' : 'ingilizce';
-      const topicData = this.generateTopicForNonWeeklySubject(subjectKey, weakAchievements.priorityList, selectedGrade);
-      
-      return {
-        type: 'weakness-based',
-        content: topicData.topic,
-        description: topicData.description,
-        focusAreas: topicData.focusAreas,
-        priority: topicData.priority
-      };
+  /**
+   * Öğrencinin o dersteki eksik kazanımlarından birini seç
+   * @param {string} subject - Ders adı
+   * @param {Object} weakAchievements - Eksik kazanımlar objesi
+   * @returns {string|null} - Eksik kazanım metni veya null
+   */
+  selectWeakAchievement(subject, weakAchievements) {
+    if (!weakAchievements || !weakAchievements.priorityList) {
+      return null;
     }
     
-    if (!isWeaknessDay) {
-      // Haftalık konu günü - her zaman haftalık kazanımlar
-      return this.getWeeklyContent(subject, kazanimlarData, selectedGrade, selectedWeek);
-    }
+    // Ders adı mapping (UI → data key)
+    const subjectKeyMap = {
+      'Türkçe': 'turkce',
+      'İngilizce': 'ingilizce',
+      'Matematik': 'matematik',
+      'Fen Bilimleri': 'fen',
+      'Sosyal Bilgiler': 'inkilap',
+      'Din Kültürü': 'din'
+    };
     
-    // Eksik kazanım günü - önce eksik kazanım ara
-    const subjectWeaknesses = weakAchievements.priorityList.filter(w => 
-      this.extractSubjectFromOutcome(w.outcome) === subject
-    );
+    const subjectKey = subjectKeyMap[subject] || subject.toLowerCase();
     
+    // Priority list'ten bu derse ait eksikleri filtrele
+    const subjectWeaknesses = weakAchievements.priorityList.filter(w => {
+      // Eğer subject field'ı varsa direkt kontrol et
+      if (w.subject) {
+        return w.subject === subjectKey || w.subject === subject;
+      }
+      // Yoksa outcome metninden çıkar
+      const extractedSubject = this.extractSubjectFromOutcome(w.outcome);
+      return extractedSubject === subject;
+    });
+    
+    // En çok yanlış yapılan kazanımı seç (ilk eleman)
     if (subjectWeaknesses.length > 0) {
-      // Eksik kazanım varsa eksik kazanımları kullan
-      return {
-        type: 'weakness',
-        content: subjectWeaknesses.map(w => w.outcome).join(', '),
-        description: `${subject} eksik kazanım soru çözümü`
-      };
-    } else {
-      // Eksik kazanım yoksa haftalık kazanımları kullan
-      return this.getWeeklyContent(subject, kazanimlarData, selectedGrade, selectedWeek);
+      return subjectWeaknesses[0].outcome;
     }
+    
+    return null;
+  }
+
+  /**
+   * Kazanımlar.json'dan seçilen hafta ve dersin kazanımını getir
+   * @param {string} subject - Ders adı
+   * @param {number} grade - Sınıf seviyesi
+   * @param {string|number} week - Hafta numarası
+   * @param {Object} kazanimlarData - Kazanımlar.json verisi
+   * @returns {string} - Kazanım metni
+   */
+  selectWeeklyTopic(subject, grade, week, kazanimlarData) {
+    // Subject mapping - UI'dan JSON'a çeviri
+    const subjectMapping = {
+      'Din Kültürü': 'Din Kültürü ve Ahlak Bilgisi',
+      'Sosyal Bilgiler': 'Sosyal Bilgiler',
+      'Matematik': 'Matematik',
+      'Fen Bilimleri': 'Fen Bilimleri',
+      'Türkçe': 'Türkçe',
+      'İngilizce': 'İngilizce'
+    };
+    
+    const mappedSubject = subjectMapping[subject] || subject;
+    
+    // Hafta numarasını çıkar
+    const weekNumber = parseInt(String(week).replace(/\D/g, '')) || 1;
+    
+    // Kazanımlar.json'dan ilgili hafta kazanımını getir
+    if (kazanimlarData && kazanimlarData[mappedSubject]) {
+      const subjectData = kazanimlarData[mappedSubject];
+      
+      if (subjectData[grade]) {
+        const gradeData = subjectData[grade];
+        
+        // Hafta verisini ara
+        const weekData = gradeData.find(item => 
+          item.hafta && (
+            item.hafta === `${weekNumber}. Hafta` || 
+            item.hafta.includes(`${weekNumber}. Hafta`)
+          )
+        );
+        
+        if (weekData && (weekData.kazanim || weekData.ogrenme_cikti)) {
+          const kazanim = weekData.kazanim || weekData.ogrenme_cikti;
+          return kazanim;
+        }
+      }
+    }
+    
+    // Bulunamazsa genel tekrar
+    return `${weekNumber}. Hafta - Genel tekrar`;
+  }
+
+  // Ders içeriğini belirle (eksik kazanım varsa eksik, yoksa haftalık)
+  getSubjectContent(subject, weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, questionCount) {
+    // PARAGRAF: Özel işlem
+    if (subject === 'Paragraf') {
+      return '25 Paragraf Sorusu';
+    }
+    
+    // TÜRKÇE ve İNGİLİZCE: Sadece eksik kazanım bazlı
+    if (subject === 'Türkçe' || subject === 'İngilizce') {
+      const weakAchievement = this.selectWeakAchievement(subject, weakAchievements);
+      
+      if (weakAchievement) {
+        // Eksik kazanım var, kazanımı döndür (max 100 karakter)
+        return weakAchievement.length > 100 
+          ? weakAchievement.substring(0, 97) + '...' 
+          : weakAchievement;
+    } else {
+        // Eksik kazanım yok, sadece soru sayısı
+        return `${questionCount} soru çözümü`;
+      }
+    }
+    
+    // DİĞER DERSLER (Matematik, Fen, Sosyal, Din): Dönüşümlü sistem
+    // dayIndex % 2 === 0 → Eksik kazanım
+    // dayIndex % 2 === 1 → Haftalık konu
+    
+    const isWeakDay = (dayIndex % 2 === 0);
+    
+    if (isWeakDay) {
+      // Önce eksik kazanım ara
+      const weakAchievement = this.selectWeakAchievement(subject, weakAchievements);
+      
+      if (weakAchievement) {
+        // Eksik kazanım var
+        return weakAchievement.length > 100 
+          ? weakAchievement.substring(0, 97) + '...' 
+          : weakAchievement;
+      }
+    }
+    
+    // Haftalık konu (eksik kazanım günü ama eksik yok VEYA haftalık konu günü)
+    const weeklyTopic = this.selectWeeklyTopic(subject, selectedGrade, selectedWeek, kazanimlarData);
+    return weeklyTopic.length > 100 
+      ? weeklyTopic.substring(0, 97) + '...' 
+      : weeklyTopic;
   }
 
   // Haftalık içerik getir
@@ -707,27 +897,28 @@ class StudyPlanAlgorithms {
       console.log(`${day}: Toplam=${dailyQuestionLimit}, Ana=${questionsPerCoreSubject}, Dönüşümlü=${rotatingQuestions}, Seviye=${performance.level}`);
       
       // 1. Paragraf (25 soru sabit)
-      const paragrafResult = this.addDailySubject(dailySchedule[day], 'Paragraf', 25, currentTime, remainingTime, 'Paragraf soruları çözme');
+      const paragrafContent = this.getSubjectContent('Paragraf', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, 25);
+      const paragrafResult = this.addDailySubject(dailySchedule[day], 'Paragraf', 25, currentTime, remainingTime, paragrafContent);
       currentTime = paragrafResult.currentTime;
       remainingTime = paragrafResult.remainingTime;
       usedQuestions += 25;
       
       // 2. Matematik (her gün)
-      const mathContent = this.getSubjectContent('Matematik', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, isWeaknessDay);
+      const mathContent = this.getSubjectContent('Matematik', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, questionsPerCoreSubject);
       const mathResult = this.addDailySubject(dailySchedule[day], 'Matematik', questionsPerCoreSubject, currentTime, remainingTime, mathContent);
       currentTime = mathResult.currentTime;
       remainingTime = mathResult.remainingTime;
       usedQuestions += questionsPerCoreSubject;
       
       // 3. Fen Bilimleri (her gün)
-      const fenContent = this.getSubjectContent('Fen Bilimleri', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, isWeaknessDay);
+      const fenContent = this.getSubjectContent('Fen Bilimleri', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, questionsPerCoreSubject);
       const fenResult = this.addDailySubject(dailySchedule[day], 'Fen Bilimleri', questionsPerCoreSubject, currentTime, remainingTime, fenContent);
       currentTime = fenResult.currentTime;
       remainingTime = fenResult.remainingTime;
       usedQuestions += questionsPerCoreSubject;
       
       // 4. Türkçe (her gün)
-      const turkceContent = this.getSubjectContent('Türkçe', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, isWeaknessDay);
+      const turkceContent = this.getSubjectContent('Türkçe', weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, questionsPerCoreSubject);
       const turkceResult = this.addDailySubject(dailySchedule[day], 'Türkçe', questionsPerCoreSubject, currentTime, remainingTime, turkceContent);
       currentTime = turkceResult.currentTime;
       remainingTime = turkceResult.remainingTime;
@@ -737,7 +928,7 @@ class StudyPlanAlgorithms {
       if (!isPazar) {
         const rotatingSubjects = ['İngilizce', 'Sosyal Bilgiler', 'Din Kültürü'];
         const rotatingSubject = rotatingSubjects[dayIndex % rotatingSubjects.length];
-        const rotatingContent = this.getSubjectContent(rotatingSubject, weakAchievements, kazanimlarData, selectedGrade, selectedWeek, isWeaknessDay);
+        const rotatingContent = this.getSubjectContent(rotatingSubject, weakAchievements, kazanimlarData, selectedGrade, selectedWeek, dayIndex, rotatingQuestions);
         const rotatingResult = this.addDailySubject(dailySchedule[day], rotatingSubject, rotatingQuestions, currentTime, remainingTime, rotatingContent);
         currentTime = rotatingResult.currentTime;
         remainingTime = rotatingResult.remainingTime;
@@ -848,11 +1039,99 @@ const preventConsecutiveSubjects = (blocks) => {
 };
 
 // --- Ders Planlayıcı Ana Mantığı ---
+// Eylül'ün 2. haftasını (pazartesi) hesapla
+const getSeptemberSecondWeek = (year) => {
+  // Eylül'ün ilk günü
+  const septemberFirst = new Date(year, 8, 1); // Ay 0-indexed, 8 = Eylül
+  const firstDayOfWeek = septemberFirst.getDay(); // 0 = Pazar, 1 = Pazartesi, ...
+  
+  // İlk pazartesi gününü bul (pazar=0, pazartesi=1)
+  let daysToAdd = 0;
+  if (firstDayOfWeek === 0) {
+    daysToAdd = 1; // Eylül 1 Pazar ise, 2. gün Pazartesi
+  } else if (firstDayOfWeek === 1) {
+    daysToAdd = 0; // Eylül 1 Pazartesi ise, zaten pazartesi
+  } else {
+    daysToAdd = 8 - firstDayOfWeek; // İlk pazartesiye kadar gün sayısı
+  }
+  
+  // İlk pazartesi günü
+  const firstMonday = new Date(year, 8, 1 + daysToAdd);
+  
+  // 2. haftanın pazartesi (ilk pazartesi + 7 gün)
+  const secondWeekMonday = new Date(firstMonday);
+  secondWeekMonday.setDate(firstMonday.getDate() + 7);
+  
+  // Tarihi formatla (YYYY-MM-DD)
+  const yearStr = secondWeekMonday.getFullYear();
+  const monthStr = String(secondWeekMonday.getMonth() + 1).padStart(2, '0');
+  const dayStr = String(secondWeekMonday.getDate()).padStart(2, '0');
+  
+  return `${yearStr}-${monthStr}-${dayStr}`;
+};
+
+// Otomatik hafta hesaplama fonksiyonu
+const calculateCurrentWeek = () => {
+  // localStorage'dan okul başlangıç tarihini al
+  let schoolStartDate = localStorage.getItem('schoolStartDate');
+  
+  // Eğer kayıtlı tarih yoksa, Eylül'ün 2. haftasını otomatik hesapla
+  if (!schoolStartDate) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; // 0-11'den 1-12'ye
+    
+    // Eğer şu an Eylül'den önceyse, geçen yılın Eylül'ün 2. haftası
+    // Eğer Eylül veya sonrasındaysa, bu yılın Eylül'ün 2. haftası
+    const schoolYear = (currentMonth >= 9) ? currentYear : currentYear - 1;
+    schoolStartDate = getSeptemberSecondWeek(schoolYear);
+    
+    // localStorage'a kaydet
+    localStorage.setItem('schoolStartDate', schoolStartDate);
+    console.log(`✅ Okul başlangıç tarihi otomatik hesaplandı: ${schoolStartDate} (${schoolYear} Eylül'ün 2. haftası)`);
+  }
+  
+  // Okul başlangıç tarihini parse et
+  const startDate = new Date(schoolStartDate + 'T00:00:00');
+  const today = new Date();
+  
+  // Bugünden başlangıca kadar geçen milisaniye
+  const diffTime = today - startDate;
+  
+  // Hafta sayısını hesapla (7 gün = 1 hafta)
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const weekNumber = Math.floor(diffDays / 7) + 1; // +1 çünkü ilk hafta 1
+  
+  // Negatif veya çok büyük değerleri kontrol et
+  if (weekNumber < 1) return 1;
+  if (weekNumber > 38) return 38; // Max 38 hafta
+  
+  return weekNumber;
+};
+
+// Okul başlangıç tarihini ayarlama fonksiyonu (isteğe bağlı)
+const setSchoolStartDate = (dateString) => {
+  // Format: YYYY-MM-DD
+  const date = new Date(dateString + 'T00:00:00');
+  if (isNaN(date.getTime())) {
+    console.error('Geçersiz tarih formatı:', dateString);
+    return false;
+  }
+  localStorage.setItem('schoolStartDate', dateString);
+  console.log(`✅ Okul başlangıç tarihi güncellendi: ${dateString}`);
+  return true;
+};
+
+// Console'dan erişilebilir yap (test için)
+window.setSchoolStartDate = setSchoolStartDate;
+window.getSchoolStartDate = () => {
+  return localStorage.getItem('schoolStartDate') || 'Kayıtlı tarih yok (Varsayılan: Eylül 1 kullanılıyor)';
+};
+
 window.initializeDersPlanlayici = async (containerElement) => {
   let okuldanCikis = "16:00";
   let uyumaSaati = "22:00";
   let calismaBaslangic = "17:00";
-  let currentWeek = 1;
+  let currentWeek = calculateCurrentWeek(); // Otomatik hesapla
   let selectedGrade = '';
   let selectedSubject = '';
   let selectedStudyTechnique = 'pomodoro';
@@ -909,7 +1188,13 @@ window.initializeDersPlanlayici = async (containerElement) => {
         </div>
         <div class="form-grup">
           <label htmlFor="hafta-secimi">Hafta Seçimi</label>
-          <input type="number" id="hafta-secimi" value="${currentWeek}" min="1" max="38" />
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="number" id="hafta-secimi" value="${currentWeek}" min="1" max="38" style="flex: 1;" />
+            <button id="hafta-otomatik-guncelle" type="button" style="padding: 6px 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" title="Haftayı bugünün tarihine göre otomatik güncelle">🔄</button>
+          </div>
+          <small style="color: #666; font-size: 11px; display: block; margin-top: 4px;">
+            📅 Otomatik hesaplanan hafta: ${currentWeek}. Hafta
+          </small>
         </div>
         <div class="form-grup">
           <label htmlFor="analiz-ozeti">Öğrenci Analizi</label>
@@ -1133,7 +1418,23 @@ window.initializeDersPlanlayici = async (containerElement) => {
   okuldanCikisInput.addEventListener('change', (e) => okuldanCikis = e.target.value);
   uyumaSaatiInput.addEventListener('change', (e) => uyumaSaati = e.target.value);
   calismaBaslangicInput.addEventListener('change', (e) => calismaBaslangic = e.target.value);
-  haftaSecimiInput.addEventListener('change', (e) => currentWeek = parseInt(e.target.value)); // Yeni eklenecek
+  haftaSecimiInput.addEventListener('change', (e) => currentWeek = parseInt(e.target.value));
+  
+  // Otomatik hafta güncelleme butonu
+  const haftaOtomatikGuncelleBtn = containerElement.querySelector('#hafta-otomatik-guncelle');
+  if (haftaOtomatikGuncelleBtn) {
+    haftaOtomatikGuncelleBtn.addEventListener('click', () => {
+      const newWeek = calculateCurrentWeek();
+      currentWeek = newWeek;
+      haftaSecimiInput.value = newWeek;
+      
+      // Bilgilendirme mesajı göster
+      const infoText = haftaSecimiInput.parentElement.nextElementSibling;
+      if (infoText) {
+        infoText.textContent = `📅 Otomatik hesaplanan hafta: ${newWeek}. Hafta (Güncellendi: ${new Date().toLocaleDateString('tr-TR')})`;
+      }
+    });
+  }
 
   planOlusturBtn.addEventListener('click', async () => {
     if (!selectedProfileId) {
@@ -1196,7 +1497,7 @@ window.initializeDersPlanlayici = async (containerElement) => {
         studyTechnique: selectedTechnique
       });
 
-      displayAdvancedSchedule(advancedPlan);
+      displayAdvancedSchedule(advancedPlan, weakAchievements, kazanimlarData, selectedGrade);
 
       const remoteSummaryLines = Array.isArray(remotePlan?.summary)
         ? remotePlan.summary.map(item => `- ${item}`).join('\n')
@@ -1386,7 +1687,7 @@ ${remoteFocusLines}` : ''}`
           <h4>📊 Başarı Analizi</h4>
           <p><strong>Seviye:</strong> ${performance.level === 'beginner' ? 'Başlangıç' : 
                                          performance.level === 'intermediate' ? 'Orta' : 'İleri'}</p>
-          <p><strong>Ortalama Net:</strong> ${performance.averageNet.toFixed(1)}/90</p>
+          <p><strong>Ortalama Net:</strong> ${performance.averageNet.toFixed(1)}/${(parseInt(selectedProfile?.grade) || 5) <= 6 ? 75 : 90}</p>
           <p><strong>Trend:</strong> ${performance.trend === 'improving' ? '📈 Gelişiyor' : 
                                        performance.trend === 'declining' ? '📉 Düşüyor' : '➡️ Stabil'}</p>
           
@@ -1411,173 +1712,261 @@ ${remoteFocusLines}` : ''}`
     }
   };
 
-  // Gelişmiş plan görüntüleme fonksiyonu
-  const displayAdvancedSchedule = (advancedPlan) => {
+  // Ders listesi sabit sırada
+  const DERS_SIRASI = ["Paragraf", "Türkçe", "Matematik", "Fen Bilimleri", "Sosyal Bilgiler", "Din Kültürü", "İngilizce"];
+  
+  // Gün renkleri
+  const GUN_RENKLERI = {
+    'Pazartesi': '#FFE5E5',
+    'Salı': '#E5F5FF',
+    'Çarşamba': '#E5FFE5',
+    'Perşembe': '#FFF5E5',
+    'Cuma': '#F5E5FF',
+    'Cumartesi': '#FFE5F5'
+  };
+
+  // Plan verisini 6 sütun x 7 satır tablo yapısına normalize et
+  const normalizePlanToTable = (advancedPlan) => {
+    const tableData = {};
+    
+    // Her ders için boş object oluştur
+    DERS_SIRASI.forEach(ders => {
+      tableData[ders] = {};
+      // Pazar hariç her gün için boş hücre
+      HAFTA_GUNLERI.slice(0, 6).forEach(gun => {
+        tableData[ders][gun] = {
+          content: '',
+          topic: '',
+          questionCount: 0,
+          duration: 0
+        };
+      });
+    });
+    
+    // Plan verisini tabloya dağıt
+    HAFTA_GUNLERI.slice(0, 6).forEach(day => {
+      const daySchedule = advancedPlan.dailySchedule[day];
+      if (!daySchedule || !daySchedule.blocks) return;
+      
+      daySchedule.blocks.forEach(block => {
+        if (block.type !== 'study') return;
+        
+        const subject = block.subject;
+        if (!subject || !tableData[subject]) return;
+        
+        // Konu metnini kısalt (max 100 karakter)
+        let topicText = block.topic || '';
+        if (topicText.length > 100) {
+          topicText = topicText.substring(0, 97) + '...';
+        }
+        
+        tableData[subject][day] = {
+          content: topicText,
+          topic: topicText,
+          topicFull: block.topic || topicText, // Tam metin (referans için)
+          questionCount: block.questionCount || 0,
+          duration: block.duration || 0,
+          priority: block.priority || 'normal',
+          planningType: block.planningType || 'weekly'
+        };
+      });
+    });
+    
+    return tableData;
+  };
+
+  // Kazanım referans haritası oluştur (hücre içinde kısa gösterim için)
+  const buildKazanimReferenceMap = (advancedPlan, weakAchievements, kazanimlarData, grade, week, tableData) => {
+    const refMap = new Map(); // topicFull -> { type: 'eksik'|'haftalik', refId: number }
+    const subjectRefs = {}; // ders -> { eksik: [], haftalik: string }
+    
+    DERS_SIRASI.forEach(ders => {
+      if (ders === 'Paragraf') return;
+      
+      subjectRefs[ders] = {
+        eksik: [],
+        haftalik: null
+      };
+      
+      // Bu dersteki eksik kazanımları bul
+      const eksikKazanimlar = weakAchievements?.priorityList?.filter(w => {
+        const subject = w.subject || algorithms.extractSubjectFromOutcome(w.outcome);
+        return subject === ders;
+      }) || [];
+      
+      // Hangi günlerde hangi kazanımlar kullanıldı?
+      HAFTA_GUNLERI.slice(0, 6).forEach(gun => {
+        const cellData = tableData[ders]?.[gun];
+        if (cellData?.topicFull) {
+          const matchingEksik = eksikKazanimlar.find(ek => {
+            const ekFull = ek.outcome || '';
+            const cellFull = cellData.topicFull || '';
+            return ekFull === cellFull || 
+                   cellFull.includes(ekFull.substring(0, 30)) || 
+                   ekFull.includes(cellFull.substring(0, 30));
+          });
+          
+          if (matchingEksik) {
+            if (!subjectRefs[ders].eksik.includes(matchingEksik.outcome)) {
+              const refId = subjectRefs[ders].eksik.length + 1;
+              subjectRefs[ders].eksik.push(matchingEksik.outcome);
+              refMap.set(cellData.topicFull, { type: 'eksik', refId, subject: ders });
+            }
+          } else if (ders !== 'Türkçe' && ders !== 'İngilizce' && !subjectRefs[ders].haftalik) {
+            subjectRefs[ders].haftalik = cellData.topicFull;
+            refMap.set(cellData.topicFull, { type: 'haftalik', week, subject: ders });
+          }
+        }
+      });
+    });
+    
+    return { refMap, subjectRefs };
+  };
+
+  // Kazanım referansları bölümü oluştur
+  const buildKazanimReferences = (advancedPlan, weakAchievements, kazanimlarData, grade, week, tableData) => {
+    const { subjectRefs } = buildKazanimReferenceMap(advancedPlan, weakAchievements, kazanimlarData, grade, week, tableData);
+    let refsHTML = '<div class="kazanim-references">';
+    refsHTML += '<h4>📋 Kazanım Referansları</h4>';
+    refsHTML += '<div class="kazanim-grid">';
+    
+    // Her ders için kontrol et
+    DERS_SIRASI.forEach(ders => {
+      if (ders === 'Paragraf') return; // Paragraf için kazanım yok
+      
+      const dersData = subjectRefs[ders];
+      if (!dersData) return;
+      
+      // Eğer bu ders için referans varsa ekle
+      if (dersData.eksik.length > 0 || dersData.haftalik) {
+        refsHTML += '<div class="kazanim-subject">';
+        refsHTML += `<strong>${ders}</strong>`;
+        
+        // Eksik kazanımlar
+        if (dersData.eksik.length > 0) {
+          refsHTML += '<div class="kazanim-type">Eksik Kazanımlar:</div>';
+          refsHTML += '<ol class="kazanim-list">';
+          dersData.eksik.forEach((kazanim, idx) => {
+            refsHTML += `<li><span class="kazanim-ref-id">#${idx + 1}</span> ${kazanim}</li>`;
+          });
+          refsHTML += '</ol>';
+        }
+        
+        // Haftalık kazanım (Matematik, Fen, Sosyal, Din için)
+        if (dersData.haftalik && ders !== 'Türkçe' && ders !== 'İngilizce') {
+          refsHTML += `<div class="kazanim-type">Haftalık Kazanım (${week}. Hafta):</div>`;
+          refsHTML += `<ul class="kazanim-list"><li>${dersData.haftalik}</li></ul>`;
+        }
+        
+        refsHTML += '</div>';
+      }
+    });
+    
+    refsHTML += '</div>'; // kazanim-grid
+    refsHTML += '</div>'; // kazanim-references
+    
+    return refsHTML;
+  };
+
+  // Gelişmiş plan görüntüleme fonksiyonu - Tablo düzeni
+  const displayAdvancedSchedule = (advancedPlan, weakAchievements, kazanimlarData, selectedGrade) => {
     if (!advancedPlan || !advancedPlan.dailySchedule) {
       takvimGridContainer.innerHTML = '<p>Plan oluşturulamadı.</p>';
       return;
     }
 
-    let tableHTML = '<div class="advanced-schedule">';
+    // Plan verisini tabloya normalize et
+    const tableData = normalizePlanToTable(advancedPlan);
     
-    // Plan başlığı ve özeti
-    tableHTML += `
-      <div class="schedule-header">
-        <h3>📅 ${advancedPlan.metadata.week}. Hafta Çalışma Planı</h3>
-        <p><strong>Teknik:</strong> ${algorithms.studyTechniques[advancedPlan.metadata.technique].name}</p>
-        <p><strong>Öğrenci:</strong> ${advancedPlan.metadata.studentProfile}</p>
-      </div>
-    `;
-
-    // Plan özeti hesapla
-    let totalWeeklyStudyMinutes = 0;
-    let totalWeeklyQuestions = 0;
-    let totalWeeklyBreakMinutes = 0;
+    // Kazanım referans haritası oluştur (kısa referans için)
+    const kazanimRefMap = buildKazanimReferenceMap(advancedPlan, weakAchievements, kazanimlarData, selectedGrade, advancedPlan.metadata.week, tableData);
     
-    HAFTA_GUNLERI.forEach(day => {
-      const daySchedule = advancedPlan.dailySchedule[day];
-      if (daySchedule) {
-        totalWeeklyStudyMinutes += daySchedule.totalStudyTime || 0;
-        totalWeeklyQuestions += daySchedule.totalQuestions || 0;
-        totalWeeklyBreakMinutes += daySchedule.totalBreakTime || 0;
-      }
-    });
+    let tableHTML = '<div class="advanced-schedule print-target">';
     
-    const totalWeeklyStudyHours = Math.floor(totalWeeklyStudyMinutes / 60);
-    const remainingStudyMinutes = totalWeeklyStudyMinutes % 60;
-    
-    // Plan özeti
-    tableHTML += `
-      <div class="plan-summary">
-        <h4>📊 Plan Özeti</h4>
-        <div class="summary-stats">
-          <div class="stat-item">
-            <span class="stat-label">Toplam Çalışma:</span>
-            <span class="stat-value">${totalWeeklyStudyHours}s ${remainingStudyMinutes}dk</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Toplam Soru:</span>
-            <span class="stat-value">${totalWeeklyQuestions} soru</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Toplam Mola:</span>
-            <span class="stat-value">${Math.floor(totalWeeklyBreakMinutes / 60)}s ${totalWeeklyBreakMinutes % 60}dk</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Seviye:</span>
-            <span class="stat-value">${advancedPlan.metadata.performance?.level === 'beginner' ? 'Başlangıç' : advancedPlan.metadata.performance?.level === 'intermediate' ? 'Orta' : 'İleri'}</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Renk kodlu gösterge
-    tableHTML += `
-      <div class="plan-legend">
-        <h4>🎨 Gösterge</h4>
-        <div class="legend-items">
-          <div class="legend-item">
-            <div class="legend-color weakness-based"></div>
-            <span>Eksiklik Bazlı (Türkçe/İngilizce)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color weakness"></div>
-            <span>Eksik Kazanım</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color week-based"></div>
-            <span>Hafta Bazlı</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Günlük programlar
-    HAFTA_GUNLERI.forEach(day => {
-      const daySchedule = advancedPlan.dailySchedule[day];
-      if (!daySchedule) return;
-
-      const totalStudyMinutes = daySchedule.totalStudyTime || 0;
-      const totalBreakMinutes = daySchedule.totalBreakTime || 0;
-
-      tableHTML += `
-        <div class="daily-schedule">
-          <div class="day-header">
-            <h4>${day}</h4>
-            <div class="day-stats">
-              <span class="study-time">📚 ${Math.floor(totalStudyMinutes/60)}s ${totalStudyMinutes%60}dk</span>
-              <span class="break-time">☕ ${Math.floor(totalBreakMinutes/60)}s ${totalBreakMinutes%60}dk</span>
-            </div>
-          </div>
-          <div class="day-blocks">
-      `;
-
-      daySchedule.blocks.forEach(block => {
-        const blockClass = block.type === 'study' ? `study-block priority-${block.priority || 'normal'}` : 'break-block';
-        const subjectClass = block.subject ? DERS_KEY_MAP[block.subject] || block.subject.toLowerCase() : '';
-        
-        // Eksiklik bazlı planlama için özel class
-        const planningTypeClass = block.planningType === 'weakness-based' ? 'weakness-based' : 
-                                 block.planningType === 'weakness' ? 'weakness' : 'week-based';
-        
-        // Badge metni
-        let badgeText = '';
-        if (block.planningType === 'weakness-based') {
-          badgeText = '<div class="planning-badge weakness-based-badge">🎯 Eksiklik Bazlı</div>';
-        } else if (block.planningType === 'weakness') {
-          badgeText = '<div class="planning-badge weakness-badge">⚠️ Eksik Kazanım</div>';
-        } else if (block.planningType === 'weekly') {
-          badgeText = '<div class="planning-badge weekly-badge">📅 Hafta Bazlı</div>';
-        }
-        
-        // Tekrar günü için özel badge
-        if (block.isRepeat) {
-          badgeText = '<div class="planning-badge repeat-badge">🔄 TEKRAR GÜNÜ</div>';
-        }
-        
-        // Tekrar konuları için özel içerik
-        let repeatTopicsContent = '';
-        if (block.isRepeat && block.repeatTopics && block.repeatTopics.length > 0) {
-          repeatTopicsContent = `
-            <div class="repeat-topics">
-              <div class="repeat-title">Tekrar Edilecek Konular:</div>
-              <ul class="repeat-list">
-                ${block.repeatTopics.map(topic => `<li><strong>${topic.subject}:</strong> ${topic.outcome}</li>`).join('')}
-              </ul>
-            </div>
-          `;
-        }
-        
+    // Plan başlığı
         tableHTML += `
-          <div class="time-block ${blockClass} ${planningTypeClass} ${block.isRepeat ? 'repeat-block' : ''}" data-subject="${subjectClass}">
-            <div class="block-time">${block.startTime} (${block.duration}dk)</div>
-            <div class="block-content">
-              <div class="block-title">${block.activity || block.subject || 'Mola'}</div>
-              ${block.topic ? `<div class="block-topic">${block.topic}</div>` : ''}
-              ${block.description ? `<div class="block-description">${block.description}</div>` : ''}
-              ${block.focusAreas && block.focusAreas.length > 0 ? 
-                `<div class="focus-areas">Odak Alanları: ${block.focusAreas.slice(0, 2).join(', ')}${block.focusAreas.length > 2 ? '...' : ''}</div>` : ''}
-              ${repeatTopicsContent}
-            </div>
-            ${badgeText}
-            ${block.priority === 'high' ? '<div class="priority-badge">🔥</div>' : ''}
+      <div class="schedule-header">
+        <h3>📅 ${advancedPlan.metadata.week}. Hafta Ders Planı - ${advancedPlan.metadata.studentProfile}</h3>
           </div>
         `;
-      });
 
-      // Günlük özet istatistikleri
+    // Tablo başlangıcı
+    tableHTML += '<table class="weekly-plan-table">';
+    
+    // Başlık satırı - Günler
+    tableHTML += '<thead><tr><th class="subject-header">Dersler</th>';
+    HAFTA_GUNLERI.slice(0, 6).forEach(gun => {
+      tableHTML += `<th class="day-header" style="background-color: ${GUN_RENKLERI[gun]}; color: white;">${gun}</th>`;
+    });
+    tableHTML += '</tr></thead>';
+    
+    // Tablo gövdesi - Her ders için satır
+    tableHTML += '<tbody>';
+    DERS_SIRASI.forEach(ders => {
+      tableHTML += `<tr><td class="subject-cell">${ders}</td>`;
+      
+      HAFTA_GUNLERI.slice(0, 6).forEach(gun => {
+        const cellData = tableData[ders][gun];
+        const cellClass = cellData.content ? 'filled-cell' : 'empty-cell';
+        const priorityClass = cellData.priority === 'high' ? 'high-priority' : '';
+        
+        // Kısa referans metni oluştur
+        let topicDisplay = '';
+        if (cellData.content) {
+          if (ders === 'Paragraf') {
+            topicDisplay = '25 Paragraf Sorusu';
+          } else {
+            // Kazanım referansını bul
+            const refInfo = kazanimRefMap.refMap.get(cellData.topicFull);
+            if (refInfo) {
+              if (refInfo.type === 'eksik') {
+                topicDisplay = `Eksik #${refInfo.refId}`;
+              } else if (refInfo.type === 'haftalik') {
+                topicDisplay = `Haftalık: ${refInfo.week}. Hafta`;
+              }
+            } else {
+              // Referans bulunamazsa kısa metin göster (max 30 karakter)
+              topicDisplay = cellData.topic.length > 30 
+                ? cellData.topic.substring(0, 27) + '...' 
+                : cellData.topic;
+            }
+          }
+        }
+        
       tableHTML += `
+          <td class="plan-cell ${cellClass} ${priorityClass}" style="background-color: ${GUN_RENKLERI[gun]}40">
+            ${cellData.content ? `
+              <div class="cell-content">
+                <div class="cell-topic">${topicDisplay}</div>
+                <div class="cell-meta">
+                  ${cellData.questionCount > 0 ? `<span class="cell-questions">${cellData.questionCount} soru</span>` : ''}
+                  ${cellData.duration > 0 ? `<span class="cell-duration">${cellData.duration}dk</span>` : ''}
           </div>
-          <div class="day-summary">
-            <span>📚 ${totalStudyMinutes}dk çalışma</span>
-            <span>☕ ${totalBreakMinutes}dk mola</span>
-            <span>📝 ${daySchedule.totalQuestions || 0} soru</span>
           </div>
-        </div>
+            ` : '<div class="cell-empty">-</div>'}
+          </td>
       `;
     });
+      
+      tableHTML += '</tr>';
+    });
+    tableHTML += '</tbody>';
+    
+    tableHTML += '</table>';
+    
+    // Kazanım referansları bölümü ekle
+    const kazanimRefs = buildKazanimReferences(
+      advancedPlan,
+      weakAchievements,
+      kazanimlarData,
+      selectedGrade,
+      advancedPlan.metadata.week,
+      tableData
+    );
+    tableHTML += kazanimRefs;
 
     tableHTML += '</div>';
+    
     takvimGridContainer.innerHTML = tableHTML;
   };
 
@@ -1630,18 +2019,65 @@ ${remoteFocusLines}` : ''}`
         window.showToast('PDF Hazırlanıyor', 'İçerik render ediliyor...', 'info');
       }
       
-      // 2. DOM'un tamamen render edilmesini bekle
+      // 2. Print class'ını ekle (sadece ders programı görünsün)
+      const body = document.body;
+      const originalClasses = body.className;
+      
+      // Önce print-target class'ını ekle (içerik görünür olsun)
+      takvimGridContainer.classList.add('print-target');
+      
+      // Sonra print-section ekle (diğer şeyleri gizle)
+      body.classList.add('print-section');
+      
+      // 3. DOM'un tamamen render edilmesini bekle
       await new Promise(resolve => {
         requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
           requestAnimationFrame(resolve);
+          });
         });
       });
       
-      // 3. Dinamik içeriklerin yüklenmesini bekle
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // 4. CSS kurallarının uygulanmasını bekle
+      await new Promise(resolve => setTimeout(resolve, 300));
       
-      // 4. PDF oluştur
-      const result = await window.electronAPI.exportToPDF();
+      // 5. İçeriğin görünür olduğundan emin ol
+      const table = takvimGridContainer.querySelector('.weekly-plan-table');
+      if (table) {
+        table.style.display = 'table';
+        table.style.visibility = 'visible';
+        table.style.opacity = '1';
+        
+        // Tüm tablo elementlerini görünür yap
+        const allTableElements = table.querySelectorAll('thead, tbody, tr, th, td, .cell-content, .cell-topic, .cell-meta');
+        allTableElements.forEach(el => {
+          el.style.visibility = 'visible';
+          el.style.opacity = '1';
+        });
+      }
+      
+      // 6. PDF oluştur - Ders planı için landscape modunu zorla
+      const result = await window.electronAPI.exportToPDF({ 
+        forceLandscape: true,
+        source: 'ders-plani' 
+      });
+      
+      // 7. Print class'larını ve inline style'ları temizle
+      body.className = originalClasses;
+      takvimGridContainer.classList.remove('print-target');
+      
+      // Inline style'ları temizle
+      if (table) {
+        table.style.display = '';
+        table.style.visibility = '';
+        table.style.opacity = '';
+        
+        const allTableElements = table.querySelectorAll('thead, tbody, tr, th, td, .cell-content, .cell-topic, .cell-meta');
+        allTableElements.forEach(el => {
+          el.style.visibility = '';
+          el.style.opacity = '';
+        });
+      }
       
       if (result.canceled) {
         console.log('PDF kaydetme iptal edildi');
@@ -1660,6 +2096,28 @@ ${remoteFocusLines}` : ''}`
       }
     } catch (error) {
       console.error('PDF export hatası:', error);
+      
+      // Hata durumunda da class'ları ve inline style'ları temizle
+      const body = document.body;
+      if (takvimGridContainer) {
+        takvimGridContainer.classList.remove('print-target');
+        
+        // Inline style'ları temizle
+        const table = takvimGridContainer.querySelector('.weekly-plan-table');
+        if (table) {
+          table.style.display = '';
+          table.style.visibility = '';
+          table.style.opacity = '';
+          
+          const allTableElements = table.querySelectorAll('thead, tbody, tr, th, td, .cell-content, .cell-topic, .cell-meta');
+          allTableElements.forEach(el => {
+            el.style.visibility = '';
+            el.style.opacity = '';
+          });
+        }
+      }
+      body.classList.remove('print-section');
+      
       if (window.showToast) {
         window.showToast('Beklenmeyen Hata', 'PDF kaydetme sırasında bir hata oluştu', 'error', 5000);
       }
@@ -1669,9 +2127,6 @@ ${remoteFocusLines}` : ''}`
   // Başlangıç verilerini yükle
   fetchInitialData();
 };
-
-// renderer.js'den çağrılacak global fonksiyon
-window.initializeDersPlanlayici = initializeDersPlanlayici;
 
 // ============================================
 // GAMİFİCATION SİSTEMİ (Rozet ve İlerleme)

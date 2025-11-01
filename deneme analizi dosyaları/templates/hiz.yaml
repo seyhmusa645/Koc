@@ -1,0 +1,74 @@
+name: "HIZ"
+priority: 10
+
+signatures:
+  - "ÖĞRENCİ SINAV"
+  - "SONUÇ BELGESİ"
+  - "TG GELİŞİM"
+  - "TG GELİŞİM VE DEĞERLENDİRME"
+
+student_block:
+  # HIZ formatı farklı: İsim bir satırda, sınıf/numara başka satırda
+  # Sınıf/numara satırından hemen önce gelen isim satırını yakala
+  combined_pattern: "([A-ZÇĞİÖŞÜ\\s]{3,50})\\s+(\\d+)/([A-Z]+)\\s*-\\s*(\\d+)"
+
+# HIZ formatında puan bloğu farklı
+score_block:
+  pattern: "PUAN\\s+([\\d\\.]+)"
+  percentile_pattern: "Yüzdelik Dilim.*?([\\d\\.]+)"
+
+# HIZ formatında derece bilgileri tablo şeklinde
+ranking:
+  pattern: "Sıra:?\\s+(\\d+).*?Sıra:?\\s+(\\d+).*?Sıra:?\\s+(\\d+).*?Sıra:?\\s+(\\d+)"
+  # Gruplar: (şube, kurum, ilçe, il)
+
+participation:
+  pattern: "Katılım:?\\s+(\\d+)"
+
+# HIZ formatında ders tablosu farklı düzende
+subjects:
+  - name: "Türkçe"
+    # TÜRKÇE / Soru Sayısı / Doğru / Yanlış / Boş / Net / (soru,doğru,yanlış,boş,net,başarı)
+    pattern: "TÜRKÇE[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [20]
+    
+  - name: "İnkılap Tarihi"
+    pattern: "İNKILAP TARİHİ[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [10]
+    grade_specific: [8]  # Sadece 8. sınıf için
+    
+  - name: "Din Kültürü"
+    pattern: "DİN KÜLTÜRÜ[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [10]
+    
+  - name: "İngilizce"
+    pattern: "İNGİLİZCE[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [10]
+    
+  - name: "Matematik"
+    pattern: "MATEMATİK[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [20]
+    
+  - name: "Fen"
+    pattern: "FEN BİLİMLERİ[\\s\\S]*?Net[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,\\.]+)[\\s\\n]+(\\d+)"
+    question_counts: [20]
+
+# HIZ formatında toplam satırı farklı
+total:
+  pattern: "(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,\\.]+)\\s+SORU SAYISI"
+
+achievements:
+  enabled: true  # Kazanım kodu + kısmi metin + durum var
+  format: "codes"  # Kazanım kodları
+  section_patterns:
+    - "KAZANIMLAR"
+  code_pattern: "([A-ZÇĞİÖŞÜ]{1,4}\\.[\\d\\.]+)"
+  status_column: "+-"
+  incorrect_marker: "-"
+  parse_method: "code_status"  # Kod + durum
+  deduplicate: true  # Aynı kodu 1 kez say
+
+validation:
+  expected_questions:
+    8: 90  # HIZ sadece 8. sınıf için
+

@@ -1,0 +1,83 @@
+name: "BenimHocam"
+priority: 20
+
+signatures:
+  - "SONUÇ BELGESİ"
+  - "BH -"
+  - "SINIF - SDS"
+  - "ATOM LGS"
+  - "DEBİ AKADEMİ"
+  - "Sözel (TÜR)"
+  - "Sayısal (MAT)"
+  - "Sözel (SOS)"
+
+student_block:
+  # STANDART FORMAT (eski kod - çalışıyor): Tek satırda hepsi
+  # "Öğrenci  Numara  Sınıf  ALMİRA ÖZKAN  35  5-A"
+  standard_pattern: "Öğrenci\\s+Numara\\s+Sınıf\\s+([^\\n]+?)\\s+(\\d+)\\s+([\\d]+-[A-Z]+)"
+  
+  # DEBİ FORMAT: Başlıklar satır satır, değerler satır satır
+  # Öğrenci\nNumara\nSınıf\nALMİRA ÖZKAN\n35\n5-A
+  debi_pattern: "Öğrenci\\s*\\n\\s*Numara\\s*\\n\\s*Sınıf\\s*\\n\\s*([A-ZÇĞİÖŞÜ][^\\n]{2,40})\\s*\\n\\s*(\\d{1,4})\\s*\\n\\s*([\\d]{1,2}-[A-ZÇĞİÖŞÜ]+)"
+
+lgs_block:
+  pattern: "LGS\\s+([\\d,]+)\\s+([\\d,]+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)"
+
+participation:
+  pattern: "Katılımlar:?\\s+(\\d+)"
+
+subjects:
+  - name: "Türkçe"
+    pattern: "Türkçe\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [15, 20]
+    
+  - name: "Sosyal Bilgiler"
+    pattern: "(?:Sosyal Bilgiler|SOSYAL BİLGİLER|Tarih)\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    grade_dependent: true
+    grade_8_name: "İnkılap Tarihi"
+    grade_8_pattern: "İnkılap Tarihi.*?10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [10]
+    
+  - name: "Din Kültürü"
+    pattern: "Din K\\.ve A\\.B\\.\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [10]
+    
+  - name: "İngilizce"
+    pattern: "İngilizce\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [10]
+    
+  - name: "Matematik"
+    pattern: "Matematik\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [15, 20]
+    
+  - name: "Fen"
+    pattern: "Fen\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [15, 20]
+
+total:
+  pattern: "Toplam:?\\s+(75|90)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+
+achievements:
+  enabled: true
+  format: "full_text"  # Tam metin + S/D/Y/B%
+  section_patterns:
+    - "DERSLERE GÖRE ANALİZ"
+  subject_headers:
+    - "Sözel \\(TÜR\\).*?Türkçe"
+    - "Sözel \\(TAR\\).*?Tarih"
+    - "Sözel \\(SOS\\).*?SOSYAL BİLGİLER"
+    - "Sözel \\(DİN\\).*?Din"
+    - "Sözel \\(İNG\\).*?İngilizce"
+    - "Sayısal \\(MAT\\).*?Matematik"
+    - "Sayısal \\(FEN\\).*?Fen"
+  parse_method: "sdyb"  # S D Y B% formatı
+  incorrect_threshold: 75  # B% < 75 olanlar eksik (yüzde 75 başarı sınırı)
+
+# Validasyon Kuralları
+validation:
+  expected_questions:
+    5: 75
+    6: 75
+    7: 75
+    8: 90
+

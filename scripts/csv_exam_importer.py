@@ -1,7 +1,13 @@
 import csv
 import json
 import os
+import sys
 from datetime import datetime
+
+# Modül yolunu ekle
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'deneme analizi dosyaları'))
+
+from modules.kazanim_updater import add_multiple_kazanimlar
 
 def get_app_data_path():
     """AppData yolunu dinamik olarak belirle"""
@@ -411,13 +417,82 @@ def import_csv_exams(csv_filename):
                 
                 exam_data['lgsScore'] = lgs_score
                 
-                existing_exams.append(exam_data)
-                imported_count += 1
-                print(f"✅ Satır {row_num}: {student_name} sınavı eklendi (LGS: {lgs_score:.2f})")
+                # Dublicate kontrolü - Aynı öğrenci + aynı sınav adı varsa atla
+                duplicate_found = False
+                for existing in existing_exams:
+                    if (existing.get('profile') == exam_data['profile'] and 
+                        existing.get('name') == exam_data['name']):
+                        duplicate_found = True
+                        print(f"⚠️ Satır {row_num}: {student_name} - {exam_data['name']} zaten var, atlanıyor")
+                        break
+                
+                if not duplicate_found:
+                    existing_exams.append(exam_data)
+                    imported_count += 1
+                    print(f"✅ Satır {row_num}: {student_name} sınavı eklendi (LGS: {lgs_score:.2f})")
+                else:
+                    # Dublicate olduğu için error count'a ekle
+                    error_count += 1
                 
             except Exception as e:
                 print(f"❌ Satır {row_num}: İşlenirken hata: {e}")
                 error_count += 1
+    
+    # Yeni kazanımları topla ve ekle (Türkçe ve İngilizce için)
+    new_kazanimlar_to_add = []
+    
+    with open(csv_filename, 'r', encoding='utf-8-sig') as csvfile:
+        reader = csv.DictReader(csvfile)
+        
+        for row in reader:
+            try:
+                # Öğrenciyi bul
+                student_name = row['Öğrenci Adı'].strip()
+                match_result = find_student_advanced(student_name, students)
+                
+                if not match_result:
+                    continue
+                
+                student = match_result['student']
+                
+                # Sınıf numarasını çıkar
+                try:
+                    grade = int(''.join(filter(str.isdigit, student.get('grade', '5'))))
+                except:
+                    grade = 5
+                
+                # Türkçe kazanımları ekle
+                turkce_kazanimlar = row.get('Türkçe_Yanlış_Kazanımlar', '').split(' | ') if row.get('Türkçe_Yanlış_Kazanımlar') else []
+                for kazanim in turkce_kazanimlar:
+                    if kazanim and len(kazanim.strip()) > 10:
+                        new_kazanimlar_to_add.append({
+                            'subject': 'Türkçe',
+                            'grade': grade,
+                            'kazanim': kazanim.strip()
+                        })
+                
+                # İngilizce kazanımları ekle
+                ingilizce_kazanimlar = row.get('İngilizce_Yanlış_Kazanımlar', '').split(' | ') if row.get('İngilizce_Yanlış_Kazanımlar') else []
+                for kazanim in ingilizce_kazanimlar:
+                    if kazanim and len(kazanim.strip()) > 10:
+                        new_kazanimlar_to_add.append({
+                            'subject': 'İngilizce',
+                            'grade': grade,
+                            'kazanim': kazanim.strip()
+                        })
+            except Exception as e:
+                # Sessizce devam et
+                pass
+    
+    # Yeni kazanımları Kazanımlar.json'a ekle
+    kazanim_stats = {'added': 0, 'skipped': 0, 'errors': 0}
+    if new_kazanimlar_to_add:
+        print(f"\n[BİLGİ] {len(new_kazanimlar_to_add)} yeni kazanım bulundu, Kazanımlar.json'a ekleniyor...")
+        try:
+            kazanim_stats = add_multiple_kazanimlar(new_kazanimlar_to_add)
+            print(f"[OK] Kazanım ekleme: {kazanim_stats['added']} eklendi, {kazanim_stats['skipped']} zaten var, {kazanim_stats['errors']} hata")
+        except Exception as e:
+            print(f"[UYARI] Kazanım ekleme başarısız: {e}")
     
     # Sınavları kaydet
     if imported_count > 0:
@@ -426,6 +501,8 @@ def import_csv_exams(csv_filename):
     # Sonuç raporu
     print(f"\n🎉 CSV İçe Aktarım Tamamlandı!")
     print(f"🕐 Bitiş zamanı: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    if new_kazanimlar_to_add:
+        print(f"📝 Yeni Kazanımlar: {kazanim_stats['added']} eklendi, {kazanim_stats['skipped']} atlandı")
     print(f"✅ Başarıyla eklenen: {imported_count} sınav")
     print(f"❌ Hata olan: {error_count} satır")
     print(f"📊 Toplam sınav sayısı: {len(existing_exams)}")

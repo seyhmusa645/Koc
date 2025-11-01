@@ -200,6 +200,51 @@
                 <div id="csv-status" class="import-status"></div>
             </div>
 
+            <!-- PDF İçe Aktarım Bölümü -->
+            <div class="pdf-import-section" style="margin-top: 40px;">
+                <h3>📄 PDF Dosyası ile Sınav Ekleme</h3>
+                <div class="csv-info-box">
+                    <strong>💡 Bilgi:</strong> Öğrenci karnesi PDF'lerini otomatik olarak çıkarır ve içe aktarır. 
+                    Desteklenen formatlar: BenimHocam, HIZ ve benzeri yayınevleri.
+                </div>
+                <div class="csv-import-container">
+                    <div class="csv-upload-area">
+                        <input type="file" id="pdf-file-input" accept=".pdf" style="display: none;">
+                        <button type="button" id="pdf-upload-btn" class="btn-secondary">
+                            📂 PDF Dosyası Seç
+                        </button>
+                        <div id="pdf-file-info" class="file-info" style="display: none;">
+                            <span id="pdf-file-name"></span>
+                            <button type="button" id="pdf-remove-btn" class="btn-remove">❌</button>
+                        </div>
+                    </div>
+                    <div class="csv-options">
+                        <div class="form-group">
+                            <label for="pdf-exam-name-input">Sınav Adı:</label>
+                            <input type="text" id="pdf-exam-name-input" placeholder="Örn: Kasım 1. Deneme" style="width: 100%; padding: 8px;">
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <label for="pdf-exam-date-input">Sınav Tarihi:</label>
+                            <input type="date" id="pdf-exam-date-input" style="width: 100%; padding: 8px;">
+                        </div>
+                        <label class="checkbox-label" style="margin-top: 10px;">
+                            <input type="checkbox" id="pdf-overwrite-check">
+                            <span>Aynı isimdeki sınavları güncelle</span>
+                        </label>
+                    </div>
+                    <button type="button" id="pdf-import-btn" class="btn-primary" disabled>
+                        📊 PDF'yi İçe Aktar
+                    </button>
+                </div>
+                <div id="pdf-status" class="import-status"></div>
+                <div id="pdf-progress" style="display: none; margin-top: 15px;">
+                    <div class="progress-bar" style="width: 100%; height: 20px; background: #e0e0e0; border-radius: 10px;">
+                        <div id="pdf-progress-fill" style="width: 0%; height: 100%; background: #4CAF50; border-radius: 10px; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="pdf-progress-text" style="margin-top: 5px; font-size: 12px; color: #666;"></div>
+                </div>
+            </div>
+
             <!-- Sınav İsmi Modal -->
             <div id="exam-name-modal" class="modal" style="display: none;">
                 <div class="modal-content" style="max-width: 500px;">
@@ -1316,7 +1361,7 @@
                 <div class="section-header">
                     <h3>📋 Sınav Kayıtları</h3>
                     <div class="actions">
-                        <button id="bulk-rename-btn" class="btn-secondary" onclick="bulkRenameExams()">
+                        <button id="bulk-rename-btn" class="btn-secondary" onclick="fixStudentNames()">
                             🔄 Genel İsimleri Düzelt
                         </button>
                         <button id="remove-duplicates-btn" class="btn-warning" onclick="removeDuplicateExams()">

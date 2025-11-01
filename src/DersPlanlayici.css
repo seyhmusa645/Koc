@@ -67,6 +67,8 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 0; /* Flexbox overflow için */
+  width: 100%;
 }
 
 .takvim-header {
@@ -429,4 +431,257 @@
 
 .time-block[data-subject="paragraf"] {
   border-left-color: #fd79a8 !important;
+}
+
+/* ====================================
+   YENİ TABLO DÜZENİ STİLLERİ
+   6 Sütun x 7 Satır Haftalık Plan
+   ==================================== */
+
+.weekly-plan-table {
+  width: 100% !important;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  table-layout: fixed; /* Tablo genişliğini sabit tut */
+}
+
+.weekly-plan-table thead {
+  display: table-header-group !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.weekly-plan-table thead tr {
+  display: table-row !important;
+}
+
+.weekly-plan-table th {
+  display: table-cell !important;
+  padding: 15px 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.weekly-plan-table .subject-header {
+  background: #2c3e50 !important;
+  color: white !important;
+  font-size: 16px;
+  width: 120px;
+  min-width: 120px;
+}
+
+.weekly-plan-table .day-header {
+  min-width: 140px;
+  width: auto;
+  font-size: 14px;
+  font-weight: bold;
+  color: white !important;
+  background-color: inherit;
+}
+
+.weekly-plan-table tbody {
+  display: table-row-group !important;
+}
+
+.weekly-plan-table tbody tr {
+  display: table-row !important;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.weekly-plan-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.weekly-plan-table .subject-cell {
+  display: table-cell !important;
+  background: #f8f9fa !important;
+  font-weight: 600;
+  padding: 12px 10px;
+  text-align: center;
+  border-right: 2px solid #dee2e6;
+  color: #2c3e50 !important;
+  font-size: 13px;
+  vertical-align: middle;
+  width: 120px;
+  min-width: 120px;
+}
+
+.weekly-plan-table .plan-cell {
+  display: table-cell !important;
+  padding: 10px 8px;
+  border: 1px solid #e1e5e9;
+  vertical-align: top;
+  min-height: 80px;
+  position: relative;
+  width: auto;
+}
+
+.weekly-plan-table .plan-cell.empty-cell {
+  text-align: center;
+  color: #95a5a6;
+  font-style: italic;
+}
+
+.weekly-plan-table .plan-cell.filled-cell {
+  background: white;
+}
+
+.weekly-plan-table .plan-cell.high-priority {
+  border-left: 4px solid #e74c3c;
+}
+
+.weekly-plan-table .cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.weekly-plan-table .cell-topic {
+  font-size: 11px;
+  color: #2c3e50;
+  line-height: 1.4;
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.weekly-plan-table .cell-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: #7f8c8d;
+  margin-top: 4px;
+}
+
+.weekly-plan-table .cell-questions {
+  background: #e3f2fd;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.weekly-plan-table .cell-duration {
+  background: #fff3e0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #f57c00;
+  font-weight: 600;
+}
+
+.weekly-plan-table .cell-empty {
+  font-size: 18px;
+  color: #ccc;
+}
+
+/* Kazanım Referansları Bölümü */
+.kazanim-references {
+  margin-top: 30px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-top: 3px solid #667eea;
+}
+
+.kazanim-references h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.kazanim-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.kazanim-subject {
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.kazanim-subject * {
+  max-width: 100%;
+  overflow: visible;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.kazanim-subject strong {
+  display: block;
+  color: #2c3e50;
+  font-size: 12px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.kazanim-type {
+  color: #667eea;
+  font-size: 10px;
+  font-weight: 600;
+  margin: 8px 0 4px 0;
+}
+
+.kazanim-list {
+  margin: 5px 0;
+  padding-left: 20px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #34495e;
+  overflow: visible;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+}
+
+.kazanim-list li {
+  margin-bottom: 8px;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  /* Metin kesilmesini tamamen engelle */
+  text-overflow: unset;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+.kazanim-list li * {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.kazanim-ref-id {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 8px;
+  margin-right: 4px;
 }

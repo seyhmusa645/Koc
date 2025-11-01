@@ -54,7 +54,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   generatePlan: (planRequest) => ipcRenderer.invoke('plan:generate', planRequest),
 
   // PDF Export
-  exportToPDF: () => ipcRenderer.invoke('export-to-pdf'),
+  exportToPDF: (options = {}) => ipcRenderer.invoke('export-to-pdf', options),
 
   // Etüt Grupları (Study Sessions)
   etut: {
@@ -72,7 +72,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Hedef Takibi
   saveGoals: (studentId, goalsData) => ipcRenderer.invoke('goals:save', studentId, goalsData),
-  loadGoals: (studentId) => ipcRenderer.invoke('goals:load', studentId)
+  loadGoals: (studentId) => ipcRenderer.invoke('goals:load', studentId),
+  
+  // PDF Import
+  importPdfExams: (options) => ipcRenderer.invoke('pdf-import-exams', options),
+  openTemplateWizard: (pdfPath) => ipcRenderer.invoke('open-template-wizard', pdfPath),
+  openPdfDialog: () => ipcRenderer.invoke('open-pdf-dialog'),
+  onPdfImportProgress: (callback) => {
+    const listener = (_event, message) => callback(message);
+    ipcRenderer.on('pdf-import-progress', listener);
+    return () => ipcRenderer.removeListener('pdf-import-progress', listener);
+  }
 });
 
 

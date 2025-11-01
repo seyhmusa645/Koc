@@ -3,33 +3,31 @@
    Her GÃ¼n AyrÄ± Sayfa YaklaÅŸÄ±mÄ±
    ======================================== */
 
-/* 1. GENEL SAYFA AYARLARI */
+/* 1. GENEL SAYFA AYARLARI - Ders Planı için Landscape */
 @page {
-    size: A4 landscape;           /* TÃ¼m sayfalar yatay A4 formatÄ±nda */
-    margin: 1.5cm;               /* Sayfa kenar boÅŸluklarÄ± */
+    size: A4 landscape !important;           /* TÃ¼m sayfalar yatay A4 formatÄ±nda - !important ile güçlendirildi */
+    margin: 0.5cm !important;               /* Minimum kenar boÅŸluklarÄ± - yatayda tam sayfa */
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 @media print {
     /* Temel yazdÄ±rma ayarlarÄ± */
     * {
         -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
         print-color-adjust: exact !important;
         box-sizing: border-box !important;
     }
 
     body {
         margin: 0 !important;
-        padding: 20px !important;
+        padding: 5px !important; /* Minimum padding - yatayda tam sayfa */
         font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif !important;
         background-color: white !important;
         color: black !important;
         font-size: 12pt !important;
         line-height: 1.4 !important;
         text-rendering: optimizeLegibility !important;
-        font-encoding: utf-8 !important;
     }
     /* Print scope helpers */
     body.print-single * {
@@ -49,17 +47,113 @@
     }
 
     body.print-section section.page,
-    body.print-section .tab-panel {
+    body.print-section .tab-panel,
+    body.print-section .ayarlar-paneli,
+    body.print-section .sidebar,
+    body.print-section nav,
+    body.print-section .tabs,
+    body.print-section .nav-btn {
         display: none !important;
     }
 
-    body.print-section .print-target,
-    body.print-section .print-target * {
-        display: revert !important;
-    }
-
+    /* Print target görünürlüğü - Tüm içerik görünür olmalı */
     body.print-section .print-target {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
         position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Print-target içindeki tüm elementler görünür - ama display'i değiştirme */
+    body.print-section .print-target * {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Tablo yapısını koru - print-target içindeki tablolar için */
+    body.print-section .print-target .weekly-plan-table {
+        display: table !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
+    }
+    
+    body.print-section .print-target .weekly-plan-table thead {
+        display: table-header-group !important;
+        visibility: visible !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+    }
+    
+    body.print-section .print-target .weekly-plan-table tbody {
+        display: table-row-group !important;
+        visibility: visible !important;
+        background: white !important;
+    }
+    
+    body.print-section .print-target .weekly-plan-table tr {
+        display: table-row !important;
+        visibility: visible !important;
+    }
+    
+    body.print-section .print-target .weekly-plan-table th,
+    body.print-section .print-target .weekly-plan-table td {
+        display: table-cell !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: inherit !important;
+    }
+    
+    /* Hücre içeriklerinin görünürlüğü */
+    body.print-section .print-target .weekly-plan-table .cell-content,
+    body.print-section .print-target .weekly-plan-table .cell-topic,
+    body.print-section .print-target .weekly-plan-table .cell-meta,
+    body.print-section .print-target .weekly-plan-table .cell-questions,
+    body.print-section .print-target .weekly-plan-table .cell-duration {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    body.print-section .print-target .weekly-plan-table .cell-meta {
+        display: flex !important;
+    }
+    
+    /* Advanced schedule görünürlüğü */
+    body.print-section .print-target .advanced-schedule {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+    }
+    
+    body.print-section .print-target .schedule-header {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    /* Ders planlayıcı için özel ayarlar */
+    body.print-section #planner-section,
+    body.print-section .takvim-alani,
+    body.print-section .takvim-grid-container {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Advanced schedule görünürlüğü */
+    body.print-section .advanced-schedule {
+        display: block !important;
+        visibility: visible !important;
         width: 100% !important;
     }
 
@@ -513,6 +607,368 @@
         justify-content: center !important;
         grid-template-columns: 300px !important;
     }
+
+    /* ====================================================
+       YENİ TABLO DÜZENİ PDF EXPORT (6 SÜTUN x 7 SATIR)
+       ==================================================== */
+    
+    /* Yeni tablo düzeni için eski günlük düzeni gizle */
+    #planner-section .daily-schedule {
+        display: none !important;
+    }
+
+    /* Tablo yapısını göster */
+    #planner-section .weekly-plan-table {
+        display: table !important;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto !important;
+        margin: 0 !important;
+        font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif !important;
+    }
+
+    /* Tablo başlıkları */
+    #planner-section .weekly-plan-table thead {
+        display: table-header-group !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    #planner-section .weekly-plan-table th {
+        display: table-cell !important;
+        padding: 12px 8px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        font-size: 12pt !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        vertical-align: middle !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .subject-header {
+        background: #2c3e50 !important;
+        font-size: 13pt !important;
+        width: 120px !important;
+        min-width: 120px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .day-header {
+        font-size: 12pt !important;
+        font-weight: bold !important;
+        width: auto !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: inherit !important;
+    }
+
+    /* Tablo gövdesi */
+    #planner-section .weekly-plan-table tbody {
+        display: table-row-group !important;
+        background: white !important;
+    }
+
+    #planner-section .weekly-plan-table tbody tr {
+        display: table-row !important;
+        page-break-inside: avoid !important;
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+
+    /* Ders adı hücresi */
+    #planner-section .weekly-plan-table .subject-cell {
+        display: table-cell !important;
+        background: #f8f9fa !important;
+        font-weight: bold !important;
+        padding: 10px 8px !important;
+        text-align: center !important;
+        border-right: 2px solid #dee2e6 !important;
+        border-left: 1px solid #dee2e6 !important;
+        color: #2c3e50 !important;
+        font-size: 11pt !important;
+        vertical-align: middle !important;
+        width: 120px !important;
+        min-width: 120px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Ders isimlerinin görünürlüğünü garanti et */
+    #planner-section .weekly-plan-table .subject-cell *,
+    #planner-section .weekly-plan-table .subject-cell {
+        color: #2c3e50 !important;
+        background-color: #f8f9fa !important;
+    }
+
+    /* Plan hücreleri - Sabit yükseklik, geniş tablo */
+    #planner-section .weekly-plan-table .plan-cell {
+        display: table-cell !important;
+        padding: 10px 8px !important;
+        border: 1px solid #dee2e6 !important;
+        vertical-align: top !important;
+        height: 85px !important;
+        min-height: 85px !important;
+        max-height: 85px !important;
+        overflow: hidden !important;
+        position: relative !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .plan-cell.empty-cell {
+        text-align: center !important;
+        vertical-align: middle !important;
+        color: #ccc !important;
+        font-size: 14pt !important;
+        font-style: italic !important;
+    }
+
+    #planner-section .weekly-plan-table .plan-cell.filled-cell {
+        background: rgba(255,255,255,0.7) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .plan-cell.high-priority {
+        border-left: 3px solid #e74c3c !important;
+    }
+
+    /* Hücre içeriği */
+    #planner-section .weekly-plan-table .cell-content {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    #planner-section .weekly-plan-table .cell-topic {
+        font-size: 10pt !important;
+        color: #2c3e50 !important;
+        line-height: 1.4 !important;
+        font-weight: 500 !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        overflow: visible !important;
+        display: block !important;
+        margin-bottom: 6px !important;
+    }
+
+    #planner-section .weekly-plan-table .cell-meta {
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        font-size: 8pt !important;
+        color: #7f8c8d !important;
+    }
+
+    #planner-section .weekly-plan-table .cell-questions {
+        background: #e3f2fd !important;
+        padding: 2px 6px !important;
+        border-radius: 2px !important;
+        color: #1976d2 !important;
+        font-weight: bold !important;
+        font-size: 8pt !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .cell-duration {
+        background: #fff3e0 !important;
+        padding: 2px 6px !important;
+        border-radius: 2px !important;
+        color: #f57c00 !important;
+        font-weight: bold !important;
+        font-size: 8pt !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #planner-section .weekly-plan-table .cell-empty {
+        font-size: 14pt !important;
+        color: #ccc !important;
+    }
+
+    /* Plan başlığını göster */
+    #planner-section .schedule-header {
+        display: block !important;
+        text-align: center !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 5px !important;
+        border-bottom: 2px solid #667eea !important;
+        page-break-after: avoid !important;
+    }
+
+    #planner-section .schedule-header h3 {
+        font-size: 14pt !important;
+        font-weight: bold !important;
+        color: #2c3e50 !important;
+        margin: 0 !important;
+    }
+    
+    /* Tam sayfa için container ayarları - yatayda tam genişlik */
+    #planner-section .advanced-schedule,
+    #planner-section .takvim-grid-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Tablo tam genişlik - A4 landscape yatayda tam sayfa */
+    #planner-section .advanced-schedule .weekly-plan-table {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        table-layout: fixed !important;
+        border-spacing: 0 !important;
+    }
+    
+    /* Tablo hücrelerinin genişlik dağılımı - yatayda tam genişlik */
+    #planner-section .weekly-plan-table .subject-header {
+        width: 8% !important; /* Ders adları için %8 */
+        min-width: 80px !important;
+    }
+    
+    #planner-section .weekly-plan-table .subject-cell {
+        width: 8% !important; /* Ders adları için %8 */
+        min-width: 80px !important;
+    }
+    
+    #planner-section .weekly-plan-table .day-header,
+    #planner-section .weekly-plan-table .plan-cell {
+        width: 15.33% !important; /* Her gün için %15.33 genişlik (6 gün x 15.33% = 92% + 8% ders = 100%) */
+        min-width: 0 !important;
+    }
+    
+    /* Kazanım Referansları PDF için - MUTLAKA GÖRÜNSÜN */
+    body.print-section .print-target .kazanim-references,
+    body.print-section .kazanim-references,
+    #planner-section .kazanim-references {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-top: 10px !important;
+        padding: 8px !important;
+        background: #f8f9fa !important;
+        border-top: 3px solid #667eea !important;
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    body.print-section .print-target .kazanim-references *,
+    body.print-section .kazanim-references *,
+    #planner-section .kazanim-references * {
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: revert !important;
+    }
+    
+    #planner-section .kazanim-references h4 {
+        font-size: 12pt !important;
+        color: #2c3e50 !important;
+        margin: 0 0 8px 0 !important;
+        font-weight: bold !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    #planner-section .kazanim-grid {
+        display: block !important;
+        gap: 15px !important;
+    }
+    
+    #planner-section .kazanim-subject {
+        background: white !important;
+        padding: 12px !important;
+        border-radius: 4px !important;
+        border-left: 3px solid #667eea !important;
+        page-break-inside: avoid !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+    }
+    
+    #planner-section .kazanim-subject strong {
+        font-size: 9pt !important;
+        color: #2c3e50 !important;
+        margin-bottom: 5px !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    #planner-section .kazanim-subject * {
+        max-width: 100% !important;
+        overflow: visible !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    #planner-section .kazanim-type {
+        font-size: 8pt !important;
+        color: #667eea !important;
+        font-weight: bold !important;
+        margin: 5px 0 3px 0 !important;
+    }
+    
+    #planner-section .kazanim-list {
+        font-size: 9pt !important;
+        line-height: 1.6 !important;
+        color: #34495e !important;
+        margin: 5px 0 !important;
+        padding-left: 20px !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    #planner-section .kazanim-list li {
+        margin-bottom: 8px !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        /* Metin kesilmesini tamamen engelle */
+        text-overflow: unset !important;
+        -webkit-line-clamp: unset !important;
+        line-clamp: unset !important;
+    }
+    
+    #planner-section .kazanim-list li * {
+        overflow: visible !important;
+        text-overflow: clip !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    #planner-section .kazanim-ref-id {
+        background: #e3f2fd !important;
+        color: #1976d2 !important;
+        padding: 1px 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold !important;
+        font-size: 6.5pt !important;
+        margin-right: 3px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 }
 
 /* ===========================================
@@ -813,10 +1269,16 @@
     border: 1px solid #dee2e6 !important;
 }
 
-/* Sayfa dÃ¼zeni */
+/* Sayfa dÃ¼zeni - Öğrenci Değerlendirme için (dikey) */
 @page {
     size: A4 !important;
     margin: 2cm !important;
+}
+
+/* Ders Planı için özel landscape kuralı - En yüksek öncelik */
+body.print-section @page {
+    size: A4 landscape !important;
+    margin: 0.5cm !important;
 }
 
 /* ========================================

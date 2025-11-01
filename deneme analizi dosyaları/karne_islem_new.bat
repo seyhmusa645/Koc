@@ -17,8 +17,9 @@ echo [3] Klasordeki Tum PDF'leri Isle (Text)
 echo [4] Klasordeki Tum PDF'leri Isle (Excel)
 echo [5] Kurulum Yap (Ilk Kullanim)
 echo [6] Cikis
+echo [7] Grafik Arayuz (GUI) Baslat
 echo.
-set /p choice="Seciminiz (1-6): "
+set /p choice="Seciminiz (1-7): "
 
 if "%choice%"=="1" goto SINGLE_TEXT
 if "%choice%"=="2" goto SINGLE_EXCEL
@@ -26,6 +27,7 @@ if "%choice%"=="3" goto BATCH_TEXT
 if "%choice%"=="4" goto BATCH_EXCEL
 if "%choice%"=="5" goto INSTALL
 if "%choice%"=="6" goto EXIT
+if "%choice%"=="7" goto GUI
 goto MENU
 
 :SINGLE_TEXT
@@ -218,6 +220,19 @@ echo Gule gule!
 echo.
 timeout /t 2 > nul
 exit
+
+:GUI
+cls
+echo ================================================================
+echo           GRAFIK ARAYUZ (GUI)
+echo ================================================================
+echo.
+echo Arayuz baslatiliyor...
+echo.
+start "" pythonw gui.py
+echo.
+pause
+goto MENU
 
 :ERROR
 echo.

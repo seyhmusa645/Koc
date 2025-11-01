@@ -1,0 +1,69 @@
+# YAML Şablon Şeması - Referans Dokümanı
+# Bu dosya, yeni şablon oluşturmak için kullanılacak formatı tanımlar
+
+name: "Şablon Adı"  # Zorunlu - Yayınevi/sınav adı
+priority: 10  # Zorunlu - Tespit önceliği (1-10, yüksek = öncelikli)
+
+# Format Tanıma İmzaları
+signatures:
+  - "Benzersiz Metin 1"  # PDF'de bulunması gereken anahtar kelimeler
+  - "Benzersiz Metin 2"
+  - "Benzersiz Metin 3"
+
+# Öğrenci Bilgi Bloğu
+student_block:
+  # Regex pattern'leri (Python regex format)
+  header_pattern: "Öğrenci\\s+Numara\\s+Sınıf"  # Başlık satırı
+  name_pattern: "([^\\n]+?)\\s+(\\d+)\\s+([\\d]+-[A-Z]+)"  # (Ad, Numara, Sınıf)
+  
+  # Alternatif: Çok satırlı format
+  name_line_pattern: "^([A-ZÇĞİÖŞÜ\\s]+)$"  # İsim satırı
+  class_pattern: "(\\d+)/([A-Z]+)\\s*-\\s*(\\d+)"  # Sınıf/Şube - Numara
+
+# LGS Puan Bilgileri
+lgs_block:
+  pattern: "LGS\\s+([\\d,]+)\\s+([\\d,]+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)"
+  # Gruplar: (puan, ortalama, sınıf_derece, kurum_derece, ilçe_derece, il_derece, genel_derece)
+
+# Katılım Bilgisi
+participation:
+  pattern: "Katılımlar?:?\\s+(\\d+)"
+
+# Ders Bilgileri
+subjects:
+  - name: "Türkçe"
+    pattern: "Türkçe\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    # Gruplar: (soru_sayisi, dogru, yanlis, net, basari)
+    question_counts: [15, 20]  # Geçerli soru sayıları
+    
+  - name: "Sosyal Bilgiler"
+    pattern: "(?:Sosyal Bilgiler|SOSYAL BİLGİLER)\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    grade_dependent: true  # Sınıfa göre isim değişir
+    grade_8_name: "İnkılap Tarihi"  # 8. sınıf için farklı isim
+    question_counts: [10]
+    
+  - name: "Din Kültürü"
+    pattern: "Din K\\.ve A\\.B\\.\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [10]
+    
+  - name: "İngilizce"
+    pattern: "İngilizce\\s+10\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [10]
+    
+  - name: "Matematik"
+    pattern: "Matematik\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [15, 20]
+    
+  - name: "Fen"
+    pattern: "Fen(?:\\s+Bilimleri)?\\s+(15|20)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+    question_counts: [15, 20]
+
+# Toplam Satırı
+total:
+  pattern: "Toplam:?\\s+(75|90)\\s+(\\d+)\\s+(\\d+)\\s+([\\d,]+)\\s+(\\d+)"
+
+# Kazanım Analizi (Opsiyonel)
+achievements:
+  section_pattern: "(Sözel|Sayısal)\\s+\\(([A-ZÇĞİÖŞÜ]+)\\)"
+  enabled: true
+

@@ -4,6 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const os = require('os');
 const bcrypt = require('bcryptjs');
+const { spawn } = require('child_process');
 require('dotenv').config();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
@@ -60,8 +61,9 @@ const oldHaftalikPlanPath = path.join(app.getAppPath(), 'data', 'haftalikPlan.js
 // Mevcut Veri Dosyaları (geriye dönük uyumluluk için)
 const dataFilePath = path.join(userDataPath, 'data.json');
 const profilesFilePath = path.join(userDataPath, 'profiles.json'); // Sadece migrasyonu için
-const studentsFilePath = path.join(userDataPath, 'students.json');
-console.log('Ana İşlem: Öğrenci dosyasının yolu:', studentsFilePath);
+// NOT: Tüm öğrenciler shared/students.json kullanır; legacy değişken yalnızca geriye dönük okuma için tutulur
+const studentsFilePath = sharedStudentsPath;
+console.log('Ana İşlem: Öğrenci dosyasının yolu (SHARED):', studentsFilePath);
 const outcomesFilePath = sharedKazanimlarPath; // Yönlendirme
 
 // YENİ: Kullanıcıya özel öğrenci veri yolunu alan yardımcı fonksiyon
@@ -527,6 +529,34 @@ ipcMain.handle('user:login', async (event, { email, password }) => {
             console.log('✅ Giriş başarılı:', email);
             activeUser = { id: user.id, name: user.name, email: user.email, role: user.role }; // Aktif kullanıcıyı ayarla
             console.log('🔍 DEBUG: activeUser set edildi:', activeUser);
+
+            // SHARED/user.json koruması: eksikse oluştur/güncelle
+            try {
+              if (!fs.existsSync(sharedPath)) {
+                fs.mkdirSync(sharedPath, { recursive: true });
+              }
+              const sharedUserFile = path.join(sharedPath, 'user.json');
+              // Lisans bilgisi okunur
+              const lic = readJsonFile(licenseFilePath) || {};
+              const nameParts = (user.name || '').trim().split(/\s+/);
+              const firstName = nameParts[0] || '';
+              const lastName = nameParts.slice(1).join(' ');
+              const userPayload = {
+                email: user.email,
+                displayName: firstName || 'Kullanıcı',
+                firstName,
+                lastName,
+                licenseStatus: lic.status || 'active',
+                licenseExpiry: lic.expiresAt || null,
+                role: user.role,
+                createdAt: new Date().toISOString(),
+                lastLogin: new Date().toISOString()
+              };
+              fs.writeFileSync(sharedUserFile, JSON.stringify(userPayload, null, 2), 'utf8');
+            } catch (e) {
+              console.error('user.json oluşturma/güncelleme hatası:', e);
+            }
+
             createMainWindow();
             // Lisans ve kullanıcı bilgilerini ana pencereye gönder
             mainWindow.webContents.on('did-finish-load', () => {
@@ -1417,6 +1447,172 @@ ipcMain.handle('students-import', async (event, importedStudents) => {
   }
 });
 
+// PDF sınav import (Yeni)
+ipcMain.handle('pdf-import-exams', async (event, options) => {
+  console.log('🔍 PDF import başlatıldı:', options);
+  
+  return new Promise((resolve) => {
+    const scriptPath = path.join(__dirname, '..', 'scripts', 'pdf_exam_importer.py');
+    const args = [
+      scriptPath,
+      options.pdfPath,
+      options.examName || '',
+      options.examDate || ''
+    ];
+    
+    if (options.overwrite) {
+      args.push('--overwrite');
+    }
+    
+    // Manuel mappings varsa JSON olarak geç
+    if (options.manualMappings && Object.keys(options.manualMappings).length > 0) {
+      args.push('--manual-mappings');
+      args.push(JSON.stringify(options.manualMappings));
+    }
+    
+    console.log('Python script çalıştırılıyor:', 'python', args);
+    
+    const pythonProcess = spawn('python', args, {
+      cwd: path.join(__dirname, '..'),
+      env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+    });
+    
+    let stdout = '';
+    let stderr = '';
+    
+    pythonProcess.stdout.on('data', (data) => {
+      const output = data.toString('utf8');
+      stdout += output;
+      console.log('[PDF Import]', output);
+      
+      // İlerleme callback (opsiyonel)
+      if (options.onProgress && output.includes('[OK]')) {
+        event.sender.send('pdf-import-progress', output);
+      }
+    });
+    
+    pythonProcess.stderr.on('data', (data) => {
+      const error = data.toString('utf8');
+      stderr += error;
+      console.error('[PDF Import Error]', error);
+    });
+    
+    pythonProcess.on('close', (code) => {
+      console.log(`Python script sonlandı. Kod: ${code}`);
+      
+      if (code === 0) {
+        // Başarılı - stdout'tan sonuçları parse et
+        const lines = stdout.split('\n');
+        let imported = 0;
+        let unmatched = 0;
+        let suspicious = 0;
+        let formatName = '';
+        
+        let unmatchedNames = [];
+        
+        for (const line of lines) {
+          if (line.includes('Import Edilen:')) {
+            imported = parseInt(line.match(/\d+/)?.[0] || '0');
+          } else if (line.includes('Eslesmeyen:')) {
+            unmatched = parseInt(line.match(/\d+/)?.[0] || '0');
+          } else if (line.includes('Supheli:')) {
+            suspicious = parseInt(line.match(/\d+/)?.[0] || '0');
+          } else if (line.includes('Format:')) {
+            formatName = line.split('Format:')[1]?.trim() || '';
+          } else if (line.includes('[UYARI] Eslesme bulunamadi:')) {
+            // Eşleşmeyen öğrenci isimlerini topla
+            const match = line.match(/\[UYARI\] Eslesme bulunamadi: (.+)/);
+            if (match && match[1]) {
+              unmatchedNames.push(match[1].trim());
+            }
+          }
+        }
+        
+        resolve({
+          success: true,
+          imported_count: imported,
+          unmatched_count: unmatched,
+          suspicious_count: suspicious,
+          format_name: formatName,
+          unmatched_names: unmatchedNames
+        });
+      } else {
+        // Hata
+        let errorMessage = 'PDF işleme başarısız';
+        
+        if (stderr.includes('Format taninamadi') || stdout.includes('Format taninamadi')) {
+          errorMessage = 'PDF formatı tanınamadı';
+          resolve({
+            success: false,
+            error: errorMessage,
+            show_wizard: true
+          });
+        } else if (stderr || stdout.includes('[HATA]')) {
+          errorMessage = stderr || stdout.split('[HATA]').pop()?.trim() || errorMessage;
+          resolve({
+            success: false,
+            error: errorMessage
+          });
+        } else {
+          resolve({
+            success: false,
+            error: errorMessage
+          });
+        }
+      }
+    });
+    
+    pythonProcess.on('error', (error) => {
+      console.error('Python process hatası:', error);
+      resolve({
+        success: false,
+        error: `Python çalıştırılamadı: ${error.message}`
+      });
+    });
+  });
+});
+
+// Şablon sihirbazı aç (Yeni)
+ipcMain.handle('open-template-wizard', async (event, pdfPath) => {
+  console.log('🔍 Şablon sihirbazı açılıyor:', pdfPath);
+  
+  return new Promise((resolve) => {
+    const scriptPath = path.join(__dirname, '..', 'deneme analizi dosyaları', 'template_wizard.py');
+    
+    const pythonProcess = spawn('python', [scriptPath, pdfPath], {
+      cwd: path.join(__dirname, '..'),
+      env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+    });
+    
+    pythonProcess.on('close', (code) => {
+      resolve({ success: code === 0 });
+    });
+    
+    pythonProcess.on('error', (error) => {
+      console.error('Sihirbaz hatası:', error);
+      resolve({ success: false, error: error.message });
+    });
+  });
+});
+
+// PDF dosyası için native seçim diyalogu (Yeni)
+ipcMain.handle('open-pdf-dialog', async () => {
+  try {
+    const result = await dialog.showOpenDialog({
+      title: 'PDF Dosyası Seç',
+      filters: [{ name: 'PDF', extensions: ['pdf'] }],
+      properties: ['openFile']
+    });
+    if (result.canceled || !result.filePaths || result.filePaths.length === 0) {
+      return { success: false };
+    }
+    return { success: true, path: result.filePaths[0] };
+  } catch (err) {
+    console.error('open-pdf-dialog hata:', err);
+    return { success: false, error: err.message };
+  }
+});
+
 // Öğrenci kaydet (Kullanıcı bazlı olarak güncellendi)
 ipcMain.handle('student-save', (event, studentData) => {
   if (!activeUser) return { error: 'Aktif kullanıcı oturumu bulunamadı.' };
@@ -1548,7 +1744,7 @@ ipcMain.handle('student-update', (event, studentId, updateData) => {
 });
 
 // PDF Export handler
-ipcMain.handle('export-to-pdf', async (event) => {
+ipcMain.handle('export-to-pdf', async (event, options = {}) => {
   const { dialog } = require('electron');
   const fs = require('fs');
   const path = require('path');
@@ -1560,31 +1756,64 @@ ipcMain.handle('export-to-pdf', async (event) => {
       return { error: 'Aktif pencere bulunamadı' };
     }
 
-    // PDF seçenekleri - Türkçe karakter desteği için güncellendi
+    // Aktif sayfaya göre varsayılan dosya adını belirle
+    const currentTitle = await win.webContents.getTitle();
+    
+    // Ders planı tespiti: options'dan gelen bilgiye göre (en güvenilir)
+    let isDersPlani = options.forceLandscape === true || options.source === 'ders-plani';
+    
+    // Eğer options yoksa, DOM'dan kontrol et (fallback)
+    if (!isDersPlani) {
+      try {
+        const pageContent = await win.webContents.executeJavaScript(`
+          document.body.classList.contains('print-section') || 
+          document.getElementById('planner-section') !== null ||
+          document.querySelector('.weekly-plan-table') !== null
+        `);
+        const isDersPlaniFallback = pageContent || currentTitle.includes('Ders Program') || currentTitle.includes('Planlayıcı');
+        console.log('📄 PDF Export - Fallback Tespiti:', { currentTitle, pageContent, isDersPlaniFallback });
+        if (isDersPlaniFallback) {
+          isDersPlani = true;
+        }
+      } catch (e) {
+        console.warn('PDF Export - DOM kontrolü başarısız:', e);
+      }
+    }
+    
+    console.log('📄 PDF Export - Final Karar:', { 
+      forceLandscape: options.forceLandscape, 
+      source: options.source,
+      isDersPlani,
+      landscape: isDersPlani ? 'YES' : 'NO'
+    });
+    
+    // PDF seçenekleri - Ders planı için landscape, diğerleri için portrait
     const pdfOptions = {
-      marginsType: 1, // Minimal margin
+      marginsType: 1, // Minimal margin (0.5cm)
       pageSize: 'A4',
       printBackground: true,
       printSelectionOnly: false,
-      landscape: true, // Geniş planlar için yatay mod
-      preferCSSPageSize: true,
-      displayHeaderFooter: true,
-      headerTemplate: '<div style="font-size:10px; text-align:center; width:100%; color:#666;">Kapsül - Ders Planı</div>',
-      footerTemplate: '<div style="font-size:10px; text-align:center; width:100%; color:#666;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
-      scale: 0.9, // İçeriği biraz küçült
+      landscape: isDersPlani, // Ders planı için yatay, diğerleri için dikey - ZORUNLU
+      preferCSSPageSize: false, // Electron native ayarlarına öncelik ver (landscape garanti olsun)
+      displayHeaderFooter: false, // Başlık/alt bilgi yok - daha fazla alan için
+      scale: 1.0, // Tam ölçek - küçültme yok
       // Encoding için ek ayarlar
       webSecurity: false,
       allowRunningInsecureContent: true
     };
+    
+    // Ders planı için ekstra güvence
+    if (isDersPlani) {
+      console.log('✅ DERS PLANI PDF EXPORT - Landscape modu AKTIF');
+    }
 
     // PDF verisini oluştur
     const pdfData = await win.webContents.printToPDF(pdfOptions);
     
-    // Aktif sayfaya göre varsayılan dosya adını belirle
-    const currentTitle = await win.webContents.getTitle();
+    // Varsayılan dosya adını belirle
     let defaultFileName = 'Kapsul-Rapor.pdf';
     
-    if (currentTitle.includes('Ders Program') || currentTitle.includes('Planlayıcı')) {
+    if (isDersPlani) {
       defaultFileName = 'Ders-Plani.pdf';
     } else if (currentTitle.includes('Etüt') || currentTitle.includes('Grup')) {
       defaultFileName = 'Etut-Programi.pdf';
@@ -1771,6 +2000,34 @@ function parseAbilitiesFromCSV(studentName, abilitiesCSV) {
     };
 }
 
+// LGS puanını hesapla
+function calculateLGSScore(exam) {
+    if (!exam.courses) return 0;
+
+    const weights = {
+        turkce: 5,
+        matematik: 5,
+        fen: 5,
+        sosyal: 5,
+        tarih: 5,
+        inkilap: 5,
+        din: 5,
+        ingilizce: 5
+    };
+
+    let totalWeightedNet = 0;
+    let totalWeight = 0;
+
+    Object.entries(exam.courses).forEach(([subject, course]) => {
+        const net = course.net ?? (course.correct - (course.incorrect / 4));
+        const weight = weights[subject] || 5;
+        totalWeightedNet += net * weight;
+        totalWeight += weight;
+    });
+
+    return totalWeight > 0 ? (totalWeightedNet / totalWeight) * 10 : 0;
+}
+
 // Sınav performansını hesapla
 function calculateExamPerformance(exams) {
     if (!exams || exams.length === 0) {
@@ -1783,18 +2040,30 @@ function calculateExamPerformance(exams) {
     }
     
     const last3Exams = exams.slice(-3);
-    const avgLgsScore = last3Exams.reduce((sum, exam) => sum + (exam.lgsScore || 0), 0) / last3Exams.length;
+    const avgLgsScore = last3Exams.reduce((sum, exam) => {
+        // lgsScore yoksa hesapla
+        const lgsScore = exam.lgsScore || calculateLGSScore(exam);
+        return sum + lgsScore;
+    }, 0) / last3Exams.length;
     
     const subjects = ['turkce', 'matematik', 'fen', 'inkilap', 'ingilizce', 'din'];
     const avgNets = {};
     
     subjects.forEach(subject => {
         const avgNet = last3Exams.reduce((sum, exam) => {
-            if (exam.courses && exam.courses[subject]) {
-                const course = exam.courses[subject];
-                // Net hesapla: doğru - (yanlış / 4)
-                const net = course.correct - (course.incorrect / 4);
-                return sum + Math.max(0, net);
+            if (exam.courses) {
+                // Ders anahtarını normalize et: sosyal/tarih → inkilap
+                let course = exam.courses[subject];
+                if (!course && subject === 'inkilap') {
+                    // inkilap yoksa sosyal veya tarih ara
+                    course = exam.courses['sosyal'] || exam.courses['tarih'];
+                }
+                
+                if (course) {
+                    // Net hesapla: doğru - (yanlış / 4)
+                    const net = course.correct - (course.incorrect / 4);
+                    return sum + Math.max(0, net);
+                }
             }
             return sum;
         }, 0) / last3Exams.length;
@@ -1829,16 +2098,19 @@ function analyzeWeakOutcomes(exams) {
     last2Exams.forEach(exam => {
         if (exam.courses) {
             Object.keys(exam.courses).forEach(subject => {
+                // Ders anahtarını normalize et: sosyal/tarih → inkilap
+                const normalizedSubject = (subject === 'sosyal' || subject === 'tarih') ? 'inkilap' : subject;
                 const course = exam.courses[subject];
+                
                 if (course.incorrectOutcomes && course.incorrectOutcomes.length > 0) {
-                    if (!weakOutcomes[subject]) weakOutcomes[subject] = [];
-                    if (!outcomeCounts[subject]) outcomeCounts[subject] = {};
+                    if (!weakOutcomes[normalizedSubject]) weakOutcomes[normalizedSubject] = [];
+                    if (!outcomeCounts[normalizedSubject]) outcomeCounts[normalizedSubject] = {};
                     
                     course.incorrectOutcomes.forEach(outcome => {
-                        if (!weakOutcomes[subject].includes(outcome)) {
-                            weakOutcomes[subject].push(outcome);
+                        if (!weakOutcomes[normalizedSubject].includes(outcome)) {
+                            weakOutcomes[normalizedSubject].push(outcome);
                         }
-                        outcomeCounts[subject][outcome] = (outcomeCounts[subject][outcome] || 0) + 1;
+                        outcomeCounts[normalizedSubject][outcome] = (outcomeCounts[normalizedSubject][outcome] || 0) + 1;
                     });
                 }
             });
@@ -1926,12 +2198,30 @@ function generateAIPrompt(studentData) {
     // Sınav performansı
     prompt += `=== SINAV PERFORMANSI ===\n`;
     prompt += `Toplam Deneme: ${studentData.examPerformance.totalExams}\n`;
+    
+    // Sınıfa göre soru sayısı bilgisi
+    const gradeNum = parseInt(String(studentData.basicInfo.grade).replace(/\D/g, ''));
+    const isMidGrade = gradeNum <= 6; // 5. ve 6. sınıflar
+    const socialSubjectName = gradeNum >= 8 ? 'İnkılap Tarihi' : 'Sosyal Bilgiler';
+    
+    prompt += `\n⚠️ ÖNEMLİ SORU SAYILARI:\n`;
+    
+    if (isMidGrade) {
+        prompt += `• Türkçe, Matematik, Fen: 15 soru (${gradeNum}. sınıf için)\n`;
+        prompt += `  Örnek: 10 net → 10/15 = %67 (İyi), 12 net → 12/15 = %80 (Mükemmel)\n`;
+    } else {
+        prompt += `• Türkçe, Matematik, Fen: 20 soru (${gradeNum}. sınıf için)\n`;
+        prompt += `  Örnek: 10 net → 10/20 = %50 (Orta), 15 net → 15/20 = %75 (İyi)\n`;
+    }
+    
+    prompt += `• ${socialSubjectName}, Din Kültürü, İngilizce: 10 soru (TÜM sınıflar için)\n`;
+    prompt += `  Örnek: 5 net → 5/10 = %50 (Orta), 7 net → 7/10 = %70 (İyi), 9 net → 9/10 = %90 (Mükemmel)\n\n`;
+    
     prompt += `Son 3 Deneme Ortalaması:\n`;
     prompt += `- LGS Puanı: ${studentData.examPerformance.avgLgsScore}\n`;
     prompt += `- Türkçe Net: ${studentData.examPerformance.avgNets.turkce?.toFixed(1) || 0}\n`;
     prompt += `- Matematik Net: ${studentData.examPerformance.avgNets.matematik?.toFixed(1) || 0}\n`;
     prompt += `- Fen Net: ${studentData.examPerformance.avgNets.fen?.toFixed(1) || 0}\n`;
-    const socialSubjectName = studentData.basicInfo.grade === '8' ? 'İnkılap Tarihi' : 'Sosyal Bilgiler';
     prompt += `- ${socialSubjectName} Net: ${studentData.examPerformance.avgNets.inkilap?.toFixed(1) || 0}\n`;
     prompt += `- İngilizce Net: ${studentData.examPerformance.avgNets.ingilizce?.toFixed(1) || 0}\n`;
     prompt += `- Din Net: ${studentData.examPerformance.avgNets.din?.toFixed(1) || 0}\n\n`;

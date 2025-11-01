@@ -1,3 +1,77 @@
+# Karne Excel.py Güncellenmiş Kodu
+
+Aşağıdaki kod, `karne_excel.py` dosyasının Sosyal Bilgiler/İnkılap Tarihi sorununu çözmek için güncellenmiş halidir.
+
+## Değişiklikler
+
+### 1. Yeni Fonksiyon Ekleme (satır 10'dan sonra)
+
+```python
+def get_social_subject_name(sinif):
+    """Sınıfa göre sosyal bilimler ders adını döndürür"""
+    # Sınıf bilgisinden rakamı çıkar
+    sinif_num = 0
+    try:
+        sinif_num = int(re.search(r'\d+', sinif).group())
+    except:
+        pass
+    
+    if sinif_num >= 8:  # 8. sınıf ve üzeri
+        return "İnkılap Tarihi"
+    else:  # 5, 6, 7. sınıflar
+        return "Sosyal Bilgiler"
+```
+
+### 2. parse_student_page Fonksiyonunda Güncelleme (satır 116-130 arası)
+
+```python
+    # Sınıfa göre sosyal bilgiler/inkılap tarihi bilgisi
+    sinif = student_data.get('sinif', '')
+    sosyal_ders_adi = get_social_subject_name(sinif)
+    
+    # Sınıf numarasını belirle
+    sinif_num = 0
+    try:
+        sinif_num = int(re.search(r'\d+', sinif).group())
+    except:
+        pass
+    
+    if sinif_num >= 8:
+        # İnkılap Tarihi ara (8. sınıf)
+        inkilap_match = re.search(r'İnkılap Tarihi.*?10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
+        if inkilap_match:
+            student_data['sosyal_dogru'] = inkilap_match.group(1)
+            student_data['sosyal_yanlis'] = inkilap_match.group(2)
+            student_data['sosyal_net'] = inkilap_match.group(3).replace(',', '.')
+            student_data['sosyal_basari'] = inkilap_match.group(4)
+    else:
+        # Sosyal Bilgiler ara (5, 6, 7. sınıf)
+        sos_match = re.search(r'(?:Sosyal Bilgiler|SOSYAL BİLGİLER|Tarih)\s+10\s+(\d+)\s+(\d+)\s+([\d,]+)\s+(\d+)', text)
+        if sos_match:
+            student_data['sosyal_dogru'] = sos_match.group(1)
+            student_data['sosyal_yanlis'] = sos_match.group(2)
+            student_data['sosyal_net'] = sos_match.group(3).replace(',', '.')
+            student_data['sosyal_basari'] = sos_match.group(4)
+```
+
+### 3. Excel Başlıklarını Güncelleme (satır 220)
+
+```python
+    'Sosyal Bilgiler Doğru', 'Sosyal Bilgiler Yanlış', 'Sosyal Bilgiler Net', 'Sosyal Bilgiler Başarı%',
+```
+
+### 4. Veri Satırını Güncelleme (satır 268-271)
+
+```python
+    student_data.get('sosyal_dogru', ''),
+    student_data.get('sosyal_yanlis', ''),
+    student_data.get('sosyal_net', ''),
+    student_data.get('sosyal_basari', ''),
+```
+
+## Tam Güncellenmiş Kod
+
+```python
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -95,29 +169,12 @@ def parse_student_page(text):
     """Bir sayfadaki öğrenci bilgilerini parse eder"""
     student_data = {}
     
-    # Öğrenci adı - Daha kesin regex ile tek satırda öğrenci bilgisi
-    # Öğrenci, Numara, Sınıf başlıklarından sonra 3 farklı satırda değerler gelir
-    name_pattern = r'Öğrenci\s+Numara\s+Sınıf\s+([^\n]+?)\s+(\d+)\s+([\d]+-[A-Z]+)'
-    name_match = re.search(name_pattern, text)
-    
+    # Öğrenci adı
+    name_match = re.search(r'Öğrenci.*?Numara.*?Sınıf\s+(\S.*?)\s+(\d+)\s+([\d\-A-Z]+)', text, re.DOTALL)
     if name_match:
-        ad_soyad = name_match.group(1).strip()
-        numara = name_match.group(2).strip()
-        sinif = name_match.group(3).strip()
-        
-        # Geçersiz kayıtları filtrele
-        # Ad sadece rakamlardan oluşmamalı ve makul uzunlukta olmalı
-        # Sınıf formatı "X-Y" veya "XX-Y" şeklinde olmalı (X rakam, Y harf)
-        if (len(ad_soyad) < 2 or 
-            ad_soyad.isdigit() or 
-            ad_soyad.lower() in ['0', 'yok', 'test'] or
-            not re.match(r'^\d{1,2}-[A-Z]$', sinif)):
-            # Geçersiz kayıt, atla
-            return student_data
-        
-        student_data['ad_soyad'] = ad_soyad
-        student_data['numara'] = numara
-        student_data['sinif'] = sinif
+        student_data['ad_soyad'] = name_match.group(1).strip()
+        student_data['numara'] = name_match.group(2).strip()
+        student_data['sinif'] = name_match.group(3).strip()
     
     # LGS Puanı ve derece
     lgs_match = re.search(r'LGS\s+([\d,]+)\s+([\d,]+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)', text)
@@ -392,3 +449,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
+
+## Uygulama Adımları
+
+1. Yukarıdaki tam kodu kopyalayın
+2. `deneme analizi dosyaları/karne_excel.py` dosyasının içeriğini tamamen silin
+3. Kopyaladığınız kodu dosyaya yapıştırın
+4. Farklı sınıflardan örnek karne dosyaları ile test edin
+
+Bu güncellenmiş kod, hem 5-6-7. sınıfların "Sosyal Bilgiler" dersini hem de 8. sınıfın "İnkılap Tarihi" dersini doğru bir şekilde parse edecek ve Excel'e uygun formatta yazacaktır.

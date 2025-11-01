@@ -1,0 +1,65 @@
+name: "Tonguç"
+priority: 15  # BenimHocam'dan düşük ama HIZ'den yüksek
+
+signatures:
+  - "OKUL NET LİSTESİ"
+  - "ULTİ"
+  - "İNTRO TG"
+  - "AGS"
+  - "Sözel (TAR)"  # Tarih dersi (TG'ye özgü)
+
+student_block:
+  # Liste formatı aynı BenimHocam gibi
+  standard_pattern: "Öğrenci\\s+Numara\\s+Sınıf\\s+([^\\n]+?)\\s+(\\d+)\\s+([\\d]+-[A-Z]+)"
+
+score_block:
+  # Dersler: TÜR, TAR/SOS, DİN, İNG, MAT, FEN
+  turkce: "Sözel \\(TÜR\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+  
+  # Sosyal Bilgiler (5-7. sınıf) veya Tarih (8. sınıf)
+  sosyal_tarih: "Sözel \\((TAR|SOS)\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+  
+  din: "Sözel \\(DİN\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+  ingilizce: "Sözel \\(İNG\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+  matematik: "Sayısal \\(MAT\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+  fen: "Sayısal \\(FEN\\)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)[\\s\\n]+[\\d,]+"
+
+total:
+  pattern: "Toplam[\\s\\n]+\\d+[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+(\\d+)[\\s\\n]+([\\d,]+)"
+
+achievements:
+  enabled: true
+  format: "full_text_vertical"  # TG'ye özgü vertical format
+  
+  # TG'de "DERSLERE GÖRE ANALİZ" başlığı yok, direkt ders isimleri var
+  section_patterns:
+    - "Türkçe\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "Tarih\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "SOSYAL BİLGİLER\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "Din K\\.ve A\\.B\\.\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "İngilizce\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "Matematik\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+    - "Fen\\s*\\n\\s*S\\s*\\n\\s*D\\s*\\n\\s*Y\\s*\\n\\s*B%"
+  
+  # Ders adı mapping (TG format → CSV format)
+  subject_mapping:
+    "Türkçe": "TUR"
+    "Tarih": "TAR"
+    "SOSYAL BİLGİLER": "SOS"
+    "Din K.ve A.B.": "DIN"
+    "İngilizce": "ING"
+    "Matematik": "MAT"
+    "Fen": "FEN"
+  
+  parse_method: "sdyb_vertical"  # TG'ye özgü: S D Y B% üstte, değerler alt alta
+  incorrect_threshold: 75  # B% < 75 olanlar yanlış
+
+validation:
+  min_confidence: 0.6
+  min_valid_records: 0.5
+  required_fields:
+    - ad_soyad
+    - sinif
+    - turk_net
+    - mat_net
+

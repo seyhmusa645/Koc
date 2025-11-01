@@ -1,0 +1,298 @@
+6.SINIF İNTRO TG 1
+388,245
+11,36
+%
+ŞANLIURFA / VİRANŞEHİR
+15 TEMMUZ ŞEHİTLERİ İMAM HATİP ORTAOKULU
+2-XX  -  85
+GÜLSÜM K P T
+75
+51
+21
+3
+44 ,00
+Soru
+Doğru
+Yanlış
+Boş
+Net
+Şube
+Kurum
+İlçe
+İl
+Genel
+Öğrenci Sıra No
+1
+31
+130
+153
+3886
+% 11,36
+Sınava Katılan Öğrenci Sayısı
+1
+94
+1941
+2776
+34199
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sözel (TÜR)
+15
+9
+5
+1
+7,33
+% 49
+Cevap Anahtarı
+B
+BADABBDCCDACADC
+Cevaplarınız
+cADbBBDCCDb bDa
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sözel (TAR)
+10
+7
+3
+0
+6,00
+% 60
+Cevap Anahtarı
+B
+CBADDBCCAD
+Cevaplarınız
+CdADDdCCAb
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sözel (DİN)
+10
+5
+5
+0
+3,33
+% 33
+Cevap Anahtarı
+B
+CBAADCDBBD
+Cevaplarınız
+CBdAabDcBa
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sözel (İNG)
+10
+5
+4
+1
+3,67
+% 37
+Cevap Anahtarı
+B
+BADDCBCDAC
+Cevaplarınız
+*A DaBacAC
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sayısal (MAT)
+15
+14
+0
+1
+14,00
+% 93
+Cevap Anahtarı
+B
+BABCDBACACBCDDA
+Cevaplarınız
+BABCD ACACBCDDA
+Soru
+Doğru Yanlış
+Boş
+Net
+Başarı
+Sayısal (FEN)
+15
+11
+4
+0
+9,67
+% 64
+Cevap Anahtarı
+B
+BADCBDABDACCADC
+Cevaplarınız
+BADdBDdabACCADC
+Türkçe
+S
+D
+Y
+B%
+Metinde geçen anlamını bilmediği söz varlığı unsurlarının anlamını tahmin edebilme
+3
+1
+2
+33
+Okuduğunu değerlendirebilme
+3
+3
+0
+100
+Yazım kuralları ve noktalama işaretlerini uygulayabilme
+2
+1
+1
+50
+Bilgilendirici metinde anahtar kelimeleri belirlemeye yönelik çözümleme yapabilme
+1
+1
+0
+100
+Metnin yüzey anlamını belirleyebilme
+3
+1
+1
+33
+Metindeki probleme çözüm üretebilme
+1
+0
+1
+0
+Görselle iletilen anlamı belirleyebilme
+2
+2
+0
+100
+Tarih
+S
+D
+Y
+B%
+Dâhil olduğu grupların ve bu gruplardaki rollerinin zaman içerisinde değişebileceğine ilişkin çıkarım yapabilme
+4
+3
+1
+75
+Kültürel bağlarımızın ve millî değerlerimizin toplumsal birliğe etkisini yorumlayabilme
+5
+3
+2
+60
+Toplumsal hayatta karşılaşılan sorunlara yönelik çözüm önerilerini müzakere edebilme
+1
+1
+0
+100
+Din K.ve A.B.
+S
+D
+Y
+B%
+Peygamberlerin insanlara rehber olarak gönderilmesi hakkında bilgi toplayabilme
+10
+5
+5
+50
+İngilizce
+S
+D
+Y
+B%
+Students will be able to talk about repeated actions.
+2
+2
+0
+100
+Students will be able to tell the time and dates.
+2
+1
+1
+50
+Students will be able to use a series of phrases and simple expressions to express their repeated actions.
+3
+1
+2
+33
+Students will be able to express their opinions about the food they like and don't like.
+1
+0
+1
+0
+Students will be able to understand short and simple texts, such as personal narratives about repeated actions.
+1
+1
+0
+100
+Students will be able to understand short and simple texts about food and preferences.
+1
+0
+0
+0
+Matematik
+S
+D
+Y
+B%
+Bir doğal sayının 2, 3, 4, 5, 6, 9 ve 10 ile tam bölünebilme kriterlerine ilişkin çıkarım yapabilme
+3
+2
+0
+67
+Karşılaştığı problem durumlarında bir doğal sayının çarpan ve katlarına yönelik muhakeme yapabilme
+3
+3
+0
+100
+Günlük hayat problemleri ya da matematiksel durumlar üzerinden ortak kat ve ortak böleni yorumlayabilme
+2
+2
+0
+100
+Bir doğal sayının asal olma durumunu ve asal çarpanlarını çözümleyebilme
+1
+1
+0
+100
+KAZANIM BELİRTİLMEMİŞ
+6
+6
+0
+100
+Fen
+S
+D
+Y
+B%
+Güneş ve Ay tutulması ile ilgili bilimsel çıkarım yapabilme
+3
+2
+1
+67
+Güneş sistemindeki gezegenleri niteliklerine göre sınıflandırabilme
+5
+5
+0
+100
+Güneş sistemi ile ilgili bilimsel model oluşturabilme
+2
+2
+0
+100
+KAZANIM BELİRTİLMEMİŞ
+5
+2
+3
+40

@@ -88,6 +88,22 @@
   const csvStatus = document.getElementById('csv-status');
   const csvAutoOutcomes = document.getElementById('csv-auto-outcomes');
   const csvOverwriteCheck = document.getElementById('csv-overwrite-check');
+  
+  // PDF Import elementleri
+  const pdfFileInput = document.getElementById('pdf-file-input');
+  const pdfUploadBtn = document.getElementById('pdf-upload-btn');
+  const pdfFileInfo = document.getElementById('pdf-file-info');
+  const pdfFileName = document.getElementById('pdf-file-name');
+  const pdfRemoveBtn = document.getElementById('pdf-remove-btn');
+  const pdfImportBtn = document.getElementById('pdf-import-btn');
+  const pdfStatus = document.getElementById('pdf-status');
+  const pdfOverwriteCheck = document.getElementById('pdf-overwrite-check');
+  const pdfExamNameInput = document.getElementById('pdf-exam-name-input');
+  const pdfExamDateInput = document.getElementById('pdf-exam-date-input');
+  const pdfProgress = document.getElementById('pdf-progress');
+  const pdfProgressFill = document.getElementById('pdf-progress-fill');
+  const pdfProgressText = document.getElementById('pdf-progress-text');
+  
   const addProfileButton = document.getElementById('btn-add-profile');
   const deleteProfileButton = document.getElementById('btn-delete-profile');
 
@@ -131,6 +147,12 @@
   const editExamForm = document.getElementById('edit-exam-form');
   const editCoursesContainer = document.getElementById('edit-courses-container');
   const editExamIdInput = document.getElementById('edit-exam-id');
+
+  // --- Chart.js Yüksek Kalite Ayarları ---
+  // PDF export için yüksek çözünürlük
+  if (typeof Chart !== 'undefined' && Chart.defaults) {
+    Chart.defaults.devicePixelRatio = 3; // 3x çözünürlük (varsayılan window.devicePixelRatio yerine)
+  }
 
   // --- Uygulama Durumu (State) ---
   let allExams = []; // Global scope'a taşındı
@@ -189,6 +211,27 @@
     din: 10,
     ingilizce: 10,
   };
+
+  // Sınıfa göre soru sayısını döndürür (5-6: 15 soru, 7-8: 20 soru)
+  function getSubjectQuestionCount(subject, grade) {
+    const gradeNum = typeof grade === 'string' ? parseInt(grade.replace(/\D/g, '')) : parseInt(grade);
+    
+    // Türkçe, Matematik, Fen → 5-6. sınıf: 15 soru, 7-8. sınıf: 20 soru
+    if (['turkce', 'matematik', 'fen'].includes(subject)) {
+      return (gradeNum <= 6) ? 15 : 20;
+    }
+    
+    // İnkılap/Sosyal, Din, İngilizce → Her sınıf: 10 soru
+    if (['inkilap', 'sosyal', 'tarih', 'din', 'ingilizce'].includes(subject)) {
+      return 10;
+    }
+    
+    // Varsayılan
+    return questionCounts[subject] || 20;
+  }
+
+  // Global erişim için window'a bağla
+  window.getSubjectQuestionCount = getSubjectQuestionCount;
 
   // --- Yetki hatası yakalama yardımcı fonksiyonu ---
   function handlePermissionError(error) {
@@ -470,7 +513,7 @@
           backgroundColor: colors[index] + '20',
           borderWidth: 2,
           fill: false,
-          tension: 0.4,
+          tension: 0, // Düz çizgiler (dalgalı görünüm kaldırıldı)
           pointRadius: 4,
           pointHoverRadius: 6
         }))
@@ -612,7 +655,7 @@
         data: data,
         borderColor: color.border,
         backgroundColor: color.bg,
-        tension: 0.3,
+        tension: 0, // Düz çizgiler
         fill: false,
       };
     });
@@ -663,6 +706,16 @@
     
     // Tüm denemelerdeki netleri topla
     profileExams.forEach((exam, index) => {
+      // 6-7. sınıflar için Sosyal Bilgiler alias: 'inkilap' altında da erişilebilir yap
+      if (exam && exam.courses) {
+        if (!exam.courses.inkilap && exam.courses.sosyal) {
+          exam.courses.inkilap = exam.courses.sosyal;
+        }
+        // Bazı yayınlarda 'tarih' anahtarı gelebilir (TG)
+        if (!exam.courses.inkilap && exam.courses.tarih) {
+          exam.courses.inkilap = exam.courses.tarih;
+        }
+      }
       Object.keys(subjects).forEach(subjectKey => {
         if (exam.courses && exam.courses[subjectKey]) {
           const course = exam.courses[subjectKey];
@@ -3244,7 +3297,7 @@
             pointRadius: 6,
             pointHoverRadius: 8,
             fill: false,
-            tension: 0.4
+            tension: 0 // Düz çizgiler
           }
         ]
       },
@@ -3694,6 +3747,258 @@
   
   function hideCsvStatus() {
     csvStatus.style.display = 'none';
+  }
+  
+  // --- PDF Import Event Listeners ---
+  
+  // PDF dosyası seçme
+  let selectedPdfPath = '';
+  if (pdfUploadBtn) {
+    pdfUploadBtn.addEventListener('click', async () => {
+      // Native dialog ile güvenilir dosya yolu al
+      try {
+        const result = await window.electronAPI.openPdfDialog();
+        if (result && result.success) {
+          selectedPdfPath = result.path;
+          const fileNameOnly = selectedPdfPath.split(/\\\\|\//).pop();
+          pdfFileName.textContent = `📄 ${fileNameOnly}`;
+          pdfFileInfo.style.display = 'flex';
+          pdfImportBtn.disabled = false;
+          if (!pdfExamDateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            pdfExamDateInput.value = today;
+          }
+          showPdfStatus('Dosya seçildi. Sınav adı ve tarihi belirleyip içe aktarabilirsiniz.', 'info');
+        }
+      } catch (e) {
+        console.error('PDF seçim hatası:', e);
+        showPdfStatus('PDF seçimi sırasında hata oluştu.', 'error');
+      }
+    });
+  }
+  
+  if (pdfFileInput) {
+    pdfFileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file && file.type === 'application/pdf') {
+        pdfFileName.textContent = `📄 ${file.name}`;
+        pdfFileInfo.style.display = 'flex';
+        pdfImportBtn.disabled = false;
+        
+        // Bugünün tarihini varsayılan olarak ata
+        if (!pdfExamDateInput.value) {
+          const today = new Date().toISOString().split('T')[0];
+          pdfExamDateInput.value = today;
+        }
+        
+        showPdfStatus('Dosya seçildi. Sınav adı ve tarihi belirleyip içe aktarabilirsiniz.', 'info');
+      } else {
+        showPdfStatus('Lütfen geçerli bir PDF dosyası seçin.', 'error');
+      }
+    });
+  }
+  
+  // PDF dosyasını kaldır
+  if (pdfRemoveBtn) {
+    pdfRemoveBtn.addEventListener('click', () => {
+      if (pdfFileInput) pdfFileInput.value = '';
+      selectedPdfPath = '';
+      pdfFileInfo.style.display = 'none';
+      pdfImportBtn.disabled = true;
+      hidePdfStatus();
+      hidePdfProgress();
+    });
+  }
+  
+  // PDF import işlemi
+  if (pdfImportBtn) {
+    pdfImportBtn.addEventListener('click', async () => {
+      // Butonu hemen disable et (çift tıklama önlemi)
+      if (pdfImportBtn.disabled) {
+        return;  // Zaten işlem devam ediyorsa çık
+      }
+      pdfImportBtn.disabled = true;
+      pdfImportBtn.textContent = '⏳ İçe Aktarılıyor...';
+      
+      // Yol önceliği: native dialog
+      const pdfPath = selectedPdfPath || '';
+      if (!pdfPath) {
+        showPdfStatus('Lütfen bir PDF dosyası seçin.', 'error');
+        pdfImportBtn.disabled = false;
+        pdfImportBtn.textContent = '📊 PDF\'yi İçe Aktar';
+        return;
+      }
+      
+      const examName = pdfExamNameInput.value.trim();
+      if (!examName) {
+        showPdfStatus('Lütfen sınav adı girin.', 'error');
+        pdfImportBtn.disabled = false;
+        pdfImportBtn.textContent = '📊 PDF\'yi İçe Aktar';
+        return;
+      }
+      
+      const examDate = pdfExamDateInput.value;
+      if (!examDate) {
+        showPdfStatus('Lütfen sınav tarihini seçin.', 'error');
+        pdfImportBtn.disabled = false;
+        pdfImportBtn.textContent = '📊 PDF\'yi İçe Aktar';
+        return;
+      }
+      
+      try {
+        showPdfStatus('PDF dosyası analiz ediliyor...', 'info');
+        showPdfProgress(0, 'PDF formatı tespit ediliyor...');
+        
+        // PDF'i Python script'e gönder
+        const result = await window.electronAPI.importPdfExams({
+          pdfPath,
+          examName: examName,
+          examDate: examDate,
+          overwrite: pdfOverwriteCheck.checked
+        });
+        
+        if (result.success) {
+          showPdfProgress(100, 'Tamamlandı!');
+          
+          // Eğer eşleşmeyen öğrenciler varsa manuel eşleştirme öner
+          if (result.unmatched_count > 0 && result.unmatched_names && result.unmatched_names.length > 0) {
+            hidePdfProgress();
+            showPdfStatus(`⚠️ ${result.imported_count} kayıt eklendi, ${result.unmatched_count} eşleşmeyen öğrenci bulundu.`, 'warning');
+            
+            if (confirm(`${result.unmatched_count} öğrenci eşleştirilemedi.\n\nManuel eşleştirme yapmak ister misiniz?`)) {
+              // Manuel eşleştirme başlat
+              const manualMappings = {};
+              
+              for (const unmatchedName of result.unmatched_names) {
+                // Olası eşleşmeleri bul
+                const possibleMatches = findAllPossibleMatches(unmatchedName, allStudents);
+                
+                if (possibleMatches.length > 0) {
+                  // Modal aç
+                  const modalResult = await showStudentMatchModalAsync(unmatchedName, null, possibleMatches);
+                  
+                  if (modalResult && modalResult.student) {
+                    manualMappings[unmatchedName] = modalResult.student.name;
+                  }
+                }
+              }
+              
+              // Eğer manuel eşleştirmeler yapıldıysa, tekrar import et
+              if (Object.keys(manualMappings).length > 0) {
+                showPdfStatus('Manuel eşleştirmelerle tekrar import ediliyor...', 'info');
+                showPdfProgress(50, 'Manuel eşleştirmeler uygulanıyor...');
+                
+                const retryResult = await window.electronAPI.importPdfExams({
+                  pdfPath,
+                  examName: examName,
+                  examDate: examDate,
+                  overwrite: pdfOverwriteCheck.checked,
+                  manualMappings: manualMappings
+                });
+                
+                if (retryResult.success) {
+                  showPdfProgress(100, 'Tamamlandı!');
+                  showPdfStatus(`✅ Başarılı! Toplam ${retryResult.imported_count} kayıt eklendi.`, 'success');
+                  
+                  // Verileri yenile
+                  await loadInitialData();
+                  if (selectedStudent) {
+                    displayDataForProfile(selectedStudent.name);
+                  }
+                } else {
+                  showPdfStatus(`❌ Tekrar import hatası: ${retryResult.error}`, 'error');
+                }
+              }
+            }
+            
+            // Formu temizle
+            setTimeout(() => {
+              if (pdfFileInput) pdfFileInput.value = '';
+              pdfFileInfo.style.display = 'none';
+              pdfImportBtn.disabled = true;
+              pdfExamNameInput.value = '';
+              pdfExamDateInput.value = '';
+              selectedPdfPath = '';
+              hidePdfProgress();
+            }, 3000);
+            
+            return;
+          }
+          
+          let message = `✅ Başarılı! ${result.imported_count} kayıt eklendi.`;
+          if (result.suspicious_count > 0) {
+            message += ` ${result.suspicious_count} şüpheli kayıt atlandı.`;
+          }
+          
+          showPdfStatus(message, 'success');
+          
+          // Verileri yenile
+          await loadInitialData();
+          if (selectedStudent) {
+            displayDataForProfile(selectedStudent.name);
+          }
+          
+          // Formu temizle
+          setTimeout(() => {
+            if (pdfFileInput) pdfFileInput.value = '';
+            pdfFileInfo.style.display = 'none';
+            pdfImportBtn.disabled = true;
+            pdfExamNameInput.value = '';
+            pdfExamDateInput.value = '';
+            selectedPdfPath = '';
+            hidePdfProgress();
+          }, 3000);
+          
+        } else {
+          hidePdfProgress();
+          showPdfStatus(`❌ Hata: ${result.error}`, 'error');
+          
+          if (result.show_wizard) {
+            // Şablon sihirbazı öner
+            if (confirm('Bu PDF formatı tanınmıyor. Şablon Sihirbazı ile yeni format eklemek ister misiniz?')) {
+              await window.electronAPI.openTemplateWizard(pdfPath);
+            }
+          }
+        }
+        
+      } catch (error) {
+        console.error('PDF import hatası:', error);
+        hidePdfProgress();
+        showPdfStatus(`❌ PDF işlenirken hata oluştu: ${error.message}`, 'error');
+      } finally {
+        pdfImportBtn.disabled = false;
+        pdfImportBtn.textContent = '📊 PDF\'yi İçe Aktar';
+      }
+    });
+  }
+  
+  // PDF yardımcı fonksiyonları
+  function showPdfStatus(message, type) {
+    if (pdfStatus) {
+      pdfStatus.textContent = message;
+      pdfStatus.className = `import-status ${type}`;
+      pdfStatus.style.display = 'block';
+    }
+  }
+  
+  function hidePdfStatus() {
+    if (pdfStatus) {
+      pdfStatus.style.display = 'none';
+    }
+  }
+  
+  function showPdfProgress(percent, text) {
+    if (pdfProgress && pdfProgressFill && pdfProgressText) {
+      pdfProgress.style.display = 'block';
+      pdfProgressFill.style.width = `${percent}%`;
+      pdfProgressText.textContent = text;
+    }
+  }
+  
+  function hidePdfProgress() {
+    if (pdfProgress) {
+      pdfProgress.style.display = 'none';
+    }
   }
   
   function parseCSV(csvText) {
@@ -10516,7 +10821,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Element'i canvas'a çevir
         const canvas = await html2canvas(container, {
-          scale: 2,
+          scale: 3, // 2x → 3x (yüksek kalite PDF)
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -10533,9 +10838,9 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
         const finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
         const finalWidth = (canvas.width * finalHeight) / canvas.height;
 
-        // Canvas'ı PDF'e ekle
+        // Canvas'ı PDF'e ekle (yüksek kalite, sıkıştırma yok)
         const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight);
+        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'FAST');
       }
 
       // Chart.js animasyonlarını tekrar başlat
@@ -10623,7 +10928,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Element'i canvas'a çevir
         const canvas = await html2canvas(container, {
-          scale: 2,
+          scale: 3, // 2x → 3x (yüksek kalite PDF)
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -10640,9 +10945,9 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
         const finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
         const finalWidth = (canvas.width * finalHeight) / canvas.height;
 
-        // Canvas'ı PDF'e ekle
+        // Canvas'ı PDF'e ekle (yüksek kalite, sıkıştırma yok)
         const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight);
+        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'FAST');
       }
 
       // Chart.js animasyonlarını tekrar başlat
@@ -10868,9 +11173,9 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
       const finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
       const finalWidth = (canvas.width * finalHeight) / canvas.height;
 
-      // Canvas'ı PDF'e ekle (başlığın altına)
+      // Canvas'ı PDF'e ekle (başlığın altına, yüksek kalite)
       const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight);
+      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
 
       // Dosya adını belirle
       const finalFileName = fileName || generatePDFFileName(elementId);
@@ -11035,6 +11340,114 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
     showToast('Hata', 'Sınavlar silinirken bir hata oluştu', 'error');
   }
 };
+
+  /**
+   * Duplicate sınavları temizler (aynı öğrenci + aynı sınav adı + aynı tarih)
+   */
+  window.removeDuplicateExams = async function() {
+    if (!confirm('Duplicate sınavları temizlemek istediğinizden emin misiniz?')) {
+      return;
+    }
+    
+    try {
+      // Duplicate'leri tespit et
+      const seen = new Map();
+      const toKeep = [];
+      const toRemove = [];
+      
+      allExams.forEach(exam => {
+        const key = `${exam.profile}_${exam.name}_${exam.date}`;
+        
+        if (seen.has(key)) {
+          // Duplicate bulundu
+          toRemove.push(exam);
+        } else {
+          // İlk kez görülüyor
+          seen.set(key, true);
+          toKeep.push(exam);
+        }
+      });
+      
+      if (toRemove.length === 0) {
+        showToast('Bilgi', 'Duplicate sınav bulunamadı', 'info');
+        return;
+      }
+      
+      // Kaydet
+      const result = await window.electronAPI.saveData({
+        value: toKeep,
+        Count: toKeep.length
+      });
+      
+      if (result.success) {
+        showToast('Başarılı', `${toRemove.length} duplicate sınav silindi`, 'success');
+        
+        // Global allExams'i güncelle
+        allExams.length = 0;
+        allExams.push(...toKeep);
+        
+        // Listeyi yenile
+        loadExamManagement();
+        
+        // Grafikleri güncelle
+        if (selectedStudent) {
+          const profileExams = allExams.filter(exam => exam.profile === selectedStudent.name);
+          updateCharts(profileExams);
+        }
+      } else {
+        showToast('Hata', "Duplicate'ler silinemedi", 'error');
+      }
+    } catch (error) {
+      console.error('Duplicate silme hatası:', error);
+      showToast('Hata', "Duplicate'ler silinirken bir hata oluştu", 'error');
+    }
+  };
+
+  /**
+   * Öğrenci isimlerini düzeltir (küçük harf → büyük harf)
+   */
+  window.fixStudentNames = async function() {
+    if (!confirm('Tüm öğrenci isimlerini büyük harfe çevirmek istediğinizden emin misiniz?')) {
+      return;
+    }
+    
+    try {
+      let fixed = 0;
+      
+      allExams.forEach(exam => {
+        const original = exam.profile;
+        const normalized = original.toUpperCase();
+        
+        if (original !== normalized) {
+          exam.profile = normalized;
+          fixed++;
+        }
+      });
+      
+      if (fixed === 0) {
+        showToast('Bilgi', 'Düzeltilecek isim bulunamadı', 'info');
+        return;
+      }
+      
+      // Kaydet
+      const result = await window.electronAPI.saveData({
+        value: allExams,
+        Count: allExams.length
+      });
+      
+      if (result.success) {
+        showToast('Başarılı', `${fixed} isim düzeltildi`, 'success');
+        
+        // Listeyi yenile
+        loadExamManagement();
+      } else {
+        showToast('Hata', 'İsimler düzeltilemedi', 'error');
+      }
+    } catch (error) {
+      console.error('İsim düzeltme hatası:', error);
+      showToast('Hata', 'İsimler düzeltilirken bir hata oluştu', 'error');
+    }
+  };
 
   /**
    * Tüm sınavları siler
@@ -11444,7 +11857,7 @@ document.addEventListener('click', (e) => {
             const finalHeight = Math.min(imgHeight, maxHeight);
             const finalWidth = (canvas.width * finalHeight) / canvas.height;
             
-            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight);
+            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
             
             // Tab'ı geri yükle
             restoreOriginalTab(originalTabState);
@@ -11582,7 +11995,7 @@ document.addEventListener('click', (e) => {
             const finalHeight = Math.min(imgHeight, 250);
             const finalWidth = (canvas.width * finalHeight) / canvas.height;
             
-            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight);
+            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
             
             // Tab'ı geri yükle
             restoreOriginalTab(originalTabState);
@@ -12792,6 +13205,10 @@ function getRecentExams(studentId, limit = 5) {
 
   if (!studentName) return [];
 
+  // Öğrencinin sınıf bilgisini bul (AI için soru sayısı hesabı)
+  const student = allStudents.find(s => s.name === studentName);
+  const studentGrade = student?.grade || 8; // Varsayılan 8. sınıf
+
   return allExams
     .filter(exam => exam.profile === studentName)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -12803,12 +13220,30 @@ function getRecentExams(studentId, limit = 5) {
 
       const lgsScore = exam.lgsScore || calculateLGSScore(exam);
 
+      // AI için ders anahtarlarını normalize et: sosyal/tarih → inkilap
+      // VE her derse totalQuestions ekle (sınıfa göre)
+      const normalizedCourses = {};
+      Object.entries(exam.courses || {}).forEach(([key, value]) => {
+        const normalizedKey = (key === 'sosyal' || key === 'tarih') ? 'inkilap' : key;
+        const totalQuestions = window.getSubjectQuestionCount 
+          ? window.getSubjectQuestionCount(normalizedKey, studentGrade)
+          : 20; // Fallback
+        
+        normalizedCourses[normalizedKey] = {
+          ...value,
+          totalQuestions: totalQuestions,
+          successRate: totalQuestions > 0 
+            ? Math.round((value.correct / totalQuestions) * 100) 
+            : 0
+        };
+      });
+
       return {
         name: exam.name,
         date: exam.date,
         totalNet: parseFloat(totalNet.toFixed(2)),
         lgsScore: parseFloat(lgsScore.toFixed(2)),
-        courses: exam.courses
+        courses: normalizedCourses
       };
     });
 }
@@ -12876,6 +13311,9 @@ function getWeakTopics(studentId, limit = 10) {
 
   recentExams.forEach(exam => {
     Object.entries(exam.courses || {}).forEach(([subject, course]) => {
+      // AI için ders anahtarını normalize et: sosyal/tarih → inkilap
+      const normalizedSubject = (subject === 'sosyal' || subject === 'tarih') ? 'inkilap' : subject;
+      
       if (course.incorrectOutcomes) {
         const outcomes = Array.isArray(course.incorrectOutcomes)
           ? course.incorrectOutcomes
@@ -12886,7 +13324,7 @@ function getWeakTopics(studentId, limit = 10) {
             const key = outcome.trim();
             if (!outcomeFrequency[key]) {
               outcomeFrequency[key] = {
-                subject,
+                subject: normalizedSubject,
                 topic: outcome,
                 frequency: 0
               };
@@ -12920,6 +13358,8 @@ function getStrongTopics(studentId, limit = 5) {
 
   recentExams.forEach(exam => {
     Object.entries(exam.courses || {}).forEach(([subject, course]) => {
+      // AI için ders anahtarı zaten getRecentExams'de normalize edildi (sosyal/tarih → inkilap)
+      // Burada sadece kullanıyoruz
       if (!subjectScores[subject]) {
         subjectScores[subject] = {
           subject,
