@@ -1537,7 +1537,7 @@ ipcMain.handle('export-to-pdf', async (event) => {
       return { error: 'Aktif pencere bulunamadı' };
     }
 
-    // PDF seçenekleri - Türkçe karakter desteği için güncellendi
+    // PDF seçenekleri - YÜKSEK KALİTE İÇİN OPTİMİZE EDİLDİ
     const pdfOptions = {
       marginsType: 1, // Minimal margin
       pageSize: 'A4',
@@ -1548,7 +1548,11 @@ ipcMain.handle('export-to-pdf', async (event) => {
       displayHeaderFooter: true,
       headerTemplate: '<div style="font-size:10px; text-align:center; width:100%; color:#666;">Kapsül - Ders Planı</div>',
       footerTemplate: '<div style="font-size:10px; text-align:center; width:100%; color:#666;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
-      scale: 0.9, // İçeriği biraz küçült
+
+      // SCALE: 1.0 (eskisi 0.9) - İçeriğin bozulmaması için
+      // Scale 1.0 = %100 orijinal boyut, grafik ve text kalitesini korur
+      scale: 1.0,
+
       // Encoding için ek ayarlar
       webSecurity: false,
       allowRunningInsecureContent: true

@@ -9920,8 +9920,94 @@
   }
 
 
+  // ============================================
+  // CHART.JS PDF EXPORT HELPER FUNCTIONS
+  // ============================================
+
+  /**
+   * Chart'ı PDF export için optimize eder
+   * @param {Chart} chart - Chart.js instance
+   * @returns {Object} Orijinal ayarlar (geri yüklemek için)
+   */
+  function prepareChartForPDF(chart) {
+    if (!chart || !chart.options) return null;
+
+    // Orijinal ayarları kaydet
+    const originalState = {
+      responsive: chart.options.responsive,
+      maintainAspectRatio: chart.options.maintainAspectRatio,
+      devicePixelRatio: chart.options.devicePixelRatio,
+      animationDuration: chart.options.animation?.duration,
+      width: chart.width,
+      height: chart.height
+    };
+
+    // PDF için optimize et
+    chart.options.responsive = false;
+    chart.options.maintainAspectRatio = true;
+    chart.options.devicePixelRatio = 4; // Yüksek kalite için 4x pixel ratio
+
+    if (chart.options.animation) {
+      chart.options.animation.duration = 0;
+    }
+
+    // Chart'ı yüksek kaliteli boyutta render et
+    // A4 PDF'e uygun sabit boyut (800x600 optimal)
+    chart.resize(800, 600);
+
+    // Chart'ı güncelle (animasyon olmadan)
+    chart.update('none');
+
+    console.log('📊 Chart PDF için optimize edildi:', chart.canvas.id);
+
+    return originalState;
+  }
+
+  /**
+   * Chart'ın orijinal ayarlarını geri yükler
+   * @param {Chart} chart - Chart.js instance
+   * @param {Object} originalState - Orijinal ayarlar
+   */
+  function restoreChartState(chart, originalState) {
+    if (!chart || !originalState) return;
+
+    // Orijinal ayarları geri yükle
+    chart.options.responsive = originalState.responsive;
+    chart.options.maintainAspectRatio = originalState.maintainAspectRatio;
+    chart.options.devicePixelRatio = originalState.devicePixelRatio;
+
+    if (chart.options.animation) {
+      chart.options.animation.duration = originalState.animationDuration || 1000;
+    }
+
+    // Chart'ı güncelle
+    chart.update('none');
+
+    console.log('🔄 Chart orijinal ayarlara döndürüldü:', chart.canvas.id);
+  }
+
+  /**
+   * Bir element içindeki tüm Chart.js instance'larını bulur
+   * @param {HTMLElement} element - Konteyner element
+   * @returns {Array} Chart instance'ları
+   */
+  function findChartsInElement(element) {
+    const canvasElements = element.querySelectorAll('canvas');
+    const charts = [];
+
+    canvasElements.forEach(canvas => {
+      const chart = Chart.getChart(canvas);
+      if (chart) {
+        charts.push(chart);
+      }
+    });
+
+    return charts;
+  }
+
   /**
    * Tek elementi PDF'e dönüştür (html2canvas + jsPDF veya window.print)
+   * ÇÖZÜMLENMİŞ: Chart.js grafiklerini yüksek kalitede PDF'e aktarır
    */
   window.exportElementToPDF = async function(elementId, fileName = null, options = {}) {
     // Fallback: window.print kullan
@@ -9937,56 +10023,111 @@
       return;
     }
 
-    try {
-      showToast('PDF Hazırlanıyor', 'Grafik PDF\'e dönüştürülüyor...', 'info');
+    // Chart state'lerini saklamak için
+    const chartStates = [];
 
-      // Chart.js animasyonlarını durdur
-      const charts = Chart.instances;
-      Object.values(charts).forEach(chart => {
-        if (chart.options.animation) {
-          chart.options.animation.duration = 0;
+    try {
+      showToast('PDF Hazırlanıyor', 'Yüksek kaliteli PDF oluşturuluyor...', 'info');
+
+      // 1. ADIM: Element içindeki tüm Chart.js grafiklerini bul ve optimize et
+      const charts = findChartsInElement(element);
+      console.log(`📊 ${charts.length} adet grafik bulundu`);
+
+      charts.forEach(chart => {
+        const state = prepareChartForPDF(chart);
+        if (state) {
+          chartStates.push({ chart, state });
         }
       });
 
-      // Element'i canvas'a çevir
+      // 2. ADIM: Render için kısa bekleme (Chart.js'in render'ı tamamlaması için)
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      // 3. ADIM: Element'i yüksek kaliteli canvas'a çevir
+      console.log('🎨 html2canvas ile yüksek kaliteli render başlıyor...');
+
+      // Tablo mu grafik mi kontrol et
+      const isTable = element.querySelector('table') !== null ||
+                     element.classList.contains('table-container');
+
       const canvas = await html2canvas(element, {
-        scale: 2, // Yüksek çözünürlük
+        // YÜK SEK ÇÖZÜNÜRLÜK İÇİN SCALE: 4 (eskisi: 2)
+        scale: 4,
+
+        // SABİT RENDER BOYUTLARI (responsive bozulmasını engeller)
+        windowWidth: 1920,
+        windowHeight: 1080,
+
+        // CORS ve güvenlik ayarları
         useCORS: true,
         allowTaint: true,
+
+        // Beyaz arka plan
         backgroundColor: '#ffffff',
+
+        // Log'ları kapat (performans için)
         logging: false,
-        width: element.offsetWidth,
-        height: element.offsetHeight
+
+        // Text rendering kalitesi
+        letterRendering: true,
+
+        // Canvas'ı DOM'dan kaldırma (debug için false)
+        removeContainer: false,
+
+        // Element boyutları
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+
+        // IMAGE TIMEOUT (büyük grafikler için)
+        imageTimeout: 0,
+
+        // Canvas context optimizasyonu
+        onclone: (clonedDoc) => {
+          // Klonlanmış dokümandaki canvas elementlerini optimize et
+          const canvases = clonedDoc.querySelectorAll('canvas');
+          canvases.forEach(clonedCanvas => {
+            const ctx = clonedCanvas.getContext('2d');
+            if (ctx) {
+              // YÜKSEK KALİTE IMAGE SMOOTHING
+              ctx.imageSmoothingEnabled = true;
+              ctx.imageSmoothingQuality = 'high';
+            }
+          });
+
+          console.log('🖼️ Canvas context'ler optimize edildi');
+        }
       });
 
-      // PDF boyutlarını belirle
+      console.log(`✅ Canvas oluşturuldu: ${canvas.width}x${canvas.height} px`);
+
+      // 4. ADIM: PDF boyutlarını belirle
       const orientation = determinePDFOrientation(element);
       const pdfWidth = orientation === 'landscape' ? 297 : 210; // A4 boyutları (mm)
       const pdfHeight = orientation === 'landscape' ? 210 : 297;
 
-      // PDF oluştur
+      // 5. ADIM: PDF oluştur
       const pdf = new jsPDF({
         orientation: orientation,
         unit: 'mm',
-        format: 'a4'
+        format: 'a4',
+        compress: true, // PDF sıkıştırma (dosya boyutu için)
+        precision: 16   // Yüksek hassasiyet
       });
 
-      // Başlık ekle
+      // 6. ADIM: Başlık ekle
       const chartTitle = getChartTitle(elementId);
       const studentName = selectedStudent ? selectedStudent.name : 'Genel';
-      
-      // PDF'e başlık ekle
+
       pdf.setFontSize(16);
       pdf.setFont(undefined, 'bold');
       pdf.text(`${studentName} - ${chartTitle}`, 10, 15);
-      
-      // Tarih ekle
+
       pdf.setFontSize(10);
       pdf.setFont(undefined, 'normal');
       const date = new Date().toLocaleDateString('tr-TR');
       pdf.text(`Tarih: ${date}`, 10, 20);
 
-      // Canvas boyutlarını PDF'e uyarla (başlık için yer bırak)
+      // 7. ADIM: Canvas boyutlarını PDF'e uyarla
       const imgWidth = pdfWidth - 20; // Kenar boşlukları
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const maxHeight = pdfHeight - 35; // Başlık için yer bırak
@@ -9994,36 +10135,34 @@
       const finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
       const finalWidth = (canvas.width * finalHeight) / canvas.height;
 
-      // Canvas'ı PDF'e ekle (başlığın altına)
-      const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight);
+      // 8. ADIM: Canvas'ı YÜKSEK KALİTELİ PNG olarak PDF'e ekle
+      // toDataURL kalite parametresi: 1.0 = maksimum kalite
+      const imgData = canvas.toDataURL('image/png', 1.0);
 
-      // Dosya adını belirle
+      // addImage compression: 'SLOW' = maksimum kalite (eskisi: varsayılan)
+      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'SLOW');
+
+      console.log(`📄 PDF'e eklendi: ${finalWidth.toFixed(2)}x${finalHeight.toFixed(2)} mm`);
+
+      // 9. ADIM: Dosya adını belirle
       const finalFileName = fileName || generatePDFFileName(elementId);
 
-      // PDF'i indir
+      // 10. ADIM: PDF'i kaydet
       pdf.save(finalFileName);
 
-      // Chart.js animasyonlarını tekrar başlat
-      Object.values(charts).forEach(chart => {
-        if (chart.options.animation) {
-          chart.options.animation.duration = 1000;
-        }
-      });
-
-      showToast('Başarılı', `${finalFileName} başarıyla kaydedildi`, 'success');
+      showToast('Başarılı', `${finalFileName} yüksek kalitede kaydedildi`, 'success');
+      console.log('✅ PDF export başarılı');
 
     } catch (error) {
-      console.error('PDF export hatası:', error);
+      console.error('❌ PDF export hatası:', error);
       showToast('Hata', 'PDF oluşturma sırasında bir hata oluştu', 'error');
-      
-      // Chart.js animasyonlarını tekrar başlat
-      const charts = Chart.instances;
-      Object.values(charts).forEach(chart => {
-        if (chart.options.animation) {
-          chart.options.animation.duration = 1000;
-        }
+    } finally {
+      // 11. ADIM: Chart ayarlarını GERİ YÜKLE (her durumda)
+      chartStates.forEach(({ chart, state }) => {
+        restoreChartState(chart, state);
       });
+
+      console.log('🔄 Tüm grafikler orijinal ayarlara döndürüldü');
     }
   };
 

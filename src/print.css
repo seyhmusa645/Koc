@@ -946,3 +946,95 @@
 }
 
 
+
+/* ========================================
+   CHART.JS VE CANVAS PDF KALITE OPTIMIZASYONU
+   ======================================== */
+
+@media print {
+    /* Canvas elementler için yüksek kalite rendering */
+    canvas,
+    canvas.chartjs-render-monitor,
+    .chart-container canvas {
+        /* Maksimum kalite için image rendering */
+        image-rendering: -webkit-optimize-contrast !important;
+        image-rendering: crisp-edges !important;
+        image-rendering: pixelated !important; /* Fallback */
+
+        /* Canvas smoothing */
+        -webkit-backface-visibility: hidden !important;
+        -moz-backface-visibility: hidden !important;
+        backface-visibility: hidden !important;
+
+        /* Anti-aliasing */
+        -webkit-font-smoothing: subpixel-antialiased !important;
+        -moz-osx-font-smoothing: auto !important;
+
+        /* Maximum quality */
+        max-width: 100% !important;
+        height: auto !important;
+
+        /* Prevent distortion */
+        transform: translateZ(0) !important;
+        will-change: transform !important;
+    }
+
+    /* Chart container optimizasyonu */
+    .chart-container,
+    .chart-wrapper,
+    div[id*="chart"],
+    div[class*="chart"] {
+        /* Yüksek kalite image rendering */
+        image-rendering: -webkit-optimize-contrast !important;
+        image-rendering: crisp-edges !important;
+
+        /* Color accuracy */
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+
+        /* Prevent blur */
+        transform: translateZ(0) !important;
+        backface-visibility: hidden !important;
+
+        /* Full width */
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Tablo ve metrik kartları için kalite optimizasyonu */
+    table,
+    .performance-metric,
+    .analysis-card,
+    .metric-value,
+    .chart-title {
+        /* Text rendering kalitesi */
+        text-rendering: geometricPrecision !important;
+        -webkit-font-smoothing: subpixel-antialiased !important;
+        -moz-osx-font-smoothing: auto !important;
+
+        /* Color accuracy */
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+
+        /* Prevent blur */
+        transform: translateZ(0) !important;
+        backface-visibility: hidden !important;
+    }
+
+    /* SVG elementler (eğer varsa) için optimizasyon */
+    svg {
+        shape-rendering: geometricPrecision !important;
+        text-rendering: geometricPrecision !important;
+        image-rendering: -webkit-optimize-contrast !important;
+    }
+
+    /* Grafik içindeki text elementleri */
+    canvas + div,
+    .chart-container div,
+    .chartjs-size-monitor {
+        text-rendering: geometricPrecision !important;
+        -webkit-font-smoothing: subpixel-antialiased !important;
+    }
+}
