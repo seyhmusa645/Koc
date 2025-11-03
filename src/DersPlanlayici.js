@@ -516,28 +516,68 @@ class StudyPlanAlgorithms {
     
     console.log(`Seviye hesaplaması: Sınıf=${grade}, Hafta=${weekNumber}, Seviye=${level}`);
     
-    if (weekNumber <= 16) {
-      // İlk 16 hafta
-      if (grade === 8) {
-        // 8. sınıf
+    const isFirst16Weeks = weekNumber <= 16;
+    
+    if (grade === 5 || grade === 6) {
+      // 5. ve 6. Sınıflar
+      if (isFirst16Weeks) {
+        // İlk 16 hafta
         switch(level) {
-          case 'advanced': return 200; // İyi
-          case 'intermediate': return 150; // Orta
-          case 'beginner': return 100; // Zayıf
-          default: return 150; // Varsayılan orta
+          case 'advanced': return 90; // İyi
+          case 'intermediate': return 70; // Orta
+          case 'beginner': return 50; // Kötü
+          default: return 70; // Varsayılan orta
         }
       } else {
-        // 5, 6, 7. sınıf
+        // 16. haftadan sonra
         switch(level) {
-          case 'advanced': return 150; // İyi
+          case 'advanced': return 100; // İyi
+          case 'intermediate': return 80; // Orta
+          case 'beginner': return 60; // Kötü
+          default: return 80; // Varsayılan orta
+        }
+      }
+    } else if (grade === 7) {
+      // 7. sınıf
+      if (isFirst16Weeks) {
+        // İlk 16 hafta
+        switch(level) {
+          case 'advanced': return 100; // İyi
+          case 'intermediate': return 80; // Orta
+          case 'beginner': return 50; // Kötü
+          default: return 80; // Varsayılan orta
+        }
+      } else {
+        // 16. haftadan sonra
+        switch(level) {
+          case 'advanced': return 120; // İyi
           case 'intermediate': return 100; // Orta
-          case 'beginner': return 70; // Zayıf
+          case 'beginner': return 70; // Kötü
           default: return 100; // Varsayılan orta
         }
       }
+    } else if (grade === 8) {
+      // 8. sınıf
+      if (isFirst16Weeks) {
+        // İlk 16 hafta
+        switch(level) {
+          case 'advanced': return 150; // İyi
+          case 'intermediate': return 120; // Orta
+          case 'beginner': return 80; // Kötü
+          default: return 120; // Varsayılan orta
+        }
+      } else {
+        // 16. haftadan sonra
+        switch(level) {
+          case 'advanced': return 200; // İyi
+          case 'intermediate': return 150; // Orta
+          case 'beginner': return 100; // Kötü
+          default: return 150; // Varsayılan orta
+        }
+      }
     } else {
-      // 16. haftadan sonra - eski sistem
-      return 300;
+      // Diğer sınıflar için varsayılan (4. sınıf vb.)
+      return 50;
     }
   }
 
@@ -623,7 +663,9 @@ class StudyPlanAlgorithms {
         );
         
         if (weekData && (weekData.kazanim || weekData.ogrenme_cikti)) {
-          const kazanim = weekData.kazanim || weekData.ogrenme_cikti;
+          let kazanim = weekData.kazanim || weekData.ogrenme_cikti;
+          // "*Okul Temelli Planlama" metnini temizle
+          kazanim = kazanim.replace(/\s*\*Okul\s+Temelli\s+Planlama\s*/gi, '').trim();
           return kazanim;
         }
       }
@@ -645,10 +687,8 @@ class StudyPlanAlgorithms {
       const weakAchievement = this.selectWeakAchievement(subject, weakAchievements);
       
       if (weakAchievement) {
-        // Eksik kazanım var, kazanımı döndür (max 100 karakter)
-        return weakAchievement.length > 100 
-          ? weakAchievement.substring(0, 97) + '...' 
-          : weakAchievement;
+        // Eksik kazanım var, kazanımı tam olarak döndür (karakter sınırı yok)
+        return weakAchievement;
     } else {
         // Eksik kazanım yok, sadece soru sayısı
         return `${questionCount} soru çözümü`;
@@ -666,18 +706,15 @@ class StudyPlanAlgorithms {
       const weakAchievement = this.selectWeakAchievement(subject, weakAchievements);
       
       if (weakAchievement) {
-        // Eksik kazanım var
-        return weakAchievement.length > 100 
-          ? weakAchievement.substring(0, 97) + '...' 
-          : weakAchievement;
+        // Eksik kazanım var, tam metni döndür (karakter sınırı yok)
+        return weakAchievement;
       }
     }
     
     // Haftalık konu (eksik kazanım günü ama eksik yok VEYA haftalık konu günü)
     const weeklyTopic = this.selectWeeklyTopic(subject, selectedGrade, selectedWeek, kazanimlarData);
-    return weeklyTopic.length > 100 
-      ? weeklyTopic.substring(0, 97) + '...' 
-      : weeklyTopic;
+    // Haftalık konuyu tam olarak döndür (karakter sınırı yok)
+    return weeklyTopic;
   }
 
   // Haftalık içerik getir
@@ -1754,11 +1791,8 @@ ${remoteFocusLines}` : ''}`
         const subject = block.subject;
         if (!subject || !tableData[subject]) return;
         
-        // Konu metnini kısalt (max 100 karakter)
+        // Konu metnini tam olarak al (karakter sınırı yok)
         let topicText = block.topic || '';
-        if (topicText.length > 100) {
-          topicText = topicText.substring(0, 97) + '...';
-        }
         
         tableData[subject][day] = {
           content: topicText,

@@ -481,10 +481,11 @@
 
 .weekly-plan-table .day-header {
   min-width: 140px;
-  width: auto;
+  width: auto !important;
   font-size: 14px;
   font-weight: bold;
   color: white !important;
+  display: table-cell !important;
   background-color: inherit;
 }
 
@@ -591,6 +592,10 @@
   background: #f8f9fa;
   border-radius: 8px;
   border-top: 3px solid #667eea;
+  width: 100%;
+  max-width: none !important; /* Metin kesilmesini engelle */
+  overflow: visible !important;
+  box-sizing: border-box;
 }
 
 .kazanim-references h4 {
@@ -612,16 +617,21 @@
   border-radius: 6px;
   border-left: 3px solid #667eea;
   width: 100%;
-  max-width: 100%;
-  overflow: visible;
+  max-width: none !important; /* Metin kesilmesini engelle */
+  overflow: visible !important;
   box-sizing: border-box;
+  min-height: auto;
+  height: auto !important; /* İçeriğe göre büyüsün */
 }
 
 .kazanim-subject * {
-  max-width: 100%;
-  overflow: visible;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  max-width: none !important; /* Tüm iç elementlerde metin kesilmesini engelle */
+  overflow: visible !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  text-overflow: unset !important; /* Kesme işaretlerini kaldır */
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
 }
 
 .kazanim-subject strong {
@@ -645,35 +655,43 @@
   font-size: 11px;
   line-height: 1.6;
   color: #34495e;
-  overflow: visible;
-  white-space: normal;
-  word-wrap: break-word;
+  overflow: visible !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
   width: 100%;
-  max-width: 100%;
+  max-width: none !important; /* Metin kesilmesini engelle */
+  text-overflow: unset !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
 }
 
 .kazanim-list li {
   margin-bottom: 8px;
-  overflow: visible;
-  text-overflow: clip;
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  overflow: visible !important;
+  text-overflow: unset !important; /* Kesme işaretlerini kaldır */
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
   display: block;
   width: 100%;
-  max-width: 100%;
+  max-width: none !important; /* Metin kesilmesini engelle */
   /* Metin kesilmesini tamamen engelle */
-  text-overflow: unset;
-  -webkit-line-clamp: unset;
-  line-clamp: unset;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  min-height: auto;
+  height: auto !important; /* İçeriğe göre büyüsün */
 }
 
 .kazanim-list li * {
-  overflow: visible;
-  text-overflow: clip;
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  overflow: visible !important;
+  text-overflow: unset !important; /* Kesme işaretlerini kaldır */
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  max-width: none !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
 }
 
 .kazanim-ref-id {

@@ -149,9 +149,60 @@
   const editExamIdInput = document.getElementById('edit-exam-id');
 
   // --- Chart.js Yüksek Kalite Ayarları ---
-  // PDF export için yüksek çözünürlük
+  // PDF export için yüksek çözünürlük - titreme önleme ile
   if (typeof Chart !== 'undefined' && Chart.defaults) {
-    Chart.defaults.devicePixelRatio = 3; // 3x çözünürlük (varsayılan window.devicePixelRatio yerine)
+    // devicePixelRatio'yu makul bir seviyede tut (subpiksel render sorunlarını önlemek için)
+    Chart.defaults.devicePixelRatio = Math.min(window.devicePixelRatio || 2, 2);
+    
+    // Line element için yüksek kalite render ayarları
+    Chart.defaults.elements.line = {
+      ...Chart.defaults.elements.line,
+      borderJoinStyle: 'round',      // Çizgi birleşimlerinde yuvarlak kenarlar
+      borderCapStyle: 'round',        // Çizgi uçlarında yuvarlak kenarlar
+      tension: 0                      // Varsayılan olarak düz çizgiler (titreme önleme)
+    };
+    
+    // Animation ayarlarını yumuşat (titreme önleme)
+    Chart.defaults.animation = {
+      ...Chart.defaults.animation,
+      duration: 0  // Animasyonları devre dışı bırak (titreme önleme)
+    };
+  }
+
+  // --- Canvas Context Kalite Ayarları Helper Fonksiyonu ---
+  // Canvas rendering kalitesini artırmak için anti-aliasing ayarları
+  function configureCanvasContext(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) {
+      console.warn(`Canvas bulunamadı: ${canvasId}`);
+      return null;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.warn(`Canvas context alınamadı: ${canvasId}`);
+      return null;
+    }
+    
+    // Anti-aliasing ve yüksek kalite render ayarları
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
+    return ctx;
+  }
+
+  // --- Türkçe Karakter Düzeltme Fonksiyonu (Global) ---
+  // PDF export ve text rendering için Türkçe karakter desteği
+  function fixTurkishChars(text) {
+    if (typeof text !== 'string') return text;
+    
+    // jsPDF Türkçe karakterleri desteklemediği için ASCII karşılıklarına çevir
+    return text
+      .replace(/ı/g, 'i').replace(/İ/g, 'I')
+      .replace(/ğ/g, 'g').replace(/Ğ/g, 'G')
+      .replace(/ü/g, 'u').replace(/Ü/g, 'U')
+      .replace(/ş/g, 's').replace(/Ş/g, 'S')
+      .replace(/ö/g, 'o').replace(/Ö/g, 'O')
+      .replace(/ç/g, 'c').replace(/Ç/g, 'C');
   }
 
   // --- Uygulama Durumu (State) ---
@@ -431,7 +482,13 @@
 
   function updateCharts(profileExams) {
     // Net Gelişim Grafiği
-    const netEvolutionCtx = document.getElementById('net-evolution-chart').getContext('2d');
+    // Canvas context'i yüksek kalite ayarları ile yapılandır
+    const netEvolutionCtx = configureCanvasContext('net-evolution-chart') || 
+                            document.getElementById('net-evolution-chart')?.getContext('2d');
+    if (!netEvolutionCtx) {
+      console.error('Net evolution chart canvas context alınamadı');
+      return;
+    }
     if (netEvolutionChart) {
       netEvolutionChart.destroy();
     }
@@ -534,6 +591,19 @@
           y: {
             beginAtZero: true
           }
+        },
+        elements: {
+          line: {
+            borderJoinStyle: 'round',      // Çizgi birleşimlerinde yuvarlak kenarlar
+            borderCapStyle: 'round'        // Çizgi uçlarında yuvarlak kenarlar
+          },
+          point: {
+            radius: 4,
+            hoverRadius: 6
+          }
+        },
+        animation: {
+          duration: 0  // Animasyonları devre dışı bırak (titreme önleme)
         }
       }
     });
@@ -622,7 +692,13 @@
     });
 
     // Ders Bazında Gelişim Trendi Grafiği
-    const subjectTrendCtx = document.getElementById('subject-trend-chart').getContext('2d');
+    // Canvas context'i yüksek kalite ayarları ile yapılandır
+    const subjectTrendCtx = configureCanvasContext('subject-trend-chart') || 
+                             document.getElementById('subject-trend-chart')?.getContext('2d');
+    if (!subjectTrendCtx) {
+      console.error('Subject trend chart canvas context alınamadı');
+      return;
+    }
     if (subjectTrendChart) {
       subjectTrendChart.destroy();
     }
@@ -678,6 +754,19 @@
           y: {
             beginAtZero: true
           }
+        },
+        elements: {
+          line: {
+            borderJoinStyle: 'round',      // Çizgi birleşimlerinde yuvarlak kenarlar
+            borderCapStyle: 'round'        // Çizgi uçlarında yuvarlak kenarlar
+          },
+          point: {
+            radius: 4,
+            hoverRadius: 6
+          }
+        },
+        animation: {
+          duration: 0  // Animasyonları devre dışı bırak (titreme önleme)
         }
       }
     });
@@ -9883,18 +9972,7 @@
       // Arial font'u kullan (Türkçe karakterleri daha iyi destekler)
       doc.setFont('arial', 'normal');
       
-      // Türkçe karakter dönüşüm fonksiyonu
-      function fixTurkishChars(text) {
-        if (typeof text !== 'string') return text;
-        
-        return text
-          .replace(/ı/g, 'i').replace(/İ/g, 'I')
-          .replace(/ğ/g, 'g').replace(/Ğ/g, 'G')
-          .replace(/ü/g, 'u').replace(/Ü/g, 'U')
-          .replace(/ş/g, 's').replace(/Ş/g, 'S')
-          .replace(/ö/g, 'o').replace(/Ö/g, 'O')
-          .replace(/ç/g, 'c').replace(/Ç/g, 'C');
-      }
+      // fixTurkishChars artık global scope'da tanımlı
       
       // PDF başlığı
       doc.setFontSize(18);
@@ -10821,7 +10899,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Element'i canvas'a çevir
         const canvas = await html2canvas(container, {
-          scale: 3, // 2x → 3x (yüksek kalite PDF)
+          scale: 5, // 2x → 5x (maksimum kalite PDF - programdaki gibi keskin görüntü)
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -10840,7 +10918,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Canvas'ı PDF'e ekle (yüksek kalite, sıkıştırma yok)
         const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'SLOW'); // En yüksek kalite için SLOW compression
       }
 
       // Chart.js animasyonlarını tekrar başlat
@@ -10928,7 +11006,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Element'i canvas'a çevir
         const canvas = await html2canvas(container, {
-          scale: 3, // 2x → 3x (yüksek kalite PDF)
+          scale: 5, // 2x → 5x (maksimum kalite PDF - programdaki gibi keskin görüntü)
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -10947,7 +11025,7 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
 
         // Canvas'ı PDF'e ekle (yüksek kalite, sıkıştırma yok)
         const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight, undefined, 'SLOW'); // En yüksek kalite için SLOW compression
       }
 
       // Chart.js animasyonlarını tekrar başlat
@@ -11127,16 +11205,129 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
         }
       });
 
-      // Element'i canvas'a çevir
-      const canvas = await html2canvas(element, {
-        scale: 2, // Yüksek çözünürlük
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: element.offsetWidth,
-        height: element.offsetHeight
-      });
+      // Tablo tespiti - Tablo içeriyorsa genişliği artır
+      const isTable = element.querySelector('table') !== null || 
+                     element.classList.contains('table-container');
+      
+      let canvas;
+      
+      if (isTable) {
+        // Tablo için gerçek genişliği hesapla
+        const table = element.querySelector('table');
+        let targetWidth = element.offsetWidth;
+        let scrollWidth = element.scrollWidth;
+        
+        if (table) {
+          scrollWidth = Math.max(scrollWidth, table.scrollWidth, table.offsetWidth);
+          targetWidth = Math.max(targetWidth, scrollWidth);
+        }
+        
+        // Container genişliğini kontrol et
+        const container = element.closest('.chart-container, .table-container');
+        if (container) {
+          const containerWidth = container.offsetWidth || container.scrollWidth || container.clientWidth;
+          if (containerWidth > targetWidth) {
+            targetWidth = containerWidth;
+            scrollWidth = containerWidth;
+          }
+        }
+        
+        // Parent container'ı da kontrol et (.content, main, body)
+        const parentContainer = element.closest('.content, main, body');
+        if (parentContainer) {
+          const parentWidth = parentContainer.offsetWidth || parentContainer.clientWidth;
+          if (parentWidth > 0 && parentWidth < 2000) { // Makul bir maksimum
+            targetWidth = Math.max(targetWidth, Math.min(parentWidth, 1200)); // Maksimum 1200px
+            scrollWidth = Math.max(scrollWidth, Math.min(parentWidth, 1200));
+          }
+        }
+        
+        // Minimum genişlik garantisi (A4 genişliği kadar)
+        const minWidth = 800; // ~210mm A4 genişliği için yaklaşık pixel değeri
+        if (targetWidth < minWidth) {
+          targetWidth = minWidth;
+          scrollWidth = minWidth;
+        }
+        
+        // Tablo için geçici olarak genişliği artır
+        const originalElementWidth = element.style.width;
+        const originalElementMaxWidth = element.style.maxWidth;
+        const originalElementMinWidth = element.style.minWidth;
+        element.style.width = targetWidth + 'px';
+        element.style.maxWidth = targetWidth + 'px';
+        element.style.minWidth = targetWidth + 'px';
+        
+        // Tablo içindeki tabloyu da genişlet
+        let originalTableWidth = '';
+        let originalTableMaxWidth = '';
+        if (table) {
+          originalTableWidth = table.style.width;
+          originalTableMaxWidth = table.style.maxWidth;
+          table.style.width = targetWidth + 'px';
+          table.style.maxWidth = targetWidth + 'px';
+        }
+        
+        // DOM'un güncellenmesi için bekle
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Element'i canvas'a çevir (width parametresi OLMADAN - html2canvas doğal genişliği kullansın)
+        canvas = await html2canvas(element, {
+          scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+          windowWidth: scrollWidth, // Tablo için optimize edilmiş genişlik
+          windowHeight: element.scrollHeight,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          letterRendering: true, // Metin kalitesini artırır
+          removeContainer: false, // Container'ı koru (kalite için)
+          onclone: (clonedDoc) => {
+            // Klonlanan dokümanda canvas kalitesini artır
+            const clonedCanvas = clonedDoc.querySelector('canvas');
+            if (clonedCanvas) {
+              const ctx = clonedCanvas.getContext('2d');
+              if (ctx) {
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+              }
+            }
+          }
+          // width ve height parametreleri kaldırıldı - html2canvas element'in doğal genişliğini kullansın
+        });
+        
+        // Stilleri geri al
+        element.style.width = originalElementWidth;
+        element.style.maxWidth = originalElementMaxWidth;
+        element.style.minWidth = originalElementMinWidth;
+        if (table) {
+          table.style.width = originalTableWidth;
+          table.style.maxWidth = originalTableMaxWidth;
+        }
+      } else {
+        // Grafik için normal işlem (width parametresi yok)
+        canvas = await html2canvas(element, {
+          scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+          windowWidth: element.scrollWidth,
+          windowHeight: element.scrollHeight,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          letterRendering: true, // Metin kalitesini artırır
+          removeContainer: false, // Container'ı koru (kalite için)
+          onclone: (clonedDoc) => {
+            // Klonlanan dokümanda canvas kalitesini artır
+            const clonedCanvas = clonedDoc.querySelector('canvas');
+            if (clonedCanvas) {
+              const ctx = clonedCanvas.getContext('2d');
+              if (ctx) {
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+              }
+            }
+          }
+        });
+      }
 
       // PDF boyutlarını belirle
       const orientation = determinePDFOrientation(element);
@@ -11154,10 +11345,10 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
       const chartTitle = getChartTitle(elementId);
       const studentName = selectedStudent ? selectedStudent.name : 'Genel';
       
-      // PDF'e başlık ekle
+      // PDF'e başlık ekle - Türkçe karakter desteği için fixTurkishChars kullan
       pdf.setFontSize(16);
       pdf.setFont(undefined, 'bold');
-      pdf.text(`${studentName} - ${chartTitle}`, 10, 15);
+      pdf.text(fixTurkishChars(`${studentName} - ${chartTitle}`), 10, 15);
       
       // Tarih ekle
       pdf.setFontSize(10);
@@ -11166,16 +11357,26 @@ Lütfen kısa, net ve uygulanabilir öneriler ver. Her başlık için maksimum 3
       pdf.text(`Tarih: ${date}`, 10, 20);
 
       // Canvas boyutlarını PDF'e uyarla (başlık için yer bırak)
-      const imgWidth = pdfWidth - 20; // Kenar boşlukları
+      // Sayfa genişliğini optimize kullan (kenar boşlukları: 10mm her iki tarafta - yazıların sünmesini önlemek için)
+      const imgWidth = pdfWidth - 20; // 210 - 20 = 190mm (kenarlarda 10mm boşluk)
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const maxHeight = pdfHeight - 35; // Başlık için yer bırak
+      const maxHeight = pdfHeight - 35; // Başlık için yer bırak (35mm)
 
-      const finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
-      const finalWidth = (canvas.width * finalHeight) / canvas.height;
+      // Hem grafik hem tablo için genişliği maksimum kullan (oranları koruyarak)
+      let finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
+      let finalWidth = imgWidth; // Hem grafik hem tablo için genişliği maksimum kullan
+      
+      // Yükseklik orantısını koru - eğer yükseklik çok fazla ise genişliği koruyup yüksekliği ayarla
+      if (imgHeight > maxHeight) {
+        finalHeight = maxHeight;
+        // Genişliği koru, yüksekliği sınırla (oranı bozmadan)
+        finalWidth = imgWidth;
+      }
 
       // Canvas'ı PDF'e ekle (başlığın altına, yüksek kalite)
+      // Kenar boşluğu 10mm (her iki tarafta - yazıların sünmesini önlemek için)
       const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
+      pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'SLOW'); // En yüksek kalite için SLOW compression
 
       // Dosya adını belirle
       const finalFileName = fileName || generatePDFFileName(elementId);
@@ -11777,11 +11978,15 @@ document.addEventListener('click', (e) => {
         }
         isFirstPage = false;
         
-        // Grafik başlığı ekle
+        // Grafik başlığı ekle - Türkçe karakter desteği için fixTurkishChars kullan
         const chartTitle = getChartTitle(chartId);
+        // PDF genişlik ve yükseklik (A4 portrait: 210mm x 297mm)
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        
         pdf.setFontSize(16);
         pdf.setFont(undefined, 'bold');
-        pdf.text(`${studentName} - ${chartTitle}`, 10, 15);
+        pdf.text(fixTurkishChars(`${studentName} - ${chartTitle}`), 10, 15);
         
         pdf.setFontSize(10);
         pdf.setFont(undefined, 'normal');
@@ -11817,18 +12022,138 @@ document.addEventListener('click', (e) => {
               await new Promise(resolve => setTimeout(resolve, 100));
             }
             
-            const canvas = await html2canvas(element, {
-              scale: 1,
-              backgroundColor: '#ffffff',
-              useCORS: true,
-              allowTaint: true,
-              foreignObjectRendering: true,
-              logging: false,
-              ignoreElements: (el) => {
-                // Sadece gerçekten sorunlu elementleri atla
-                return el.tagName === 'SCRIPT';
+            // Tablo tespiti - Tablo içeriyorsa genişliği artır
+            const isTable = element.querySelector('table') !== null || 
+                           element.classList.contains('table-container');
+            
+            let canvas;
+            
+            if (isTable) {
+              // Tablo için gerçek genişliği hesapla
+              const table = element.querySelector('table');
+              let targetWidth = element.offsetWidth;
+              let scrollWidth = element.scrollWidth;
+              
+              if (table) {
+                scrollWidth = Math.max(scrollWidth, table.scrollWidth, table.offsetWidth);
+                targetWidth = Math.max(targetWidth, scrollWidth);
               }
-            });
+              
+              // Container genişliğini kontrol et
+              const container = element.closest('.chart-container, .table-container');
+              if (container) {
+                const containerWidth = container.offsetWidth || container.scrollWidth || container.clientWidth;
+                if (containerWidth > targetWidth) {
+                  targetWidth = containerWidth;
+                  scrollWidth = containerWidth;
+                }
+              }
+              
+              // Parent container'ı da kontrol et (.content, main, body)
+              const parentContainer = element.closest('.content, main, body');
+              if (parentContainer) {
+                const parentWidth = parentContainer.offsetWidth || parentContainer.clientWidth;
+                if (parentWidth > 0 && parentWidth < 2000) { // Makul bir maksimum
+                  targetWidth = Math.max(targetWidth, Math.min(parentWidth, 1200)); // Maksimum 1200px
+                  scrollWidth = Math.max(scrollWidth, Math.min(parentWidth, 1200));
+                }
+              }
+              
+              // Minimum genişlik garantisi (A4 genişliği kadar)
+              const minWidth = 800; // ~210mm A4 genişliği için yaklaşık pixel değeri
+              if (targetWidth < minWidth) {
+                targetWidth = minWidth;
+                scrollWidth = minWidth;
+              }
+              
+              // Tablo için geçici olarak genişliği artır
+              const originalElementWidth = element.style.width;
+              const originalElementMaxWidth = element.style.maxWidth;
+              const originalElementMinWidth = element.style.minWidth;
+              element.style.width = targetWidth + 'px';
+              element.style.maxWidth = targetWidth + 'px';
+              element.style.minWidth = targetWidth + 'px';
+              
+              // Tablo içindeki tabloyu da genişlet
+              let originalTableWidth = '';
+              let originalTableMaxWidth = '';
+              if (table) {
+                originalTableWidth = table.style.width;
+                originalTableMaxWidth = table.style.maxWidth;
+                table.style.width = targetWidth + 'px';
+                table.style.maxWidth = targetWidth + 'px';
+              }
+              
+              // DOM'un güncellenmesi için bekle
+              await new Promise(resolve => setTimeout(resolve, 100));
+              
+              // Element'i canvas'a çevir (width parametresi OLMADAN)
+              canvas = await html2canvas(element, {
+                scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+                windowWidth: scrollWidth, // Tablo için optimize edilmiş genişlik
+                windowHeight: element.scrollHeight,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                foreignObjectRendering: true,
+                logging: false,
+                letterRendering: true, // Metin kalitesini artırır
+                removeContainer: false, // Container'ı koru (kalite için)
+                onclone: (clonedDoc) => {
+                  // Klonlanan dokümanda canvas kalitesini artır
+                  const clonedCanvas = clonedDoc.querySelector('canvas');
+                  if (clonedCanvas) {
+                    const ctx = clonedCanvas.getContext('2d');
+                    if (ctx) {
+                      ctx.imageSmoothingEnabled = true;
+                      ctx.imageSmoothingQuality = 'high';
+                    }
+                  }
+                },
+                ignoreElements: (el) => {
+                  // Sadece gerçekten sorunlu elementleri atla
+                  return el.tagName === 'SCRIPT';
+                }
+              });
+              
+              // Stilleri geri al
+              element.style.width = originalElementWidth;
+              element.style.maxWidth = originalElementMaxWidth;
+              element.style.minWidth = originalElementMinWidth;
+              if (table) {
+                table.style.width = originalTableWidth;
+                table.style.maxWidth = originalTableMaxWidth;
+              }
+            } else {
+              // Grafik için normal işlem (width parametresi yok)
+              canvas = await html2canvas(element, {
+                scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+                windowWidth: element.scrollWidth,
+                windowHeight: element.scrollHeight,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                foreignObjectRendering: true,
+                logging: false,
+                letterRendering: true, // Metin kalitesini artırır
+                removeContainer: false, // Container'ı koru (kalite için)
+                onclone: (clonedDoc) => {
+                  // Klonlanan dokümanda canvas kalitesini artır
+                  const clonedCanvas = clonedDoc.querySelector('canvas');
+                  if (clonedCanvas) {
+                    const ctx = clonedCanvas.getContext('2d');
+                    if (ctx) {
+                      ctx.imageSmoothingEnabled = true;
+                      ctx.imageSmoothingQuality = 'high';
+                    }
+                  }
+                },
+                ignoreElements: (el) => {
+                  // Sadece gerçekten sorunlu elementleri atla
+                  return el.tagName === 'SCRIPT';
+                }
+              });
+            }
             
             // PNG formatında daha iyi kalite
             const imgData = canvas.toDataURL('image/png');
@@ -11851,13 +12176,23 @@ document.addEventListener('click', (e) => {
               continue;
             }
             
-            const imgWidth = 190;
+            // Sayfa genişliğini optimize kullan (kenar boşlukları: 10mm her iki tarafta - yazıların sünmesini önlemek için)
+            const imgWidth = pdfWidth - 20; // 210 - 20 = 190mm (kenarlarda 10mm boşluk)
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            const maxHeight = 250;
-            const finalHeight = Math.min(imgHeight, maxHeight);
-            const finalWidth = (canvas.width * finalHeight) / canvas.height;
+            const maxHeight = pdfHeight - 35; // Başlık için yer bırak (35mm)
             
-            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
+            // Hem grafik hem tablo için genişliği maksimum kullan (oranları koruyarak)
+            let finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
+            let finalWidth = imgWidth; // Hem grafik hem tablo için genişliği maksimum kullan
+            
+            // Yükseklik orantısını koru - eğer yükseklik çok fazla ise genişliği koruyup yüksekliği ayarla
+            if (imgHeight > maxHeight) {
+              finalHeight = maxHeight;
+              // Genişliği koru, yüksekliği sınırla (oranı bozmadan)
+              finalWidth = imgWidth;
+            }
+            
+            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'SLOW'); // En yüksek kalite için SLOW compression
             
             // Tab'ı geri yükle
             restoreOriginalTab(originalTabState);
@@ -11920,12 +12255,16 @@ document.addEventListener('click', (e) => {
         isFirstPage = false;
         
         const chartTitle = getChartTitle(chartId);
+        // PDF genişlik ve yükseklik (A4 portrait: 210mm x 297mm)
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        
         pdf.setFontSize(16);
         pdf.setFont(undefined, 'bold');
-        pdf.text(`${studentName} - ${chartTitle}`, 10, 15);
+        pdf.text(fixTurkishChars(`${studentName} - ${chartTitle}`), 5, 15);
         
         pdf.setFontSize(10);
-        pdf.text(`Tarih: ${new Date().toLocaleDateString('tr-TR')}`, 10, 20);
+        pdf.text(`Tarih: ${new Date().toLocaleDateString('tr-TR')}`, 5, 20);
         
         const element = document.getElementById(chartId);
         if (element) {
@@ -11956,18 +12295,138 @@ document.addEventListener('click', (e) => {
               await new Promise(resolve => setTimeout(resolve, 100));
             }
             
-            const canvas = await html2canvas(element, {
-              scale: 1,
-              backgroundColor: '#ffffff',
-              useCORS: true,
-              allowTaint: true,
-              foreignObjectRendering: true,
-              logging: false,
-              ignoreElements: (el) => {
-                // Sadece gerçekten sorunlu elementleri atla
-                return el.tagName === 'SCRIPT';
+            // Tablo tespiti - Tablo içeriyorsa genişliği artır
+            const isTable = element.querySelector('table') !== null || 
+                           element.classList.contains('table-container');
+            
+            let canvas;
+            
+            if (isTable) {
+              // Tablo için gerçek genişliği hesapla
+              const table = element.querySelector('table');
+              let targetWidth = element.offsetWidth;
+              let scrollWidth = element.scrollWidth;
+              
+              if (table) {
+                scrollWidth = Math.max(scrollWidth, table.scrollWidth, table.offsetWidth);
+                targetWidth = Math.max(targetWidth, scrollWidth);
               }
-            });
+              
+              // Container genişliğini kontrol et
+              const container = element.closest('.chart-container, .table-container');
+              if (container) {
+                const containerWidth = container.offsetWidth || container.scrollWidth || container.clientWidth;
+                if (containerWidth > targetWidth) {
+                  targetWidth = containerWidth;
+                  scrollWidth = containerWidth;
+                }
+              }
+              
+              // Parent container'ı da kontrol et (.content, main, body)
+              const parentContainer = element.closest('.content, main, body');
+              if (parentContainer) {
+                const parentWidth = parentContainer.offsetWidth || parentContainer.clientWidth;
+                if (parentWidth > 0 && parentWidth < 2000) { // Makul bir maksimum
+                  targetWidth = Math.max(targetWidth, Math.min(parentWidth, 1200)); // Maksimum 1200px
+                  scrollWidth = Math.max(scrollWidth, Math.min(parentWidth, 1200));
+                }
+              }
+              
+              // Minimum genişlik garantisi (A4 genişliği kadar)
+              const minWidth = 800; // ~210mm A4 genişliği için yaklaşık pixel değeri
+              if (targetWidth < minWidth) {
+                targetWidth = minWidth;
+                scrollWidth = minWidth;
+              }
+              
+              // Tablo için geçici olarak genişliği artır
+              const originalElementWidth = element.style.width;
+              const originalElementMaxWidth = element.style.maxWidth;
+              const originalElementMinWidth = element.style.minWidth;
+              element.style.width = targetWidth + 'px';
+              element.style.maxWidth = targetWidth + 'px';
+              element.style.minWidth = targetWidth + 'px';
+              
+              // Tablo içindeki tabloyu da genişlet
+              let originalTableWidth = '';
+              let originalTableMaxWidth = '';
+              if (table) {
+                originalTableWidth = table.style.width;
+                originalTableMaxWidth = table.style.maxWidth;
+                table.style.width = targetWidth + 'px';
+                table.style.maxWidth = targetWidth + 'px';
+              }
+              
+              // DOM'un güncellenmesi için bekle
+              await new Promise(resolve => setTimeout(resolve, 100));
+              
+              // Element'i canvas'a çevir (width parametresi OLMADAN)
+              canvas = await html2canvas(element, {
+                scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+                windowWidth: scrollWidth, // Tablo için optimize edilmiş genişlik
+                windowHeight: element.scrollHeight,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                foreignObjectRendering: true,
+                logging: false,
+                letterRendering: true, // Metin kalitesini artırır
+                removeContainer: false, // Container'ı koru (kalite için)
+                onclone: (clonedDoc) => {
+                  // Klonlanan dokümanda canvas kalitesini artır
+                  const clonedCanvas = clonedDoc.querySelector('canvas');
+                  if (clonedCanvas) {
+                    const ctx = clonedCanvas.getContext('2d');
+                    if (ctx) {
+                      ctx.imageSmoothingEnabled = true;
+                      ctx.imageSmoothingQuality = 'high';
+                    }
+                  }
+                },
+                ignoreElements: (el) => {
+                  // Sadece gerçekten sorunlu elementleri atla
+                  return el.tagName === 'SCRIPT';
+                }
+              });
+              
+              // Stilleri geri al
+              element.style.width = originalElementWidth;
+              element.style.maxWidth = originalElementMaxWidth;
+              element.style.minWidth = originalElementMinWidth;
+              if (table) {
+                table.style.width = originalTableWidth;
+                table.style.maxWidth = originalTableMaxWidth;
+              }
+            } else {
+              // Grafik için normal işlem (width parametresi yok)
+              canvas = await html2canvas(element, {
+                scale: 5, // Maksimum kalite için 5x çözünürlük (programdaki gibi keskin görüntü için)
+                windowWidth: element.scrollWidth,
+                windowHeight: element.scrollHeight,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                foreignObjectRendering: true,
+                logging: false,
+                letterRendering: true, // Metin kalitesini artırır
+                removeContainer: false, // Container'ı koru (kalite için)
+                onclone: (clonedDoc) => {
+                  // Klonlanan dokümanda canvas kalitesini artır
+                  const clonedCanvas = clonedDoc.querySelector('canvas');
+                  if (clonedCanvas) {
+                    const ctx = clonedCanvas.getContext('2d');
+                    if (ctx) {
+                      ctx.imageSmoothingEnabled = true;
+                      ctx.imageSmoothingQuality = 'high';
+                    }
+                  }
+                },
+                ignoreElements: (el) => {
+                  // Sadece gerçekten sorunlu elementleri atla
+                  return el.tagName === 'SCRIPT';
+                }
+              });
+            }
             
             // PNG formatında daha iyi kalite
             const imgData = canvas.toDataURL('image/png');
@@ -11990,12 +12449,23 @@ document.addEventListener('click', (e) => {
               continue;
             }
             
-            const imgWidth = 190;
+            // Sayfa genişliğini optimize kullan (kenar boşlukları: 10mm her iki tarafta - yazıların sünmesini önlemek için)
+            const imgWidth = pdfWidth - 20; // 210 - 20 = 190mm (kenarlarda 10mm boşluk)
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            const finalHeight = Math.min(imgHeight, 250);
-            const finalWidth = (canvas.width * finalHeight) / canvas.height;
+            const maxHeight = pdfHeight - 35; // Başlık için yer bırak (35mm)
             
-            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'FAST');
+            // Hem grafik hem tablo için genişliği maksimum kullan (oranları koruyarak)
+            let finalHeight = imgHeight > maxHeight ? maxHeight : imgHeight;
+            let finalWidth = imgWidth; // Hem grafik hem tablo için genişliği maksimum kullan
+            
+            // Yükseklik orantısını koru - eğer yükseklik çok fazla ise genişliği koruyup yüksekliği ayarla
+            if (imgHeight > maxHeight) {
+              finalHeight = maxHeight;
+              // Genişliği koru, yüksekliği sınırla (oranı bozmadan)
+              finalWidth = imgWidth;
+            }
+            
+            pdf.addImage(imgData, 'PNG', 10, 25, finalWidth, finalHeight, undefined, 'SLOW'); // En yüksek kalite için SLOW compression
             
             // Tab'ı geri yükle
             restoreOriginalTab(originalTabState);

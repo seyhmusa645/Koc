@@ -1793,18 +1793,31 @@ ipcMain.handle('export-to-pdf', async (event, options = {}) => {
       pageSize: 'A4',
       printBackground: true,
       printSelectionOnly: false,
-      landscape: isDersPlani, // Ders planı için yatay, diğerleri için dikey - ZORUNLU
-      preferCSSPageSize: false, // Electron native ayarlarına öncelik ver (landscape garanti olsun)
+      landscape: isDersPlani ? true : false, // Native backup - ders planı için yatay
+      preferCSSPageSize: true, // CSS @page kurallarına öncelik ver (daha güvenilir)
       displayHeaderFooter: false, // Başlık/alt bilgi yok - daha fazla alan için
-      scale: 1.0, // Tam ölçek - küçültme yok
-      // Encoding için ek ayarlar
+      // Yüksek kalite için scale değerleri artırıldı
+      scale: isDersPlani ? 2.0 : 2.5, // Ders planı için 2.0x, raporlar için 2.5x (keskin görüntü için)
+      // Encoding için ek ayarlar - Türkçe karakter desteği
       webSecurity: false,
-      allowRunningInsecureContent: true
+      allowRunningInsecureContent: true,
+      // Font rendering iyileştirmeleri
+      enableWebSQL: false
     };
+    
+    // Debug log'ları - PDF ayarlarını kontrol et
+    console.log('🔍 PDF Export Debug:', {
+      isDersPlani,
+      landscape: pdfOptions.landscape,
+      preferCSSPageSize: pdfOptions.preferCSSPageSize,
+      options: options,
+      currentTitle
+    });
     
     // Ders planı için ekstra güvence
     if (isDersPlani) {
       console.log('✅ DERS PLANI PDF EXPORT - Landscape modu AKTIF');
+      console.log('📄 PDF Options:', JSON.stringify(pdfOptions, null, 2));
     }
 
     // PDF verisini oluştur
